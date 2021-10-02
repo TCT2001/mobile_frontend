@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
-import 'package:mobile_app/src/modules/home/binding.dart';
-import 'package:mobile_app/src/modules/home/page.dart';
-import 'package:mobile_app/src/modules/splash/page.dart';
+import 'package:mobile_app/src/modules/home/home_binding.dart';
+import 'package:mobile_app/src/modules/home/home_page.dart';
+import 'package:mobile_app/src/modules/splash/splash_page.dart';
 
 import 'app_routes.dart';
 

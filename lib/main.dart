@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'src/data/services/app_config_service.dart';
-import 'src/modules/splash/binding.dart';
-import 'src/modules/splash/page.dart';
+import 'src/modules/splash/splash_binding.dart';
+import 'src/modules/splash/splash_page.dart';
 import 'src/routes/app_pages.dart';
 import 'src/routes/app_routes.dart';
 

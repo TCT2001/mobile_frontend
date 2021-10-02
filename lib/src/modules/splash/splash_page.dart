@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:mobile_app/src/core/constants/colors.dart';
 import 'package:mobile_app/src/core/utils/percen_width_height.dart';
 
-import 'controller.dart';
+import 'splash_controller.dart';
 
 class SplashPage extends GetView<SplashController> {
   const SplashPage({Key? key}) : super(key: key);
