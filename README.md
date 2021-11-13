@@ -1,16 +1,86 @@
-# mobile_app
+# Reference
 
-A new Flutter project.
+* [getx tutorial](https://www.youtube.com/watch?v=wtHBsvj2QKA&list=PLCaS22Sjc8YR32XmudgmVqs49t-eKKr9t)
+* [getx pattern](https://github.com/kauemurakami/getx_pattern)
 
-## Getting Started
+# API
 
-This project is a starting point for a Flutter application.
+{base_url_port}/api/
 
-A few resources to get you started if this is your first Flutter project:
+#### /test/all: GET, NO PARAM, NO AUTH
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+#### /auth/signin: POST, NO AUTH
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```json
+{
+  "username": "?????",
+  "password": "?????"
+}
+```
+
+#### /auth/signup: POST, NO AUTH
+
+```json
+{
+  "username": "?????",
+  "password": "?????"
+}
+```
+
+**RULE of signup body**
+
+* username: len: 6-25
+* password: len: 8-30, 1 upper, 1 number, 1 special char, ko whitespace
+
+#### /auth/refreshToken: POST, NO AUTH
+
+```json
+{
+  "refreshToken": "?????"
+}
+```
+
+# TODO: LOGOUT
+
+#### /prj/create: POST, AUTH
+
+```json
+{
+  "name": "????"
+}
+```
+
+#### /prj/listUsersInProject/{groupId}: POST, AUTH
+
+```json
+{
+  "page": 0,
+  "size": 10,
+  "sortField": "id",
+  "sortAscending": "false",
+  "filter": ""
+}
+```
+
+#### /prj/list: POST, AUTH
+
+```json
+{
+  "page": 0,
+  "size": 10,
+  "sortField": "updateTime",
+  "sortAscending": "false",
+  "filter": ""
+}
+```
+
+#### /prj/find/{id}: GET, AUTH, NO PARAM
+
+#### /prj/rename/{projectId}: POST, AUTH
+```json
+"New Name"
+```
+
+#### /prj/delete/{projectId}: DELETE, AUTH
+
+

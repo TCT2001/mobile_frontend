@@ -83,13 +83,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
-  flutter_spinkit:
-    dependency: "direct main"
-    description:
-      name: flutter_spinkit
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "5.1.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -109,13 +102,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.3"
-  glassmorphism:
-    dependency: "direct main"
-    description:
-      name: glassmorphism
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.0"
   lints:
     dependency: transitive
     description:
@@ -247,13 +233,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.2"
-  top_snackbar_flutter:
-    dependency: "direct main"
-    description:
-      name: top_snackbar_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.1"
   typed_data:
     dependency: transitive
     description:

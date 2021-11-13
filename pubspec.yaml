@@ -36,9 +36,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   get: ^4.3.8
   get_storage: ^2.0.3
-  flutter_spinkit: ^5.1.0
-  top_snackbar_flutter: ^1.0.1
-  glassmorphism: ^3.0.0
 
 dev_dependencies:
   flutter_test:
