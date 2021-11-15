@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mobile_app/src/routes/app_routes.dart';
 
 import 'home_controller.dart';
 
@@ -12,7 +13,14 @@ class HomePage extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
-          child: Text("Hello This is Home Page"),
+          child: Column(children: [
+            TextButton(onPressed: goToExamplePage, child: Text("Go To Example Page")),
+            Text("Hello This is Home Page"),
+          ],),
         ));
+  }
+
+  void goToExamplePage() {
+    Get.toNamed(Routes.EXAMPLE);
   }
 }

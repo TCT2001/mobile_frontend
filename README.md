@@ -1,11 +1,59 @@
 # Reference
 
+Ctrl + .
+
 * [getx tutorial](https://www.youtube.com/watch?v=wtHBsvj2QKA&list=PLCaS22Sjc8YR32XmudgmVqs49t-eKKr9t)
 * [getx pattern](https://github.com/kauemurakami/getx_pattern)
 
 # API
 
-{base_url_port}/api/
+* {base_url_port}/api/
+
+* ???: required rỗng: optional
+* Helper
+```java
+public class PaginateParam {
+    public static final int DEFAULT_PAGE_SIZE = 10;
+    protected int page = 0;
+    protected int size = DEFAULT_PAGE_SIZE;
+    protected String sortField;
+    protected boolean sortAscending;
+    protected String filter = "";
+
+    public void setSortAscending(String sortAscending) {
+        this.sortAscending = Boolean.parseBoolean(sortAscending);
+    }
+
+    public void setSize(int size) {
+        if (size > 0) {
+            this.size = size;
+        }
+    }
+}
+
+public enum VisibleTaskScope {
+    PUBLIC,
+    // some user can have this task
+    PRIVATE
+}
+
+public enum Priority {
+    CRITICAL,
+    MAJOR,
+    NORMAL,
+    MINOR
+}
+
+public enum TaskState {
+    SUBMITTED,
+    IN_PROCESS,
+    INCOMPLETE,
+    TO_BE_DISCUSSED,
+    DONE,
+    DUPLICATE,
+    OBSOLETE,
+}
+```
 
 #### /test/all: GET, NO PARAM, NO AUTH
 
@@ -51,36 +99,56 @@
 ```
 
 #### /prj/listUsersInProject/{groupId}: POST, AUTH
-
-```json
-{
-  "page": 0,
-  "size": 10,
-  "sortField": "id",
-  "sortAscending": "false",
-  "filter": ""
-}
-```
+Body: PaginateParam
 
 #### /prj/list: POST, AUTH
-
-```json
-{
-  "page": 0,
-  "size": 10,
-  "sortField": "updateTime",
-  "sortAscending": "false",
-  "filter": ""
-}
-```
+Body: PaginateParam
 
 #### /prj/find/{id}: GET, AUTH, NO PARAM
 
 #### /prj/rename/{projectId}: POST, AUTH
+
 ```json
-"New Name"
+"???? <New Name>"
 ```
 
 #### /prj/delete/{projectId}: DELETE, AUTH
 
+#### /task/create: POST, AUTH
+```json
+{
+  "name": "New Task",
+  "content": "",
+  "visibleTaskScope": "PUBLIC",
+  "priority": "NORMAL",
+  "taskState": "SUBMITTED",
+  "project": {
+    "id": "???"
+  },
+  "userIdIfVisibleIsPrivate": []
+}
+```
 
+#### /task/list/{projectId}: POST, AUTH
+Body: PaginateParam
+
+#### /task/find/{id}: GET, AUTH
+
+#### /task/update/content/{taskId}: PUT, AUTH
+```json
+"???? <New Content>"
+```
+
+#### /task/rename/{taskId}: PUT, AUTH
+```json
+"???? <New Name>"
+```
+
+#### /task/update/state/{taskId}: PUT, AUTH
+```json
+{
+  "taskState": "???"
+}
+```
+
+#### /task/delete/{taskId}: DELETE, AUTH
