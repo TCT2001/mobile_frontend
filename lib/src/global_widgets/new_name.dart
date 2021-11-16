@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mobile_app/src/widgets/widgets_controller.dart';
+import 'package:mobile_app/src/global_widgets/widgets_controller.dart';
 
 class NewName extends GetView<WidgetsController> {
   const NewName({Key? key}) : super(key: key);

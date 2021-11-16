@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/src/modules/login/login_controller.dart';
-import 'package:mobile_app/src/widgets/button_Login.dart';
-import 'package:mobile_app/src/widgets/first.dart';
-import 'package:mobile_app/src/widgets/inputEmail.dart';
-import 'package:mobile_app/src/widgets/password.dart';
+import 'package:mobile_app/src/global_widgets/button_login.dart';
+import 'package:mobile_app/src/global_widgets/first.dart';
+import 'package:mobile_app/src/global_widgets/input_email.dart';
+import 'package:mobile_app/src/global_widgets/password.dart';
 
 class LoginPage extends GetView<LoginController> {
   const LoginPage({Key? key}) : super(key: key);

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mobile_app/src/widgets/widgets_controller.dart';
+import 'package:mobile_app/src/global_widgets/widgets_controller.dart';
 
 class PasswordInput extends GetView<WidgetsController> {
   const PasswordInput({Key? key}) : super(key: key);

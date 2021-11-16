@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/src/routes/app_routes.dart';
-import 'package:mobile_app/src/widgets/widgets_controller.dart';
+import 'package:mobile_app/src/global_widgets/widgets_controller.dart';
 
 class FirstTime extends GetView<WidgetsController> {
   const FirstTime({Key? key}) : super(key: key);

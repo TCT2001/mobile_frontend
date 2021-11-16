@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/src/modules/signup/signup_controller.dart';
-import 'package:mobile_app/src/widgets/button_New_User.dart';
-import 'package:mobile_app/src/widgets/newEmail.dart';
-import 'package:mobile_app/src/widgets/newName.dart';
-import 'package:mobile_app/src/widgets/password.dart';
+import 'package:mobile_app/src/global_widgets/button_new_user.dart';
+import 'package:mobile_app/src/global_widgets/new_email.dart';
+import 'package:mobile_app/src/global_widgets/new_name.dart';
+import 'package:mobile_app/src/global_widgets/password.dart';
 
 class SignupPage extends GetView<SignupController> {
   const SignupPage({Key? key}) : super(key: key);
