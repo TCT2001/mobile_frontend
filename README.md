@@ -57,6 +57,14 @@ public enum TaskState {
 
 #### /test/all: GET, NO PARAM, NO AUTH
 
+#### /test/feedback: POST, NO AUTH
+```json
+{
+  "userId": "",
+  "content: "???"
+}
+```
+
 #### /auth/signin: POST, NO AUTH
 
 ```json
