@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:mobile_app/src/core/constants/colors.dart';
+import 'package:mobile_app/src/data/models/colors.dart';
 
 class LoadingWidget extends Container {
   LoadingWidget({Key? key}) : super(key: key);

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mobile_app/src/core/constants/colors.dart';
+import 'package:mobile_app/src/data/models/colors.dart';
 
 class CustomTextFormFieldGlass extends StatelessWidget {
   final Function(String value)? onSaved;

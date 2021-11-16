@@ -7,12 +7,9 @@ import 'src/modules/splash/splash_binding.dart';
 import 'src/modules/splash/splash_page.dart';
 import 'src/routes/app_pages.dart';
 import 'src/routes/app_routes.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:motion_tab_bar/MotionTabBarView.dart';
-import 'package:motion_tab_bar/MotionTabController.dart';
-import 'package:motion_tab_bar/TabItem.dart';
-import 'package:motion_tab_bar/motiontabbar.dart';
-import 'package:custom_navigation_bar/custom_navigation_bar.dart';
+import 'src/modules/home/home_page.dart';
+
+
 
 void main() async {
   await GetStorage.init();
@@ -26,4 +23,6 @@ void main() async {
     getPages: AppPages.pages,
     home: const SplashPage(),
   ));
+
+
 }
