@@ -1,21 +1,17 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:mobile_app/src/routes/app_routes.dart';
-import 'package:mobile_app/src/global_widgets/widgets_controller.dart';
+import 'package:get/get_core/get_core.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 
-class Button extends GetView<WidgetsController> {
-  const Button({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
+Widget CustomButtonNoData(BuildContext context, String routes) {
+  return Padding(
       padding: const EdgeInsets.only(top: 40, right: 30, left: 20),
       child: Container(
         alignment: Alignment.bottomRight,
         height: 50,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          boxShadow: [
+          boxShadow:const [
             BoxShadow(
               color: Colors.blue,
               blurRadius: 10.0, // has the effect of softening the shadow
@@ -31,11 +27,11 @@ class Button extends GetView<WidgetsController> {
         ),
         child: FlatButton(
           onPressed: () {
-            Get.toNamed(Routes.NEO);
+            Get.toNamed(routes);
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
+            children: const <Widget>[
               Text(
                 'OK',
                 style: TextStyle(
@@ -53,8 +49,4 @@ class Button extends GetView<WidgetsController> {
         ),
       ),
     );
-  }
 }
-
-// t update cái thanh_loginScreen ý r muốn push lên branch nma nó bá olooix :((
-//ô push cái này lên cvasi branch tên là thanh_loginScreen là đc

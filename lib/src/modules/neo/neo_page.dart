@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mobile_app/src/modules/signup/signup_controller.dart';
 import 'package:mobile_app/src/global_widgets/button_new_user.dart';
+import 'package:mobile_app/src/modules/signup/signup_controller.dart';
 
 class NeoPage extends GetView<SignupController> {
   const NeoPage({Key? key}) : super(key: key);
@@ -35,7 +35,7 @@ class NeoPage extends GetView<SignupController> {
                       ),
                     ),
 
-                    ButtonNewUser(),
+                    ButtonNewUser(context),
 
                     // Padding(padding: EdgeInsets.only(top: 160, left: 20),
                     //   child: Text("Create your account",),

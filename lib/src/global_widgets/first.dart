@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/src/routes/app_routes.dart';
-import 'package:mobile_app/src/global_widgets/widgets_controller.dart';
 
-class FirstTime extends GetView<WidgetsController> {
+class FirstTime extends StatelessWidget {
   const FirstTime({Key? key}) : super(key: key);
 
   @override
@@ -16,7 +15,7 @@ class FirstTime extends GetView<WidgetsController> {
         height: 20,
         child: Row(
           children: <Widget>[
-            Text(
+            const Text(
               'Your first time?',
               style: TextStyle(
                 fontSize: 12,
@@ -28,7 +27,7 @@ class FirstTime extends GetView<WidgetsController> {
               onPressed: () {
                 Get.toNamed(Routes.SIGNUP);
               },
-              child: Text(
+              child: const Text(
                 'Sign up',
                 style: TextStyle(
                   fontSize: 12,
