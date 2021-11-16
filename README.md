@@ -11,7 +11,7 @@ Nguyễn Văn Thành
 
 
 #Flow:
-![GetX_Structure](https://user-images.githubusercontent.com/81580234/141953787-91e4a78e-5e57-4f2c-a747-0d4079c604a2.png)
+![Flow](https://user-images.githubusercontent.com/81580234/141955368-dd03ffca-a31d-4f82-880c-8c19e4f69f8e.PNG)
 
 #Demo (Vì máy mình chạy máy ảo hơi lag nên mình dùng chrome sau đó để định dạng mobile)
 
