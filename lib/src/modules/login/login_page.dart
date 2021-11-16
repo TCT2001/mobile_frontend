@@ -40,7 +40,7 @@ class LoginPage extends GetView<LoginController> {
               ),
               InputField(context, 'Email'),
               InputField(context, 'Password', obscureText: true),
-              CustomButtonNoData(context, Routes.NEO),
+              CustomButtonNoData(context, Routes.MAIN),
               FirstTime(),
               const SizedBox(
                 height: 50,
