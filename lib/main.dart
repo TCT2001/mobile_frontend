@@ -13,6 +13,10 @@ void main() async {
   await Get.putAsync(() => AppConfigService().init());
   
   runApp(GetMaterialApp(
+    title: 'Makit',
+    theme: ThemeData(
+      primarySwatch: Colors.blue,
+    ),
     debugShowCheckedModeBanner: false,
     initialRoute: Routes.SPLASH,
     defaultTransition: Transition.fade,
