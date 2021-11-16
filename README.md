@@ -1,6 +1,6 @@
-# mobile_app
+# mobile_app, #Cyber_Team's_product
 
-A new Flutter project.
+App quản lý công việc từ xa dành cho tổ chức, doanh nghiệp.
 
 ## Getting Started
 
@@ -14,3 +14,7 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+#Flow:
+![GetX_Structure](https://user-images.githubusercontent.com/81580234/141953787-91e4a78e-5e57-4f2c-a747-0d4079c604a2.png)
+
