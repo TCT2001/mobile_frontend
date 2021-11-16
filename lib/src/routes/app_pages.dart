@@ -1,23 +1,20 @@
 import 'package:get/get.dart';
-<<<<<<< HEAD
 import 'package:mobile_app/src/modules/example/example_binding.dart';
 import 'package:mobile_app/src/modules/example/example_page.dart';
 import 'package:mobile_app/src/modules/home/home_binding.dart';
 import 'package:mobile_app/src/modules/home/home_page.dart';
-import 'package:mobile_app/src/modules/layout/main_layout_binding.dart';
-import 'package:mobile_app/src/modules/layout/main_layout_page.dart';
-import 'package:mobile_app/src/modules/notification/noti_binding.dart';
-import 'package:mobile_app/src/modules/notification/noti_page.dart';
-=======
 import 'package:mobile_app/src/modules/init/init_binding.dart';
 import 'package:mobile_app/src/modules/init/init_page.dart';
+import 'package:mobile_app/src/modules/layout/main_layout_binding.dart';
+import 'package:mobile_app/src/modules/layout/main_layout_page.dart';
 import 'package:mobile_app/src/modules/login/login_binding.dart';
 import 'package:mobile_app/src/modules/login/login_page.dart';
 import 'package:mobile_app/src/modules/neo/neo_binding.dart';
 import 'package:mobile_app/src/modules/neo/neo_page.dart';
+import 'package:mobile_app/src/modules/notification/noti_binding.dart';
+import 'package:mobile_app/src/modules/notification/noti_page.dart';
 import 'package:mobile_app/src/modules/signup/signup_binding.dart';
 import 'package:mobile_app/src/modules/signup/signup_page.dart';
->>>>>>> origin/thanh
 import 'package:mobile_app/src/modules/splash/splash_page.dart';
 
 import 'app_routes.dart';
