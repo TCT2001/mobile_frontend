@@ -7,5 +7,5 @@ abstract class Routes {
   static const CADASTRO = '/cadastro';
   static const SIGNUP = '/signup';
   static const NEO = '/neo';
-
+  static const INIT = '/init';
 }

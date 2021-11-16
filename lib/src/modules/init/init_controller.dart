@@ -4,5 +4,5 @@ import 'package:mobile_app/src/core/constants/strings.dart';
 import 'package:mobile_app/src/data/models/annotation.dart';
 import 'package:mobile_app/src/data/services/app_config_service.dart';
 
-class HomeController extends GetxController {
+class InitController extends GetxController {
 }

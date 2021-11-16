@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:mobile_app/src/modules/home/home_page.dart';
+import 'package:mobile_app/src/modules/splash/splash_page.dart';
 
 import 'src/data/services/app_config_service.dart';
 import 'src/modules/splash/splash_binding.dart';
@@ -22,6 +22,6 @@ void main() async {
     defaultTransition: Transition.fade,
     initialBinding: SplashBinding(),
     getPages: AppPages.pages,
-    home: const HomePage(),
+    home: const SplashPage(),
   ));
 }
