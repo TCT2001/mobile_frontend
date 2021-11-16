@@ -8,6 +8,6 @@ class NotiPage extends GetView<NotiController> {
 
  @override
   Widget build(BuildContext context) {
-    return Center(child: Text("This is Home Page"));
+    return Center(child: Text("This is Notification Page"));
   }
 }
