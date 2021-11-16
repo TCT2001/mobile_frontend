@@ -8,6 +8,8 @@ import 'src/modules/splash/splash_page.dart';
 import 'src/routes/app_pages.dart';
 import 'src/routes/app_routes.dart';
 
+
+
 void main() async {
   await GetStorage.init();
   await Get.putAsync(() => AppConfigService().init());
@@ -24,4 +26,6 @@ void main() async {
     getPages: AppPages.pages,
     home: const SplashPage(),
   ));
+
+
 }
