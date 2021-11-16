@@ -1,6 +1,11 @@
 # mobile_app, #Cyber_Team's_product
 
 App quản lý công việc từ xa dành cho tổ chức, doanh nghiệp.
+Thành viên team:
+Vũ Minh Tuyến (Nhóm trưởng)
+Trần Vũ Toàn
+Trần Minh Ngọc
+Nguyễn Văn Thành
 
 ## Getting Started
 
