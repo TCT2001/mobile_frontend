@@ -14,9 +14,9 @@ class NotiPage extends GetView<NotiController> {
           elevation: 20,
           title: const Text('Notification'),
         ),
-        body: SafeArea(
+        body: const SafeArea(
           child: Center(child: Text("This is Notification Page")),
         ),
-        bottomNavigationBar: Narbar());
+        bottomNavigationBar: Narbar(selectedIndex: 3));
   }
 }
