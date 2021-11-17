@@ -45,6 +45,7 @@ dependencies:
   email_validator: ^2.0.1
   shared_preferences: ^0.5.12+4
   http: ^0.13.4
+  settings_ui: ^1.0.0
 
 dev_dependencies:
   flutter_test:

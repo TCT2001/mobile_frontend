@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:mobile_app/src/modules/home/home_page.dart';
 import 'package:mobile_app/src/modules/layout/main_layout_controller.dart';
 import 'package:mobile_app/src/modules/notification/noti_page.dart';
+import 'package:mobile_app/src/modules/setting/setting_page.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 
@@ -23,17 +24,14 @@ class MainLayoutPage extends GetView<MainLayoutController> {
       'Search',
       style: optionStyle,
     ),
-    NotiPage()
+    NotiPage(),
+    SettingPage()
   ];
   @override
   Widget build(BuildContext context) {
     Get.put(MainLayoutController());
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        elevation: 20,
-        title: const Text('GoogleNavBar'),
-      ),
       body: Center(
         child: Obx(() => _widgetOptions.elementAt(controller.index)),
       ),
@@ -76,6 +74,10 @@ class MainLayoutPage extends GetView<MainLayoutController> {
                     GButton(
                       icon: LineIcons.bell,
                       text: 'Notifications',
+                    ),
+                    GButton(
+                      icon: LineIcons.cog,
+                      text: 'Settings',
                     ),
                   ],
                   selectedIndex: controller.index,
