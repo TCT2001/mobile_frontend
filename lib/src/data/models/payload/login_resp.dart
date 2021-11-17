@@ -30,7 +30,7 @@ class LoginResp {
 
 class LoginRespData {
   late String token;
-  late num id;
+  late int id;
   late String refreshToken;
   late String username;
 

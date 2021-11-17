@@ -2,11 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mobile_app/src/global_widgets/navbar.dart';
 import 'package:mobile_app/src/modules/home/home_page.dart';
 import 'package:mobile_app/src/modules/layout/main_layout_controller.dart';
 import 'package:mobile_app/src/modules/notification/noti_page.dart';
-import 'package:mobile_app/src/routes/app_routes.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 
@@ -64,7 +62,7 @@ class MainLayoutPage extends GetView<MainLayoutController> {
                   color: Colors.black,
                   tabs: const [
                     GButton(
-                      icon: LineIcons.home,
+                      icon: LineIcons.home, // cog
                       text: 'Home',
                     ),
                     GButton(
