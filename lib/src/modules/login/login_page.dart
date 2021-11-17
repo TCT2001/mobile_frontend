@@ -1,145 +1,122 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:get/get.dart';
-import 'package:mobile_app/src/global_widgets/button_no_data.dart';
-import 'package:mobile_app/src/global_widgets/input_field.dart';
-import 'package:mobile_app/src/modules/login/login_controller.dart';
-import 'package:mobile_app/src/routes/app_routes.dart';
+import 'package:mobile_app/src/modules/layout/main_layout_page.dart';
 
-class LoginPage extends GetView<LoginController> {
+import 'login_controller.dart';
+
+class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
+
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final LoginController controller = Get.put(LoginController());
+
+  final _emailTextController = TextEditingController(text: "");
+  final _passwordTextController = TextEditingController(text: "");
+  var _passwordVisible = false;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [Colors.blueGrey, Colors.lightBlueAccent]),
+      body: SingleChildScrollView(
+        child: Padding(
+            padding: const EdgeInsets.only(left: 32, right: 32),
+            child: Obx(() {
+              return Form(
+                  key: _formKey,
+                  child: Center(
+                    child: Container(
+                      height: MediaQuery.of(context).size.height,
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text("Makit",
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 32)),
+                            const SizedBox(height: 8),
+                            TextFormField(
+                              enabled: !controller.loginProcess.value,
+                              controller: _emailTextController,
+                              decoration: const InputDecoration(
+                                  icon: Icon(Icons.person), labelText: "Email"),
+                              validator: (String? value) =>
+                                  EmailValidator.validate(value!)
+                                      ? null
+                                      : "Please enter a valid email",
+                            ),
+                            const SizedBox(height: 8),
+                            TextFormField(
+                              enabled: !controller.loginProcess.value,
+                              controller: _passwordTextController,
+                              decoration: InputDecoration(
+                                  icon: const Icon(Icons.lock),
+                                  labelText: "Password",
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      _passwordVisible
+                                          ? Icons.visibility_off
+                                          : Icons.visibility,
+                                      color: Theme.of(context).primaryColorDark,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        _passwordVisible = !_passwordVisible;
+                                      });
+                                    },
+                                  )),
+                              obscureText: !_passwordVisible,
+                              validator: (String? value) => value!.trim().isEmpty
+                                  ? "Password is require"
+                                  : null,
+                            ),
+                            const SizedBox(height: 32),
+                            Material(
+                              elevation: 5.0,
+                              borderRadius: BorderRadius.circular(30),
+                              color: controller.loginProcess.value
+                                  ? Theme.of(context).disabledColor
+                                  : Theme.of(context).primaryColor,
+                              child: MaterialButton(
+                                minWidth: MediaQuery.of(context).size.width,
+                                padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+                                onPressed: () async {
+                                  if (_formKey.currentState!.validate()) {
+                  
+                                    String error = await controller.login(
+                                        email: _emailTextController.text,
+                                        password: _passwordTextController.text);
+                                    if (error != "") {
+                                      Get.defaultDialog(
+                                          title: "Oop!", middleText: error);
+                                    } else {
+                                      Get.to(MainLayoutPage());
+                                    }
+                                  }
+                                },
+                                child: const Text(
+                                  "Login",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            )
+                          ]),
+                    ),
+                  ));
+            })),
       ),
-      child: Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              const Padding(
-                padding: EdgeInsets.only(top: 20, left: 5),
-                child: Text(
-                  "LOGIN",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 40,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              InputField(context, 'Email'),
-              InputField(context, 'Password', obscureText: true),
-              CustomButtonNoData(context, Routes.MAIN),
-              FirstTime(),
-              const SizedBox(
-                height: 50,
-              ),
-              const Padding(
-                padding: EdgeInsets.only(
-                  left: 50,
-                  right: 40,
-                ),
-                child: Text("MAKIT - Design your own projects"),
-              ),
-            ],
-          )
-        ],
-      ),
-    ));
+    );
   }
-}
-
-Widget LoginButton(BuildContext context) {
-  return Padding(
-    padding: const EdgeInsets.only(top: 40, right: 30, left: 20),
-    child: Container(
-      alignment: Alignment.bottomRight,
-      height: 50,
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.blue,
-            blurRadius: 10.0, // has the effect of softening the shadow
-            spreadRadius: 1.0, // has the effect of extending the shadow
-            offset: Offset(
-              5.0, // horizontal, move right 10
-              5.0, // vertical, move down 10
-            ),
-          ),
-        ],
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: FlatButton(
-        onPressed: () {
-          Get.toNamed(Routes.NEO);
-        },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
-            Text(
-              'OK',
-              style: TextStyle(
-                color: Colors.lightBlueAccent,
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            Icon(
-              Icons.arrow_forward,
-              color: Colors.lightBlueAccent,
-            ),
-          ],
-        ),
-      ),
-    ),
-  );
-}
-
-Widget FirstTime() {
-  return Padding(
-    padding: const EdgeInsets.only(top: 30, left: 30),
-    child: Container(
-      alignment: Alignment.topRight,
-      //color: Colors.red,
-      height: 20,
-      child: Row(
-        children: <Widget>[
-          const Text(
-            'Your first time?',
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.white70,
-            ),
-          ),
-          FlatButton(
-            padding: EdgeInsets.all(0),
-            onPressed: () {
-              Get.toNamed(Routes.SIGNUP);
-            },
-            child: const Text(
-              'Sign up',
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.white,
-              ),
-              textAlign: TextAlign.right,
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
 }
