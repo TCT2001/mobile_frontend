@@ -4,6 +4,7 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:mobile_app/src/routes/app_routes.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:settings_ui/settings_ui.dart';
 
 
 
@@ -48,6 +49,10 @@ Widget Narbar({required int selectedIndex}) {
               icon: LineIcons.bell,
               text: 'Notifications',
             ),
+            GButton(
+              icon: LineIcons.,
+              text: 'Settings',
+            ),
           ],
           selectedIndex: selectedIndex,
           onTabChange: (index) {
@@ -65,6 +70,10 @@ Widget Narbar({required int selectedIndex}) {
               case 3:
                 // do something else
                 Get.offAllNamed(Routes.NOTIFICATION);
+                break;
+              case 4:
+              // do something else
+                Get.offAllNamed(Routes.SETTING);
                 break;
             }
             //setState(() {

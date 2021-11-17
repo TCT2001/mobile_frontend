@@ -11,4 +11,5 @@ abstract class Routes {
   static const SIGNUP = '/signup';
   static const NEO = '/neo';
   static const INIT = '/init';
+  static const SETTING = '/setting';
 }
