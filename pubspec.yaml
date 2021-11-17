@@ -43,9 +43,6 @@ dependencies:
   motion_tab_bar: ^0.1.5
   custom_navigation_bar: ^0.8.2
   line_icons: ^2.0.1
-  settings_ui: ^1.0.0
-  device_preview: ^0.8.0
-  flutter_settings_screens: ^0.2.2+1
 
 dev_dependencies:
   flutter_test:
