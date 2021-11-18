@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'setting_controller.dart';
+import 'package:mobile_app/src/modules/feedback/feedback_window.dart';
 
 class SettingPage extends GetView<SettingController> {
   SettingPage({Key? key}) : super(key: key);
