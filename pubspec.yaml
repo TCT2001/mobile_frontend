@@ -39,7 +39,7 @@ dependencies:
   google_nav_bar: ^5.0.5
   line_icons: ^2.0.1
   email_validator: ^2.0.1
-  shared_preferences: ^0.5.12+4
+  shared_preferences: ^2.0.8
   http: ^0.13.4
   settings_ui: ^1.0.0
 
