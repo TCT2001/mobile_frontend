@@ -80,7 +80,7 @@ class _SignupPageState extends State<SignupPage> {
                               obscureText: !_passwordVisible,
                               validator: (String? value) =>
                                   value!.trim().isEmpty
-                                      ? "Password is require"
+                                      ? "Password is required"
                                       : null,
                             ),
                             const SizedBox(height: 8),
@@ -106,7 +106,7 @@ class _SignupPageState extends State<SignupPage> {
                               obscureText: !_rePasswordVisible,
                               validator: (String? value) =>
                                   value!.trim().isEmpty || value != _passwordTextController.text
-                                      ? "Repassword is require and must be similar to ..."
+                                      ? "Repassword is required and must be similar to ..."
                                       : null,
                             ),
                             const SizedBox(height: 32),
