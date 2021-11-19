@@ -6,12 +6,17 @@ import 'package:mobile_app/src/data/models/project.dart';
 import 'project_controller.dart';
 
 class ProjectPage extends GetView<ProjectController> {
-  const ProjectPage({Key? key}) : super(key: key);
+  ProjectPage({Key? key}) : super(key: key);
+  @override
+  ProjectController controller = Get.put(ProjectController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('ProjectPage')),
+      appBar: AppBar(
+        title: const Text('ProjectPage'),
+        automaticallyImplyLeading: false,
+      ),
       body: Obx(() {
         if (!controller.isLastPage && controller.projects.isEmpty) {
           return const Center(
