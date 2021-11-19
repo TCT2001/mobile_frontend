@@ -5,7 +5,9 @@ import 'package:mobile_app/src/global_widgets/button_new_user.dart';
 import 'package:mobile_app/src/global_widgets/input_field.dart';
 import 'package:mobile_app/src/modules/login/login_page.dart';
 import 'package:mobile_app/src/modules/signup/signup_controller.dart';
+import 'package:mobile_app/src/global_widgets/old.dart';
 import 'package:mobile_app/src/routes/app_routes.dart';
+
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -28,7 +30,13 @@ class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [Colors.blueGrey, Colors.lightBlueAccent]),
+        ),
         child: Padding(
             padding: const EdgeInsets.only(left: 32, right: 32),
             child: Obx(() {
@@ -43,7 +51,7 @@ class _SignupPageState extends State<SignupPage> {
                           children: [
                             Text("Makit",
                                 style: TextStyle(
-                                    color: Theme.of(context).primaryColor,
+                                    color: Color(0xff88e8f2),
                                     fontWeight: FontWeight.bold,
                                     fontSize: 32)),
                             const SizedBox(height: 8),
@@ -141,7 +149,8 @@ class _SignupPageState extends State<SignupPage> {
                                       fontWeight: FontWeight.bold),
                                 ),
                               ),
-                            )
+                            ),
+                            const OldTime(),
                           ]),
                     ),
                   ));

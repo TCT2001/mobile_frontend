@@ -10,7 +10,7 @@ class NeoPage extends GetView<SignupController> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                   begin: Alignment.topRight,
                   end: Alignment.bottomLeft,
@@ -23,7 +23,7 @@ class NeoPage extends GetView<SignupController> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.only(top: 20, left: 10),
                       child: Text(
                         "LOG OUT",
@@ -46,7 +46,7 @@ class NeoPage extends GetView<SignupController> {
                       height: 10,
                     ),
 
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.only(left: 50, right: 40),
                       child: Text("MAKIT - Design your own projects"),
                     ),

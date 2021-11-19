@@ -7,6 +7,38 @@ class NotiPage extends GetView<NotiController> {
 
  @override
   Widget build(BuildContext context) {
-    return Center(child: Text("This is Notification Page"));
-  }
+   return Scaffold(
+     body: Container(
+         decoration: const BoxDecoration(
+           gradient: LinearGradient(
+               begin: Alignment.topRight,
+               end: Alignment.bottomLeft,
+               colors: [Colors.blueGrey, Colors.lightBlueAccent]),
+         ),
+         child: Padding(
+             padding: const EdgeInsets.all(115),
+
+             child: SizedBox(
+               height: MediaQuery.of(context).size.height,
+               child: Column(
+                   mainAxisAlignment: MainAxisAlignment.center,
+                   crossAxisAlignment: CrossAxisAlignment.center,
+                   children: const [
+                     Text("This is notification page",
+                         style: TextStyle(
+                             color: Color(0xff88e8f2),
+                             fontWeight: FontWeight.bold,
+                             fontSize: 18)),
+                     SizedBox(height: 8),
+
+                     SizedBox(height: 8),
+
+
+                   ]),
+             )
+         )),
+   )
+   ;
+ }
 }
+

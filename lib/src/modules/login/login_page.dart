@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/src/modules/layout/main_layout_page.dart';
+import 'package:mobile_app/src/global_widgets/first.dart';
+import 'package:flutter/painting.dart';
 
 import 'login_controller.dart';
 
@@ -25,7 +27,13 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+      body: Container (
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [Colors.blueGrey, Colors.lightBlueAccent]),
+        ),
         child: Padding(
             padding: const EdgeInsets.only(left: 32, right: 32),
             child: Obx(() {
@@ -38,9 +46,9 @@ class _LoginPageState extends State<LoginPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text("Makit",
+                            const Text("Makit",
                                 style: TextStyle(
-                                    color: Theme.of(context).primaryColor,
+                                    color: Color(0xff88e8f2),
                                     fontWeight: FontWeight.bold,
                                     fontSize: 32)),
                             const SizedBox(height: 8),
@@ -116,7 +124,8 @@ class _LoginPageState extends State<LoginPage> {
                                       fontWeight: FontWeight.bold),
                                 ),
                               ),
-                            )
+                            ),
+                            const FirstTime(),
                           ]),
                     ),
                   ));
