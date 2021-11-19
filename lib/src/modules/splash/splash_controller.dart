@@ -5,5 +5,5 @@ class SplashController extends GetxController {
   splashF() async => await Future.delayed(
       //TODO
       const Duration(seconds: 3),
-      () => Get.toNamed(Routes.PROJECT));
+      () => Get.toNamed(Routes.HOME));
 }

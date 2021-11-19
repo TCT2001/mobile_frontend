@@ -6,6 +6,8 @@ import 'package:mobile_app/src/data/models/project.dart';
 import 'project_controller.dart';
 
 class ProjectPage extends GetView<ProjectController> {
+  const ProjectPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,8 +50,10 @@ class ProjectPage extends GetView<ProjectController> {
                                 title: "Confirm",
                                 middleText: "Are your sure to delete ?",
                                 backgroundColor: Colors.white,
-                                titleStyle: const TextStyle(color: Colors.black),
-                                middleTextStyle: const TextStyle(color: Colors.black),
+                                titleStyle:
+                                    const TextStyle(color: Colors.black),
+                                middleTextStyle:
+                                    const TextStyle(color: Colors.black),
                                 actions: <Widget>[
                                   TextButton(
                                     child: const Text("Yes"),
