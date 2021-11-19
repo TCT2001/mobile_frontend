@@ -24,7 +24,7 @@ class NotiPage extends GetView<NotiController> {
                    mainAxisAlignment: MainAxisAlignment.center,
                    crossAxisAlignment: CrossAxisAlignment.center,
                    children: const [
-                     Text("This is notification page",
+                     Text("This is notification pagesss",
                          style: TextStyle(
                              color: Color(0xff88e8f2),
                              fontWeight: FontWeight.bold,

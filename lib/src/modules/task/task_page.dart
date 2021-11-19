@@ -30,7 +30,7 @@ class TaskPage extends GetView<TaskController> {
                           style: TextStyle(
                               color: Color(0xff88e8f2),
                               fontWeight: FontWeight.bold,
-                              fontSize: 18)),
+                              fontSize: 20)),
                       SizedBox(height: 8),
 
                       SizedBox(height: 8),

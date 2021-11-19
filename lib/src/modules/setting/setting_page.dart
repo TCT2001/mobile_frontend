@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mobile_app/src/routes/app_routes.dart';
+import 'package:mobile_app/src/modules/home/home_page.dart';
+import 'package:mobile_app/src/modules/init/init_page.dart';
+import 'package:mobile_app/src/modules/login/login_page.dart';
 import 'package:settings_ui/settings_ui.dart';
+import 'setting_controller.dart';
 import 'package:flutter/widgets.dart';
+import 'package:mobile_app/src/modules/layout/main_layout_page.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({Key? key}) : super(key: key);
@@ -13,10 +17,11 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   bool _a = true;
-
   @override
   Widget build(BuildContext context) {
-    return Center(child: SettingsList(
+    return Center(
+
+        child: SettingsList(
       sections: [
         SettingsSection(
           title: 'Section',
@@ -29,7 +34,7 @@ class _SettingPageState extends State<SettingPage> {
             ),
             SettingsTile.switchTile(
               title: 'Allow Notifications',
-              leading: Icon(Icons.notifications),
+              leading: const Icon(Icons.notifications),
               switchValue: _a,
               onToggle: (bool value) {
                 setState(() {
@@ -51,7 +56,12 @@ class _SettingPageState extends State<SettingPage> {
               title: 'Logout',
               leading: const Icon(Icons.logout),
               onPressed: (BuildContext context) {
-                Get.offAllNamed(Routes.INIT);
+                Get.to(
+                    const InitPage(),
+                    fullscreenDialog: true,
+                    transition: Transition.cupertino,
+                    duration: const Duration(seconds: 1)
+                );
               },
             ),
           ],

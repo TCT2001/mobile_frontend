@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/src/routes/app_routes.dart';
-
+import '../../core/constants/colors.dart';
 import 'init_controller.dart';
 
 
@@ -60,7 +60,9 @@ class InitPage extends GetView<InitController> {
                               Get.toNamed(Routes.LOGIN);
                             },
                             style: ElevatedButton.styleFrom(
-                              primary: Colors.transparent,
+                              // primary: Colors.transparent,
+                              primary: DarkBlue,
+
                             ),
                             child: Text(
                               "Login",
@@ -71,12 +73,12 @@ class InitPage extends GetView<InitController> {
                               ),
                             ),
                           )),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6),
-                          gradient: LinearGradient(colors: const [
-                            Colors.deepPurpleAccent,
-                            Colors.lightBlueAccent,
-                          ])),
+                      // decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(6),
+                      //     gradient: LinearGradient(colors: const [
+                      //       Colors.deepPurpleAccent,
+                      //       Colors.lightBlueAccent,
+                      //     ])),
                     ),
                     const SizedBox(
                       height: 20,
@@ -92,7 +94,7 @@ class InitPage extends GetView<InitController> {
                               Get.toNamed(Routes.SIGNUP);
                             },
                             style: ElevatedButton.styleFrom(
-                              primary: Colors.transparent,
+                              primary: DarkBlue,
                             ),
                             child: Text(
                               "Sign up",
@@ -103,12 +105,12 @@ class InitPage extends GetView<InitController> {
                               ),
                             ),
                           )),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6),
-                          gradient: LinearGradient(colors: const [
-                            Colors.lightBlueAccent,
-                            Colors.deepPurpleAccent,
-                          ])),
+                      // decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(6),
+                      //     gradient: LinearGradient(colors: const [
+                      //       Colors.lightBlueAccent,
+                      //       Colors.deepPurpleAccent,
+                      //     ])),
                     ),
                     const SizedBox(
                       height: 20,
