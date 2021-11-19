@@ -10,7 +10,6 @@ Ctrl + .
 * Info: Thông tin về ứng dụng
 * Đổi mật khẩu
 * Bật tắt thông báo
-* Feedback
 
 # API
 
