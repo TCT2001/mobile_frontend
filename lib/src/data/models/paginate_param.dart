@@ -7,7 +7,7 @@ class PaginateParam {
   PaginateParam({required this.page});
 
   Map<String, dynamic>? toJson() {
-    Map<String, dynamic>? map = new Map();
+    Map<String, dynamic>? map = {};
     map['page'] = page;
     if (sortField != null) {
       map['sortField'] = sortField;

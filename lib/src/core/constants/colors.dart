@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:flutter/painting.dart';
 
 const Color neruColor = Color(0xff3e5189);

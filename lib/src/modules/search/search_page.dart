@@ -6,7 +6,7 @@ import 'search_controller.dart';
 // import 'package:mobile_app/src/routes/app_routes.dart';
 
 class SearchPage extends GetView<SearchController> {
-  SearchPage({Key? key}) : super(key: key);
+  const SearchPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

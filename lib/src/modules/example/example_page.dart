@@ -10,13 +10,14 @@ class ExamplePage extends GetView<ExampleController> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
-          child: Column(
-            children: [
-              TextButton(onPressed: () => Get.toNamed(Routes.HOME), child: Text("Go to Home Page")),
-              Text("Hello This is Example Page"),
-            ],
-          ),
-
-        ));
+      child: Column(
+        children: [
+          TextButton(
+              onPressed: () => Get.toNamed(Routes.HOME),
+              child: const Text("Go to Home Page")),
+          const Text("Hello This is Example Page"),
+        ],
+      ),
+    ));
   }
 }

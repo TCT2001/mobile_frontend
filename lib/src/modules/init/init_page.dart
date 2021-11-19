@@ -17,7 +17,7 @@ class InitPage extends GetView<InitController> {
               gradient: LinearGradient(
                   begin: Alignment.topRight,
                   end: Alignment.bottomLeft,
-                  colors: [Colors.blueGrey, Colors.lightBlueAccent]),
+                  colors: const [Colors.blueGrey, Colors.lightBlueAccent]),
             ),
             child: Stack(
               alignment: Alignment.center,
@@ -73,7 +73,7 @@ class InitPage extends GetView<InitController> {
                           )),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(6),
-                          gradient: LinearGradient(colors: [
+                          gradient: LinearGradient(colors: const [
                             Colors.deepPurpleAccent,
                             Colors.lightBlueAccent,
                           ])),
@@ -105,7 +105,7 @@ class InitPage extends GetView<InitController> {
                           )),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(6),
-                          gradient: LinearGradient(colors: [
+                          gradient: LinearGradient(colors: const [
                             Colors.lightBlueAccent,
                             Colors.deepPurpleAccent,
                           ])),

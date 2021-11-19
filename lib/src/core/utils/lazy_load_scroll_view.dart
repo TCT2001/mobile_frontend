@@ -1,8 +1,10 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:flutter/widgets.dart';
 
 enum LoadingStatus { LOADING, STABLE }
 
-typedef void EndOfPageListenerCallback();
+typedef EndOfPageListenerCallback = void Function();
 
 class LazyLoadScrollView extends StatefulWidget {
   /// The [Widget] that this widget watches for changes on
@@ -23,7 +25,7 @@ class LazyLoadScrollView extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => LazyLoadScrollViewState();
 
-  LazyLoadScrollView({
+  const LazyLoadScrollView({
     Key? key,
     required this.child,
     required this.onEndOfPage,

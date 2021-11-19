@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'task_controller.dart';
 
 class TaskPage extends GetView<TaskController> {
-  TaskPage({Key? key}) : super(key: key);
+  const TaskPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

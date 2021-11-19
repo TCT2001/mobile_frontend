@@ -39,6 +39,7 @@ class LoginController extends GetxController {
     return error;
   }
 
+  @override
   Future<bool> refresh() async {
     final prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString("token");

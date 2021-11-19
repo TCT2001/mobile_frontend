@@ -1,12 +1,11 @@
+// ignore_for_file: sized_box_for_whitespace
+
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mobile_app/src/global_widgets/button_new_user.dart';
-import 'package:mobile_app/src/global_widgets/input_field.dart';
 import 'package:mobile_app/src/modules/login/login_page.dart';
 import 'package:mobile_app/src/modules/signup/signup_controller.dart';
 import 'package:mobile_app/src/global_widgets/old.dart';
-import 'package:mobile_app/src/routes/app_routes.dart';
 
 
 class SignupPage extends StatefulWidget {
@@ -49,7 +48,7 @@ class _SignupPageState extends State<SignupPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text("Makit",
+                            const Text("Makit",
                                 style: TextStyle(
                                     color: Color(0xff88e8f2),
                                     fontWeight: FontWeight.bold,

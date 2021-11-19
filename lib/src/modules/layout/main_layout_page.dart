@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_this, prefer_const_constructors, prefer_final_fields
+// ignore_for_file: unnecessary_this, prefer_const_constructors, prefer_final_fields, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

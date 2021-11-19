@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mobile_app/src/modules/home/home_page.dart';
-import 'package:mobile_app/src/modules/init/init_page.dart';
-import 'package:mobile_app/src/modules/login/login_page.dart';
 import 'package:mobile_app/src/routes/app_routes.dart';
 import 'package:settings_ui/settings_ui.dart';
-import 'setting_controller.dart';
 import 'package:flutter/widgets.dart';
-import 'package:mobile_app/src/modules/layout/main_layout_page.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({Key? key}) : super(key: key);
