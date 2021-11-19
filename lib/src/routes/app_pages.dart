@@ -13,6 +13,8 @@ import 'package:mobile_app/src/modules/neo/neo_binding.dart';
 import 'package:mobile_app/src/modules/neo/neo_page.dart';
 import 'package:mobile_app/src/modules/notification/noti_binding.dart';
 import 'package:mobile_app/src/modules/notification/noti_page.dart';
+import 'package:mobile_app/src/modules/project/project_binding.dart';
+import 'package:mobile_app/src/modules/project/project_page.dart';
 import 'package:mobile_app/src/modules/signup/signup_binding.dart';
 import 'package:mobile_app/src/modules/signup/signup_page.dart';
 import 'package:mobile_app/src/modules/splash/splash_page.dart';
@@ -30,7 +32,8 @@ abstract class AppPages {
     GetPage(name: Routes.SPLASH, page: () => const SplashPage()),
     GetPage(name: Routes.LOGIN, page: () => const LoginPage(), binding: LoginBinding()),
     GetPage(name: Routes.SIGNUP, page: () => const SignupPage(), binding: SignupBinding()),
-    GetPage(name: Routes.NEO, page: () => const NeoPage(), binding: NeoBinding())
+    GetPage(name: Routes.NEO, page: () => const NeoPage(), binding: NeoBinding()),
+    GetPage(name: Routes.PROJECT, page: () => ProjectPage(), binding: ProjectBinding()),
 
   ];
 }

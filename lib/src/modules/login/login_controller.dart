@@ -10,6 +10,7 @@ import 'package:mobile_app/src/data/services/auth_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginController extends GetxController {
+  // state
   var loginProcess = false.obs;
   var error = "";
 

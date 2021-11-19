@@ -104,6 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                                   if (_emailTextController.text == "a") {
                                     Get.to(MainLayoutPage());
                                   }
+                                  // LOGIC
                                   if (_formKey.currentState!.validate()) {
                                     String error = await controller.login(
                                         email: _emailTextController.text,

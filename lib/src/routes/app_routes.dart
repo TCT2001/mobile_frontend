@@ -12,4 +12,5 @@ abstract class Routes {
   static const NEO = '/neo';
   static const INIT = '/init';
   static const SETTING = '/setting';
+  static const PROJECT = '/project';
 }
