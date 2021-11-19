@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:mobile_app/src/modules/layout/main_layout_page.dart';
 import 'package:mobile_app/src/global_widgets/first.dart';
 import 'package:flutter/painting.dart';
+import 'package:mobile_app/src/routes/app_routes.dart';
 
 import 'login_controller.dart';
 
@@ -113,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                                       Get.defaultDialog(
                                           title: "Oop!", middleText: error);
                                     } else {
-                                      Get.to(MainLayoutPage());
+                                      Get.toNamed(Routes.MAIN);
                                     }
                                   }
                                 },
