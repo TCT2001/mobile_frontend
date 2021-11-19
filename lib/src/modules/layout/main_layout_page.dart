@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mobile_app/src/modules/feedback/feedback_window.dart';
 import 'package:mobile_app/src/modules/home/home_page.dart';
 import 'package:mobile_app/src/modules/layout/main_layout_controller.dart';
 import 'package:mobile_app/src/modules/notification/noti_page.dart';
@@ -85,6 +86,13 @@ class MainLayoutPage extends GetView<MainLayoutController> {
                 )),
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        label: Text('Feedback'),
+        icon: Icon(Icons.report_gmailerrorred),
+        onPressed: () {
+          displayFeedbackWindow();
+        },
       ),
     );
   }
