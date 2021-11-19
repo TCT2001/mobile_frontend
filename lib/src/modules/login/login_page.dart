@@ -85,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
                               obscureText: !_passwordVisible,
                               validator: (String? value) =>
                                   value!.trim().isEmpty
-                                      ? "Password is require"
+                                      ? "Password is required"
                                       : null,
                             ),
                             const SizedBox(height: 32),

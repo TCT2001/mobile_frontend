@@ -9,6 +9,7 @@ import 'package:mobile_app/src/modules/notification/noti_page.dart';
 import 'package:mobile_app/src/modules/setting/setting_page.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:mobile_app/src/modules/task/task_page.dart';
 
 class MainLayoutPage extends GetView<MainLayoutController> {
   MainLayoutPage({Key? key}) : super(key: key);
@@ -17,10 +18,7 @@ class MainLayoutPage extends GetView<MainLayoutController> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
   List<Widget> _widgetOptions = <Widget>[
     HomePage(),
-    Text(
-      'Tasks',
-      style: optionStyle,
-    ),
+    TaskPage(),
     Text(
       'Search',
       style: optionStyle,
