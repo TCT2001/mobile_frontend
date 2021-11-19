@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:mobile_app/src/data/models/paginate_param.dart';
 import 'package:mobile_app/src/data/models/project.dart';
@@ -39,12 +40,15 @@ class ProjectController extends GetxController {
 
   void nextPage() {
     _paginateParam.value.page += 1;
+    _listProject();
   }
 
-  Future<void> deleteProject(Project project) async {
+  Future<bool> deleteProject(Project project) async {
     var temp = await ProjectService.delete(project);
     if (temp!.code == "SUCCESS") {
       _projects.removeWhere((element) => element.id == project.id);
+      return true;
     }
+    return false;
   }
 }

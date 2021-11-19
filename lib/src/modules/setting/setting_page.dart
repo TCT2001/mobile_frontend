@@ -21,8 +21,7 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: SettingsList(
+    return Center(child: SettingsList(
       sections: [
         SettingsSection(
           title: 'Section',
@@ -35,7 +34,7 @@ class _SettingPageState extends State<SettingPage> {
             ),
             SettingsTile.switchTile(
               title: 'Allow Notifications',
-              leading: const Icon(Icons.notifications),
+              leading: Icon(Icons.notifications),
               switchValue: _a,
               onToggle: (bool value) {
                 setState(() {
@@ -65,4 +64,5 @@ class _SettingPageState extends State<SettingPage> {
       ],
     ));
   }
+
 }

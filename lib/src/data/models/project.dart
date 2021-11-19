@@ -1,11 +1,11 @@
 import 'package:mobile_app/src/data/models/user.dart';
 
 class Project {
-  late int id;
-  late String name;
+  late int? id;
+  late String? name;
   late List? userDTOSet;
   Project({required this.id, required this.name, required this.userDTOSet});
-
+  Project.name();
   factory Project.fromJson(Map<String, dynamic> json) {
     return Project(
         id: json['id'],
@@ -15,6 +15,7 @@ class Project {
             : (json["userDTOSet"] as List)
                 .map((i) => User.fromJson(i))
                 .toList());
+    // return Project.name();
   }
 
   @override

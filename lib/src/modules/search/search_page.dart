@@ -2,13 +2,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'task_controller.dart';
+import 'search_controller.dart';
+// import 'package:mobile_app/src/routes/app_routes.dart';
 
-class TaskPage extends GetView<TaskController> {
-  TaskPage({Key? key}) : super(key: key);
+class SearchPage extends GetView<SearchController> {
+  SearchPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // return Center(child: Text("This is Home Page"));
     return Scaffold(
       body: Container(
           decoration: const BoxDecoration(
@@ -18,7 +20,7 @@ class TaskPage extends GetView<TaskController> {
                 colors: [Colors.blueGrey, Colors.lightBlueAccent]),
           ),
           child: Padding(
-              padding: const EdgeInsets.all(125),
+              padding: const EdgeInsets.all(115),
 
               child: SizedBox(
                 height: MediaQuery.of(context).size.height,
@@ -26,11 +28,11 @@ class TaskPage extends GetView<TaskController> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: const [
-                      Text("This is task page",
+                      Text("This is search page",
                           style: TextStyle(
                               color: Color(0xff88e8f2),
                               fontWeight: FontWeight.bold,
-                              fontSize: 18)),
+                              fontSize: 20)),
                       SizedBox(height: 8),
 
                       SizedBox(height: 8),
@@ -43,3 +45,4 @@ class TaskPage extends GetView<TaskController> {
     ;
   }
 }
+

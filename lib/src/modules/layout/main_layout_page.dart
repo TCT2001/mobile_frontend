@@ -11,6 +11,7 @@ import 'package:mobile_app/src/modules/setting/setting_page.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:mobile_app/src/modules/task/task_page.dart';
+import 'package:mobile_app/src/modules/search/search_page.dart';
 
 class MainLayoutPage extends GetView<MainLayoutController> {
   MainLayoutPage({Key? key}) : super(key: key);
@@ -21,10 +22,7 @@ class MainLayoutPage extends GetView<MainLayoutController> {
     HomePage(),
     ProjectPage(),
     TaskPage(),
-    Text(
-      'Search',
-      style: optionStyle,
-    ),
+    SearchPage(),
     NotiPage(),
     SettingPage()
   ];
@@ -54,7 +52,7 @@ class MainLayoutPage extends GetView<MainLayoutController> {
                   hoverColor: Colors.grey[100]!,
                   gap: 8,
                   activeColor: Colors.black,
-                  iconSize: 24,
+                  iconSize: 10,
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   duration: Duration(milliseconds: 400),
                   tabBackgroundColor: Colors.grey[100]!,
@@ -72,10 +70,10 @@ class MainLayoutPage extends GetView<MainLayoutController> {
                       icon: LineIcons.tasks,
                       text: 'Tasks',
                     ),
-                    GButton(
-                      icon: LineIcons.search,
-                      text: 'Search',
-                    ),
+                    // GButton(
+                    //   icon: LineIcons.search,
+                    //   text: 'Search',
+                    // ),
                     GButton(
                       icon: LineIcons.bell,
                       text: 'Notifications',

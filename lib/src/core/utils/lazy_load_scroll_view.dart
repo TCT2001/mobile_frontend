@@ -60,6 +60,7 @@ class LazyLoadScrollViewState extends State<LazyLoadScrollView> {
             notification.metrics.maxScrollExtent -
                     notification.metrics.pixels <=
                 widget.scrollOffset) {
+        
           _loadMore();
         }
         return true;
@@ -67,6 +68,7 @@ class LazyLoadScrollViewState extends State<LazyLoadScrollView> {
 
       if (notification is OverscrollNotification) {
         if (notification.overscroll > 0) {
+      
           _loadMore();
         }
         return true;

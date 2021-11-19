@@ -32,7 +32,7 @@ class LoginRespData {
   late String token;
   late int id;
   late String refreshToken;
-  late String username;
+  late String email;
 
   LoginRespData.empty();
 
@@ -40,19 +40,19 @@ class LoginRespData {
       {required this.token,
       required this.id,
       required this.refreshToken,
-      required this.username});
+      required this.email});
 
   factory LoginRespData.fromJson(Map<String, dynamic> json) => LoginRespData(
         token: json["token"],
         id: json["id"],
         refreshToken: json["refreshToken"],
-        username: json["username"],
+        email: json["username"],
       );
 
   Map<String, dynamic> toJson() => {
         "token": token,
         "id": id,
         "refreshToken": refreshToken,
-        "username": username
+        "username": email
       };
 }

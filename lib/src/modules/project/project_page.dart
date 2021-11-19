@@ -42,7 +42,7 @@ class ProjectPage extends GetView<ProjectController> {
                 itemBuilder: (_, index) => Card(
                   margin: const EdgeInsets.all(10),
                   child: ListTile(
-                    title: Text(_items[index].name),
+                    title: Text(_items[index].name!),
                     subtitle: Text("Alo"),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -62,9 +62,29 @@ class ProjectPage extends GetView<ProjectController> {
                                 actions: <Widget>[
                                   TextButton(
                                     child: const Text("Yes"),
-                                    onPressed: () {
+                                    onPressed: () async {
                                       Get.back();
-                                      controller.deleteProject(_items[index]);
+                                      bool rs = await controller
+                                          .deleteProject(_items[index]);
+                                      if (rs) {
+                                        Get.snackbar(
+                                          "Delete",
+                                          "Success",
+                                          icon: const Icon(Icons.delete,
+                                              color: Colors.white),
+                                          snackPosition: SnackPosition.BOTTOM,
+                                          backgroundColor: Colors.green,
+                                          borderRadius: 20,
+                                          margin: const EdgeInsets.all(15),
+                                          colorText: Colors.white,
+                                          duration: const Duration(seconds: 2),
+                                          isDismissible: true,
+                                          dismissDirection:
+                                              SnackDismissDirection.HORIZONTAL,
+                                          forwardAnimationCurve:
+                                              Curves.easeOutBack,
+                                        );
+                                      }
                                     },
                                   ),
                                   TextButton(
@@ -75,7 +95,6 @@ class ProjectPage extends GetView<ProjectController> {
                                   ),
                                 ],
                               );
-                              print(_items[index]);
                             },
                             icon: const Icon(Icons.delete)),
                       ],

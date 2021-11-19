@@ -23,7 +23,7 @@ class LoginController extends GetxController {
           await AuthService.login(email: email, password: password);
       if (loginResp.code == "SUCCESS") {
         setStringLocalStorge(LocalStorageKey.EMAIL.toString(),
-            loginResp.loginRespData!.username);
+            loginResp.loginRespData!.email);
         setIntLocalStorge(LocalStorageKey.USER_ID.toString(),
             loginResp.loginRespData!.id);
         setStringLocalStorge(LocalStorageKey.TOKEN.toString(),

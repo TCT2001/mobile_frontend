@@ -34,7 +34,7 @@ class ProjectService {
   }
 
   static Future<CommonResp?> delete(Project project) async {
-    int id = project.id;
+    int? id = project.id;
     var response = await client.delete(
         Uri.parse('$baseURL/prj/delete/$id'),
         headers: authHeader);
