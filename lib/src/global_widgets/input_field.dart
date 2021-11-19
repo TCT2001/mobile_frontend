@@ -8,14 +8,14 @@ Widget InputField(BuildContext context,String labelText, {bool obscureText = fal
       width: MediaQuery.of(context).size.width,
       child:  TextField(
         obscureText: obscureText,
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.black,
         ),
         decoration: InputDecoration(
           border: InputBorder.none,
           fillColor: Colors.lightBlueAccent,
           labelText: labelText,
-          labelStyle: TextStyle(
+          labelStyle: const TextStyle(
             color: Colors.black87,
           ),
         ),

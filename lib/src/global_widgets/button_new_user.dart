@@ -3,6 +3,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:mobile_app/src/routes/app_routes.dart';
 
+
 Widget ButtonNewUser(BuildContext context) {
   return Padding(
     padding: const EdgeInsets.only(top: 40, right: 30, left: 20),
@@ -21,8 +22,10 @@ Widget ButtonNewUser(BuildContext context) {
           ),
         ),
       ], color: Colors.white, borderRadius: BorderRadius.circular(30)),
+
       child: TextButton(
         onPressed: () {
+          // controller.checkSignup();
           Get.toNamed(Routes.LOGIN);
         },
         child: Row(
