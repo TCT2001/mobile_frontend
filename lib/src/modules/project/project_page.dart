@@ -1,14 +1,22 @@
 // ignore_for_file: must_be_immutable, prefer_const_constructors
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/src/core/utils/lazy_load_scroll_view.dart';
+import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/project.dart';
+import 'package:mobile_app/src/data/services/project_service.dart';
+import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
 
 import 'project_controller.dart';
 
 class ProjectPage extends GetView<ProjectController> {
   ProjectPage({Key? key}) : super(key: key);
+
+  TextEditingController renameController = TextEditingController(text: '');
+
   @override
   ProjectController controller = Get.put(ProjectController());
 
@@ -50,7 +58,11 @@ class ProjectPage extends GetView<ProjectController> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
-                            onPressed: () {}, icon: const Icon(Icons.edit)),
+                            onPressed: () {
+                              // print(_renameController.text);
+                              renameDialog(_items[index]);
+                            },
+                            icon: const Icon(Icons.edit)),
                         IconButton(
                             onPressed: () {
                               Get.defaultDialog(
@@ -69,23 +81,7 @@ class ProjectPage extends GetView<ProjectController> {
                                       bool rs = await controller
                                           .deleteProject(_items[index]);
                                       if (rs) {
-                                        Get.snackbar(
-                                          "Delete",
-                                          "Success",
-                                          icon: const Icon(Icons.delete,
-                                              color: Colors.white),
-                                          snackPosition: SnackPosition.BOTTOM,
-                                          backgroundColor: Colors.green,
-                                          borderRadius: 20,
-                                          margin: const EdgeInsets.all(15),
-                                          colorText: Colors.white,
-                                          duration: const Duration(seconds: 2),
-                                          isDismissible: true,
-                                          dismissDirection:
-                                              SnackDismissDirection.HORIZONTAL,
-                                          forwardAnimationCurve:
-                                              Curves.easeOutBack,
-                                        );
+                                        customSnackBar("Delete", "Success");
                                       }
                                     },
                                   ),
@@ -111,5 +107,53 @@ class ProjectPage extends GetView<ProjectController> {
 
   void deleteProject(Project project) {
     controller.projects.where((element) => project.id != element.id);
+  }
+
+  void renameOnPressed(Project project, String newName) async {
+    CommonResp? commonResp = await controller.renameProject(project, newName);
+    if (commonResp == null) {
+      customSnackBar("Rename", "Some expected error happened");
+      return;
+    }
+    if (commonResp.code == "SUCCESS") {
+      customSnackBar("Rename", "Success");
+    } else {
+      customSnackBar("Rename", "Some expected error happened");
+    }
+  }
+
+  void renameDialog(Project project) {
+    Get.defaultDialog(
+        titleStyle: TextStyle(fontSize: 0),
+        title: 'Rename',
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: renameController,
+              keyboardType: TextInputType.text,
+              maxLines: 1,
+              decoration: InputDecoration(
+                  labelText: 'New Name',
+                  hintMaxLines: 1,
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.green, width: 4.0))),
+            ),
+            SizedBox(
+              height: 30.0,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Get.back();
+                renameOnPressed(project, renameController.text);
+              },
+              child: Text(
+                'Rename',
+                style: TextStyle(color: Colors.white, fontSize: 16.0),
+              ),
+            )
+          ],
+        ),
+        radius: 10.0);
   }
 }
