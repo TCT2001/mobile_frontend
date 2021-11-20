@@ -17,8 +17,7 @@ class ProjectService {
 
   static Future<List<Project>?> list(PaginateParam paginateParam) async {
     var response = await client.post(LIST_URI,
-        headers: authHeader,
-        body: jsonEncode(paginateParam.toJson()));
+        headers: authHeader, body: jsonEncode(paginateParam.toJson()));
     if (response.statusCode == 200) {
       var projects = List<Project>.empty();
       var temp = CommonResp.fromJson(json.decode(response.body));
@@ -35,9 +34,20 @@ class ProjectService {
 
   static Future<CommonResp?> delete(Project project) async {
     int? id = project.id;
-    var response = await client.delete(
-        Uri.parse('$baseURL/prj/delete/$id'),
+    var response = await client.delete(Uri.parse('$baseURL/prj/rename/$id'),
         headers: authHeader);
+    if (response.statusCode == 200) {
+      var temp = CommonResp.fromJson(json.decode(response.body));
+      return temp;
+    } else {
+      throw Exception('Failed');
+    }
+  }
+
+  static Future<CommonResp?> rename(Project project, String newName) async {
+    int? id = project.id;
+    var response = await client.post(Uri.parse('$baseURL/prj/rename/$id'),
+        headers: authHeader, body: jsonEncode(newName));
     if (response.statusCode == 200) {
       var temp = CommonResp.fromJson(json.decode(response.body));
       return temp;
