@@ -18,7 +18,7 @@ class TaskPage extends GetView<TaskController> {
                 colors: [Colors.blueGrey, Colors.lightBlueAccent]),
           ),
           child: Padding(
-              padding: const EdgeInsets.all(125),
+              padding: const EdgeInsets.all(150),
 
               child: SizedBox(
                 height: MediaQuery.of(context).size.height,

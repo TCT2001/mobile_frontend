@@ -17,7 +17,7 @@ class HomePage extends GetView {
                 colors: [Colors.blueGrey, Colors.lightBlueAccent]),
           ),
           child: Padding(
-              padding: const EdgeInsets.all(115),
+              padding: const EdgeInsets.all(150),
 
               child: SizedBox(
                 height: MediaQuery.of(context).size.height,
@@ -29,7 +29,7 @@ class HomePage extends GetView {
                           style: TextStyle(
                               color: Color(0xff88e8f2),
                               fontWeight: FontWeight.bold,
-                              fontSize: 20)),
+                              fontSize: 18)),
                       SizedBox(height: 8),
 
                       SizedBox(height: 8),

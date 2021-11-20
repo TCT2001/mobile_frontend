@@ -24,7 +24,7 @@ class InitPage extends GetView<InitController> {
               children: <Widget>[
                 Positioned(
                     top: 120,
-                    left: 95,
+                    left: 125,
                     child: Image.asset(
                       'assets/images/Logo.png',
                       width: 200,
@@ -50,10 +50,10 @@ class InitPage extends GetView<InitController> {
                       height: 80,
                     ),
                     Container(
-                      margin: const EdgeInsets.only(left: 50, right: 50),
+                      margin: const EdgeInsets.only(left: 60, right: 60),
                       alignment: Alignment.center,
                       child: SizedBox(
-                          width: 323,
+                          width: 300,
                           height: 42,
                           child: ElevatedButton(
                             onPressed: () {
@@ -61,7 +61,7 @@ class InitPage extends GetView<InitController> {
                             },
                             style: ElevatedButton.styleFrom(
                               // primary: Colors.transparent,
-                              primary: DarkBlue,
+                              primary: Color(0xff2d5f79),
 
                             ),
                             child: Text(
@@ -84,17 +84,17 @@ class InitPage extends GetView<InitController> {
                       height: 20,
                     ),
                     Container(
-                      margin: const EdgeInsets.only(left: 50, right: 50),
+                      margin: const EdgeInsets.only(left: 60, right: 60),
                       alignment: Alignment.center,
                       child: SizedBox(
-                          width: 323,
+                          width: 300,
                           height: 42,
                           child: ElevatedButton(
                             onPressed: () {
                               Get.toNamed(Routes.SIGNUP);
                             },
                             style: ElevatedButton.styleFrom(
-                              primary: DarkBlue,
+                              primary: Color(0xff2d5f79),
                             ),
                             child: Text(
                               "Sign up",

@@ -16,7 +16,7 @@ class NotiPage extends GetView<NotiController> {
                colors: [Colors.blueGrey, Colors.lightBlueAccent]),
          ),
          child: Padding(
-             padding: const EdgeInsets.all(115),
+             padding: const EdgeInsets.all(130),
 
              child: SizedBox(
                height: MediaQuery.of(context).size.height,
@@ -24,7 +24,7 @@ class NotiPage extends GetView<NotiController> {
                    mainAxisAlignment: MainAxisAlignment.center,
                    crossAxisAlignment: CrossAxisAlignment.center,
                    children: const [
-                     Text("This is notification pagesss",
+                     Text("This is notification page",
                          style: TextStyle(
                              color: Color(0xff88e8f2),
                              fontWeight: FontWeight.bold,

@@ -15,9 +15,18 @@ class ProjectPage extends GetView<ProjectController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xff88e8f2),
       appBar: AppBar(
-        title: const Text('ProjectPage'),
+        title:
+        // const Text('ProjectPage'),
+        Align (
+            child: Text("Project"),
+            alignment: Alignment.center
+
+
+        ),
         automaticallyImplyLeading: false,
+        backgroundColor: Color(0xff2d5f79),
       ),
       body: Obx(() {
         if (!controller.isLastPage && controller.projects.isEmpty) {
@@ -30,13 +39,13 @@ class ProjectPage extends GetView<ProjectController> {
             onEndOfPage: controller.nextPage,
             isLoading: controller.isLastPage,
             child: ListTileTheme(
-              contentPadding: EdgeInsets.all(15),
+              contentPadding: EdgeInsets.all(25),
               iconColor: Colors.red,
-              textColor: Colors.black54,
-              tileColor: Colors.yellow[100],
+              textColor: Colors.white,
+              tileColor: Color(0xff73c6d9),
               style: ListTileStyle.list,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
+                borderRadius: BorderRadius.circular(1.0),
               ),
               dense: true,
               child: ListView.builder(
