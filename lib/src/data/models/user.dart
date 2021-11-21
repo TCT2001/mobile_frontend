@@ -1,3 +1,5 @@
+import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
+import 'package:mobile_app/src/data/providers/storage_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class User {
@@ -6,8 +8,7 @@ class User {
   late String? role;
 
   static Future<String?> getToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString("token");
+    return getStringLocalStorge(LocalStorageKey.TOKEN.toString());
   }
 
   User({required this.id, required this.email, required this.role});

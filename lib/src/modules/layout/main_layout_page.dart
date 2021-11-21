@@ -22,7 +22,7 @@ class MainLayoutPage extends GetView<MainLayoutController> {
     HomePage(),
     ProjectPage(),
     TaskPage(),
-    SearchPage(),
+    // SearchPage(),
     NotiPage(),
     SettingPage()
   ];
