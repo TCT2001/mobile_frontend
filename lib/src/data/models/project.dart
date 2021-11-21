@@ -28,4 +28,9 @@ class Project {
 
   @override
   int get hashCode => id.hashCode;
+
+  @override
+  String toString() {
+    return 'Project{id: $id, name: $name}';
+  }
 }

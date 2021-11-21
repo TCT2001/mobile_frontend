@@ -1,6 +1,6 @@
 class CommonResp {
   late String code;
-  late List? data;
+  late Object? data;
 
   CommonResp({required this.code, required this.data});
 

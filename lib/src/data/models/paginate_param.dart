@@ -6,6 +6,8 @@ class PaginateParam {
 
   PaginateParam({required this.page});
 
+  PaginateParam.sortByCreateTime({required this.page});
+
   Map<String, dynamic>? toJson() {
     Map<String, dynamic>? map = {};
     map['page'] = page;

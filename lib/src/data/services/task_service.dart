@@ -10,4 +10,6 @@ class TaskService {
   static Uri RENAME_URI = Uri.parse('$baseURL/task/rename/');
   static Uri UPDATE_STATE_URI = Uri.parse('$baseURL/task/update/state/');
   static Uri DELETE_URI = Uri.parse('$baseURL/task/delete/');
+
+  
 }
