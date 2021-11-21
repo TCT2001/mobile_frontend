@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:mobile_app/src/core/utils/lazy_load_scroll_view.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/project.dart';
+import 'package:mobile_app/src/data/models/user.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
 
 import 'project_controller.dart';
@@ -18,10 +19,9 @@ class ProjectPage extends GetView<ProjectController> {
   @override
   ProjectController controller = Get.put(ProjectController());
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+  AppBar? projectAppBar() {
+    if (controller.choice == 0) {
+      return AppBar(
         title: const Text('ProjectPage'),
         automaticallyImplyLeading: false,
         actionsIconTheme:
@@ -57,84 +57,61 @@ class ProjectPage extends GetView<ProjectController> {
             },
           ),
         ],
-      ),
-      body: Obx(() {
-        if (!controller.isLastPage && controller.projects.isEmpty) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-        var _items = controller.projects;
-        return LazyLoadScrollView(
-            onEndOfPage: controller.nextPage,
-            isLoading: controller.isLastPage,
-            child: ListTileTheme(
-              contentPadding: EdgeInsets.all(15),
-              iconColor: Colors.red,
-              textColor: Colors.black54,
-              tileColor: Colors.yellow[100],
-              style: ListTileStyle.list,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              dense: true,
-              child: ListView.builder(
-                itemCount: _items.length,
-                itemBuilder: (_, index) => Card(
-                  margin: const EdgeInsets.all(10),
-                  child: ListTile(
-                    title: Text(_items[index].name!),
-                    subtitle: Text("Alo"),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                            onPressed: () {
-                              // print(_textController.text);
-                              renameDialog(_items[index]);
-                              textController.text = "";
-                            },
-                            icon: const Icon(Icons.edit)),
-                        IconButton(
-                            onPressed: () {
-                              Get.defaultDialog(
-                                title: "Confirm",
-                                middleText: "Are your sure to delete ?",
-                                backgroundColor: Colors.white,
-                                titleStyle:
-                                    const TextStyle(color: Colors.black),
-                                middleTextStyle:
-                                    const TextStyle(color: Colors.black),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: const Text("Yes"),
-                                    onPressed: () async {
-                                      Get.back();
-                                      bool rs = await controller
-                                          .deleteProject(_items[index]);
-                                      if (rs) {
-                                        customSnackBar("Delete", "Success");
-                                      }
-                                    },
-                                  ),
-                                  TextButton(
-                                    child: const Text("No"),
-                                    onPressed: () {
-                                      Get.back();
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                            icon: const Icon(Icons.delete)),
-                      ],
-                    ),
-                  ),
+      );
+    } else if (controller.choice == 1) {
+      return AppBar(
+        title: Text('Tasks in project'),
+        automaticallyImplyLeading: false,
+        leading: GestureDetector(
+          onTap: () {
+            controller.changeChoice(0, null);
+          },
+          child: Icon(
+            Icons.arrow_back, // add custom icons also
+          ),
+        ),
+        actionsIconTheme:
+            IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
+        actions: <Widget>[
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {},
+                child: Icon(
+                  Icons.search,
+                  size: 26.0,
                 ),
-              ),
-            ));
-      }),
-    );
+              )),
+          PopupMenuButton<int>(
+            onSelected: (value) {
+              if (value == 0) {
+                // createDialog();
+                textController.text = "";
+              }
+            },
+            key: _key,
+            itemBuilder: (context) {
+              return <PopupMenuEntry<int>>[
+                PopupMenuItem(child: Text('NaN'), value: 0),
+              ];
+            },
+          ),
+        ],
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() => Scaffold(appBar: projectAppBar(), body: customBody()));
+  }
+
+  Widget customBody() {
+    if (controller.choice == 1) {
+      return bodyChoiceOne();
+    } else {
+      return bodyChoiceZero();
+    }
   }
 
   void deleteProject(Project project) {
@@ -235,5 +212,94 @@ class ProjectPage extends GetView<ProjectController> {
           ],
         ),
         radius: 10.0);
+  }
+
+  Widget bodyChoiceZero() {
+    if (!controller.isLastPage && controller.projects.isEmpty) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+    var _items = controller.projects;
+    return LazyLoadScrollView(
+        onEndOfPage: controller.nextPage,
+        isLoading: controller.isLastPage,
+        child: ListTileTheme(
+          contentPadding: EdgeInsets.all(15),
+          iconColor: Colors.red,
+          textColor: Colors.black54,
+          tileColor: Colors.yellow[100],
+          style: ListTileStyle.list,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          dense: true,
+          child: ListView.builder(
+            itemCount: _items.length,
+            itemBuilder: (_, index) => GestureDetector(
+              onTap: () {
+                controller.changeChoice(1, _items[index]);
+              },
+              child: Card(
+                margin: const EdgeInsets.all(10),
+                child: ListTile(
+                  title: Text(_items[index].name!),
+                  subtitle: Text("Alo"),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                          onPressed: () {
+                            // print(_textController.text);
+                            renameDialog(_items[index]);
+                            textController.text = "";
+                          },
+                          icon: const Icon(Icons.edit)),
+                      IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () {
+                          Get.defaultDialog(
+                            title: "Confirm",
+                            middleText: "Are your sure to delete ?",
+                            backgroundColor: Colors.white,
+                            titleStyle: const TextStyle(color: Colors.black),
+                            middleTextStyle:
+                                const TextStyle(color: Colors.black),
+                            actions: <Widget>[
+                              TextButton(
+                                child: const Text("Yes"),
+                                onPressed: () async {
+                                  Get.back();
+                                  bool rs = await controller
+                                      .deleteProject(_items[index]);
+                                  if (rs) {
+                                    customSnackBar("Delete", "Success");
+                                  }
+                                },
+                              ),
+                              TextButton(
+                                child: const Text("No"),
+                                onPressed: () {
+                                  Get.back();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ));
+  }
+
+  Widget bodyChoiceOne() {
+    Project clickedProjectCard = controller.clickedProjectCard;
+    int? id = clickedProjectCard.id;
+    String? name = clickedProjectCard.name;
+    return Text("Clicked Card: id: $id ---- name: $name");
   }
 }
