@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'task_controller.dart';
 
 class TaskPage extends GetView<TaskController> {
-  late int? projectId;
+  int? projectId;
   TaskPage.ofUser();
   TaskPage.ofProject({required this.projectId});
 
