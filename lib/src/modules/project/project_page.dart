@@ -7,6 +7,7 @@ import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/project.dart';
 import 'package:mobile_app/src/data/models/user.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
+import 'package:mobile_app/src/modules/task/task_page.dart';
 
 import 'project_controller.dart';
 
@@ -300,6 +301,6 @@ class ProjectPage extends GetView<ProjectController> {
     Project clickedProjectCard = controller.clickedProjectCard;
     int? id = clickedProjectCard.id;
     String? name = clickedProjectCard.name;
-    return Text("Clicked Card: id: $id ---- name: $name");
+    return TaskPage.ofProject(projectId: id);
   }
 }
