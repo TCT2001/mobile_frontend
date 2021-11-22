@@ -21,8 +21,16 @@ class Project {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Project && runtimeType == other.runtimeType && id == other.id;
+      other is Project &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          name == other.name;
 
   @override
   int get hashCode => id.hashCode;
+
+  @override
+  String toString() {
+    return 'Project{id: $id, name: $name}';
+  }
 }
