@@ -8,7 +8,6 @@ import 'package:mobile_app/src/data/models/project.dart';
 import 'package:mobile_app/src/data/models/user.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
 import 'package:mobile_app/src/modules/task/task_page.dart';
-
 import 'project_controller.dart';
 
 class ProjectPage extends GetView<ProjectController> {
@@ -245,7 +244,7 @@ class ProjectPage extends GetView<ProjectController> {
                 margin: const EdgeInsets.all(10),
                 child: ListTile(
                   title: Text(_items[index].name!),
-                  subtitle: Text("Alo"),
+                  subtitle: Text("Work"),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -261,7 +260,7 @@ class ProjectPage extends GetView<ProjectController> {
                         onPressed: () {
                           Get.defaultDialog(
                             title: "Confirm",
-                            middleText: "Are your sure to delete ?",
+                            middleText: "Are your sure to delete?",
                             backgroundColor: Colors.white,
                             titleStyle: const TextStyle(color: Colors.black),
                             middleTextStyle:

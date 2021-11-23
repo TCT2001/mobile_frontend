@@ -11,11 +11,18 @@ class HomePage extends GetView {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xfff6f7f9),
+
+        backgroundColor: Color(0xff88e8f2),
         appBar: AppBar(
           title: Text('Buyings'),
         ),
-        body: Center(
+        body: Container(
+          // decoration: const BoxDecoration(
+          //   gradient: LinearGradient(
+          //       begin: Alignment.topRight,
+          //       end: Alignment.bottomLeft,
+          //       colors: [Colors.blueGrey, Colors.lightBlueAccent]),
+          // ),
           child: TextButton(
             child: Text("TEST"),
             onPressed: () async {

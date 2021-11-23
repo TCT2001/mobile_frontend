@@ -6,6 +6,7 @@ import 'task_controller.dart';
 
 class TaskPage extends GetView<TaskController> {
   int? projectId;
+  int? userId;
   TaskPage.ofUser();
   TaskPage.ofProject({required this.projectId});
 
@@ -33,7 +34,7 @@ class TaskPage extends GetView<TaskController> {
                                   color: Color(0xff88e8f2),
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18))
-                          : Text("This is task page of project",
+                          : Text("This is task page of projects",
                               style: TextStyle(
                                   color: Color(0xff88e8f2),
                                   fontWeight: FontWeight.bold,
