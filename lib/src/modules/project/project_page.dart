@@ -59,46 +59,46 @@ class ProjectPage extends GetView<ProjectController> {
           ),
         ],
       );
-    } else if (controller.choice == 1) {
-      return AppBar(
-        title: Text('Tasks in project'),
-        automaticallyImplyLeading: false,
-        leading: GestureDetector(
-          onTap: () {
-            controller.changeChoice(0, null);
-          },
-          child: Icon(
-            Icons.arrow_back, // add custom icons also
-          ),
-        ),
-        actionsIconTheme:
-            IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
-        actions: <Widget>[
-          Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {},
-                child: Icon(
-                  Icons.search,
-                  size: 26.0,
-                ),
-              )),
-          PopupMenuButton<int>(
-            onSelected: (value) {
-              if (value == 0) {
-                // createDialog();
-                textController.text = "";
-              }
-            },
-            key: _key,
-            itemBuilder: (context) {
-              return <PopupMenuEntry<int>>[
-                PopupMenuItem(child: Text('NaN'), value: 0),
-              ];
-            },
-          ),
-        ],
-      );
+    // } else if (controller.choice == 1) {
+    //   return AppBar(
+    //     title: Text('Tasks in project'),
+    //     automaticallyImplyLeading: false,
+    //     leading: GestureDetector(
+    //       onTap: () {
+    //         controller.changeChoice(0, null);
+    //       },
+    //       child: Icon(
+    //         Icons.arrow_back, // add custom icons also
+    //       ),
+    //     ),
+    //     actionsIconTheme:
+    //         IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
+    //     actions: <Widget>[
+    //       Padding(
+    //           padding: EdgeInsets.only(right: 20.0),
+    //           child: GestureDetector(
+    //             onTap: () {},
+    //             child: Icon(
+    //               Icons.search,
+    //               size: 26.0,
+    //             ),
+    //           )),
+    //       PopupMenuButton<int>(
+    //         onSelected: (value) {
+    //           if (value == 0) {
+    //             // createDialog();
+    //             textController.text = "";
+    //           }
+    //         },
+    //         key: _key,
+    //         itemBuilder: (context) {
+    //           return <PopupMenuEntry<int>>[
+    //             PopupMenuItem(child: Text('Create'), value: 0),
+    //           ];
+    //         },
+    //       ),
+    //     ],
+    //   );
     }
   }
 
