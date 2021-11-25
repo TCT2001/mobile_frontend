@@ -1,62 +1,51 @@
-// ignore_for_file: unnecessary_this, prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mobile_app/src/data/models/task.dart';
+import 'package:mobile_app/src/modules/project/project_controller.dart';
+import 'task_controller.dart';
 import 'package:mobile_app/src/core/utils/lazy_load_scroll_view.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
-import 'package:mobile_app/src/data/models/task.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
-import 'package:mobile_app/src/modules/project/project_controller.dart';
 
-import 'task_controller.dart';
-
-// class TaskPage extends GetView<TaskController> {
-//   int? projectId;
-//   int? userId;
-//   TaskPage.ofUser();
-//   TaskPage.ofProject({required this.projectId});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Container(
-//           decoration: const BoxDecoration(
-//             gradient: LinearGradient(
-//                 begin: Alignment.topRight,
-//                 end: Alignment.bottomLeft,
-//                 colors: [Colors.blueGrey, Colors.lightBlueAccent]),
-//           ),
-//           child: Padding(
-//               padding: const EdgeInsets.all(125),
-//               child: SizedBox(
-//                 height: MediaQuery.of(context).size.height,
-//                 child: Column(
-//                     mainAxisAlignment: MainAxisAlignment.center,
-//                     crossAxisAlignment: CrossAxisAlignment.center,
-//                     children: [
-//                       projectId == null
-//                           ? Text("This is task page of user",
-//                               style: TextStyle(
-//                                   color: Color(0xff88e8f2),
-//                                   fontWeight: FontWeight.bold,
-//                                   fontSize: 18))
-//                           : Text("This is task page of projects",
-//                               style: TextStyle(
-//                                   color: Color(0xff88e8f2),
-//                                   fontWeight: FontWeight.bold,
-//                                   fontSize: 18)),
-//                       SizedBox(height: 8),
-//                       SizedBox(height: 8),
-//                     ]),
-//               ))),
-//     );
-//   }
-// }
 class TaskPage extends GetView<TaskController> {
   int? projectId;
-
   TaskPage.ofUser();
   TaskPage.ofProject({required this.projectId});
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     body: Container(
+  //         decoration: const BoxDecoration(
+  //           gradient: LinearGradient(
+  //               begin: Alignment.topRight,
+  //               end: Alignment.bottomLeft,
+  //               colors: [Colors.blueGrey, Colors.lightBlueAccent]),
+  //         ),
+  //         child: Padding(
+  //             padding: const EdgeInsets.all(125),
+  //             child: SizedBox(
+  //               height: MediaQuery.of(context).size.height,
+  //               child: Column(
+  //                   mainAxisAlignment: MainAxisAlignment.center,
+  //                   crossAxisAlignment: CrossAxisAlignment.center,
+  //                   children: [
+  //                     projectId == null
+  //                         ? Text("This is task page of user",
+  //                             style: TextStyle(
+  //                                 color: Color(0xff88e8f2),
+  //                                 fontWeight: FontWeight.bold,
+  //                                 fontSize: 18))
+  //                         : Text("This is task page of project",
+  //                             style: TextStyle(
+  //                                 color: Color(0xff88e8f2),
+  //                                 fontWeight: FontWeight.bold,
+  //                                 fontSize: 18)),
+  //                     SizedBox(height: 8),
+  //                     SizedBox(height: 8),
+  //                   ]),
+  //             ))),
+  //   );
+  // }
 
   TextEditingController nameController = TextEditingController(text: '');
   TextEditingController contentController = TextEditingController(text: '');
@@ -72,21 +61,19 @@ class TaskPage extends GetView<TaskController> {
         title: const Text('Tasks of User'),
         automaticallyImplyLeading: false,
         actionsIconTheme:
-            IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
+        const IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
         leading: GestureDetector(
-          onTap: () {
-            /* Write listener code here */
-          },
-          child: Icon(
+          onTap: () {/* Write listener code here */},
+          child: const Icon(
             Icons.menu, // add custom icons also
           ),
         ),
         actions: <Widget>[
           Padding(
-              padding: EdgeInsets.only(right: 20.0),
+              padding: const EdgeInsets.only(right: 20.0),
               child: GestureDetector(
                 onTap: () {},
-                child: Icon(
+                child: const Icon(
                   Icons.search,
                   size: 26.0,
                 ),
@@ -102,7 +89,7 @@ class TaskPage extends GetView<TaskController> {
             key: _key,
             itemBuilder: (context) {
               return <PopupMenuEntry<int>>[
-                PopupMenuItem(child: Text('Create'), value: 0),
+                const PopupMenuItem(child: Text('Create'), value: 0),
               ];
             },
           ),
@@ -110,24 +97,24 @@ class TaskPage extends GetView<TaskController> {
       );
     } else {
       return AppBar(
-        title: Text('Tasks of project'),
+        title: const Text('Tasks of project'),
         automaticallyImplyLeading: false,
         leading: GestureDetector(
           onTap: () {
             projController.changeChoice(0, null);
           },
-          child: Icon(
+          child: const Icon(
             Icons.arrow_back, // add custom icons also
           ),
         ),
         actionsIconTheme:
-            IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
+        const IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
         actions: <Widget>[
           Padding(
               padding: EdgeInsets.only(right: 20.0),
               child: GestureDetector(
                 onTap: () {},
-                child: Icon(
+                child: const Icon(
                   Icons.search,
                   size: 26.0,
                 ),
@@ -143,7 +130,7 @@ class TaskPage extends GetView<TaskController> {
             key: _key,
             itemBuilder: (context) {
               return <PopupMenuEntry<int>>[
-                PopupMenuItem(child: Text('Create'), value: 0),
+                const PopupMenuItem(child: Text('Create'), value: 0),
               ];
             },
           ),
@@ -162,7 +149,7 @@ class TaskPage extends GetView<TaskController> {
   // }
   //
   void renameOnPressed(Task task, String newName) async {
-    CommonResp? commonResp = await controller.renameProject(task, newName);
+    CommonResp? commonResp = await controller.renameTask(task, newName);
     if (commonResp == null) {
       customSnackBar("Rename", "Some expected error happened");
       return;
@@ -198,11 +185,12 @@ class TaskPage extends GetView<TaskController> {
     } else {
       customSnackBar("Create", "Some expected error happened");
     }
+
   }
 
   void createDialog() {
     Get.defaultDialog(
-        titleStyle: TextStyle(fontSize: 30),
+        titleStyle: const TextStyle(fontSize: 30),
         title: 'Create',
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -211,158 +199,160 @@ class TaskPage extends GetView<TaskController> {
               controller: nameController,
               keyboardType: TextInputType.text,
               maxLines: 1,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   labelText: 'Name',
                   hintMaxLines: 1,
                   border: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.green, width: 4.0))),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             TextField(
               controller: contentController,
               keyboardType: TextInputType.text,
               maxLines: 1,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   labelText: 'Content',
                   hintMaxLines: 1,
                   border: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.green, width: 4.0))),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
-            Text('Select Task Scope'),
+            const Text('Select Task Scope'),
             Obx(() => DropdownButton<String>(
-                  // Set the Items of DropDownButton
-                  items: const [
-                    DropdownMenuItem(
-                      value: "1",
-                      child: Text(
-                        "Public",
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: "2",
-                      child: Text(
-                        "Private",
-                      ),
-                    ),
-                  ],
-                  value: controller.selectedScope.value.toString(),
-                  hint: Text('Select Task Scope'),
-                  isExpanded: true,
-                  onChanged: (selectedValue) {
-                    controller.selectedScope.value = int.parse(selectedValue!);
-                  },
-                )),
-            SizedBox(
+              // Set the Items of DropDownButton
+              items: const [
+                DropdownMenuItem(
+                  value: "1",
+                  child: Text(
+                    "Public",
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: "2",
+                  child: Text(
+                    "Private",
+                  ),
+                ),
+              ],
+              value: controller.selectedScope.value.toString(),
+              hint: const Text('Select Task Scope'),
+              isExpanded: true,
+              onChanged: (selectedValue) {
+                controller.selectedScope.value =
+                    int.parse(selectedValue!);
+              },
+            )),
+            const SizedBox(
               height: 15,
             ),
-            Text('Select Task Priority'),
+            const Text('Select Task Priority'),
             Obx(() => DropdownButton<String>(
-                  // Set the Items of DropDownButton
-                  items: const [
-                    DropdownMenuItem(
-                      value: "1",
-                      child: Text(
-                        "Critcal Priority",
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: "2",
-                      child: Text(
-                        "Major Priority",
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: "3",
-                      child: Text(
-                        "Normal Priority",
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: "4",
-                      child: Text(
-                        "Minor Priority",
-                      ),
-                    ),
-                  ],
-                  value: controller.selectedPriority.value.toString(),
-                  hint: Text('Select Task Priority'),
-                  isExpanded: true,
-                  onChanged: (selectedValue) {
-                    controller.selectedPriority.value =
-                        int.parse(selectedValue!);
-                  },
-                )),
-            SizedBox(
+              // Set the Items of DropDownButton
+              items: const [
+                DropdownMenuItem(
+                  value: "1",
+                  child: Text(
+                    "Critcal Priority",
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: "2",
+                  child: Text(
+                    "Major Priority",
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: "3",
+                  child: Text(
+                    "Normal Priority",
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: "4",
+                  child: Text(
+                    "Minor Priority",
+                  ),
+                ),
+              ],
+              value: controller.selectedPriority.value.toString(),
+              hint: const Text('Select Task Priority'),
+              isExpanded: true,
+              onChanged: (selectedValue) {
+                controller.selectedPriority.value =
+                    int.parse(selectedValue!);
+              },
+            )),
+            const SizedBox(
               height: 15,
             ),
-            Text('Select Task State'),
+            const Text('Select Task State'),
             Obx(() => DropdownButton<String>(
-                  // Set the Items of DropDownButton
-                  items: const [
-                    DropdownMenuItem(
-                      value: "1",
-                      child: Text(
-                        "Summitted",
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: "2",
-                      child: Text(
-                        "In Process",
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: "3",
-                      child: Text(
-                        "Incomplete",
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: "4",
-                      child: Text(
-                        "To be discussed",
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: "5",
-                      child: Text(
-                        "Done",
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: "6",
-                      child: Text(
-                        "Duplicate",
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: "7",
-                      child: Text(
-                        "Obsolete",
-                      ),
-                    ),
-                  ],
-                  value: controller.selectedState.value.toString(),
-                  hint: Text('Select Task State'),
-                  isExpanded: true,
-                  onChanged: (selectedValue) {
-                    controller.selectedState.value = int.parse(selectedValue!);
-                  },
-                )),
-            SizedBox(
+              // Set the Items of DropDownButton
+              items: const [
+                DropdownMenuItem(
+                  value: "1",
+                  child: Text(
+                    "Submitted",
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: "2",
+                  child: Text(
+                    "In Process",
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: "3",
+                  child: Text(
+                    "Incomplete",
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: "4",
+                  child: Text(
+                    "To be discussed",
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: "5",
+                  child: Text(
+                    "Done",
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: "6",
+                  child: Text(
+                    "Duplicate",
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: "7",
+                  child: Text(
+                    "Obsolete",
+                  ),
+                ),
+              ],
+              value: controller.selectedState.value.toString(),
+              hint: const Text('Select Task State'),
+              isExpanded: true,
+              onChanged: (selectedValue) {
+                controller.selectedState.value =
+                    int.parse(selectedValue!);
+              },
+            )),
+            const SizedBox(
               height: 15,
             ),
             ElevatedButton(
               onPressed: () {
                 Get.back();
-                createOnPressed(nameController.text, contentController.text);
+                createOnPressed(nameController.text,contentController.text);
               },
-              child: Text(
+              child: const Text(
                 'Create',
                 style: TextStyle(color: Colors.white, fontSize: 16.0),
               ),
@@ -418,7 +408,7 @@ class TaskPage extends GetView<TaskController> {
         onEndOfPage: controller.nextPage,
         isLoading: controller.isLastPage,
         child: ListTileTheme(
-          contentPadding: EdgeInsets.all(15),
+          contentPadding: const EdgeInsets.all(15),
           iconColor: Colors.red,
           textColor: Colors.black54,
           tileColor: Colors.yellow[100],
@@ -430,12 +420,13 @@ class TaskPage extends GetView<TaskController> {
           child: ListView.builder(
             itemCount: _items.length,
             itemBuilder: (_, index) => GestureDetector(
-              onTap: () {},
+              onTap: () {
+              },
               child: Card(
                 margin: const EdgeInsets.all(10),
                 child: ListTile(
                   title: Text(_items[index].name!),
-                  subtitle: Text("Alo"),
+                  subtitle: const Text("Alo"),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -455,7 +446,7 @@ class TaskPage extends GetView<TaskController> {
                             backgroundColor: Colors.white,
                             titleStyle: const TextStyle(color: Colors.black),
                             middleTextStyle:
-                                const TextStyle(color: Colors.black),
+                            const TextStyle(color: Colors.black),
                             actions: <Widget>[
                               TextButton(
                                 child: const Text("Yes"),

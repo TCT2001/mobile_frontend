@@ -77,11 +77,10 @@ class TaskService {
     }
   }
 
-  static Future<CommonResp?> find(String newName) async {
+  static Future<CommonResp?> find(String task) async {
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
-    var response = await client.post(Uri.parse('$baseURL/task/find'),
-        headers: authHeader(token!),
-        body: jsonEncode(<String, String>{"name": newName}));
+    var response = await client.post(Uri.parse('$baseURL/task/find/'),
+        headers: authHeader(token!));
     if (response.statusCode == 200) {
       var temp = CommonResp.fromJson(json.decode(response.body));
       return temp;
@@ -92,7 +91,7 @@ class TaskService {
 
   static Future<CommonResp?> updateContent (String newContent) async {
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
-    var response = await client.post(Uri.parse('$baseURL/task/update/content'),
+    var response = await client.post(Uri.parse('$baseURL/task/update/content/'),
         headers: authHeader(token!),
         body: jsonEncode(<String, String>{"content": newContent}));
     if (response.statusCode == 200) {
