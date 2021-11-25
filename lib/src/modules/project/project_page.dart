@@ -20,7 +20,7 @@ class ProjectPage extends GetView<ProjectController> {
   @override
   ProjectController controller = Get.put(ProjectController());
 
-  AppBar? projectAppBar() {
+  AppBar? projectAppBar(BuildContext context) {
     if (controller.choice == 0) {
       return AppBar(
         title: const Text('ProjectPage'),
@@ -104,7 +104,7 @@ class ProjectPage extends GetView<ProjectController> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Scaffold(appBar: projectAppBar(), body: customBody()));
+    return Obx(() => Scaffold(appBar: projectAppBar(context), body: customBody()));
   }
 
   Widget customBody() {
