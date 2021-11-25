@@ -146,37 +146,44 @@ class TaskPage extends GetView<TaskController> {
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(appBar: taskAppBar(), body: customBody()));
   }
-
-  // void deleteTask(Project project) {
-  //   controller.projects.where((element) => project.id != element.id);
+  // Widget customBody() {
+  //   if (controller.choice == 1) {
+  //     return bodyChoiceOne();
+  //   } else {
+  //     return bodyChoiceZero();
+  //   }
   // }
-  //
+
+  void deleteTask(Task task) {
+    controller.tasks.where((element) => task.id != element.id);
+  }
+
   void renameOnPressed(Task task, String newName) async {
-    CommonResp? commonResp = await controller.renameProject(task, newName);
+    CommonResp? commonResp = await controller.renameTask(task, newName);
     if (commonResp == null) {
-      customSnackBar("Rename", "Some expected error happened");
+      customSnackBar("Rename", "Some unexpected error happened");
       return;
     }
     if (commonResp.code == "SUCCESS") {
       customSnackBar("Rename", "Success");
     } else {
-      customSnackBar("Rename", "Some expected error happened");
+      customSnackBar("Rename", "Some unexpected error happened");
     }
   }
 
   // void createOnPressed(String newName) async {
-  //   CommonResp? commonResp = await controller.createProject(newName);
+  //   CommonResp? commonResp = await controller.createTask(newName);
   //   if (commonResp == null) {
-  //     customSnackBar("Create", "Some expected error happened");
+  //     customSnackBar("Create", "Some unexpected error happened");
   //     return;
   //   }
   //   if (commonResp.code == "SUCCESS") {
   //     customSnackBar("Create", "Success");
   //   } else {
-  //     customSnackBar("Create", "Some expected error happened");
+  //     customSnackBar("Create", "Some unexpected error happened");
   //   }
   // }
-  //
+
   void createOnPressed(String newName, String newContent) async {
     CommonResp? commonResp = await controller.createTask(newName, newContent);
     if (commonResp == null) {

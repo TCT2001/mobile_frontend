@@ -1,5 +1,3 @@
-// ignore_for_file: non_constant_identifier_names
-
 import 'dart:convert';
 
 import 'package:mobile_app/src/core/utils/http.dart';
@@ -10,13 +8,13 @@ import 'package:mobile_app/src/data/models/task.dart';
 import 'package:mobile_app/src/data/providers/storage_provider.dart';
 
 class TaskService {
-  static Uri LIST_URI = Uri.parse('$baseURL/task/list/');
-  static Uri CREATE_URI = Uri.parse('$baseURL/task/create');
+  static Uri LIST_URI = Uri.parse('$baseURL/task/list/');   //
+  static Uri CREATE_URI = Uri.parse('$baseURL/task/create');  //
   static Uri FIND_BY_ID_URI = Uri.parse('$baseURL/task/find/');
   static Uri UPDATE_CONTENT_URI = Uri.parse('$baseURL/task/update/content/');
-  static Uri RENAME_URI = Uri.parse('$baseURL/task/rename/');
+  static Uri RENAME_URI = Uri.parse('$baseURL/task/rename/');    //
   static Uri UPDATE_STATE_URI = Uri.parse('$baseURL/task/update/state/');
-  static Uri DELETE_URI = Uri.parse('$baseURL/task/delete/');
+  static Uri DELETE_URI = Uri.parse('$baseURL/task/delete/');       //
 
   static Future<List<Task>?> list(PaginateParam paginateParam) async {
     print(1);
@@ -24,17 +22,43 @@ class TaskService {
     var response = await client.post(LIST_URI,
         headers: authHeader(token!), body: jsonEncode(paginateParam.toJson()));
     if (response.statusCode == 200) {
-      var tasks = List<Task>.empty();
+      var task = List<Task>.empty();
       var temp = CommonResp.fromJson(json.decode(response.body));
       if (temp.code == "SUCCESS") {
         var temp2 = temp.data! as List;
-        tasks = (temp2.map((model) => Task.fromJson(model)).toList());
-        return tasks;
+        task = (temp2.map((model) => Task.fromJson(model)).toList());
+        return task;
       }
       return List.empty();
     } else {
       // throw Exception('Failed to load data!');
       return List.empty();
+    }
+  }
+
+  static Future<CommonResp?> delete(Task task) async {
+    int? id = task.id;
+    var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
+    var response = await client.delete(Uri.parse('$baseURL/task/delete/$id'),
+        headers: authHeader(token!));
+    if (response.statusCode == 200) {
+      var temp = CommonResp.fromJson(json.decode(response.body));
+      return temp;
+    } else {
+      throw Exception('Failed');
+    }
+  }
+
+  static Future<CommonResp?> rename(Task task, String newName) async {
+    int? id = task.id;
+    var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
+    var response = await client.post(Uri.parse('$baseURL/task/rename/$id'),
+        headers: authHeader(token!), body: jsonEncode(newName));
+    if (response.statusCode == 200) {
+      var temp = CommonResp.fromJson(json.decode(response.body));
+      return temp;
+    } else {
+      throw Exception('Failed');
     }
   }
 
@@ -51,11 +75,37 @@ class TaskService {
     }
   }
 
-  static Future<CommonResp?> rename(Task task, String newName) async {
-    int? id = task.id;
+
+  static Future<CommonResp?> find(String task) async {
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
-    var response = await client.post(Uri.parse('$baseURL/prj/rename/$id'),
-        headers: authHeader(token!), body: jsonEncode(newName));
+    var response = await client.post(Uri.parse('$baseURL/task/find/'),
+        headers: authHeader(token!));
+    if (response.statusCode == 200) {
+      var temp = CommonResp.fromJson(json.decode(response.body));
+      return temp;
+    } else {
+      throw Exception('Failed');
+    }
+  }
+
+  static Future<CommonResp?> updateContent (String newContent) async {
+    var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
+    var response = await client.post(Uri.parse('$baseURL/task/update/content/'),
+        headers: authHeader(token!),
+        body: jsonEncode(<String, String>{"content": newContent}));
+    if (response.statusCode == 200) {
+      var temp = CommonResp.fromJson(json.decode(response.body));
+      return temp;
+    } else {
+      throw Exception('Failed');
+    }
+  }
+
+  static Future<CommonResp?> updateState(String newState) async {
+    var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
+    var response = await client.post(Uri.parse('$baseURL/task/update/state'),
+        headers: authHeader(token!),
+        body: jsonEncode(<String, String>{"State": newState}));
     if (response.statusCode == 200) {
       var temp = CommonResp.fromJson(json.decode(response.body));
       return temp;
