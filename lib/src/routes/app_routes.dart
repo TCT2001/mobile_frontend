@@ -13,4 +13,5 @@ abstract class Routes {
   static const INIT = '/init';
   static const SETTING = '/setting';
   static const PROJECT = '/project';
+  static const PROJECT_DETAIL = "/project_detail"; //Nhan them id
 }

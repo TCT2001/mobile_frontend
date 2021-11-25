@@ -13,34 +13,20 @@ class ProjectController extends GetxController {
   var _projects = <Project>[].obs;
   var _paginateParam = PaginateParam(page: 0).obs;
   var _isLastPage = false.obs;
-  var _choice = 0.obs;
-  var _clickedProjectCard = Project(id: -1, name: "-1", userDTOSet: null).obs;
 
   final newName = ''.obs;
 
   List<Project> get projects => _projects.toList();
 
-  Project get clickedProjectCard => _clickedProjectCard.value;
-
   int? get _page => _paginateParam.value.page;
 
   bool get isLastPage => _isLastPage.value;
-
-  int get choice => _choice.value;
 
   @override
   void onInit() {
     ever(_paginateParam, (_) => _listProject());
     _changeParam(PaginateParam(page: 0));
     super.onInit();
-  }
-
-  void changeChoice(int arg, Project? project) {
-    _choice.value = arg;
-    if (project != null) {
-      _clickedProjectCard.value.id = project.id;
-      _clickedProjectCard.value.name = project.name;
-    }
   }
 
   void _listProject() async {

@@ -9,13 +9,10 @@ import 'package:mobile_app/src/data/providers/storage_provider.dart';
 class Search extends SearchDelegate<Future<SearchData?>?> {
   static Future<SearchData?> suggest(String searchKey) async {
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
-    print(searchKey);
     var response = await client.get(
       Uri.parse('$baseURL/elastic/sAdv?searchKey=$searchKey'),
       headers: authHeader(token!),
     );
-    print(response.statusCode);
-    print(response.body);
     if (response.statusCode == 200) {
       var temp = CommonResp.fromJson(json.decode(response.body));
       if (temp.code == "SUCCESS") {
@@ -115,7 +112,9 @@ class Search extends SearchDelegate<Future<SearchData?>?> {
         itemCount: snapshot.data!.tasks!.length,
         shrinkWrap: true,
         physics: const ClampingScrollPhysics(),
-        itemBuilder: (context, index) => ListTile(title: Text("FIRST $index")),
+        itemBuilder: (context, index) => Card(
+            margin: const EdgeInsets.all(10),
+            child: ListTile(title: Text("Day la Task Search Duoc"))),
       ),
     );
   }
@@ -128,7 +127,7 @@ class Search extends SearchDelegate<Future<SearchData?>?> {
       itemBuilder: (context, index) {
         String name = snapshot.data!.projects![index].name;
         String owner = snapshot.data!.projects![index].email;
-        return ListTile(title: Text("Project: $name cua $owner"));
+        return Card(child: ListTile(title: Text("Project: $name cua $owner")));
       },
     );
   }

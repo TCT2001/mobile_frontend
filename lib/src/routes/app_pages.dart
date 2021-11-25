@@ -14,6 +14,7 @@ import 'package:mobile_app/src/modules/login/login_page.dart';
 import 'package:mobile_app/src/modules/notification/noti_binding.dart';
 import 'package:mobile_app/src/modules/notification/noti_page.dart';
 import 'package:mobile_app/src/modules/project/project_binding.dart';
+import 'package:mobile_app/src/modules/project/project_detail_page.dart';
 import 'package:mobile_app/src/modules/project/project_page.dart';
 import 'package:mobile_app/src/modules/signup/signup_binding.dart';
 import 'package:mobile_app/src/modules/signup/signup_page.dart';
@@ -54,5 +55,6 @@ abstract class AppPages {
         name: Routes.PROJECT,
         page: () => ProjectPage(),
         binding: ProjectBinding()),
+    GetPage(name: Routes.PROJECT_DETAIL, page: () => ProjectDetailPage()),
   ];
 }
