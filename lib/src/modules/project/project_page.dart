@@ -122,26 +122,26 @@ class ProjectPage extends GetView<ProjectController> {
   void renameOnPressed(Project project, String newName) async {
     CommonResp? commonResp = await controller.renameProject(project, newName);
     if (commonResp == null) {
-      customSnackBar("Rename", "Some expected error happened");
+      customSnackBar("Rename", "Some expected error happened", iconData: Icons.warning_rounded, iconColor:Colors.red);
       return;
     }
     if (commonResp.code == "SUCCESS") {
-      customSnackBar("Rename", "Success");
+      customSnackBar("Rename", "Success", iconData: Icons.check_outlined, iconColor:Colors.green);
     } else {
-      customSnackBar("Rename", "Some expected error happened");
+      customSnackBar("Rename", "Some expected error happened", iconData: Icons.warning_rounded, iconColor:Colors.red);
     }
   }
 
   void createOnPressed(String newName) async {
     CommonResp? commonResp = await controller.createProject(newName);
     if (commonResp == null) {
-      customSnackBar("Create", "Some expected error happened");
+      customSnackBar("Create", "Some expected error happened", iconData: Icons.warning_rounded, iconColor:Colors.red);
       return;
     }
     if (commonResp.code == "SUCCESS") {
-      customSnackBar("Create", "Success");
+      customSnackBar("Create", "Success", iconData: Icons.check_outlined, iconColor:Colors.green);
     } else {
-      customSnackBar("Create", "Some expected error happened");
+      customSnackBar("Create", "Some expected error happened", iconData: Icons.warning_rounded, iconColor:Colors.red);
     }
   }
 
@@ -274,7 +274,7 @@ class ProjectPage extends GetView<ProjectController> {
                                   bool rs = await controller
                                       .deleteProject(_items[index]);
                                   if (rs) {
-                                    customSnackBar("Delete", "Success");
+                                    customSnackBar("Delete", "Success", iconData: Icons.check_outlined, iconColor:Colors.green);
                                   }
                                 },
                               ),
