@@ -1,6 +1,5 @@
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/providers/storage_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class User {
   late int id;
