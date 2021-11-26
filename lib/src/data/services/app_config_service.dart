@@ -24,11 +24,12 @@ class AppConfigService extends GetxService {
   Future<AppConfigService> init() async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    //TODO: NULL VALUE
+    // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
     await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation
-        <AndroidFlutterLocalNotificationsPlugin>()
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
 
     await FirebaseMessaging.instance
@@ -38,9 +39,9 @@ class AppConfigService extends GetxService {
       sound: true,
     );
 
-    // await FirebaseMessaging.instance.getToken().then((token) {
-    //   print(token); // Print the Token in Console
-    // });
+    await FirebaseMessaging.instance.getToken().then((token) {
+      print(token); // Print the Token in Console
+    });
 
     return this;
   }
