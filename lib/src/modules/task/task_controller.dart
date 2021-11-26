@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:mobile_app/src/data/models/paginate_param.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
+import 'package:mobile_app/src/data/models/project.dart';
 import 'package:mobile_app/src/data/models/task.dart';
 import 'package:mobile_app/src/data/services/task_service.dart';
 
@@ -98,8 +99,9 @@ class TaskController extends GetxController {
     _listTask();
   }
 
-  Future<CommonResp?> createTask(String newName,String newContent) async {
-    var temp = await TaskService.create(newName);
+  Future<CommonResp?> createTask(String newName, String newContent, String newPriority, String newTaskState, String newVisibleTaskScope, Project? projectClicked, List<int> userIdIfVisibleIsPrivate ) async {
+    var temp = await TaskService.create(newName, newContent, newPriority, newTaskState, newVisibleTaskScope, projectClicked, userIdIfVisibleIsPrivate);
+    print(temp!.code);
     if (temp!.code == "SUCCESS") {
       Task task = Task.fromJson(temp.data! as Map<String, dynamic>);
       _tasks.insert(0, task);
@@ -112,4 +114,5 @@ class TaskController extends GetxController {
   void onClose() {
     super.onClose();
   }
+
 }

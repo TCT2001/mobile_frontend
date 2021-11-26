@@ -6,8 +6,10 @@ import 'package:mobile_app/src/core/utils/http.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/paginate_param.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
+import 'package:mobile_app/src/data/models/project.dart';
 import 'package:mobile_app/src/data/models/task.dart';
 import 'package:mobile_app/src/data/providers/storage_provider.dart';
+import 'dart:developer';
 
 class TaskService {
   static Uri LIST_URI = Uri.parse('$baseURL/task/list/');   //
@@ -64,11 +66,25 @@ class TaskService {
     }
   }
 
-  static Future<CommonResp?> create(String newName) async {
+  static Future<CommonResp?> create(String newName, String newContent, String newPriority, String newTaskState, String newVisibleTaskScope, Project? project, List<int> userIdIfVisibleIsPrivate) async {
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
-    var response = await client.post(Uri.parse('$baseURL/task/create'),
+    var response = await client.post(CREATE_URI,
         headers: authHeader(token!),
-        body: jsonEncode(<String, String>{"name": newName}));
+        body: jsonEncode({
+          "name": newName,
+          "content": newContent,
+          "visibleTaskScope": newVisibleTaskScope,
+          "priority": newPriority,
+          "taskState": newTaskState,
+          "project": {
+            "id": project!.id,
+            "name": project.name,
+            "userDTOSet": project.userDTOSet! // cần chuyển list sang json cái userDTOSet
+            // !.toJson()
+          },
+          // "project": projectClicked?.toJson(),
+          "userIdIfVisibleIsPrivate": userIdIfVisibleIsPrivate
+        }));
     if (response.statusCode == 200) {
       var temp = CommonResp.fromJson(json.decode(response.body));
       return temp;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mobile_app/src/data/models/project.dart';
 import 'package:mobile_app/src/data/models/task.dart';
 import 'package:mobile_app/src/modules/project/project_controller.dart';
 import 'task_controller.dart';
@@ -9,8 +10,9 @@ import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
 
 class TaskPage extends GetView<TaskController> {
   int? projectId;
+  Project? projectClicked;
   TaskPage.ofUser();
-  TaskPage.ofProject({required this.projectId});
+  TaskPage.ofProject({required this.projectId, required this.projectClicked});
   // @override
   // Widget build(BuildContext context) {
   //   return Scaffold(
@@ -174,8 +176,8 @@ class TaskPage extends GetView<TaskController> {
   //   }
   // }
   //
-  void createOnPressed(String newName, String newContent) async {
-    CommonResp? commonResp = await controller.createTask(newName, newContent);
+  void createOnPressed(String newName, String newContent, String newPriority, String newTaskState, String newVisibleTaskScope, Project? projectClicked, List<int> userIdIfVisibleIsPrivate) async {
+    CommonResp? commonResp = await controller.createTask(newName, newContent, newPriority, newTaskState, newVisibleTaskScope, projectClicked, userIdIfVisibleIsPrivate);
     if (commonResp == null) {
       customSnackBar("Create", "Some expected error happened");
       return;
@@ -350,7 +352,8 @@ class TaskPage extends GetView<TaskController> {
             ElevatedButton(
               onPressed: () {
                 Get.back();
-                createOnPressed(nameController.text,contentController.text);
+                // String newName, String newContent, String newPriority, String newTaskState, String newVisibleTaskScope, Project projectClicked, List<int> userIdIfVisibleIsPrivate
+                createOnPressed(nameController.text,contentController.text, controller.selectedPriority.value.toString(), controller.selectedState.value.toString(),controller.selectedScope.value.toString(),projectClicked, [1]);
               },
               child: const Text(
                 'Create',

@@ -1,4 +1,5 @@
 import 'package:mobile_app/src/data/models/user.dart';
+import 'dart:convert';
 
 class Task {
   late int? id;
@@ -54,5 +55,12 @@ class Task {
   String toString() {
     return 'Task{id: $id, name: $name}';
   }
+
+  Map toJson() => {
+     'userDTOSet': project
+
+  };
 }
 
+//"username":               tct@2001.com
+// "password":              Tct@2001

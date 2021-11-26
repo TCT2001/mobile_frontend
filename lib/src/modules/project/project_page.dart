@@ -299,6 +299,6 @@ class ProjectPage extends GetView<ProjectController> {
     Project clickedProjectCard = controller.clickedProjectCard;
     int? id = clickedProjectCard.id;
     String? name = clickedProjectCard.name;
-    return TaskPage.ofProject(projectId: id);
+    return TaskPage.ofProject(projectId: id, projectClicked: clickedProjectCard);
   }
 }

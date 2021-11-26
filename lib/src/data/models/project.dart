@@ -33,4 +33,10 @@ class Project {
   String toString() {
     return 'Project{id: $id, name: $name}';
   }
+
+  Map toJson() => {
+    'userDTOSet': userDTOSet
+  };
+
+
 }
