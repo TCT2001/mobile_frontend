@@ -14,12 +14,12 @@ class TaskPage extends GetView<TaskController> {
   TaskPage.ofProject({required this.projectId});
 
   // TextEditingController nameController = TextEditingController(text: '');
-  // TextEditingController contentController = TextEditingController(text: '');
+  TextEditingController contentController = TextEditingController(text: '');
   // final GlobalKey<PopupMenuButtonState<int>> _key = GlobalKey();
 
   // @override
-  // TaskController controller = Get.put(TaskController());
-  // ProjectController projController = Get.put(ProjectController());
+  TaskController controller = Get.put(TaskController());
+  //ProjectController projController = Get.put(ProjectController());
 
   @override
   Widget build(BuildContext context) {

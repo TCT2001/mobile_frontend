@@ -105,4 +105,40 @@ class TaskController extends GetxController {
     }
     return temp;
   }
+
+  Future<CommonResp?> updateState(Task task, String newState) async {
+    var temp = await TaskService.updateState(task, newState);
+    if (temp!.code == "SUCCESS") {
+      //TODO
+      //_listProject();
+      _tasks.firstWhere((element) => element.id == task.id).taskState =
+          newState;
+      _tasks.refresh();
+    }
+    return temp;
+  }
+
+  Future<CommonResp?> updatePriority(Task task, String newPriority) async {
+    var temp = await TaskService.updatePriority(task, newPriority);
+    if (temp!.code == "SUCCESS") {
+      //TODO
+      //_listProject();
+      _tasks.firstWhere((element) => element.id == task.id).priority =
+          newPriority;
+      _tasks.refresh();
+    }
+    return temp;
+  }
+
+  Future<CommonResp?> updateContent(Task task, String newContent) async {
+    var temp = await TaskService.updateContent(task, newContent);
+    if (temp!.code == "SUCCESS") {
+      //TODO
+      //_listProject();
+      _tasks.firstWhere((element) => element.id == task.id).content =
+          newContent;
+      _tasks.refresh();
+    }
+    return temp;
+  }
 }
