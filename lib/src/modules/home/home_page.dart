@@ -8,7 +8,7 @@ import 'package:mobile_app/src/data/providers/storage_provider.dart';
 import 'search.dart';
 
 class HomePage extends GetView {
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +31,38 @@ class HomePage extends GetView {
           ],
         ),
         body: Center(
-          child: TextButton(
-            child: Text("TEST"),
-            onPressed: () async {
-              var token =
-                  await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
-              print(token);
-            },
-          ),
-        ));
+          // child: TextButton(
+          //   child: Text("TEST"),
+          //   onPressed: () async {
+          //     var token =
+          //         await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
+          //     print(token);
+          //   },
+          // ),
+          child: Padding(
+              padding: const EdgeInsets.all(150),
+
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: const [
+                      Text("This is home page",
+                          style: TextStyle(
+                              color: Color(0xff88e8f2),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18)),
+                      SizedBox(height: 8),
+
+                      SizedBox(height: 8),
+
+
+                    ]),
+              )
+          )),
+    )
+    ;
   }
 }
+

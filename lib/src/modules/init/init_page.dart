@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/src/routes/app_routes.dart';
-
+import '../../core/constants/colors.dart';
 import 'init_controller.dart';
 
 
@@ -24,7 +24,7 @@ class InitPage extends GetView<InitController> {
               children: <Widget>[
                 Positioned(
                     top: 120,
-                    left: 95,
+                    left: 125,
                     child: Image.asset(
                       'assets/images/Logo.png',
                       width: 200,
@@ -50,17 +50,19 @@ class InitPage extends GetView<InitController> {
                       height: 80,
                     ),
                     Container(
-                      margin: const EdgeInsets.only(left: 50, right: 50),
+                      margin: const EdgeInsets.only(left: 60, right: 60),
                       alignment: Alignment.center,
                       child: SizedBox(
-                          width: 323,
+                          width: 300,
                           height: 42,
                           child: ElevatedButton(
                             onPressed: () {
                               Get.toNamed(Routes.LOGIN);
                             },
                             style: ElevatedButton.styleFrom(
-                              primary: Colors.transparent,
+                              // primary: Colors.transparent,
+                              primary: Color(0xff2d5f79),
+
                             ),
                             child: Text(
                               "Login",
@@ -71,28 +73,28 @@ class InitPage extends GetView<InitController> {
                               ),
                             ),
                           )),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6),
-                          gradient: LinearGradient(colors: const [
-                            Colors.deepPurpleAccent,
-                            Colors.lightBlueAccent,
-                          ])),
+                      // decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(6),
+                      //     gradient: LinearGradient(colors: const [
+                      //       Colors.deepPurpleAccent,
+                      //       Colors.lightBlueAccent,
+                      //     ])),
                     ),
                     const SizedBox(
                       height: 20,
                     ),
                     Container(
-                      margin: const EdgeInsets.only(left: 50, right: 50),
+                      margin: const EdgeInsets.only(left: 60, right: 60),
                       alignment: Alignment.center,
                       child: SizedBox(
-                          width: 323,
+                          width: 300,
                           height: 42,
                           child: ElevatedButton(
                             onPressed: () {
                               Get.toNamed(Routes.SIGNUP);
                             },
                             style: ElevatedButton.styleFrom(
-                              primary: Colors.transparent,
+                              primary: Color(0xff2d5f79),
                             ),
                             child: Text(
                               "Sign up",
@@ -103,12 +105,12 @@ class InitPage extends GetView<InitController> {
                               ),
                             ),
                           )),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6),
-                          gradient: LinearGradient(colors: const [
-                            Colors.lightBlueAccent,
-                            Colors.deepPurpleAccent,
-                          ])),
+                      // decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(6),
+                      //     gradient: LinearGradient(colors: const [
+                      //       Colors.lightBlueAccent,
+                      //       Colors.deepPurpleAccent,
+                      //     ])),
                     ),
                     const SizedBox(
                       height: 20,

@@ -121,8 +121,8 @@ class _SignupPageState extends State<SignupPage> {
                               elevation: 5.0,
                               borderRadius: BorderRadius.circular(30),
                               color: controller.signupProcess.value
-                                  ? Theme.of(context).disabledColor
-                                  : Theme.of(context).primaryColor,
+                                  ? Theme.of(context).primaryColor
+                                  : Theme.of(context).disabledColor,
                               child: MaterialButton(
                                 minWidth: MediaQuery.of(context).size.width,
                                 padding:

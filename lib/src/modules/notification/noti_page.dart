@@ -16,7 +16,7 @@ class NotiPage extends GetView<NotiController> {
                colors: [Colors.blueGrey, Colors.lightBlueAccent]),
          ),
          child: Padding(
-             padding: const EdgeInsets.all(115),
+             padding: const EdgeInsets.all(130),
 
              child: SizedBox(
                height: MediaQuery.of(context).size.height,
