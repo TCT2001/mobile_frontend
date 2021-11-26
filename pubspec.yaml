@@ -45,6 +45,7 @@ dependencies:
   liquid_pull_to_refresh: ^3.0.0
   flutter_login: ^3.0.0
   select_form_field: ^2.2.0
+  device_info_plus: ^3.1.1
 
 dev_dependencies:
   flutter_test:

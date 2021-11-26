@@ -1,7 +1,9 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mobile_app/src/core/utils/lazy_load_scroll_view.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
+import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/project.dart';
 import 'package:mobile_app/src/data/models/task.dart';
 import 'package:mobile_app/src/data/providers/storage_provider.dart';
@@ -45,8 +47,14 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   late Future<List<Task>> tasks;
   final GlobalKey<PopupMenuButtonState<int>> _key = GlobalKey();
   late TextEditingController invitedEmailController = TextEditingController();
+  late TextEditingController newNameController = TextEditingController();
+  late TextEditingController newContentController = TextEditingController();
+
   String invitedEmail = '';
   String role = '';
+  String newTaskName = '';
+  String newContentTask = '';
+
   @override
   void initState() {
     super.initState();
@@ -80,12 +88,15 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
           onSelected: (value) {
             if (value == 0) {
               showInviteForm();
+            } else if (value == 1) {
+              showCreateTaskForm();
             }
           },
           key: _key,
           itemBuilder: (context) {
             return <PopupMenuEntry<int>>[
               PopupMenuItem(child: Text('Invite'), value: 0),
+              PopupMenuItem(child: Text('Create Task'), value: 1),
             ];
           },
         ),
@@ -97,18 +108,28 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: appBar(),
-        body: FutureBuilder<Project>(
-          future: project,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Text(snapshot.data!.toString());
-            } else if (snapshot.hasError) {
-              return Text('Loi');
-            }
-
-            // By default, show a loading spinner.
-            return const CircularProgressIndicator();
-          },
+        body: Column(
+          children: <Widget>[
+            Container(
+              child: FutureBuilder<Project>(
+                future: project,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Text(snapshot.data!.toString());
+                  } else if (snapshot.hasError) {
+                    return Text('Loi');
+                  }
+                  // By default, show a loading spinner.
+                  return const CircularProgressIndicator();
+                },
+              ),
+            ),
+            Expanded(
+              child: Container(
+                child: showTaskList(),
+              ),
+            )
+          ],
         ));
   }
 
@@ -176,8 +197,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                             customSnackBar("Email", "error");
                             return;
                           }
-                          print(invitedEmail);
-                          print(role);
+
                           var srcEmail = await getStringLocalStorge(
                               LocalStorageKey.EMAIL.toString());
 
@@ -197,5 +217,86 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
             ),
           )),
     );
+  }
+
+  void showCreateTaskForm() {
+    Get.bottomSheet(
+      Container(
+          height: 250,
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(16),
+              topLeft: Radius.circular(16),
+            ),
+            // color: Colors.white,
+            color: Color(0xff88e8f2),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+            child: ListView(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Create Task',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    TextFormField(
+                      controller: newNameController,
+                      decoration: InputDecoration(
+                        labelText: 'Name',
+                        hintText: 'Name',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      controller: newContentController,
+                      decoration: InputDecoration(
+                        labelText: 'Content',
+                        hintText: 'Content',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    FloatingActionButton.extended(
+                        label: const Text('Create'),
+                        icon: const Icon(Icons.send),
+                        onPressed: () async {
+                          //TODO
+                          CommonResp? commonResp =
+                              await taskController.createTask(
+                                  newNameController.text,
+                                  newContentController.text,
+                                  id);
+                          if (commonResp!.code == "SUCCESS") {
+                            customSnackBar("Create Task", "Success");
+                          } else {
+                            customSnackBar("Create Task", "Fail");
+                          }
+                        })
+                  ],
+                )
+              ],
+            ),
+          )),
+    );
+  }
+
+  Widget showTaskList() {
+    return Text("Day Se La Task List Cua Project");
   }
 }
