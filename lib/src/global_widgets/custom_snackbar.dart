@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-void customSnackBar(String? title, String? message, [int duration = 2]) {
+void customSnackBar(String? title, String? message, {int duration = 2, Color backgroudColor = Colors.white, Color textColor = Colors.black, IconData? iconData, Color? iconColor}) {
   Get.snackbar(
     title!,
     message!,
-    icon: const Icon(Icons.delete, color: Colors.white),
+    icon: Icon(iconData, color: iconColor),
     snackPosition: SnackPosition.BOTTOM,
-    backgroundColor: Colors.green,
+    backgroundColor: backgroudColor,
     borderRadius: 20,
     margin: const EdgeInsets.all(15),
-    colorText: Colors.white,
+    colorText:textColor,
     duration: Duration(seconds: duration),
     isDismissible: true,
     dismissDirection: SnackDismissDirection.HORIZONTAL,
