@@ -20,5 +20,6 @@ class User {
 
   Map<String, dynamic> toJson() => {"id": id, "email": email};
 
-  
+  @override
+  String toString() => 'User(id: $id, email: $email, role: $role)';
 }

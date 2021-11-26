@@ -8,7 +8,6 @@ import 'src/routes/app_routes.dart';
 
 void main() async {
   // await Get.putAsync(() => AppConfigService().init());
-
   runApp(GetMaterialApp(
     title: 'Makit',
     theme: ThemeData(

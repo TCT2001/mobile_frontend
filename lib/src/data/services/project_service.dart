@@ -19,7 +19,6 @@ class ProjectService {
   static Uri DELETE_URI = Uri.parse('$baseURL/prj/delete/');
 
   static Future<List<Project>?> list(PaginateParam paginateParam) async {
-    print(1);
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
     var response = await client.post(LIST_URI,
         headers: authHeader(token!), body: jsonEncode(paginateParam.toJson()));
@@ -51,11 +50,43 @@ class ProjectService {
     }
   }
 
+  static Future<Project?> find(int id) async {
+    var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
+    var response = await client.get(Uri.parse('$baseURL/prj/find/$id'),
+        headers: authHeader(token!));
+    if (response.statusCode == 200) {
+      var temp = CommonResp.fromJson(json.decode(response.body));
+      Map<String, dynamic> jso1 = temp.data as Map<String, dynamic>;
+      return Project.fromJson(jso1);
+    } else {
+      throw Exception('Failed');
+    }
+  }
+
   static Future<CommonResp?> rename(Project project, String newName) async {
     int? id = project.id;
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
     var response = await client.post(Uri.parse('$baseURL/prj/rename/$id'),
         headers: authHeader(token!), body: jsonEncode(newName));
+    if (response.statusCode == 200) {
+      var temp = CommonResp.fromJson(json.decode(response.body));
+      return temp;
+    } else {
+      throw Exception('Failed');
+    }
+  }
+
+  static Future<CommonResp?> invite(
+      String srcEmail, String desEmail, int id, String role) async {
+    var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
+    var response = await client.post(Uri.parse('$baseURL/auth/invite'),
+        headers: authHeader(token!),
+        body: jsonEncode(<String, String>{
+          "src_email": srcEmail,
+          "des_email": desEmail,
+          "object_id": id.toString(),
+          "role": role
+        }));
     if (response.statusCode == 200) {
       var temp = CommonResp.fromJson(json.decode(response.body));
       return temp;

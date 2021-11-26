@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable, prefer_const_constructors
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/src/core/utils/lazy_load_scroll_view.dart';
@@ -104,7 +106,7 @@ class ProjectPage extends GetView<ProjectController> {
 
   void createDialog() {
     Get.defaultDialog(
-        titleStyle: TextStyle(fontSize: 0),
+        titleStyle: const TextStyle(fontSize: 0),
         title: 'Create',
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -113,13 +115,13 @@ class ProjectPage extends GetView<ProjectController> {
               controller: textController,
               keyboardType: TextInputType.text,
               maxLines: 1,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   labelText: 'Name',
                   hintMaxLines: 1,
                   border: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.green, width: 4.0))),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30.0,
             ),
             ElevatedButton(
@@ -127,7 +129,7 @@ class ProjectPage extends GetView<ProjectController> {
                 Get.back();
                 createOnPressed(textController.text);
               },
-              child: Text(
+              child: const Text(
                 'Create',
                 style: TextStyle(color: Colors.white, fontSize: 16.0),
               ),
@@ -148,13 +150,13 @@ class ProjectPage extends GetView<ProjectController> {
               controller: textController,
               keyboardType: TextInputType.text,
               maxLines: 1,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   labelText: 'New Name',
                   hintMaxLines: 1,
                   border: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.green, width: 4.0))),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30.0,
             ),
             ElevatedButton(
@@ -162,7 +164,7 @@ class ProjectPage extends GetView<ProjectController> {
                 Get.back();
                 renameOnPressed(project, textController.text);
               },
-              child: Text(
+              child: const Text(
                 'Rename',
                 style: TextStyle(color: Colors.white, fontSize: 16.0),
               ),
@@ -173,10 +175,12 @@ class ProjectPage extends GetView<ProjectController> {
   }
 
   Widget body() {
-    if (!controller.isLastPage && controller.projects.isEmpty) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
+    if (controller.projects.isEmpty) {
+      if (controller.isLastPage) {
+        return Center(child: Text("No project"));
+      } else {
+        return Center(child: CircularProgressIndicator());
+      }
     }
     var _items = controller.projects;
     return LazyLoadScrollView(
