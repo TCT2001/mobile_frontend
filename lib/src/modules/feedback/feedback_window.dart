@@ -13,7 +13,8 @@ void displayFeedbackWindow() {
             topRight: Radius.circular(16),
             topLeft: Radius.circular(16),
           ),
-          color: Colors.white,
+          // color: Colors.white,
+          color: Color(0xff88e8f2),
         ),
         child: Padding(
           padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
@@ -34,6 +35,7 @@ void displayFeedbackWindow() {
                     decoration: InputDecoration(
                       labelText: 'Content',
                       hintText: 'Content',
+
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -69,6 +71,6 @@ void displayFeedbackWindow() {
 showSnackBar(String title, String message, Color backgroundColor) {
   Get.snackbar(title, message,
       snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: backgroundColor,
+      backgroundColor: Color(0xff2d5f79),
       colorText: Colors.white);
 }

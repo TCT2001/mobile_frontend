@@ -9,8 +9,7 @@ class TaskController extends GetxController {
   var _tasks = <Task>[].obs;
   var _paginateParam = PaginateParam(page: 0).obs;
   var _isLastPage = false.obs;
-  var _choice = 0.obs;
-  var _clickedTaskCard = Task(id: -1, content: "", name: "-1", priority:"", taskState:"", project: null, userIdIfVisibleIsPrivate: null, visibleTaskScope: '').obs;
+
   var selectedScope = 1.obs;
   var selectedPriority= 1.obs;
   var selectedState = 1.obs;
@@ -21,8 +20,6 @@ class TaskController extends GetxController {
   List<Task> get tasks => _tasks.toList();
 
   int? get _page => _paginateParam.value.page;
-
-  Task get clickedTaskCard => _clickedTaskCard.value;
 
   bool get isLastPage => _isLastPage.value;
 
@@ -69,6 +66,9 @@ class TaskController extends GetxController {
       //TODO
       //_listProject();
       _tasks.firstWhere((element) => element.id == task.id).name =
+      _tasks
+          .firstWhere((element) => element.id == task.id)
+          .name =
           newName;
       _tasks.refresh();
     }
@@ -112,8 +112,4 @@ class TaskController extends GetxController {
     return temp;
   }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
 }

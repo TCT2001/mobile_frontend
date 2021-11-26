@@ -1,7 +1,5 @@
 // ignore_for_file: prefer_final_fields
 
-import 'dart:convert';
-
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:mobile_app/src/data/models/paginate_param.dart';
@@ -79,7 +77,7 @@ class ProjectController extends GetxController {
     if (temp!.code == "SUCCESS") {
       Project project = Project.fromJson(temp.data! as Map<String, dynamic>);
       _projects.insert(0, project);
-      // _projects.value = List.empty();
+      // _projects.value = List.empty()
     }
     return temp;
   }

@@ -8,13 +8,8 @@ import 'package:mobile_app/src/data/models/task.dart';
 import 'package:mobile_app/src/data/providers/storage_provider.dart';
 
 class TaskService {
-<<<<<<< HEAD
   static Uri LIST_URI = Uri.parse('$baseURL/task/listByUser/');
   static Uri CREATE_URI = Uri.parse('$baseURL/task/create');
-=======
-  static Uri LIST_URI = Uri.parse('$baseURL/task/list/');   //
-  static Uri CREATE_URI = Uri.parse('$baseURL/task/create');  //
->>>>>>> origin/vutoan
   static Uri FIND_BY_ID_URI = Uri.parse('$baseURL/task/find/');
   static Uri UPDATE_CONTENT_URI = Uri.parse('$baseURL/task/update/content/');
   static Uri RENAME_URI = Uri.parse('$baseURL/task/rename/');    //
