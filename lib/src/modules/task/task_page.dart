@@ -14,41 +14,6 @@ class TaskPage extends GetView<TaskController> {
   int? projectId;
   TaskPage.ofUser();
   TaskPage.ofProject({required this.projectId});
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     body: Container(
-  //         decoration: const BoxDecoration(
-  //           gradient: LinearGradient(
-  //               begin: Alignment.topRight,
-  //               end: Alignment.bottomLeft,
-  //               colors: [Colors.blueGrey, Colors.lightBlueAccent]),
-  //         ),
-  //         child: Padding(
-  //             padding: const EdgeInsets.all(125),
-  //             child: SizedBox(
-  //               height: MediaQuery.of(context).size.height,
-  //               child: Column(
-  //                   mainAxisAlignment: MainAxisAlignment.center,
-  //                   crossAxisAlignment: CrossAxisAlignment.center,
-  //                   children: [
-  //                     projectId == null
-  //                         ? Text("This is task page of user",
-  //                             style: TextStyle(
-  //                                 color: Color(0xff88e8f2),
-  //                                 fontWeight: FontWeight.bold,
-  //                                 fontSize: 18))
-  //                         : Text("This is task page of project",
-  //                             style: TextStyle(
-  //                                 color: Color(0xff88e8f2),
-  //                                 fontWeight: FontWeight.bold,
-  //                                 fontSize: 18)),
-  //                     SizedBox(height: 8),
-  //                     SizedBox(height: 8),
-  //                   ]),
-  //             ))),
-  //   );
-  // }
 
   TextEditingController nameController = TextEditingController(text: '');
   TextEditingController contentController = TextEditingController(text: '');
@@ -402,10 +367,12 @@ class TaskPage extends GetView<TaskController> {
   // }
 
   Widget customBody() {
-    if (!controller.isLastPage && controller.tasks.isEmpty) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
+    if (controller.tasks.isEmpty) {
+      if (controller.isLastPage) {
+        return Center(child: Text("No task"));
+      } else {
+        return Center(child: CircularProgressIndicator());
+      }
     }
     var _items = controller.tasks;
     return LazyLoadScrollView(

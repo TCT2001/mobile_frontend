@@ -10,7 +10,7 @@ import 'package:mobile_app/src/data/models/task.dart';
 import 'package:mobile_app/src/data/providers/storage_provider.dart';
 
 class TaskService {
-  static Uri LIST_URI = Uri.parse('$baseURL/task/list/');
+  static Uri LIST_URI = Uri.parse('$baseURL/task/listByUser/');
   static Uri CREATE_URI = Uri.parse('$baseURL/task/create');
   static Uri FIND_BY_ID_URI = Uri.parse('$baseURL/task/find/');
   static Uri UPDATE_CONTENT_URI = Uri.parse('$baseURL/task/update/content/');
@@ -42,6 +42,7 @@ class TaskService {
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
     var response = await client.post(Uri.parse('$baseURL/task/create'),
         headers: authHeader(token!),
+        //TODO
         body: jsonEncode(<String, String>{"name": newName}));
     if (response.statusCode == 200) {
       var temp = CommonResp.fromJson(json.decode(response.body));

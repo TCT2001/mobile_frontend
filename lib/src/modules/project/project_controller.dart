@@ -31,7 +31,10 @@ class ProjectController extends GetxController {
 
   void _listProject() async {
     final data = await ProjectService.list(_paginateParam.value);
-    if (data!.isEmpty) _isLastPage.value = true;
+    if (data!.isEmpty) {
+      _isLastPage.value = true;
+      return;
+    }
     _projects.addAll(data);
   }
 
