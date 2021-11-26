@@ -1,25 +1,31 @@
 # Reference
+
 "username": "tct@2001.com",
 "password": "Tct@2001"
 Ctrl + .
 
-* https://stackoverflow.com/questions/60285825/dart-cannot-convert-listdynamic-to-listmapstring-dynamic-despite-cast
+- https://stackoverflow.com/questions/60285825/dart-cannot-convert-listdynamic-to-listmapstring-dynamic-despite-cast
+- https://stackoverflow.com/questions/55150329/flutter-searchdelegate-on-search-i-have-to-make-api-after-getting-response-i
 
-* [getx tutorial](https://www.youtube.com/watch?v=wtHBsvj2QKA&list=PLCaS22Sjc8YR32XmudgmVqs49t-eKKr9t)
-* [getx pattern](https://github.com/kauemurakami/getx_pattern)
+- https://stackoverflow.com/questions/57351054/flutter-pass-search-data-to-searchdelegate
+
+- [getx tutorial](https://www.youtube.com/watch?v=wtHBsvj2QKA&list=PLCaS22Sjc8YR32XmudgmVqs49t-eKKr9t)
+- [getx pattern](https://github.com/kauemurakami/getx_pattern)
 
 # Settings
-* Signout
-* Info: Thông tin về ứng dụng
-* Đổi mật khẩu
-* Bật tắt thông báo
+
+- Signout
+- Info: Thông tin về ứng dụng
+- Đổi mật khẩu
+- Bật tắt thông báo
 
 # API
 
-* {base_url_port}/api/
+- {base_url_port}/api/
 
-* ???: required rỗng: optional
-* Helper
+- ???: required rỗng: optional
+- Helper
+
 ```java
 public class PaginateParam {
     public static final int DEFAULT_PAGE_SIZE = 10;
@@ -67,6 +73,7 @@ public enum TaskState {
 #### /test/all: GET, NO PARAM, NO AUTH
 
 #### /test/feedback: POST, NO AUTH
+
 ```json
 {
   "userId": "",
@@ -94,8 +101,8 @@ public enum TaskState {
 
 **RULE of signup body**
 
-* username: len: 6-25
-* password: len: 8-30, 1 upper, 1 number, 1 special char, ko whitespace
+- username: len: 6-25
+- password: len: 8-30, 1 upper, 1 number, 1 special char, ko whitespace
 
 #### /auth/refreshToken: POST, NO AUTH
 
@@ -116,9 +123,11 @@ public enum TaskState {
 ```
 
 #### /prj/listUsersInProject/{groupId}: POST, AUTH
+
 Body: PaginateParam
 
 #### /prj/list: POST, AUTH
+
 Body: PaginateParam
 
 #### /prj/find/{id}: GET, AUTH, NO PARAM
@@ -132,6 +141,7 @@ Body: PaginateParam
 #### /prj/delete/{projectId}: DELETE, AUTH
 
 #### /task/create: POST, AUTH
+
 ```json
 {
   "name": "New Task",
@@ -147,21 +157,25 @@ Body: PaginateParam
 ```
 
 #### /task/list/{projectId}: POST, AUTH
+
 Body: PaginateParam
 
 #### /task/find/{id}: GET, AUTH
 
 #### /task/update/content/{taskId}: PUT, AUTH
+
 ```json
 "???? <New Content>"
 ```
 
 #### /task/rename/{taskId}: PUT, AUTH
+
 ```json
 "???? <New Name>"
 ```
 
 #### /task/update/state/{taskId}: PUT, AUTH
+
 ```json
 {
   "taskState": "???"

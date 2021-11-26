@@ -1,5 +1,4 @@
-import 'package:mobile_app/src/data/models/user.dart';
-import 'dart:convert';
+import 'project.dart';
 
 class Task {
   late int? id;
@@ -8,8 +7,25 @@ class Task {
   late String? visibleTaskScope;
   late String? priority;
   late String? taskState;
-  late List? project;
-  late List? userIdIfVisibleIsPrivate;
+  late int? userIdIfVisibleIsPrivate;
+
+  factory Task.fromJson(Map<String, dynamic> json) {
+    return Task(
+        id: json['id'],
+        name: json['name'],
+        content: json['content'],
+        visibleTaskScope: json['visibleTaskScope'],
+        priority: json['priority'],
+        taskState: json['taskState'],
+        userIdIfVisibleIsPrivate: json['userIdIfVisibleIsPrivate']);
+  }
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is Project &&
+              runtimeType == other.runtimeType &&
+              id == other.id &&
+              name == other.name;
 
   Task(
       {required this.id,
@@ -18,35 +34,10 @@ class Task {
       required this.visibleTaskScope,
       required this.priority,
       required this.taskState,
-      required this.project,
       required this.userIdIfVisibleIsPrivate, userDTOSet});
 
   Task.name();
 
-  factory Task.fromJson(Map<String, dynamic> json) {
-    return Task(
-        id: json['id'],
-        content: json['content'],
-        name: json['name'],
-        visibleTaskScope: json['visibleTaskScope'],
-        priority: json['priority'],
-        taskState: json['taskState'],
-        project: json['project'],
-        userIdIfVisibleIsPrivate: json[""] == null
-            ? null
-            : (json["userDTOSet"] as List)
-                .map((i) => User.fromJson(i))
-                .toList());
-    // return Project.name();
-  }
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Task &&
-          runtimeType == other.runtimeType &&
-          id == other.id &&
-          name == other.name;
 
   @override
   int get hashCode => id.hashCode;
@@ -55,12 +46,4 @@ class Task {
   String toString() {
     return 'Task{id: $id, name: $name}';
   }
-
-  Map toJson() => {
-     'userDTOSet': project
-
-  };
 }
-
-//"username":               tct@2001.com
-// "password":              Tct@2001

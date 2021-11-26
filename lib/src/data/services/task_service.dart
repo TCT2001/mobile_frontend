@@ -1,24 +1,20 @@
-// ignore_for_file: non_constant_identifier_names
-
 import 'dart:convert';
 
 import 'package:mobile_app/src/core/utils/http.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/paginate_param.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
-import 'package:mobile_app/src/data/models/project.dart';
 import 'package:mobile_app/src/data/models/task.dart';
 import 'package:mobile_app/src/data/providers/storage_provider.dart';
-import 'dart:developer';
 
 class TaskService {
-  static Uri LIST_URI = Uri.parse('$baseURL/task/list/');   //
-  static Uri CREATE_URI = Uri.parse('$baseURL/task/create');  //
+  static Uri LIST_URI = Uri.parse('$baseURL/task/listByUser/');
+  static Uri CREATE_URI = Uri.parse('$baseURL/task/create');
   static Uri FIND_BY_ID_URI = Uri.parse('$baseURL/task/find/');
   static Uri UPDATE_CONTENT_URI = Uri.parse('$baseURL/task/update/content/');
-  static Uri RENAME_URI = Uri.parse('$baseURL/task/rename/');    //
+  static Uri RENAME_URI = Uri.parse('$baseURL/task/rename/'); //
   static Uri UPDATE_STATE_URI = Uri.parse('$baseURL/task/update/state/');
-  static Uri DELETE_URI = Uri.parse('$baseURL/task/delete/');       //
+  static Uri DELETE_URI = Uri.parse('$baseURL/task/delete/'); //
 
   static Future<List<Task>?> list(PaginateParam paginateParam) async {
     print(1);
@@ -66,24 +62,16 @@ class TaskService {
     }
   }
 
-  static Future<CommonResp?> create(String newName, String newContent, String newPriority, String newTaskState, String newVisibleTaskScope, Project? project, List<int> userIdIfVisibleIsPrivate) async {
+  static Future<CommonResp?> create(
+      String newName, String newContent, int id) async {
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
-    var response = await client.post(CREATE_URI,
+    var response = await client.post(Uri.parse('$baseURL/task/create'),
         headers: authHeader(token!),
-        body: jsonEncode({
+        //TODO
+        body: jsonEncode(<String, String>{
           "name": newName,
           "content": newContent,
-          "visibleTaskScope": newVisibleTaskScope,
-          "priority": newPriority,
-          "taskState": newTaskState,
-          "project": {
-            "id": project!.id,
-            "name": project.name,
-            "userDTOSet": project.userDTOSet! // cần chuyển list sang json cái userDTOSet
-            // !.toJson()
-          },
-          // "project": projectClicked?.toJson(),
-          "userIdIfVisibleIsPrivate": userIdIfVisibleIsPrivate
+          "projectId": id.toString()
         }));
     if (response.statusCode == 200) {
       var temp = CommonResp.fromJson(json.decode(response.body));
@@ -105,7 +93,7 @@ class TaskService {
     }
   }
 
-  static Future<CommonResp?> updateContent (String newContent) async {
+  static Future<CommonResp?> updateContent(String newContent) async {
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
     var response = await client.post(Uri.parse('$baseURL/task/update/content/'),
         headers: authHeader(token!),

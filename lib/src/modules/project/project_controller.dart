@@ -11,20 +11,16 @@ class ProjectController extends GetxController {
   var _projects = <Project>[].obs;
   var _paginateParam = PaginateParam(page: 0).obs;
   var _isLastPage = false.obs;
-  var _choice = 0.obs;
-  var _clickedProjectCard = Project(id: -1, name: "-1", userDTOSet: null).obs;
 
   final newName = ''.obs;
 
   List<Project> get projects => _projects.toList();
 
-  Project get clickedProjectCard => _clickedProjectCard.value;
-
   int? get _page => _paginateParam.value.page;
 
   bool get isLastPage => _isLastPage.value;
 
-  int get choice => _choice.value;
+  var project = Project(id: -1, name: "##", userDTOSet: []).obs;
 
   @override
   void onInit() {
@@ -33,17 +29,12 @@ class ProjectController extends GetxController {
     super.onInit();
   }
 
-  void changeChoice(int arg, Project? project) {
-    _choice.value = arg;
-    if (project != null) {
-      _clickedProjectCard.value.id = project.id;
-      _clickedProjectCard.value.name = project.name;
-    }
-  }
-
   void _listProject() async {
     final data = await ProjectService.list(_paginateParam.value);
-    if (data!.isEmpty) _isLastPage.value = true;
+    if (data!.isEmpty) {
+      _isLastPage.value = true;
+      return;
+    }
     _projects.addAll(data);
   }
 
@@ -61,6 +52,11 @@ class ProjectController extends GetxController {
     _listProject();
   }
 
+  Future<Project> find(int id) async {
+    var temp = await ProjectService.find(id);
+    return temp!;
+  }
+
   Future<bool> deleteProject(Project project) async {
     var temp = await ProjectService.delete(project);
     if (temp!.code == "SUCCESS") {
@@ -69,6 +65,12 @@ class ProjectController extends GetxController {
       return true;
     }
     return false;
+  }
+
+  Future<CommonResp?> inviteProject(
+      String srcEmail, String desEmail, int id, String role) async {
+    var temp = await ProjectService.invite(srcEmail, desEmail, id, role);
+    return temp;
   }
 
   Future<CommonResp?> renameProject(Project project, String newName) async {

@@ -29,14 +29,8 @@ class Project {
   @override
   int get hashCode => id.hashCode;
 
+
+
   @override
-  String toString() {
-    return 'Project{id: $id, name: $name}';
-  }
-
-  Map toJson() => {
-    'userDTOSet': userDTOSet
-  };
-
-
+  String toString() => 'Project(id: $id, name: $name, userDTOSet: $userDTOSet)';
 }
