@@ -46,6 +46,9 @@ dependencies:
   flutter_login: ^3.0.0
   select_form_field: ^2.2.0
   device_info_plus: ^3.1.1
+  firebase_core: ^1.2.0
+  firebase_messaging: ^10.0.0
+  flutter_local_notifications: ^6.0.0
 
 dev_dependencies:
   flutter_test:
