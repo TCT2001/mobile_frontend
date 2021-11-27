@@ -63,6 +63,11 @@ class ProjectController extends GetxController {
     _listProject();
   }
 
+  Future<Project> find(int id) async {
+    var temp = await ProjectService.find(id);
+    return temp!;
+  }
+
   Future<bool> deleteProject(Project project) async {
     var temp = await ProjectService.delete(project);
     if (temp!.code == "SUCCESS") {
@@ -71,6 +76,12 @@ class ProjectController extends GetxController {
       return true;
     }
     return false;
+  }
+
+  Future<CommonResp?> inviteProject(
+      String srcEmail, String desEmail, int id, String role) async {
+    var temp = await ProjectService.invite(srcEmail, desEmail, id, role);
+    return temp;
   }
 
   Future<CommonResp?> renameProject(Project project, String newName) async {

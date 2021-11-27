@@ -52,6 +52,7 @@ class TaskPage extends GetView<TaskController> {
 
   TextEditingController nameController = TextEditingController(text: '');
   TextEditingController contentController = TextEditingController(text: '');
+
   final GlobalKey<PopupMenuButtonState<int>> _key = GlobalKey();
 
   @override
@@ -171,21 +172,9 @@ class TaskPage extends GetView<TaskController> {
     }
   }
 
-  // void createOnPressed(String newName) async {
-  //   CommonResp? commonResp = await controller.createTask(newName);
-  //   if (commonResp == null) {
-  //     customSnackBar("Create", "Some unexpected error happened");
-  //     return;
-  //   }
-  //   if (commonResp.code == "SUCCESS") {
-  //     customSnackBar("Create", "Success");
-  //   } else {
-  //     customSnackBar("Create", "Some unexpected error happened");
-  //   }
-  // }
 
-  void createOnPressed(String newName, String newContent) async {
-    CommonResp? commonResp = await controller.createTask(newName, newContent);
+  void createOnPressed(String newName, String newContent, int id) async {
+    CommonResp? commonResp = await controller.createTask(newName, newContent, id);
     if (commonResp == null) {
       customSnackBar("Create", "Some expected error happened");
       return;
@@ -196,6 +185,19 @@ class TaskPage extends GetView<TaskController> {
       customSnackBar("Create", "Some expected error happened");
     }
 
+  }
+
+  void updateContentOnPressed(Task task, String newName) async {
+    CommonResp? commonResp = await controller.updateContent(task, newName);
+    if (commonResp == null) {
+      customSnackBar("Update", "Some unexpected error happened");
+      return;
+    }
+    if (commonResp.code == "SUCCESS") {
+      customSnackBar("Update", "Success");
+    } else {
+      customSnackBar("Update", "Some unexpected error happened");
+    }
   }
 
   void createDialog() {
@@ -231,136 +233,136 @@ class TaskPage extends GetView<TaskController> {
             SizedBox(
               height: 15,
             ),
-            Text('Select Task Scope'),
-            Obx(() => DropdownButton<String>(
-              // Set the Items of DropDownButton
-              items: [
-                DropdownMenuItem(
-                  value: "1",
-                  child: Text(
-                    "Public",
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: "2",
-                  child: Text(
-                    "Private",
-                  ),
-                ),
-              ],
-              value: controller.selectedScope.value.toString(),
-              hint: Text('Select Task Scope'),
-              isExpanded: true,
-              onChanged: (selectedValue) {
-                controller.selectedScope.value =
-                    int.parse(selectedValue!);
-              },
-            )),
-            SizedBox(
-              height: 15,
-            ),
-            Text('Select Task Priority'),
-            Obx(() => DropdownButton<String>(
-              // Set the Items of DropDownButton
-              items: [
-                DropdownMenuItem(
-                  value: "1",
-                  child: Text(
-                    "Critcal Priority",
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: "2",
-                  child: Text(
-                    "Major Priority",
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: "3",
-                  child: Text(
-                    "Normal Priority",
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: "4",
-                  child: Text(
-                    "Minor Priority",
-                  ),
-                ),
-              ],
-              value: controller.selectedPriority.value.toString(),
-              hint: Text('Select Task Priority'),
-              isExpanded: true,
-              onChanged: (selectedValue) {
-                controller.selectedPriority.value =
-                    int.parse(selectedValue!);
-              },
-            )),
-            SizedBox(
-              height: 15,
-            ),
-            Text('Select Task State'),
-            Obx(() => DropdownButton<String>(
-              // Set the Items of DropDownButton
-              items: [
-                DropdownMenuItem(
-                  value: "1",
-                  child: Text(
-                    "Summitted",
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: "2",
-                  child: Text(
-                    "In Process",
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: "3",
-                  child: Text(
-                    "Incomplete",
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: "4",
-                  child: Text(
-                    "To be discussed",
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: "5",
-                  child: Text(
-                    "Done",
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: "6",
-                  child: Text(
-                    "Duplicate",
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: "7",
-                  child: Text(
-                    "Obsolete",
-                  ),
-                ),
-              ],
-              value: controller.selectedState.value.toString(),
-              hint: Text('Select Task State'),
-              isExpanded: true,
-              onChanged: (selectedValue) {
-                controller.selectedState.value =
-                    int.parse(selectedValue!);
-              },
-            )),
-            SizedBox(
-              height: 15,
-            ),
+            // Text('Select Task Scope'),
+            // Obx(() => DropdownButton<String>(
+            //   // Set the Items of DropDownButton
+            //   items: [
+            //     DropdownMenuItem(
+            //       value: "1",
+            //       child: Text(
+            //         "Public",
+            //       ),
+            //     ),
+            //     DropdownMenuItem(
+            //       value: "2",
+            //       child: Text(
+            //         "Private",
+            //       ),
+            //     ),
+            //   ],
+            //   value: controller.selectedScope.value.toString(),
+            //   hint: Text('Select Task Scope'),
+            //   isExpanded: true,
+            //   onChanged: (selectedValue) {
+            //     controller.selectedScope.value =
+            //         int.parse(selectedValue!);
+            //   },
+            // )),
+            // SizedBox(
+            //   height: 15,
+            // ),
+            // Text('Select Task Priority'),
+            // Obx(() => DropdownButton<String>(
+            //   // Set the Items of DropDownButton
+            //   items: [
+            //     DropdownMenuItem(
+            //       value: "1",
+            //       child: Text(
+            //         "Critcal Priority",
+            //       ),
+            //     ),
+            //     DropdownMenuItem(
+            //       value: "2",
+            //       child: Text(
+            //         "Major Priority",
+            //       ),
+            //     ),
+            //     DropdownMenuItem(
+            //       value: "3",
+            //       child: Text(
+            //         "Normal Priority",
+            //       ),
+            //     ),
+            //     DropdownMenuItem(
+            //       value: "4",
+            //       child: Text(
+            //         "Minor Priority",
+            //       ),
+            //     ),
+            //   ],
+            //   value: controller.selectedPriority.value.toString(),
+            //   hint: Text('Select Task Priority'),
+            //   isExpanded: true,
+            //   onChanged: (selectedValue) {
+            //     controller.selectedPriority.value =
+            //         int.parse(selectedValue!);
+            //   },
+            // )),
+            // SizedBox(
+            //   height: 15,
+            // ),
+            // Text('Select Task State'),
+            // Obx(() => DropdownButton<String>(
+            //   // Set the Items of DropDownButton
+            //   items: [
+            //     DropdownMenuItem(
+            //       value: "1",
+            //       child: Text(
+            //         "Summitted",
+            //       ),
+            //     ),
+            //     DropdownMenuItem(
+            //       value: "2",
+            //       child: Text(
+            //         "In Process",
+            //       ),
+            //     ),
+            //     DropdownMenuItem(
+            //       value: "3",
+            //       child: Text(
+            //         "Incomplete",
+            //       ),
+            //     ),
+            //     DropdownMenuItem(
+            //       value: "4",
+            //       child: Text(
+            //         "To be discussed",
+            //       ),
+            //     ),
+            //     DropdownMenuItem(
+            //       value: "5",
+            //       child: Text(
+            //         "Done",
+            //       ),
+            //     ),
+            //     DropdownMenuItem(
+            //       value: "6",
+            //       child: Text(
+            //         "Duplicate",
+            //       ),
+            //     ),
+            //     DropdownMenuItem(
+            //       value: "7",
+            //       child: Text(
+            //         "Obsolete",
+            //       ),
+            //     ),
+            //   ],
+            //   value: controller.selectedState.value.toString(),
+            //   hint: Text('Select Task State'),
+            //   isExpanded: true,
+            //   onChanged: (selectedValue) {
+            //     controller.selectedState.value =
+            //         int.parse(selectedValue!);
+            //   },
+            // )),
+            // SizedBox(
+            //   height: 15,
+            // ),
             ElevatedButton(
               onPressed: () {
                 Get.back();
-                createOnPressed(nameController.text,contentController.text);
+                createOnPressed(nameController.text, contentController.text, projectId!);
               },
               child: Text(
                 'Create',
@@ -372,40 +374,113 @@ class TaskPage extends GetView<TaskController> {
         radius: 10.0);
   }
 
-  // void renameDialog(Task task) {
-  //   Get.defaultDialog(
-  //       titleStyle: TextStyle(fontSize: 0),
-  //       title: 'Rename',
-  //       content: Column(
-  //         mainAxisSize: MainAxisSize.min,
-  //         children: [
-  //           TextField(
-  //             controller: textController,
-  //             keyboardType: TextInputType.text,
-  //             maxLines: 1,
-  //             decoration: InputDecoration(
-  //                 labelText: 'New Name',
-  //                 hintMaxLines: 1,
-  //                 border: OutlineInputBorder(
-  //                     borderSide: BorderSide(color: Colors.green, width: 4.0))),
-  //           ),
-  //           SizedBox(
-  //             height: 30.0,
-  //           ),
-  //           ElevatedButton(
-  //             onPressed: () {
-  //               Get.back();
-  //               renameOnPressed(task, textController.text);
-  //             },
-  //             child: Text(
-  //               'Rename',
-  //               style: TextStyle(color: Colors.white, fontSize: 16.0),
-  //             ),
-  //           )
-  //         ],
-  //       ),
-  //       radius: 10.0);
-  // }
+  void updatePriorityDialog(Task task) {
+    Get.defaultDialog(
+        titleStyle: TextStyle(fontSize: 10),
+        title: 'Select Task Priority',
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Obx(() => DropdownButton<String>(
+              // Set the Items of DropDownButton
+              items: [
+                DropdownMenuItem(
+                  value: "CRITICAL",
+                  child: Text(
+                    "Critcal Priority",
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: "MAJOR",
+                  child: Text(
+                    "Major Priority",
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: "NORMAL",
+                  child: Text(
+                    "Normal Priority",
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: "MINOR",
+                  child: Text(
+                    "Minor Priority",
+                  ),
+                ),
+              ],
+              value: controller.selectedPriority.value.toString(),
+              hint: const Text('Select Task Priority'),
+              isExpanded: true,
+              onChanged: (selectedValue) {
+                controller.selectedPriority.value = selectedValue!;
+              },
+            )),
+            ElevatedButton(
+              onPressed: () {
+                Get.back();
+                updatePriorityOnPress(task,controller.selectedPriority.value);
+                print(controller.selectedPriority.value);
+              },
+              child: Text(
+                'Update',
+                style: TextStyle(color: Colors.white, fontSize: 16.0),
+              ),
+            )
+          ],
+        ),
+        radius: 10.0);
+  }
+  void updatePriorityOnPress(Task task, String newPriority) async {
+    CommonResp? commonResp = await controller.updatePriority(task, newPriority);
+    if (commonResp == null) {
+      customSnackBar("Rename", "Some expected error happened");
+      return;
+    }
+    if (commonResp.code == "SUCCESS") {
+      customSnackBar("Rename", "Success");
+    } else {
+      customSnackBar("Rename", "Some expected error happened");
+    }
+  }
+
+  void renameDialog(Task task) {
+    Get.defaultDialog(
+        titleStyle: TextStyle(fontSize: 0),
+        title: 'Rename',
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: nameController,
+              keyboardType: TextInputType.text,
+              maxLines: 1,
+              decoration: InputDecoration(
+                  labelText: 'New Name',
+                  hintMaxLines: 1,
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.green, width: 4.0))),
+            ),
+            SizedBox(
+              height: 30.0,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Get.back();
+                renameOnPressed(task, nameController.text);
+              },
+              child: Text(
+                'Rename',
+                style: TextStyle(color: Colors.white, fontSize: 16.0),
+              ),
+            )
+          ],
+        ),
+        radius: 10.0);
+  }
+  void updateContent(Task task) {
+
+  }
 
   Widget customBody() {
     if (!controller.isLastPage && controller.tasks.isEmpty) {
@@ -443,8 +518,9 @@ class TaskPage extends GetView<TaskController> {
                       IconButton(
                           onPressed: () {
                             // print(_textController.text);
-                            // renameDialog(_items[index]);
-                            // textController.text = "";
+                            updatePriorityDialog(_items[index]);
+                            //
+                            // nameController.text = "";
                           },
                           icon: const Icon(Icons.edit)),
                       IconButton(
@@ -461,12 +537,12 @@ class TaskPage extends GetView<TaskController> {
                               TextButton(
                                 child: const Text("Yes"),
                                 onPressed: () async {
-                                  // Get.back();
-                                  // bool rs = await controller
-                                  //     .deleteProject(_items[index]);
-                                  // if (rs) {
-                                  //   customSnackBar("Delete", "Success");
-                                  // }
+                                  Get.back();
+                                  bool rs = await controller
+                                      .deleteTask(_items[index]);
+                                  if (rs) {
+                                    customSnackBar("Delete", "Success");
+                                  }
                                 },
                               ),
                               TextButton(
@@ -478,7 +554,14 @@ class TaskPage extends GetView<TaskController> {
                             ],
                           );
                         },
-                      )
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            // print(_textController.text);
+                            updateContent(_items[index]);
+                            contentController.text = "";
+                          },
+                          icon: const Icon(Icons.edit)),
                     ],
                   ),
                 ),

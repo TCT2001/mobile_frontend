@@ -30,7 +30,5 @@ class Project {
   int get hashCode => id.hashCode;
 
   @override
-  String toString() {
-    return 'Project{id: $id, name: $name}';
-  }
+  String toString() => 'Project(id: $id, name: $name, userDTOSet: $userDTOSet)';
 }

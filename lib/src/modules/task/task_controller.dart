@@ -9,10 +9,10 @@ class TaskController extends GetxController {
   var _tasks = <Task>[].obs;
   var _paginateParam = PaginateParam(page: 0).obs;
   var _isLastPage = false.obs;
-  var _choice = 0.obs;
-  var _clickedTaskCard = Task(id: -1, content: "", name: "-1", priority:"", taskState:"", project: null, userIdIfVisibleIsPrivate: null, visibleTaskScope: '').obs;
+  //var _choice = 0.obs;
+  var _clickedTaskCard = Task(id: -1, content: "", name: "-1", priority:"", taskState:"", userIdIfVisibleIsPrivate: null, visibleTaskScope: '').obs;
   var selectedScope = 1.obs;
-  var selectedPriority= 1.obs;
+  var selectedPriority = "NORMAL".obs;
   var selectedState = 1.obs;
 
   final newName = ''.obs;
@@ -29,7 +29,7 @@ class TaskController extends GetxController {
 
   @override
   void onInit() {
-    ever(_paginateParam, (_) => _listTask());
+    ever(_paginateParam, (_) => listTask());
     _changeParam(PaginateParam(page: 0));
     super.onInit();
   }
@@ -42,8 +42,20 @@ class TaskController extends GetxController {
   //   }
   // }
 
-  void _listTask() async {
+  void listTask() async {
     final data = await TaskService.list(_paginateParam.value);
+    if (data!.isEmpty) _isLastPage.value = true;
+    _tasks.addAll(data);
+  }
+
+  void listByUser() async {
+    final data = await TaskService.listByUser(_paginateParam.value);
+    if (data!.isEmpty) _isLastPage.value = true;
+    _tasks.addAll(data);
+  }
+
+  void listByProject() async {
+    final data = await TaskService.listByUser(_paginateParam.value);
     if (data!.isEmpty) _isLastPage.value = true;
     _tasks.addAll(data);
   }
@@ -59,7 +71,7 @@ class TaskController extends GetxController {
 
   void nextPage() {
     _paginateParam.value.page += 1;
-    _listTask();
+    listTask();
   }
 
 
@@ -68,8 +80,7 @@ class TaskController extends GetxController {
     if (temp!.code == "SUCCESS") {
       //TODO
       //_listProject();
-      _tasks.firstWhere((element) => element.id == task.id).name =
-          newName;
+      _tasks.firstWhere((element) => element.id == task.id).name = newName;
       _tasks.refresh();
     }
     return temp;
@@ -86,24 +97,21 @@ class TaskController extends GetxController {
   }
 
 
-  // Future<CommonResp?> findTask(Task task, String newName) async {
-  //   var temp = await TaskService.find(newName);
-  //   if (temp!.code == "SUCCESS") {
-  //     //TODO
-  //     //_listProject();
-  //     _tasks
-  //         .firstWhere((element) => element.id == task.id)
-  //     ;
-  //     _tasks.refresh();
-  //   }
-  //   return temp;
-  // }
+  Future<CommonResp?> findTask(Task task, String newName) async {
+      var temp = await TaskService.find(task, newName);
+      if (temp!.code == "SUCCESS") {
+        //TODO
+        //_listProject();
+        _tasks
+            .firstWhere((element) => element.id == task.id)
+        ;
+        _tasks.refresh();
+      }
+      return temp;
+    }
 
-
-
-
-  Future<CommonResp?> createTask(String newName,String newContent) async {
-    var temp = await TaskService.create(newName,newContent);
+  Future<CommonResp?> createTask(String newName,String newContent, int id) async {
+    var temp = await TaskService.create(newName, newContent, id);
     if (temp!.code == "SUCCESS") {
       Task task = Task.fromJson(temp.data! as Map<String, dynamic>);
       _tasks.insert(0, task);
@@ -112,8 +120,28 @@ class TaskController extends GetxController {
     return temp;
   }
 
-  @override
-  void onClose() {
-    super.onClose();
+  Future<CommonResp?> updateContent(Task task, String newContent) async {
+    var temp = await TaskService.updateContent(task, newContent);
+    if (temp!.code == "SUCCESS") {
+      //TODO
+      //_listProject();
+      _tasks.firstWhere((element) => element.id == task.id).content =
+          newContent;
+      _tasks.refresh();
+    }
+    return temp;
   }
+
+  Future<CommonResp?> updatePriority(Task task, String newPriority) async {
+    var temp = await TaskService.updatePriority(task, newPriority);
+    if (temp!.code == "SUCCESS") {
+      //TODO
+      //_listProject();
+      _tasks.firstWhere((element) => element.id == task.id).priority =
+          newPriority;
+      _tasks.refresh();
+    }
+    return temp;
+  }
+
 }
