@@ -11,7 +11,7 @@ class TaskController extends GetxController {
   var _isLastPage = false.obs;
 
   var selectedScope = 1.obs;
-  var selectedPriority= 1.obs;
+  var selectedPriority = 1.obs;
   var selectedState = 1.obs;
 
   final newName = ''.obs;
@@ -23,10 +23,9 @@ class TaskController extends GetxController {
 
   bool get isLastPage => _isLastPage.value;
 
-
   @override
   void onInit() {
-    ever(_paginateParam, (_) => _listTask());
+    ever(_paginateParam, (_) => listTask());
     _changeParam(PaginateParam(page: 0));
     super.onInit();
   }
@@ -39,11 +38,11 @@ class TaskController extends GetxController {
   //   }
   // }
 
-  void _listTask() async {
+  void listTask() async {
     //TODO
-    // final data = await TaskService.list(_paginateParam.value);
-    // if (data!.isEmpty) _isLastPage.value = true;
-    // _tasks.addAll(data);
+    final data = await TaskService.list(_paginateParam.value);
+    if (data!.isEmpty) _isLastPage.value = true;
+    _tasks.addAll(data);
   }
 
   void _changeParam(PaginateParam paginateParam) {
@@ -57,9 +56,8 @@ class TaskController extends GetxController {
 
   void nextPage() {
     _paginateParam.value.page += 1;
-    _listTask();
+    listTask();
   }
-
 
   Future<CommonResp?> renameTask(Task task, String newName) async {
     var temp = await TaskService.rename(task, newName);
@@ -67,10 +65,7 @@ class TaskController extends GetxController {
       //TODO
       //_listProject();
       _tasks.firstWhere((element) => element.id == task.id).name =
-      _tasks
-          .firstWhere((element) => element.id == task.id)
-          .name =
-          newName;
+          _tasks.firstWhere((element) => element.id == task.id).name = newName;
       _tasks.refresh();
     }
     return temp;
@@ -86,7 +81,6 @@ class TaskController extends GetxController {
     return false;
   }
 
-
   // Future<CommonResp?> findTask(Task task, String newName) async {
   //   var temp = await TaskService.find(newName);
   //   if (temp!.code == "SUCCESS") {
@@ -100,17 +94,15 @@ class TaskController extends GetxController {
   //   return temp;
   // }
 
-
-
-
-  Future<CommonResp?> createTask(String newName,String newContent) async {
-    var temp = await TaskService.create(newName,newContent);
+  Future<CommonResp?> createTask(
+      String newName, String newContent, int id) async {
+    var temp = await TaskService.create(newName, newContent, id);
     if (temp!.code == "SUCCESS") {
       Task task = Task.fromJson(temp.data! as Map<String, dynamic>);
+
       _tasks.insert(0, task);
       // _projects.value = List.empty();
     }
     return temp;
   }
-
 }

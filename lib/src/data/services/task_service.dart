@@ -12,9 +12,9 @@ class TaskService {
   static Uri CREATE_URI = Uri.parse('$baseURL/task/create');
   static Uri FIND_BY_ID_URI = Uri.parse('$baseURL/task/find/');
   static Uri UPDATE_CONTENT_URI = Uri.parse('$baseURL/task/update/content/');
-  static Uri RENAME_URI = Uri.parse('$baseURL/task/rename/');    //
+  static Uri RENAME_URI = Uri.parse('$baseURL/task/rename/'); //
   static Uri UPDATE_STATE_URI = Uri.parse('$baseURL/task/update/state/');
-  static Uri DELETE_URI = Uri.parse('$baseURL/task/delete/');       //
+  static Uri DELETE_URI = Uri.parse('$baseURL/task/delete/'); //
 
   static Future<List<Task>?> list(PaginateParam paginateParam) async {
     print(1);
@@ -62,12 +62,17 @@ class TaskService {
     }
   }
 
-  static Future<CommonResp?> create(String newName, String newContent) async {
+  static Future<CommonResp?> create(
+      String newName, String newContent, int id) async {
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
     var response = await client.post(Uri.parse('$baseURL/task/create'),
         headers: authHeader(token!),
         //TODO
-        body: jsonEncode(<String, String>{"name": newName}));
+        body: jsonEncode(<String, String>{
+          "name": newName,
+          "content": newContent,
+          "projectId": id.toString()
+        }));
     if (response.statusCode == 200) {
       var temp = CommonResp.fromJson(json.decode(response.body));
       return temp;
@@ -75,7 +80,6 @@ class TaskService {
       throw Exception('Failed');
     }
   }
-
 
   static Future<CommonResp?> find(String task) async {
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
@@ -89,7 +93,7 @@ class TaskService {
     }
   }
 
-  static Future<CommonResp?> updateContent (String newContent) async {
+  static Future<CommonResp?> updateContent(String newContent) async {
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
     var response = await client.post(Uri.parse('$baseURL/task/update/content/'),
         headers: authHeader(token!),
