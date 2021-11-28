@@ -1,7 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'dart:convert';
-import 'dart:io';
 import 'package:mobile_app/src/core/utils/http.dart';
 import 'package:mobile_app/src/data/models/payload/error_resp.dart';
 import 'package:mobile_app/src/data/models/payload/login_resp.dart';

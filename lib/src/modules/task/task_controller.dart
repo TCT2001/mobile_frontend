@@ -39,7 +39,6 @@ class TaskController extends GetxController {
   // }
 
   void listTask() async {
-    //TODO
     final data = await TaskService.list(_paginateParam.value);
     if (data!.isEmpty) _isLastPage.value = true;
     _tasks.addAll(data);

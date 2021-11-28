@@ -71,6 +71,6 @@ void displayFeedbackWindow() {
 showSnackBar(String title, String message, Color backgroundColor) {
   Get.snackbar(title, message,
       snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Color(0xff2d5f79),
+      backgroundColor: const Color(0xff2d5f79),
       colorText: Colors.white);
 }
