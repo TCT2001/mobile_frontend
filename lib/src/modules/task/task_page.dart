@@ -346,4 +346,73 @@ class TaskPage extends GetView<TaskController> {
   //         ),
   //       ));
   // }
+
+  void updatePriorityDialog(Task task) {
+      Get.defaultDialog(
+          titleStyle: TextStyle(fontSize: 10),
+          title: 'Select Task Priority',
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Obx(() => DropdownButton<String>(
+                        // Set the Items of DropDownButton
+                        items: [
+                          DropdownMenuItem(
+                            value: "CRITICAL",
+                            child: Text(
+                              "Critcal Priority",
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: "MAJOR",
+                            child: Text(
+                              "Major Priority",
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: "NORMAL",
+                            child: Text(
+                              "Normal Priority",
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: "MINOR ",
+                            child: Text(
+                              "Minor Priority",
+                            ),
+                          ),
+                        ],
+                        value: controller.selectedPriority.value.toString(),
+                        hint: const Text('Select Task Priority'),
+                        isExpanded: true,
+                        onChanged: (selectedValue) {
+                          controller.selectedPriority.value = selectedValue!;
+                        },
+                      )),
+           ElevatedButton(
+                onPressed: () {
+                  Get.back();
+                  updatePriorityOnPress(task,controller.selectedPriority.value);
+                },
+                child: Text(
+                  'Update',
+                  style: TextStyle(color: Colors.white, fontSize: 16.0),
+                ),
+              )
+            ],
+          ),
+          radius: 10.0);
+    }
+  void updatePriorityOnPress(Task task, String newPriority) async {
+    CommonResp? commonResp = await controller.updatePriority(task, newPriority);
+    if (commonResp == null) {
+      customSnackBar("Update Priority", "Some expected error happened");
+      return;
+    }
+    if (commonResp.code == "SUCCESS") {
+      customSnackBar("Update Priority", "Success");
+    } else {
+      customSnackBar("Update Priority", "Some expected error happened");
+    }
+  }
 }
