@@ -69,7 +69,6 @@ class TaskService {
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
     var response = await client.post(Uri.parse('$baseURL/task/create'),
         headers: authHeader(token!),
-        //TODO
         body: jsonEncode(<String, String>{
           "name": newName,
           "content": newContent,
