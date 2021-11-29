@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/src/data/models/project.dart';
@@ -14,12 +16,12 @@ class TaskPage extends GetView<TaskController> {
   TaskPage.ofProject({required this.projectId});
 
   // TextEditingController nameController = TextEditingController(text: '');
-  // TextEditingController contentController = TextEditingController(text: '');
+  TextEditingController contentController = TextEditingController(text: '');
   // final GlobalKey<PopupMenuButtonState<int>> _key = GlobalKey();
 
   // @override
-  // TaskController controller = Get.put(TaskController());
-  // ProjectController projController = Get.put(ProjectController());
+  TaskController controller = Get.put(TaskController());
+  //ProjectController projController = Get.put(ProjectController());
 
   @override
   Widget build(BuildContext context) {
@@ -346,4 +348,76 @@ class TaskPage extends GetView<TaskController> {
   //         ),
   //       ));
   // }
+
+  void updatePriorityDialog(Task task) {
+      Get.defaultDialog(
+          titleStyle: TextStyle(fontSize: 10),
+          title: 'Select Task Priority',
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Obx(() => DropdownButton<String>(
+                        // Set the Items of DropDownButton
+                        items: [
+                          // ignore: prefer_const_constructors
+                          DropdownMenuItem(
+                            value: "CRITICAL",
+                            child: Text(
+                              "Critcal Priority",
+                            ),
+                          ),
+                          // ignore: prefer_const_constructors
+                          DropdownMenuItem(
+                            value: "MAJOR",
+                            child: Text(
+                              "Major Priority",
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: "NORMAL",
+                            // ignore: prefer_const_constructors
+                            child: Text(
+                              "Normal Priority",
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: "MINOR ",
+                            child: Text(
+                              "Minor Priority",
+                            ),
+                          ),
+                        ],
+                        value: controller.selectedPriority.value.toString(),
+                        hint: const Text('Select Task Priority'),
+                        isExpanded: true,
+                        onChanged: (selectedValue) {
+                          controller.selectedPriority.value = selectedValue!;
+                        },
+                      )),
+           ElevatedButton(
+                onPressed: () {
+                  Get.back();
+                  updatePriorityOnPress(task,controller.selectedPriority.value);
+                },
+                child: Text(
+                  'Update',
+                  style: TextStyle(color: Colors.white, fontSize: 16.0),
+                ),
+              )
+            ],
+          ),
+          radius: 10.0);
+    }
+  void updatePriorityOnPress(Task task, String newPriority) async {
+    CommonResp? commonResp = await controller.updatePriority(task, newPriority);
+    if (commonResp == null) {
+      customSnackBar("Update Priority", "Some expected error happened");
+      return;
+    }
+    if (commonResp.code == "SUCCESS") {
+      customSnackBar("Update Priority", "Success");
+    } else {
+      customSnackBar("Update Priority", "Some expected error happened");
+    }
+  }
 }
