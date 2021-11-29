@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -40,12 +42,15 @@ final List<Map<String, dynamic>> _items = [
   },
 ];
 
-class TaskProjectPage extends GetView<TaskController>{
+class TaskProjectPage extends GetView<TaskController> {
   TextEditingController nameController = TextEditingController(text: '');
   TextEditingController contentController = TextEditingController(text: '');
-  TextEditingController invitedEmailController = TextEditingController(text: '');
+  TextEditingController invitedEmailController =
+      TextEditingController(text: '');
 
-  Project projectClicked = Get.arguments['project'];
+  Project project;
+
+  TaskProjectPage({Key? key, required this.project}) : super(key: key);
 
   String invitedEmail = '';
   String role = '';
@@ -56,134 +61,136 @@ class TaskProjectPage extends GetView<TaskController>{
   TaskController controller = Get.put(TaskController());
   ProjectController projController = Get.put(ProjectController());
 
-
-  AppBar? taskAppBar(){
-      return AppBar(
-        title: Text('Tasks of project'),
-        automaticallyImplyLeading: false,
-        leading: GestureDetector(
-          onTap: () {
-            //Ban sua giup toi =)) toi chi dua ve dc HOME hoac neu ve PROJECT thi toi mat Navbar
-            Get.offAllNamed(Routes.MAIN);
-          },
-          child: Icon(
-            Icons.arrow_back, // add custom icons also
-          ),
+  AppBar? taskAppBar() {
+    return AppBar(
+      title: Text('Tasks of project'),
+      automaticallyImplyLeading: false,
+      leading: GestureDetector(
+        onTap: () {
+          //Ban sua giup toi =)) toi chi dua ve dc HOME hoac neu ve PROJECT thi toi mat Navbar
+          Get.offAllNamed(Routes.MAIN);
+        },
+        child: Icon(
+          Icons.arrow_back, // add custom icons also
         ),
-        actionsIconTheme:
-        IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
-        actions: <Widget>[
-          Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {},
-                child: Icon(
-                  Icons.search,
-                  size: 26.0,
-                ),
-              )),
-          PopupMenuButton<int>(
-            onSelected: (value) {
-              if (value == 0) {
-                nameController.text = "";
-                Get.defaultDialog(
-                    titleStyle: TextStyle(fontSize: 0),
-                    title: 'Rename',
-                    content: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        TextField(
-                          controller: nameController,
-                          keyboardType: TextInputType.text,
-                          maxLines: 1,
-                          decoration: const InputDecoration(
-                              labelText: 'New Name',
-                              hintMaxLines: 1,
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.green, width: 4.0))),
+      ),
+      actionsIconTheme:
+          IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
+      actions: <Widget>[
+        Padding(
+            padding: EdgeInsets.only(right: 20.0),
+            child: GestureDetector(
+              onTap: () {},
+              child: Icon(
+                Icons.search,
+                size: 26.0,
+              ),
+            )),
+        PopupMenuButton<int>(
+          onSelected: (value) {
+            if (value == 0) {
+              nameController.text = "";
+              Get.defaultDialog(
+                  titleStyle: TextStyle(fontSize: 0),
+                  title: 'Rename',
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextField(
+                        controller: nameController,
+                        keyboardType: TextInputType.text,
+                        maxLines: 1,
+                        decoration: const InputDecoration(
+                            labelText: 'New Name',
+                            hintMaxLines: 1,
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.green, width: 4.0))),
+                      ),
+                      const SizedBox(
+                        height: 30.0,
+                      ),
+                      ElevatedButton(
+                        onPressed: () async {
+                          Get.back();
+                          CommonResp? commonResp = await projController
+                              .renameProject(project, nameController.text);
+                          if (commonResp == null) {
+                            customSnackBar(
+                                "Rename", "Some expected error happened",
+                                iconData: Icons.warning_rounded,
+                                iconColor: Colors.red);
+                            return;
+                          }
+                          if (commonResp.code == "SUCCESS") {
+                            customSnackBar("Rename", "Success",
+                                iconData: Icons.check_outlined,
+                                iconColor: Colors.green);
+                          } else {
+                            customSnackBar(
+                                "Rename", "Some expected error happened",
+                                iconData: Icons.warning_rounded,
+                                iconColor: Colors.red);
+                          }
+                        },
+                        child: const Text(
+                          'Rename',
+                          style: TextStyle(color: Colors.white, fontSize: 16.0),
                         ),
-                        const SizedBox(
-                          height: 30.0,
-                        ),
-                        ElevatedButton(
-                          onPressed: () async {
-                            Get.back();
-                            CommonResp? commonResp = await projController.renameProject(projectClicked, nameController.text);
-                            if (commonResp == null) {
-                              customSnackBar("Rename", "Some expected error happened",
-                                  iconData: Icons.warning_rounded, iconColor: Colors.red);
-                              return;
-                            }
-                            if (commonResp.code == "SUCCESS") {
-                              customSnackBar("Rename", "Success",
-                                  iconData: Icons.check_outlined, iconColor: Colors.green);
-                            } else {
-                              customSnackBar("Rename", "Some expected error happened",
-                                  iconData: Icons.warning_rounded, iconColor: Colors.red);
-                            }
-                          },
-                          child: const Text(
-                            'Rename',
-                            style: TextStyle(color: Colors.white, fontSize: 16.0),
-                          ),
-                        )
-                      ],
-                    ),
-                    radius: 10.0);
-              }
-              else if (value == 1) {
-                Get.defaultDialog(
-                  title: "Confirm",
-                  middleText: "Are your sure to delete ?",
-                  backgroundColor: Colors.white,
-                  titleStyle: const TextStyle(color: Colors.black),
-                  middleTextStyle:
-                  const TextStyle(color: Colors.black),
-                  actions: <Widget>[
-                    TextButton(
-                      child: const Text("Yes"),
-                      onPressed: () async {
-                        Get.back();
-                        bool rs = await projController.deleteProject(projectClicked);
-                        if (rs) {
-                          customSnackBar("Delete", "Success",
-                              iconData: Icons.check_outlined,
-                              iconColor: Colors.green);
-                        }
-                        //Ban sua giup toi neu xoa ve luon PROJECT dep nhe =)) toi chi dua ve dc HOME hoac neu ve PROJECT thi toi mat Navbar
-                        Get.offAllNamed(Routes.MAIN);
-                      },
-                    ),
-                    TextButton(
-                      child: const Text("No"),
-                      onPressed: () {
-                        Get.back();
-                      },
-                    ),
-                  ],
-                );
-              }
-              else if (value == 2) {
-                inviteDialog();
-              }
-              else if (value == 3) {
-                createDialog();
-                nameController.text = "";
-                contentController.text = "";
-              }
-            },
-            key: _key,
-            itemBuilder: (context) {
-              return <PopupMenuEntry<int>>[
-                PopupMenuItem(child: Text('Rename project'), value: 0),
-                PopupMenuItem(child: Text('Delete project'), value: 1),
-                PopupMenuItem(child: Text('Invite'), value: 2),
-                PopupMenuItem(child: Text('Create task'), value: 3),
-              ];
-            },
-          ),
-        ],
-      );
+                      )
+                    ],
+                  ),
+                  radius: 10.0);
+            } else if (value == 1) {
+              Get.defaultDialog(
+                title: "Confirm",
+                middleText: "Are your sure to delete ?",
+                backgroundColor: Colors.white,
+                titleStyle: const TextStyle(color: Colors.black),
+                middleTextStyle: const TextStyle(color: Colors.black),
+                actions: <Widget>[
+                  TextButton(
+                    child: const Text("Yes"),
+                    onPressed: () async {
+                      Get.back();
+                      bool rs = await projController.deleteProject(project);
+                      if (rs) {
+                        customSnackBar("Delete", "Success",
+                            iconData: Icons.check_outlined,
+                            iconColor: Colors.green);
+                      }
+                      //Ban sua giup toi neu xoa ve luon PROJECT dep nhe =)) toi chi dua ve dc HOME hoac neu ve PROJECT thi toi mat Navbar
+                      Get.offAllNamed(Routes.MAIN);
+                    },
+                  ),
+                  TextButton(
+                    child: const Text("No"),
+                    onPressed: () {
+                      Get.back();
+                    },
+                  ),
+                ],
+              );
+            } else if (value == 2) {
+              inviteDialog();
+            } else if (value == 3) {
+              createDialog();
+              nameController.text = "";
+              contentController.text = "";
+            }
+          },
+          key: _key,
+          itemBuilder: (context) {
+            return <PopupMenuEntry<int>>[
+              PopupMenuItem(child: Text('Rename project'), value: 0),
+              PopupMenuItem(child: Text('Delete project'), value: 1),
+              PopupMenuItem(child: Text('Invite'), value: 2),
+              PopupMenuItem(child: Text('Create task'), value: 3),
+            ];
+          },
+        ),
+      ],
+    );
   }
 
   void inviteDialog() {
@@ -208,7 +215,7 @@ class TaskProjectPage extends GetView<TaskController>{
                     const Text(
                       'Invite',
                       style:
-                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
                       height: 8,
@@ -255,7 +262,7 @@ class TaskProjectPage extends GetView<TaskController>{
                               LocalStorageKey.EMAIL.toString());
 
                           var temp = await projController.inviteProject(
-                              srcEmail!, invitedEmail, projectClicked.id, role);
+                              srcEmail!, invitedEmail, project.id, role);
                           if (temp!.code == "SUCCESS") {
                             customSnackBar('Invite', "Success");
                             Get.back();
@@ -294,7 +301,7 @@ class TaskProjectPage extends GetView<TaskController>{
                     const Text(
                       'Create Task',
                       style:
-                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
                       height: 8,
@@ -330,11 +337,10 @@ class TaskProjectPage extends GetView<TaskController>{
                         icon: const Icon(Icons.send),
                         onPressed: () async {
                           //TODO
-                          CommonResp? commonResp =
-                          await controller.createTask(
+                          CommonResp? commonResp = await controller.createTask(
                               nameController.text,
                               contentController.text,
-                              projectClicked.id);
+                              project.id);
                           if (commonResp!.code == "SUCCESS") {
                             customSnackBar("Create Task", "Success");
                           } else {
@@ -351,20 +357,22 @@ class TaskProjectPage extends GetView<TaskController>{
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Scaffold(appBar: taskAppBar(), body: customBody()));
+    return Obx(() => customBody());
   }
 
   Widget customBody() {
-    if (controller.tasks.isEmpty) {
+    controller.listTaskOfProject(project.id!);
+    if (controller.tasksOfProject.isEmpty) {
       if (controller.isLastPage) {
         return Center(child: Text("No task"));
       } else {
         return Center(child: CircularProgressIndicator());
       }
     }
-    var _items = controller.tasks;
+    var _items = controller.tasksOfProject.toList();
+    // return Text("321");
     return LazyLoadScrollView(
-        onEndOfPage: controller.nextPage,
+        onEndOfPage: controller.nextPageProject,
         isLoading: controller.isLastPage,
         child: ListTileTheme(
           contentPadding: EdgeInsets.all(15),
@@ -380,12 +388,12 @@ class TaskProjectPage extends GetView<TaskController>{
             itemCount: _items.length,
             itemBuilder: (_, index) {
               Task task = _items[index];
-              int id = task.id!;
-              String content = task.content!;
-              String name = task.name!;
-              String visibleTaskScope = task.visibleTaskScope!;
-              String priority = task.priority!;
-              int userIdIfVisibleIsPrivate = task.userIdIfVisibleIsPrivate!;
+              // int id = task.id!;
+              // String content = task.content!;
+              // String name = task.name!;
+              // String visibleTaskScope = task.visibleTaskScope!;
+              // String priority = task.priority!;
+              // int userIdIfVisibleIsPrivate = task.userIdIfVisibleIsPrivate!;
               return GestureDetector(
                 onTap: () {
                   Get.toNamed(Routes.TASK_DETAIL_PAGE,
@@ -394,74 +402,76 @@ class TaskProjectPage extends GetView<TaskController>{
                 child: Card(
                   margin: const EdgeInsets.all(10),
                   child: ListTile(
-                    title: Text("Id: $id, Name: $name, Content: $content"),
+                    title: Text(task.toString()),
                     subtitle: Text("Chua biet"),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                            onPressed: () {
-                              renameDialog(_items[index]);
-                              nameController.text = "";
-                            },
-                            icon: const Icon(Icons.edit)),
-                        IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () {
-                            Get.defaultDialog(
-                              title: "Confirm",
-                              middleText: "Are your sure to delete ?",
-                              backgroundColor: Colors.white,
-                              titleStyle: const TextStyle(color: Colors.black),
-                              middleTextStyle:
-                              const TextStyle(color: Colors.black),
-                              actions: <Widget>[
-                                TextButton(
-                                  child: const Text("Yes"),
-                                  onPressed: () async {
-                                    Get.back();
-                                    bool rs = await controller.deleteTask(_items[index]);
-                                    if (rs) {
-                                      customSnackBar("Delete", "Success",
-                                          iconData: Icons.check_outlined,
-                                          iconColor: Colors.green);
-                                    }
-                                  },
-                                ),
-                                TextButton(
-                                  child: const Text("No"),
-                                  onPressed: () {
-                                    Get.back();
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        ),
-                        PopupMenuButton<int>(
-                          onSelected: (value) {
-                            if(value == 0){
-                              updateStateDialog(task);
-                            }
-                            else if(value == 1){
-                              updatePriorityDialog(task);
-                            }
-                            else if(value == 2){
-                              updateContentDialog(task);
-                              contentController.text = "";
-                            }
-                          },
-                          key: _key,
-                          itemBuilder: (context) {
-                            return <PopupMenuEntry<int>>[
-                              PopupMenuItem(child: Text('Update State'), value: 0),
-                              PopupMenuItem(child: Text('Update Priority'), value: 1),
-                              PopupMenuItem(child: Text('Update Content'), value: 2),
-                            ];
-                          },
-                        ),
-                      ],
-                    ),
+                    // trailing: Row(
+                    //   mainAxisSize: MainAxisSize.min,
+                    //   children: [
+                    //     IconButton(
+                    //         onPressed: () {
+                    //           renameDialog(_items[index]);
+                    //           nameController.text = "";
+                    //         },
+                    //         icon: const Icon(Icons.edit)),
+                    //     IconButton(
+                    //       icon: const Icon(Icons.delete),
+                    //       onPressed: () {
+                    //         Get.defaultDialog(
+                    //           title: "Confirm",
+                    //           middleText: "Are your sure to delete ?",
+                    //           backgroundColor: Colors.white,
+                    //           titleStyle: const TextStyle(color: Colors.black),
+                    //           middleTextStyle:
+                    //               const TextStyle(color: Colors.black),
+                    //           actions: <Widget>[
+                    //             TextButton(
+                    //               child: const Text("Yes"),
+                    //               onPressed: () async {
+                    //                 Get.back();
+                    //                 bool rs = await controller
+                    //                     .deleteTask(_items[index]);
+                    //                 if (rs) {
+                    //                   customSnackBar("Delete", "Success",
+                    //                       iconData: Icons.check_outlined,
+                    //                       iconColor: Colors.green);
+                    //                 }
+                    //               },
+                    //             ),
+                    //             TextButton(
+                    //               child: const Text("No"),
+                    //               onPressed: () {
+                    //                 Get.back();
+                    //               },
+                    //             ),
+                    //           ],
+                    //         );
+                    //       },
+                    //     ),
+                    //     PopupMenuButton<int>(
+                    //       onSelected: (value) {
+                    //         if (value == 0) {
+                    //           updateStateDialog(task);
+                    //         } else if (value == 1) {
+                    //           updatePriorityDialog(task);
+                    //         } else if (value == 2) {
+                    //           updateContentDialog(task);
+                    //           contentController.text = "";
+                    //         }
+                    //       },
+                    //       key: _key,
+                    //       itemBuilder: (context) {
+                    //         return <PopupMenuEntry<int>>[
+                    //           PopupMenuItem(
+                    //               child: Text('Update State'), value: 0),
+                    //           PopupMenuItem(
+                    //               child: Text('Update Priority'), value: 1),
+                    //           PopupMenuItem(
+                    //               child: Text('Update Content'), value: 2),
+                    //         ];
+                    //       },
+                    //     ),
+                    //   ],
+                    // ),
                   ),
                 ),
               );
@@ -526,62 +536,63 @@ class TaskProjectPage extends GetView<TaskController>{
           mainAxisSize: MainAxisSize.min,
           children: [
             Obx(() => DropdownButton<String>(
-              // Set the Items of DropDownButton
-              items: [
-                DropdownMenuItem(
-                  value: "SUBMITTED",
-                  child: Text(
-                    "SUBMITTED",
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: "IN_PROCESS",
-                  child: Text(
-                    "IN PROCESS",
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: "INCOMPLETE",
-                  child: Text(
-                    "INCOMPLETE",
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: "TO_BE_DISCUSSED",
-                  child: Text(
-                    "TO BE DISCUSSED",
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: "DONE",
-                  child: Text(
-                    "DONE",
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: "DUPLICATE",
-                  child: Text(
-                    "DUPLICATE",
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: "OBSOLETE",
-                  child: Text(
-                    "OBSOLETE",
-                  ),
-                ),
-              ],
-              value: controller.selectedState.value.toString(),
-              hint: const Text('Select Task Priority'),
-              isExpanded: true,
-              onChanged: (selectedValue) {
-                controller.selectedState.value = selectedValue!;
-              },
-            )),
+                  // Set the Items of DropDownButton
+                  items: [
+                    DropdownMenuItem(
+                      value: "SUBMITTED",
+                      child: Text(
+                        "SUBMITTED",
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: "IN_PROCESS",
+                      child: Text(
+                        "IN PROCESS",
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: "INCOMPLETE",
+                      child: Text(
+                        "INCOMPLETE",
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: "TO_BE_DISCUSSED",
+                      child: Text(
+                        "TO BE DISCUSSED",
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: "DONE",
+                      child: Text(
+                        "DONE",
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: "DUPLICATE",
+                      child: Text(
+                        "DUPLICATE",
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: "OBSOLETE",
+                      child: Text(
+                        "OBSOLETE",
+                      ),
+                    ),
+                  ],
+                  value: controller.selectedState.value.toString(),
+                  hint: const Text('Select Task Priority'),
+                  isExpanded: true,
+                  onChanged: (selectedValue) {
+                    controller.selectedState.value = selectedValue!;
+                  },
+                )),
             ElevatedButton(
               onPressed: () {
                 Get.back();
-                updateStateOnPress(task,controller.selectedState.value.toString());
+                updateStateOnPress(
+                    task, controller.selectedState.value.toString());
               },
               child: Text(
                 'Update',
@@ -614,44 +625,45 @@ class TaskProjectPage extends GetView<TaskController>{
           mainAxisSize: MainAxisSize.min,
           children: [
             Obx(() => DropdownButton<String>(
-              // Set the Items of DropDownButton
-              items: [
-                DropdownMenuItem(
-                  value: "CRITICAL",
-                  child: Text(
-                    "Critcal Priority",
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: "MAJOR",
-                  child: Text(
-                    "Major Priority",
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: "NORMAL",
-                  child: Text(
-                    "Normal Priority",
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: "MINOR",
-                  child: Text(
-                    "Minor Priority",
-                  ),
-                ),
-              ],
-              value: controller.selectedPriority.value.toString(),
-              hint: const Text('Select Task Priority'),
-              isExpanded: true,
-              onChanged: (selectedValue) {
-                controller.selectedPriority.value = selectedValue!;
-              },
-            )),
+                  // Set the Items of DropDownButton
+                  items: [
+                    DropdownMenuItem(
+                      value: "CRITICAL",
+                      child: Text(
+                        "Critcal Priority",
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: "MAJOR",
+                      child: Text(
+                        "Major Priority",
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: "NORMAL",
+                      child: Text(
+                        "Normal Priority",
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: "MINOR",
+                      child: Text(
+                        "Minor Priority",
+                      ),
+                    ),
+                  ],
+                  value: controller.selectedPriority.value.toString(),
+                  hint: const Text('Select Task Priority'),
+                  isExpanded: true,
+                  onChanged: (selectedValue) {
+                    controller.selectedPriority.value = selectedValue!;
+                  },
+                )),
             ElevatedButton(
               onPressed: () {
                 Get.back();
-                updatePriorityOnPress(task,controller.selectedPriority.value.toString());
+                updatePriorityOnPress(
+                    task, controller.selectedPriority.value.toString());
               },
               child: Text(
                 'Update',
@@ -723,5 +735,4 @@ class TaskProjectPage extends GetView<TaskController>{
       customSnackBar("Update Content", "Some unexpected error happened");
     }
   }
-
 }

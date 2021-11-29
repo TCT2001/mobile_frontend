@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/src/data/models/project.dart';
@@ -357,12 +359,14 @@ class TaskPage extends GetView<TaskController> {
               Obx(() => DropdownButton<String>(
                         // Set the Items of DropDownButton
                         items: [
+                          // ignore: prefer_const_constructors
                           DropdownMenuItem(
                             value: "CRITICAL",
                             child: Text(
                               "Critcal Priority",
                             ),
                           ),
+                          // ignore: prefer_const_constructors
                           DropdownMenuItem(
                             value: "MAJOR",
                             child: Text(
@@ -371,6 +375,7 @@ class TaskPage extends GetView<TaskController> {
                           ),
                           DropdownMenuItem(
                             value: "NORMAL",
+                            // ignore: prefer_const_constructors
                             child: Text(
                               "Normal Priority",
                             ),

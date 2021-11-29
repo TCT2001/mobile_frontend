@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_final_fields
+
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:mobile_app/src/data/models/paginate_param.dart';
@@ -7,14 +9,19 @@ import 'package:mobile_app/src/data/services/task_service.dart';
 
 class TaskController extends GetxController {
   var _tasks = <Task>[].obs;
+  var _tasksOfProject = <Task>[].obs;
   var _paginateParam = PaginateParam(page: 0).obs;
   var _isLastPage = false.obs;
 
   var selectedScope = "PUBLIC".obs;
   var selectedPriority = "NORMAL".obs;
   var selectedState = "SUBMITTED".obs;
+  var projectId = 0.obs;
 
   List<Task> get tasks => _tasks.toList();
+
+  List<Task> get tasksOfProject => _tasks.toList();
+
 
   int? get _page => _paginateParam.value.page;
 
@@ -44,6 +51,16 @@ class TaskController extends GetxController {
     _tasks.addAll(data);
   }
 
+  void listTaskOfProject(int id) async {
+    projectId.value = id;
+    final data = await TaskService.listByProject(_paginateParam.value, id);
+    if (data!.isEmpty) {
+      _isLastPage.value = true;
+      return;
+    }
+    _tasksOfProject.addAll(data);
+  }
+
   void _changeParam(PaginateParam paginateParam) {
     _paginateParam.update((val) {
       val!.page = paginateParam.page;
@@ -56,6 +73,11 @@ class TaskController extends GetxController {
   void nextPage() {
     _paginateParam.value.page += 1;
     listTask();
+  }
+
+  void nextPageProject() {
+    _paginateParam.value.page += 1;
+    listTaskOfProject(projectId.value);
   }
 
   Future<CommonResp?> renameTask(Task task, String newName) async {

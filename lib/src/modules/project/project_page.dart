@@ -206,8 +206,10 @@ class ProjectPage extends GetView<ProjectController> {
 
               return GestureDetector(
                 onTap: () {
-                  Get.toNamed(Routes.TASK_PROJECT_PAGE,
-                      arguments: {"project": _items[index]});
+                  // Get.toNamed(Routes.TASK_PROJECT_PAGE,
+                  //     arguments: {"project": _items[index]});
+                   Get.toNamed(Routes.PROJECT_DETAIL,
+                      arguments: {"id": _items[index].id});
                 },
                 child: Card(
                   margin: const EdgeInsets.all(10),

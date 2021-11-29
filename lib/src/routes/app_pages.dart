@@ -59,17 +59,17 @@ abstract class AppPages {
         page: () => ProjectPage(),
         binding: ProjectBinding()),
     GetPage(name: Routes.PROJECT_DETAIL, page: () => ProjectDetailPage()),
-    GetPage(
-        name: Routes.TASK_PROJECT_PAGE,
-        page: () => TaskProjectPage(),
-        binding: TaskBinding()),
+    // GetPage(
+    //     name: Routes.TASK_PROJECT_PAGE,
+    //     page: () => TaskProjectPage(),
+    //     binding: TaskBinding()),
     GetPage(
         name: Routes.TASK_USER_PAGE,
         page: () => TaskUserPage(),
         binding: TaskBinding()),
-    GetPage(
-        name: Routes.TASK_DETAIL_PAGE,
-        page: () => TaskProjectPage(),
-        binding: TaskBinding()),
+    // GetPage(
+    //     name: Routes.TASK_DETAIL_PAGE,
+    //     page: () => TaskProjectPage(),
+    //     binding: TaskBinding()),
   ];
 }
