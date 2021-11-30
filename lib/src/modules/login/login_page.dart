@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:get/get.dart';
+import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
 import 'package:mobile_app/src/modules/layout/main_layout_page.dart';
 import 'package:mobile_app/src/global_widgets/first.dart';
 import 'package:flutter/painting.dart';
@@ -111,10 +112,9 @@ class _LoginPageState extends State<LoginPage> {
                                         email: _emailTextController.text,
                                         password: _passwordTextController.text);
                                     if (error != "") {
-                                      Get.defaultDialog(
-                                          title: "Oop!", middleText: error);
+                                      customSnackBar("Login", "Username or password is incorrect !", iconData: Icons.warning_rounded, iconColor: Colors.red);
                                     } else {
-                                      Get.toNamed(Routes.MAIN);
+                                      Get.offAllNamed(Routes.MAIN);
                                     }
                                   }
                                 },

@@ -19,10 +19,17 @@ class LoginResp {
   String code;
   LoginRespData? loginRespData;
 
-  factory LoginResp.fromJson(Map<String, dynamic> json) => LoginResp(
+  factory LoginResp.fromJson(Map<String, dynamic> json){ 
+    String code = json["code"];
+    if (code == "SUCCESS") {
+    return LoginResp(
         code: json["code"],
         loginRespData: LoginRespData.fromJson(json["data"]),
       );
+    } else {
+      return LoginResp(code: json["code"]);
+    }
+  }
 
   Map<String, dynamic> toJson() =>
       {"code": code, "data": json.encode(loginRespData!.toJson())};

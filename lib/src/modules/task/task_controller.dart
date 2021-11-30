@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_final_fields
+
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:mobile_app/src/data/models/paginate_param.dart';
@@ -7,25 +9,23 @@ import 'package:mobile_app/src/data/services/task_service.dart';
 
 class TaskController extends GetxController {
   var _tasks = <Task>[].obs;
+  var _tasksOfProject = <Task>[].obs;
   var _paginateParam = PaginateParam(page: 0).obs;
   var _isLastPage = false.obs;
-  //var _choice = 0.obs;
-  var _clickedTaskCard = Task(id: -1, content: "", name: "-1", priority:"", taskState:"", userIdIfVisibleIsPrivate: null, visibleTaskScope: '').obs;
-  var selectedScope = 1.obs;
-  var selectedPriority = "NORMAL".obs;
-  var selectedState = 1.obs;
 
-  final newName = ''.obs;
-  final newContent = ''.obs;
+  var selectedScope = "PUBLIC".obs;
+  var selectedPriority = "NORMAL".obs;
+  var selectedState = "SUBMITTED".obs;
+  var projectId = 0.obs;
 
   List<Task> get tasks => _tasks.toList();
 
+  List<Task> get tasksOfProject => _tasks.toList();
+
+
   int? get _page => _paginateParam.value.page;
 
-  Task get clickedTaskCard => _clickedTaskCard.value;
-
   bool get isLastPage => _isLastPage.value;
-
 
   @override
   void onInit() {
@@ -44,20 +44,21 @@ class TaskController extends GetxController {
 
   void listTask() async {
     final data = await TaskService.list(_paginateParam.value);
-    if (data!.isEmpty) _isLastPage.value = true;
+    if (data!.isEmpty) {
+      _isLastPage.value = true;
+      return;
+    }
     _tasks.addAll(data);
   }
 
-  void listByUser() async {
-    final data = await TaskService.listByUser(_paginateParam.value);
-    if (data!.isEmpty) _isLastPage.value = true;
-    _tasks.addAll(data);
-  }
-
-  void listByProject() async {
-    final data = await TaskService.listByUser(_paginateParam.value);
-    if (data!.isEmpty) _isLastPage.value = true;
-    _tasks.addAll(data);
+  void listTaskOfProject(int id) async {
+    projectId.value = id;
+    final data = await TaskService.listByProject(_paginateParam.value, id);
+    if (data!.isEmpty) {
+      _isLastPage.value = true;
+      return;
+    }
+    _tasksOfProject.addAll(data);
   }
 
   void _changeParam(PaginateParam paginateParam) {
@@ -74,13 +75,18 @@ class TaskController extends GetxController {
     listTask();
   }
 
+  void nextPageProject() {
+    _paginateParam.value.page += 1;
+    listTaskOfProject(projectId.value);
+  }
 
   Future<CommonResp?> renameTask(Task task, String newName) async {
     var temp = await TaskService.rename(task, newName);
     if (temp!.code == "SUCCESS") {
       //TODO
       //_listProject();
-      _tasks.firstWhere((element) => element.id == task.id).name = newName;
+      _tasks.firstWhere((element) => element.id == task.id).name =
+          _tasks.firstWhere((element) => element.id == task.id).name = newName;
       _tasks.refresh();
     }
     return temp;
@@ -96,37 +102,38 @@ class TaskController extends GetxController {
     return false;
   }
 
+  // Future<CommonResp?> findTask(Task task, String newName) async {
+  //   var temp = await TaskService.find(newName);
+  //   if (temp!.code == "SUCCESS") {
+  //     //TODO
+  //     //_listProject();
+  //     _tasks
+  //         .firstWhere((element) => element.id == task.id)
+  //     ;
+  //     _tasks.refresh();
+  //   }
+  //   return temp;
+  // }
 
-  Future<CommonResp?> findTask(Task task, String newName) async {
-      var temp = await TaskService.find(task, newName);
-      if (temp!.code == "SUCCESS") {
-        //TODO
-        //_listProject();
-        _tasks
-            .firstWhere((element) => element.id == task.id)
-        ;
-        _tasks.refresh();
-      }
-      return temp;
-    }
-
-  Future<CommonResp?> createTask(String newName,String newContent, int id) async {
-    var temp = await TaskService.create(newName, newContent, id);
+  Future<CommonResp?> createTask(
+      String newName, String newContent, int? id) async {
+    var temp = await TaskService.create(newName, newContent, id!);
     if (temp!.code == "SUCCESS") {
       Task task = Task.fromJson(temp.data! as Map<String, dynamic>);
+
       _tasks.insert(0, task);
       // _projects.value = List.empty();
     }
     return temp;
   }
 
-  Future<CommonResp?> updateContent(Task task, String newContent) async {
-    var temp = await TaskService.updateContent(task, newContent);
+  Future<CommonResp?> updateState(Task task, String newState) async {
+    var temp = await TaskService.updateState(task, newState);
     if (temp!.code == "SUCCESS") {
       //TODO
       //_listProject();
-      _tasks.firstWhere((element) => element.id == task.id).content =
-          newContent;
+      _tasks.firstWhere((element) => element.id == task.id).taskState =
+          newState;
       _tasks.refresh();
     }
     return temp;
@@ -144,4 +151,20 @@ class TaskController extends GetxController {
     return temp;
   }
 
+  Future<CommonResp?> updateContent(Task task, String newContent) async {
+    var temp = await TaskService.updateContent(task, newContent);
+    if (temp!.code == "SUCCESS") {
+      //TODO
+      //_listProject();
+      _tasks.firstWhere((element) => element.id == task.id).content =
+          newContent;
+      _tasks.refresh();
+    }
+    return temp;
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+  }
 }

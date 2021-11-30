@@ -11,19 +11,27 @@ import 'package:mobile_app/src/modules/layout/main_layout_binding.dart';
 import 'package:mobile_app/src/modules/layout/main_layout_page.dart';
 import 'package:mobile_app/src/modules/login/login_binding.dart';
 import 'package:mobile_app/src/modules/login/login_page.dart';
+import 'package:mobile_app/src/modules/login/login_test_page.dart';
 import 'package:mobile_app/src/modules/notification/noti_binding.dart';
 import 'package:mobile_app/src/modules/notification/noti_page.dart';
 import 'package:mobile_app/src/modules/project/project_binding.dart';
+import 'package:mobile_app/src/modules/project/project_detail_page.dart';
 import 'package:mobile_app/src/modules/project/project_page.dart';
 import 'package:mobile_app/src/modules/signup/signup_binding.dart';
 import 'package:mobile_app/src/modules/signup/signup_page.dart';
 import 'package:mobile_app/src/modules/splash/splash_page.dart';
+import 'package:mobile_app/src/modules/task/task_binding.dart';
+import 'package:mobile_app/src/modules/task/task_project_page.dart';
+import 'package:mobile_app/src/modules/task/task_user_page.dart';
 
 import 'app_routes.dart';
 
 abstract class AppPages {
   static final pages = [
-    GetPage(name: Routes.HOME, page: () => HomePage(), binding: HomeBinding()),
+    GetPage(
+        name: Routes.HOME,
+        page: () => HomePage(),
+        binding: HomeBinding()),
     GetPage(name: Routes.SPLASH, page: () => const SplashPage()),
     GetPage(
         name: Routes.EXAMPLE,
@@ -42,10 +50,9 @@ abstract class AppPages {
         page: () => const InitPage(),
         binding: InitBinding()),
     GetPage(name: Routes.SPLASH, page: () => const SplashPage()),
+    //TODO
     GetPage(
-        name: Routes.LOGIN,
-        page: () => const LoginPage(),
-        binding: LoginBinding()),
+        name: Routes.LOGIN, page: () => LoginScreen(), binding: LoginBinding()),
     GetPage(
         name: Routes.SIGNUP,
         page: () => const SignupPage(),
@@ -54,5 +61,18 @@ abstract class AppPages {
         name: Routes.PROJECT,
         page: () => ProjectPage(),
         binding: ProjectBinding()),
+    GetPage(name: Routes.PROJECT_DETAIL, page: () => ProjectDetailPage()),
+    // GetPage(
+    //     name: Routes.TASK_PROJECT_PAGE,
+    //     page: () => TaskProjectPage(),
+    //     binding: TaskBinding()),
+    GetPage(
+        name: Routes.TASK_USER_PAGE,
+        page: () => TaskUserPage(),
+        binding: TaskBinding()),
+    // GetPage(
+    //     name: Routes.TASK_DETAIL_PAGE,
+    //     page: () => TaskProjectPage(),
+    //     binding: TaskBinding()),
   ];
 }

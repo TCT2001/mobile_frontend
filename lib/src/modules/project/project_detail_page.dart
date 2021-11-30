@@ -1,7 +1,8 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mobile_app/src/core/utils/lazy_load_scroll_view.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/project.dart';
@@ -9,6 +10,7 @@ import 'package:mobile_app/src/data/models/task.dart';
 import 'package:mobile_app/src/data/providers/storage_provider.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
 import 'package:mobile_app/src/modules/task/task_controller.dart';
+import 'package:mobile_app/src/modules/task/task_project_page.dart';
 import 'package:select_form_field/select_form_field.dart';
 
 import 'project_controller.dart';
@@ -67,7 +69,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
       title: const Text('ProjectPage'),
       automaticallyImplyLeading: false,
       actionsIconTheme:
-      IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
+          IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
       leading: GestureDetector(
         onTap: () {/* Write listener code here */},
         child: Icon(
@@ -108,29 +110,39 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: appBar(),
-        body: Column(
-          children: <Widget>[
-            Container(
-              child: FutureBuilder<Project>(
-                future: project,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Text(snapshot.data!.toString());
-                  } else if (snapshot.hasError) {
-                    return Text('Loi');
-                  }
-                  // By default, show a loading spinner.
-                  return const CircularProgressIndicator();
-                },
-              ),
-            ),
-            Expanded(
-              child: Container(
-                child: showTaskList(),
-              ),
-            )
-          ],
-        ));
+        body: FutureBuilder<Project>(
+            future: project,
+            builder: (context, snapshot) {
+              return Column(
+                children: <Widget>[
+                  Container(child: showDetail(snapshot)),
+                  Expanded(
+                    child: Container(
+                      child: showTaskList(snapshot.data)
+                      // child: TaskProjectPage(project: snapshot.data!),
+                    ),
+                  )
+                ],
+              );
+            }));
+  }
+
+  Widget showTaskList(Project? project) {
+    if (project == null) {
+      return Text("NULL");
+    } else {
+      return  TaskProjectPage(project: project);
+    }
+  }
+
+  Widget showDetail(var snapshot) {
+    if (snapshot.hasData) {
+      return Text(snapshot.data!.toString());
+    } else if (snapshot.hasError) {
+      return Text('Loi');
+    }
+    // By default, show a loading spinner.
+    return const CircularProgressIndicator();
   }
 
   void showInviteForm() {
@@ -155,7 +167,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                     const Text(
                       'Invite',
                       style:
-                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
                       height: 8,
@@ -241,7 +253,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                     const Text(
                       'Create Task',
                       style:
-                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
                       height: 8,
@@ -278,9 +290,10 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                         onPressed: () async {
                           //TODO
                           CommonResp? commonResp =
-                          await taskController.createTask(
-                              newNameController.text,
-                              newContentController.text,id);
+                              await taskController.createTask(
+                                  newNameController.text,
+                                  newContentController.text,
+                                  id);
                           if (commonResp!.code == "SUCCESS") {
                             customSnackBar("Create Task", "Success");
                           } else {
@@ -293,9 +306,5 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
             ),
           )),
     );
-  }
-
-  Widget showTaskList() {
-    return Text("Day Se La Task List Cua Project");
   }
 }

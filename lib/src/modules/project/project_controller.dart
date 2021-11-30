@@ -1,7 +1,5 @@
 // ignore_for_file: prefer_final_fields
 
-import 'dart:convert';
-
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:mobile_app/src/data/models/paginate_param.dart';
@@ -13,20 +11,22 @@ class ProjectController extends GetxController {
   var _projects = <Project>[].obs;
   var _paginateParam = PaginateParam(page: 0).obs;
   var _isLastPage = false.obs;
-  var _choice = 0.obs;
-  var _clickedProjectCard = Project(id: -1, name: "-1", userDTOSet: null).obs;
 
   final newName = ''.obs;
 
   List<Project> get projects => _projects.toList();
 
-  Project get clickedProjectCard => _clickedProjectCard.value;
-
   int? get _page => _paginateParam.value.page;
 
   bool get isLastPage => _isLastPage.value;
 
-  int get choice => _choice.value;
+  var project = Project(id: -1, name: "##", userDTOSet: []).obs;
+
+  var _choice = 0.obs;
+
+  var _clickedProjectCard = Project(id: -1, name: "-1", userDTOSet: null).obs;
+
+  Project get clickedProjectCard => _clickedProjectCard.value;
 
   @override
   void onInit() {
@@ -35,17 +35,12 @@ class ProjectController extends GetxController {
     super.onInit();
   }
 
-  void changeChoice(int arg, Project? project) {
-    _choice.value = arg;
-    if (project != null) {
-      _clickedProjectCard.value.id = project.id;
-      _clickedProjectCard.value.name = project.name;
-    }
-  }
-
   void _listProject() async {
     final data = await ProjectService.list(_paginateParam.value);
-    if (data!.isEmpty) _isLastPage.value = true;
+    if (data!.isEmpty) {
+      _isLastPage.value = true;
+      return;
+    }
     _projects.addAll(data);
   }
 
@@ -79,8 +74,8 @@ class ProjectController extends GetxController {
   }
 
   Future<CommonResp?> inviteProject(
-      String srcEmail, String desEmail, int id, String role) async {
-    var temp = await ProjectService.invite(srcEmail, desEmail, id, role);
+      String srcEmail, String desEmail, int? id, String role) async {
+    var temp = await ProjectService.invite(srcEmail, desEmail, id!, role);
     return temp;
   }
 
@@ -101,10 +96,11 @@ class ProjectController extends GetxController {
     if (temp!.code == "SUCCESS") {
       Project project = Project.fromJson(temp.data! as Map<String, dynamic>);
       _projects.insert(0, project);
-      // _projects.value = List.empty();
+      // _projects.value = List.empty()
     }
     return temp;
   }
+
 
   @override
   void onClose() {

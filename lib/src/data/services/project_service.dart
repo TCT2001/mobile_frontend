@@ -7,7 +7,6 @@ import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/paginate_param.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/project.dart';
-import 'package:mobile_app/src/data/models/user.dart';
 import 'package:mobile_app/src/data/providers/storage_provider.dart';
 
 class ProjectService {
@@ -50,7 +49,6 @@ class ProjectService {
     }
   }
 
-
   static Future<Project?> find(int id) async {
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
     var response = await client.get(Uri.parse('$baseURL/prj/find/$id'),
@@ -69,7 +67,6 @@ class ProjectService {
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
     var response = await client.post(Uri.parse('$baseURL/prj/rename/$id'),
         headers: authHeader(token!), body: jsonEncode(newName));
-    print(response.statusCode);
     if (response.statusCode == 200) {
       var temp = CommonResp.fromJson(json.decode(response.body));
       return temp;

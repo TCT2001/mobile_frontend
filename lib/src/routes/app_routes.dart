@@ -13,4 +13,8 @@ abstract class Routes {
   static const INIT = '/init';
   static const SETTING = '/setting';
   static const PROJECT = '/project';
+  static const PROJECT_DETAIL = "/project_detail"; //Nhan them id
+  static const TASK_PROJECT_PAGE = "/task_project_page";
+  static const TASK_USER_PAGE = "/task_user_page";
+  static const TASK_DETAIL_PAGE = "/task_detail_page";
 }
