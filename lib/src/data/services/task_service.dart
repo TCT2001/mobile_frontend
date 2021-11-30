@@ -38,6 +38,25 @@ class TaskService {
     }
   }
 
+  static Future<List<Task>?> listByUsers(PaginateParam paginateParam) async {
+    var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
+    var response = await client.post(Uri.parse('$baseURL/task/listByUsers'),
+        headers: authHeader(token!), body: jsonEncode(paginateParam.toJson()));
+    if (response.statusCode == 200) {
+      var task = List<Task>.empty();
+      var temp = CommonResp.fromJson(json.decode(response.body));
+      if (temp.code == "SUCCESS") {
+        var temp2 = temp.data! as List;
+        task = (temp2.map((model) => Task.fromJson(model)).toList());
+        return task;
+      }
+      return List.empty();
+    } else {
+      // throw Exception('Failed to load data!');
+      return List.empty();
+    }
+  }
+
   static Future<List<Task>?> listByProject(
       PaginateParam paginateParam, int projectId) async {
     print(projectId);

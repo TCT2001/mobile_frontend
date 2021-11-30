@@ -9,7 +9,6 @@ import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/project.dart';
 import 'package:mobile_app/src/data/models/user.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
-import 'package:mobile_app/src/modules/task/task_page.dart';
 import 'package:mobile_app/src/routes/app_routes.dart';
 
 import 'project_controller.dart';
