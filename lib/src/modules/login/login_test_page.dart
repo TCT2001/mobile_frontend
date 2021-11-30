@@ -24,7 +24,7 @@ class LoginScreen extends StatelessWidget {
     return Future.delayed(loginTime).then((_) async {
       LoginResp loginResp =
           await AuthService.login(email: data.name, password: data.password);
-    
+
       if (loginResp.code == "SUCCESS") {
         setStringLocalStorge(
             LocalStorageKey.EMAIL.toString(), loginResp.loginRespData!.email);

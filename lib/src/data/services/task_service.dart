@@ -1,6 +1,8 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'dart:convert';
+
+import 'dart:convert';
 import 'package:mobile_app/src/core/utils/http.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/paginate_param.dart';
@@ -11,7 +13,7 @@ import 'package:mobile_app/src/data/providers/storage_provider.dart';
 class TaskService {
   static Uri LIST_URI = Uri.parse('$baseURL/task/listByUser/');
   static Uri CREATE_URI = Uri.parse('$baseURL/task/create');
-  static Uri FIND_BY_ID_URI = Uri.parse('$baseURL/task/find/{id}');
+  static Uri FIND_BY_ID_URI = Uri.parse('$baseURL/task/find/');
   static Uri UPDATE_CONTENT_URI = Uri.parse('$baseURL/task/update/content/');
   static Uri RENAME_URI = Uri.parse('$baseURL/task/rename/'); //
   static Uri UPDATE_STATE_URI = Uri.parse('$baseURL/task/update/state/');
@@ -38,6 +40,7 @@ class TaskService {
 
   static Future<List<Task>?> listByProject(
       PaginateParam paginateParam, int projectId) async {
+    print(projectId);
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
     var response = await client.post(
         Uri.parse('$baseURL/task/listByProject/$projectId'),
@@ -71,19 +74,6 @@ class TaskService {
     }
   }
 
-  static Future<Task?> find(int id) async {
-    var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
-    var response = await client.get(Uri.parse('$baseURL/task/find/$id'),
-        headers: authHeader(token!));
-    if (response.statusCode == 200) {
-      var temp = CommonResp.fromJson(json.decode(response.body));
-      Map<String, dynamic> jso1 = temp.data as Map<String, dynamic>;
-      return Task.fromJson(jso1);
-    } else {
-      throw Exception('Failed');
-    }
-  }
-
   static Future<CommonResp?> rename(Task task, String newName) async {
     int? id = task.id;
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
@@ -102,7 +92,6 @@ class TaskService {
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
     var response = await client.post(Uri.parse('$baseURL/task/create'),
         headers: authHeader(token!),
-        //TODO
         body: jsonEncode(<String, String>{
           "name": newName,
           "content": newContent,
@@ -116,6 +105,18 @@ class TaskService {
     }
   }
 
+  static Future<Task?> find(int id) async {
+    var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
+    var response = await client.get(Uri.parse('$baseURL/prj/find/$id'),
+        headers: authHeader(token!));
+    if (response.statusCode == 200) {
+      var temp = CommonResp.fromJson(json.decode(response.body));
+      Map<String, dynamic> jso1 = temp.data as Map<String, dynamic>;
+      return Task.fromJson(jso1);
+    } else {
+      throw Exception('Failed');
+    }
+  }
 
   static Future<CommonResp?> updateState(Task task, String newState) async {
     int? id = task.id;

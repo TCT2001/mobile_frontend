@@ -7,20 +7,24 @@ import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/task.dart';
 import 'package:mobile_app/src/data/services/task_service.dart';
 
-class TaskController extends GetxController {
+class TaskProjectController extends GetxController {
+  int projectId;
+
+  TaskProjectController({required this.projectId});
+
   var _tasks = <Task>[].obs;
-  var _tasksOfProject = <Task>[].obs;
+  // var _tasksOfProject = <Task>[].obs;
   var _paginateParam = PaginateParam(page: 0).obs;
   var _isLastPage = false.obs;
 
   var selectedScope = "PUBLIC".obs;
   var selectedPriority = "NORMAL".obs;
   var selectedState = "SUBMITTED".obs;
-  var projectId = 0.obs;
+  //var projectId = 0.obs;
 
   List<Task> get tasks => _tasks.toList();
 
-  List<Task> get tasksOfProject => _tasksOfProject.toList();
+  // List<Task> get tasksOfProject => _tasksOfProject.toList();
 
   int? get _page => _paginateParam.value.page;
 
@@ -28,7 +32,6 @@ class TaskController extends GetxController {
 
   @override
   void onInit() {
-    print("On Init");
     ever(_paginateParam, (_) => listTask());
     _changeParam(PaginateParam(page: 0));
     super.onInit();
@@ -42,29 +45,15 @@ class TaskController extends GetxController {
   //   }
   // }
 
-  
-
   void listTask() async {
-    final data = await TaskService.list(_paginateParam.value);
+    print(_paginateParam.value.page);
+    final data =
+        await TaskService.listByProject(_paginateParam.value, projectId);
     if (data!.isEmpty) {
       _isLastPage.value = true;
       return;
     }
     _tasks.addAll(data);
-  }
-
-  void _listTaskOfProject(int id) async {
-    // if (_paginateParam.value.page == 0) {
-    //   _tasksOfProject = <Task>[].obs;
-    // }
-    print(123);
-    projectId.value = id;
-    final data = await TaskService.listByProject(_paginateParam.value, id);
-    if (data!.isEmpty) {
-      _isLastPage.value = true;
-      return;
-    }
-    _tasksOfProject.addAll(data);
   }
 
   void _changeParam(PaginateParam paginateParam) {
@@ -79,12 +68,6 @@ class TaskController extends GetxController {
   void nextPage() {
     _paginateParam.value.page += 1;
     listTask();
-  }
-
-  void nextPageProject() {
-    print("NextPage");
-    _paginateParam.value.page += 1;
-    _listTaskOfProject(projectId.value);
   }
 
   Future<CommonResp?> renameTask(Task task, String newName) async {
