@@ -80,17 +80,9 @@ class TaskController extends GetxController {
     return false;
   }
 
-  Future<CommonResp?> findTask(Task task, int id) async {
+  Future<Task> find(int id) async {
     var temp = await TaskService.find(id);
-    if (temp!.code == "SUCCESS") {
-      //TODO
-      //_listProject();
-      _tasks
-          .firstWhere((element) => element.id == task.id)
-      ;
-      _tasks.refresh();
-    }
-    return temp;
+    return temp!;
   }
 
   Future<CommonResp?> createTask(
