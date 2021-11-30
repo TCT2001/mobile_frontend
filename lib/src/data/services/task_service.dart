@@ -11,7 +11,7 @@ import 'package:mobile_app/src/data/providers/storage_provider.dart';
 class TaskService {
   static Uri LIST_URI = Uri.parse('$baseURL/task/listByUser/');
   static Uri CREATE_URI = Uri.parse('$baseURL/task/create');
-  static Uri FIND_BY_ID_URI = Uri.parse('$baseURL/task/find/');
+  static Uri FIND_BY_ID_URI = Uri.parse('$baseURL/task/find/{id}');
   static Uri UPDATE_CONTENT_URI = Uri.parse('$baseURL/task/update/content/');
   static Uri RENAME_URI = Uri.parse('$baseURL/task/rename/'); //
   static Uri UPDATE_STATE_URI = Uri.parse('$baseURL/task/update/state/');
@@ -71,6 +71,19 @@ class TaskService {
     }
   }
 
+  static Future<Task?> find(int id) async {
+    var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
+    var response = await client.get(Uri.parse('$baseURL/task/find/$id'),
+        headers: authHeader(token!));
+    if (response.statusCode == 200) {
+      var temp = CommonResp.fromJson(json.decode(response.body));
+      Map<String, dynamic> jso1 = temp.data as Map<String, dynamic>;
+      return Task.fromJson(jso1);
+    } else {
+      throw Exception('Failed');
+    }
+  }
+
   static Future<CommonResp?> rename(Task task, String newName) async {
     int? id = task.id;
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
@@ -103,17 +116,6 @@ class TaskService {
     }
   }
 
-  static Future<CommonResp?> find(String task) async {
-    var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
-    var response = await client.post(Uri.parse('$baseURL/task/find/'),
-        headers: authHeader(token!));
-    if (response.statusCode == 200) {
-      var temp = CommonResp.fromJson(json.decode(response.body));
-      return temp;
-    } else {
-      throw Exception('Failed');
-    }
-  }
 
   static Future<CommonResp?> updateState(Task task, String newState) async {
     int? id = task.id;
