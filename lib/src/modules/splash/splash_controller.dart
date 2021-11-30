@@ -9,9 +9,9 @@ class SplashController extends GetxController {
     //     const Duration(seconds: 1),
     //     () => Get.toNamed(Routes.INIT));
     if (await getStringLocalStorge(LocalStorageKey.TOKEN.toString()) != null) {
-      Get.toNamed(Routes.MAIN);
+      Get.offAllNamed(Routes.MAIN);
     } else {
-      Get.toNamed(Routes.INIT);
+      Get.offAllNamed(Routes.INIT);
     }
   }
 }

@@ -13,7 +13,7 @@ void customSnackBar(String? title, String? message, {int duration = 2, Color bac
     colorText:textColor,
     duration: Duration(seconds: duration),
     isDismissible: true,
-    dismissDirection: SnackDismissDirection.HORIZONTAL,
+    dismissDirection: DismissDirection.horizontal,
     forwardAnimationCurve: Curves.easeOutBack,
   );
 }

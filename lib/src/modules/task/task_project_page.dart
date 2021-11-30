@@ -21,6 +21,8 @@ import 'package:mobile_app/src/modules/task/task_controller.dart';
 import 'package:mobile_app/src/routes/app_routes.dart';
 import 'package:select_form_field/select_form_field.dart';
 
+import 'task_project_controller.dart';
+
 //Ai list cai task thi` moi test dc het nhe' :( toi chua hien dc list =)) tinh nang toi test tam cai branch cua? toan` co ve? dc roi`
 
 final List<Map<String, dynamic>> _items = [
@@ -42,15 +44,15 @@ final List<Map<String, dynamic>> _items = [
   },
 ];
 
-class TaskProjectPage extends GetView<TaskController> {
+class TaskProjectPage extends GetView<TaskProjectController> {
   TextEditingController nameController = TextEditingController(text: '');
   TextEditingController contentController = TextEditingController(text: '');
-  TextEditingController invitedEmailController = TextEditingController(text: '');
+  TextEditingController invitedEmailController =
+      TextEditingController(text: '');
 
   Project project;
 
   TaskProjectPage({Key? key, required this.project}) : super(key: key);
-
 
   String invitedEmail = '';
   String role = '';
@@ -58,7 +60,6 @@ class TaskProjectPage extends GetView<TaskController> {
   final GlobalKey<PopupMenuButtonState<int>> _key = GlobalKey();
 
   @override
-  TaskController controller = Get.put(TaskController());
   ProjectController projController = Get.put(ProjectController());
 
   AppBar? taskAppBar() {
@@ -362,18 +363,20 @@ class TaskProjectPage extends GetView<TaskController> {
   }
 
   Widget customBody() {
-    controller.listTaskOfProject(project.id!);
-    if (controller.tasksOfProject.isEmpty) {
+    TaskProjectController controller =
+        Get.put(TaskProjectController(projectId: project.id!));
+    //controller.listTaskOfProject(project.id!);
+    if (controller.tasks.isEmpty) {
       if (controller.isLastPage) {
         return Center(child: Text("No task"));
       } else {
         return Center(child: CircularProgressIndicator());
       }
     }
-    var _items = controller.tasksOfProject.toList();
+    var _items = controller.tasks;
     // return Text("321");
     return LazyLoadScrollView(
-        onEndOfPage: controller.nextPageProject,
+        onEndOfPage: controller.nextPage,
         isLoading: controller.isLastPage,
         child: ListTileTheme(
           contentPadding: EdgeInsets.all(15),
