@@ -46,6 +46,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   ProjectController controller = Get.put(ProjectController());
   TaskController taskController = Get.put(TaskController());
   int id = Get.arguments['id'];
+  Project clickedProject = Get.arguments['clickedProject'];
   late Future<Project> project;
   late Future<List<Task>> tasks;
   final GlobalKey<PopupMenuButtonState<int>> _key = GlobalKey();
@@ -72,9 +73,11 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
       actionsIconTheme:
           IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
       leading: GestureDetector(
-        onTap: () {/* Write listener code here */},
+        onTap: () {/* Write listener code here */
+          Get.back();
+          },
         child: Icon(
-          Icons.menu, // add custom icons also
+          Icons.arrow_back, // add custom icons also
         ),
       ),
       actions: <Widget>[
@@ -94,12 +97,44 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
             } else if (value == 1) {
               showCreateTaskForm();
             }
+            // else if (value == 2) {
+            //   Get.defaultDialog(
+            //     title: "Confirm",
+            //     middleText: "Are your sure to delete ?",
+            //     backgroundColor: Colors.white,
+            //     titleStyle: const TextStyle(color: Colors.black),
+            //     middleTextStyle: const TextStyle(color: Colors.black),
+            //     actions: <Widget>[
+            //       TextButton(
+            //         child: const Text("Yes"),
+            //         onPressed: () async {
+            //           Get.back();
+            //           bool rs = await controller.deleteProject(clickedProject);
+            //           if (rs) {
+            //             customSnackBar("Delete", "Success",
+            //                 iconData: Icons.check_outlined,
+            //                 iconColor: Colors.green);
+            //           }
+            //           Get.back();
+            //           Get.back();
+            //         },
+            //       ),
+            //       TextButton(
+            //         child: const Text("No"),
+            //         onPressed: () {
+            //           Get.back();
+            //         },
+            //       ),
+            //     ],
+            //   );
+            // }
           },
           key: _key,
           itemBuilder: (context) {
             return <PopupMenuEntry<int>>[
               PopupMenuItem(child: Text('Invite'), value: 0),
               PopupMenuItem(child: Text('Create Task'), value: 1),
+              //PopupMenuItem(child: Text('Delete Project'), value: 2),
             ];
           },
         ),
@@ -290,11 +325,13 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                         icon: const Icon(Icons.send),
                         onPressed: () async {
                           //TODO
+                          Get.back();
                           CommonResp? commonResp =
                               await taskController.createTask(
                                   newNameController.text,
                                   newContentController.text,
                                   id);
+                          print(id);
                           if (commonResp!.code == "SUCCESS") {
                             customSnackBar("Create Task", "Success");
                           } else {
