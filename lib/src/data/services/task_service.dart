@@ -1,6 +1,8 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'dart:convert';
+
+import 'dart:convert';
 import 'package:mobile_app/src/core/utils/http.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/paginate_param.dart';
@@ -38,6 +40,7 @@ class TaskService {
 
   static Future<List<Task>?> listByProject(
       PaginateParam paginateParam, int projectId) async {
+    print(projectId);
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
     var response = await client.post(
         Uri.parse('$baseURL/task/listByProject/$projectId'),
@@ -89,7 +92,6 @@ class TaskService {
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
     var response = await client.post(Uri.parse('$baseURL/task/create'),
         headers: authHeader(token!),
-        //TODO
         body: jsonEncode(<String, String>{
           "name": newName,
           "content": newContent,
@@ -103,13 +105,14 @@ class TaskService {
     }
   }
 
-  static Future<CommonResp?> find(String task) async {
+  static Future<Task?> find(int id) async {
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
-    var response = await client.post(Uri.parse('$baseURL/task/find/'),
+    var response = await client.get(Uri.parse('$baseURL/prj/find/$id'),
         headers: authHeader(token!));
     if (response.statusCode == 200) {
       var temp = CommonResp.fromJson(json.decode(response.body));
-      return temp;
+      Map<String, dynamic> jso1 = temp.data as Map<String, dynamic>;
+      return Task.fromJson(jso1);
     } else {
       throw Exception('Failed');
     }

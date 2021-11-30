@@ -21,6 +21,8 @@ import 'package:mobile_app/src/modules/task/task_controller.dart';
 import 'package:mobile_app/src/routes/app_routes.dart';
 import 'package:select_form_field/select_form_field.dart';
 
+import 'task_project_controller.dart';
+
 //Ai list cai task thi` moi test dc het nhe' :( toi chua hien dc list =)) tinh nang toi test tam cai branch cua? toan` co ve? dc roi`
 
 final List<Map<String, dynamic>> _items = [
@@ -42,7 +44,7 @@ final List<Map<String, dynamic>> _items = [
   },
 ];
 
-class TaskProjectPage extends GetView<TaskController> {
+class TaskProjectPage extends GetView<TaskProjectController> {
   TextEditingController nameController = TextEditingController(text: '');
   TextEditingController contentController = TextEditingController(text: '');
   TextEditingController invitedEmailController =
@@ -58,7 +60,6 @@ class TaskProjectPage extends GetView<TaskController> {
   final GlobalKey<PopupMenuButtonState<int>> _key = GlobalKey();
 
   @override
-  TaskController controller = Get.put(TaskController());
   ProjectController projController = Get.put(ProjectController());
 
   AppBar? taskAppBar() {
@@ -337,6 +338,7 @@ class TaskProjectPage extends GetView<TaskController> {
                         icon: const Icon(Icons.send),
                         onPressed: () async {
                           //TODO
+                          Get.back();
                           CommonResp? commonResp = await controller.createTask(
                               nameController.text,
                               contentController.text,
@@ -361,18 +363,20 @@ class TaskProjectPage extends GetView<TaskController> {
   }
 
   Widget customBody() {
-    controller.listTaskOfProject(project.id!);
-    if (controller.tasksOfProject.isEmpty) {
+    TaskProjectController controller =
+        Get.put(TaskProjectController(projectId: project.id!));
+    //controller.listTaskOfProject(project.id!);
+    if (controller.tasks.isEmpty) {
       if (controller.isLastPage) {
         return Center(child: Text("No task"));
       } else {
         return Center(child: CircularProgressIndicator());
       }
     }
-    var _items = controller.tasksOfProject.toList();
+    var _items = controller.tasks;
     // return Text("321");
     return LazyLoadScrollView(
-        onEndOfPage: controller.nextPageProject,
+        onEndOfPage: controller.nextPage,
         isLoading: controller.isLastPage,
         child: ListTileTheme(
           contentPadding: EdgeInsets.all(15),
@@ -404,74 +408,51 @@ class TaskProjectPage extends GetView<TaskController> {
                   child: ListTile(
                     title: Text(task.toString()),
                     subtitle: Text("Chua biet"),
-                    // trailing: Row(
-                    //   mainAxisSize: MainAxisSize.min,
-                    //   children: [
-                    //     IconButton(
-                    //         onPressed: () {
-                    //           renameDialog(_items[index]);
-                    //           nameController.text = "";
-                    //         },
-                    //         icon: const Icon(Icons.edit)),
-                    //     IconButton(
-                    //       icon: const Icon(Icons.delete),
-                    //       onPressed: () {
-                    //         Get.defaultDialog(
-                    //           title: "Confirm",
-                    //           middleText: "Are your sure to delete ?",
-                    //           backgroundColor: Colors.white,
-                    //           titleStyle: const TextStyle(color: Colors.black),
-                    //           middleTextStyle:
-                    //               const TextStyle(color: Colors.black),
-                    //           actions: <Widget>[
-                    //             TextButton(
-                    //               child: const Text("Yes"),
-                    //               onPressed: () async {
-                    //                 Get.back();
-                    //                 bool rs = await controller
-                    //                     .deleteTask(_items[index]);
-                    //                 if (rs) {
-                    //                   customSnackBar("Delete", "Success",
-                    //                       iconData: Icons.check_outlined,
-                    //                       iconColor: Colors.green);
-                    //                 }
-                    //               },
-                    //             ),
-                    //             TextButton(
-                    //               child: const Text("No"),
-                    //               onPressed: () {
-                    //                 Get.back();
-                    //               },
-                    //             ),
-                    //           ],
-                    //         );
-                    //       },
-                    //     ),
-                    //     PopupMenuButton<int>(
-                    //       onSelected: (value) {
-                    //         if (value == 0) {
-                    //           updateStateDialog(task);
-                    //         } else if (value == 1) {
-                    //           updatePriorityDialog(task);
-                    //         } else if (value == 2) {
-                    //           updateContentDialog(task);
-                    //           contentController.text = "";
-                    //         }
-                    //       },
-                    //       key: _key,
-                    //       itemBuilder: (context) {
-                    //         return <PopupMenuEntry<int>>[
-                    //           PopupMenuItem(
-                    //               child: Text('Update State'), value: 0),
-                    //           PopupMenuItem(
-                    //               child: Text('Update Priority'), value: 1),
-                    //           PopupMenuItem(
-                    //               child: Text('Update Content'), value: 2),
-                    //         ];
-                    //       },
-                    //     ),
-                    //   ],
-                    // ),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                            onPressed: () {
+                              renameDialog(_items[index]);
+                              nameController.text = "";
+                            },
+                            icon: const Icon(Icons.edit)),
+                        IconButton(
+                          icon: const Icon(Icons.delete),
+                          onPressed: () {
+                            Get.defaultDialog(
+                              title: "Confirm",
+                              middleText: "Are your sure to delete ?",
+                              backgroundColor: Colors.white,
+                              titleStyle: const TextStyle(color: Colors.black),
+                              middleTextStyle:
+                                  const TextStyle(color: Colors.black),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: const Text("Yes"),
+                                  onPressed: () async {
+                                    Get.back();
+                                    bool rs = await controller
+                                        .deleteTask(_items[index]);
+                                    if (rs) {
+                                      customSnackBar("Delete", "Success",
+                                          iconData: Icons.check_outlined,
+                                          iconColor: Colors.green);
+                                    }
+                                  },
+                                ),
+                                TextButton(
+                                  child: const Text("No"),
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               );
