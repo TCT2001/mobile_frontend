@@ -31,6 +31,7 @@ class TaskDetailPage extends GetView<TaskController>{
       leading: GestureDetector(
         onTap: () {
           //Ban sua giup toi dua ve` cai list task trc day' nhe'
+          Get.back();
         },
         child: Icon(
           Icons.arrow_back, // add custom icons also
@@ -50,81 +51,82 @@ class TaskDetailPage extends GetView<TaskController>{
             )),
         PopupMenuButton<int>(
           onSelected: (value) {
-            if (value == 0) {
-              nameController.text = "";
-              Get.defaultDialog(
-                  titleStyle: TextStyle(fontSize: 0),
-                  title: 'Rename',
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TextField(
-                        controller: nameController,
-                        keyboardType: TextInputType.text,
-                        maxLines: 1,
-                        decoration: InputDecoration(
-                            labelText: 'New Name',
-                            hintMaxLines: 1,
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.green, width: 4.0))),
-                      ),
-                      SizedBox(
-                        height: 30.0,
-                      ),
-                      ElevatedButton(
-                        onPressed: () async {
-                          Get.back();
-                          CommonResp? commonResp = await controller.renameTask(taskClicked, nameController.text);
-                          if (commonResp == null) {
-                            customSnackBar("Rename", "Some unexpected error happened");
-                            return;
-                          }
-                          if (commonResp.code == "SUCCESS") {
-                            customSnackBar("Rename", "Success");
-                          } else {
-                            customSnackBar("Rename", "Some unexpected error happened");
-                          }
-                        },
-                        child: Text(
-                          'Rename',
-                          style: TextStyle(color: Colors.white, fontSize: 16.0),
-                        ),
-                      )
-                    ],
-                  ),
-                  radius: 10.0);
-            }
-            else if (value == 1) {
-              Get.defaultDialog(
-                title: "Confirm",
-                middleText: "Are your sure to delete ?",
-                backgroundColor: Colors.white,
-                titleStyle: const TextStyle(color: Colors.black),
-                middleTextStyle:
-                const TextStyle(color: Colors.black),
-                actions: <Widget>[
-                  TextButton(
-                    child: const Text("Yes"),
-                    onPressed: () async {
-                      Get.back();
-                      bool rs = await controller.deleteTask(taskClicked);
-                      if (rs) {
-                        customSnackBar("Delete", "Success",
-                            iconData: Icons.check_outlined,
-                            iconColor: Colors.green);
-                      }
-                    },
-                  ),
-                  TextButton(
-                    child: const Text("No"),
-                    onPressed: () {
-                      Get.back();
-                    },
-                  ),
-                ],
-              );
-            }
-            else if (value == 2) {
+            // if (value == 0) {
+            //   nameController.text = "";
+            //   Get.defaultDialog(
+            //       titleStyle: TextStyle(fontSize: 0),
+            //       title: 'Rename',
+            //       content: Column(
+            //         mainAxisSize: MainAxisSize.min,
+            //         children: [
+            //           TextField(
+            //             controller: nameController,
+            //             keyboardType: TextInputType.text,
+            //             maxLines: 1,
+            //             decoration: InputDecoration(
+            //                 labelText: 'New Name',
+            //                 hintMaxLines: 1,
+            //                 border: OutlineInputBorder(
+            //                     borderSide: BorderSide(color: Colors.green, width: 4.0))),
+            //           ),
+            //           SizedBox(
+            //             height: 30.0,
+            //           ),
+            //           ElevatedButton(
+            //             onPressed: () async {
+            //               Get.back();
+            //               CommonResp? commonResp = await controller.renameTask(taskClicked, nameController.text);
+            //               if (commonResp == null) {
+            //                 customSnackBar("Rename", "Some unexpected error happened");
+            //                 return;
+            //               }
+            //               if (commonResp.code == "SUCCESS") {
+            //                 customSnackBar("Rename", "Success");
+            //               } else {
+            //                 customSnackBar("Rename", "Some unexpected error happened");
+            //               }
+            //             },
+            //             child: Text(
+            //               'Rename',
+            //               style: TextStyle(color: Colors.white, fontSize: 16.0),
+            //             ),
+            //           )
+            //         ],
+            //       ),
+            //       radius: 10.0);
+            // }
+            // else if (value == 1) {
+            //   Get.defaultDialog(
+            //     title: "Confirm",
+            //     middleText: "Are your sure to delete ?",
+            //     backgroundColor: Colors.white,
+            //     titleStyle: const TextStyle(color: Colors.black),
+            //     middleTextStyle:
+            //     const TextStyle(color: Colors.black),
+            //     actions: <Widget>[
+            //       TextButton(
+            //         child: const Text("Yes"),
+            //         onPressed: () async {
+            //           Get.back();
+            //           bool rs = await controller.deleteTask(taskClicked);
+            //           if (rs) {
+            //             customSnackBar("Delete", "Success",
+            //                 iconData: Icons.check_outlined,
+            //                 iconColor: Colors.green);
+            //           }
+            //         },
+            //       ),
+            //       TextButton(
+            //         child: const Text("No"),
+            //         onPressed: () {
+            //           Get.back();
+            //         },
+            //       ),
+            //     ],
+            //   );
+            // }
+            // else
+            if (value == 2) {
               Get.defaultDialog(
                   titleStyle: TextStyle(fontSize: 10),
                   title: 'Select Task State',
@@ -320,11 +322,11 @@ class TaskDetailPage extends GetView<TaskController>{
           key: _key,
           itemBuilder: (context) {
             return <PopupMenuEntry<int>>[
-              PopupMenuItem(child: Text('Rename Task'), value: 0),
-              PopupMenuItem(child: Text('Delete Task'), value: 1),
+              // PopupMenuItem(child: Text('Rename Task'), value: 0),
+              // PopupMenuItem(child: Text('Delete Task'), value: 1),
               PopupMenuItem(child: Text('Update State'), value: 2),
-              PopupMenuItem(child: Text('Create Priority'), value: 3),
-              PopupMenuItem(child: Text('Create Content'), value: 4),
+              PopupMenuItem(child: Text('Update Priority'), value: 3),
+              PopupMenuItem(child: Text('Update Content'), value: 4),
             ];
           },
         ),
