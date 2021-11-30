@@ -45,12 +45,12 @@ final List<Map<String, dynamic>> _items = [
 class TaskProjectPage extends GetView<TaskController> {
   TextEditingController nameController = TextEditingController(text: '');
   TextEditingController contentController = TextEditingController(text: '');
-  TextEditingController invitedEmailController =
-      TextEditingController(text: '');
+  TextEditingController invitedEmailController = TextEditingController(text: '');
 
   Project project;
 
   TaskProjectPage({Key? key, required this.project}) : super(key: key);
+
 
   String invitedEmail = '';
   String role = '';
@@ -337,6 +337,7 @@ class TaskProjectPage extends GetView<TaskController> {
                         icon: const Icon(Icons.send),
                         onPressed: () async {
                           //TODO
+                          Get.back();
                           CommonResp? commonResp = await controller.createTask(
                               nameController.text,
                               contentController.text,
@@ -404,74 +405,51 @@ class TaskProjectPage extends GetView<TaskController> {
                   child: ListTile(
                     title: Text(task.toString()),
                     subtitle: Text("Chua biet"),
-                    // trailing: Row(
-                    //   mainAxisSize: MainAxisSize.min,
-                    //   children: [
-                    //     IconButton(
-                    //         onPressed: () {
-                    //           renameDialog(_items[index]);
-                    //           nameController.text = "";
-                    //         },
-                    //         icon: const Icon(Icons.edit)),
-                    //     IconButton(
-                    //       icon: const Icon(Icons.delete),
-                    //       onPressed: () {
-                    //         Get.defaultDialog(
-                    //           title: "Confirm",
-                    //           middleText: "Are your sure to delete ?",
-                    //           backgroundColor: Colors.white,
-                    //           titleStyle: const TextStyle(color: Colors.black),
-                    //           middleTextStyle:
-                    //               const TextStyle(color: Colors.black),
-                    //           actions: <Widget>[
-                    //             TextButton(
-                    //               child: const Text("Yes"),
-                    //               onPressed: () async {
-                    //                 Get.back();
-                    //                 bool rs = await controller
-                    //                     .deleteTask(_items[index]);
-                    //                 if (rs) {
-                    //                   customSnackBar("Delete", "Success",
-                    //                       iconData: Icons.check_outlined,
-                    //                       iconColor: Colors.green);
-                    //                 }
-                    //               },
-                    //             ),
-                    //             TextButton(
-                    //               child: const Text("No"),
-                    //               onPressed: () {
-                    //                 Get.back();
-                    //               },
-                    //             ),
-                    //           ],
-                    //         );
-                    //       },
-                    //     ),
-                    //     PopupMenuButton<int>(
-                    //       onSelected: (value) {
-                    //         if (value == 0) {
-                    //           updateStateDialog(task);
-                    //         } else if (value == 1) {
-                    //           updatePriorityDialog(task);
-                    //         } else if (value == 2) {
-                    //           updateContentDialog(task);
-                    //           contentController.text = "";
-                    //         }
-                    //       },
-                    //       key: _key,
-                    //       itemBuilder: (context) {
-                    //         return <PopupMenuEntry<int>>[
-                    //           PopupMenuItem(
-                    //               child: Text('Update State'), value: 0),
-                    //           PopupMenuItem(
-                    //               child: Text('Update Priority'), value: 1),
-                    //           PopupMenuItem(
-                    //               child: Text('Update Content'), value: 2),
-                    //         ];
-                    //       },
-                    //     ),
-                    //   ],
-                    // ),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                            onPressed: () {
+                              renameDialog(_items[index]);
+                              nameController.text = "";
+                            },
+                            icon: const Icon(Icons.edit)),
+                        IconButton(
+                          icon: const Icon(Icons.delete),
+                          onPressed: () {
+                            Get.defaultDialog(
+                              title: "Confirm",
+                              middleText: "Are your sure to delete ?",
+                              backgroundColor: Colors.white,
+                              titleStyle: const TextStyle(color: Colors.black),
+                              middleTextStyle:
+                                  const TextStyle(color: Colors.black),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: const Text("Yes"),
+                                  onPressed: () async {
+                                    Get.back();
+                                    bool rs = await controller
+                                        .deleteTask(_items[index]);
+                                    if (rs) {
+                                      customSnackBar("Delete", "Success",
+                                          iconData: Icons.check_outlined,
+                                          iconColor: Colors.green);
+                                    }
+                                  },
+                                ),
+                                TextButton(
+                                  child: const Text("No"),
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               );
