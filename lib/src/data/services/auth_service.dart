@@ -1,7 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'dart:convert';
-import 'dart:io';
 import 'package:mobile_app/src/core/utils/http.dart';
 import 'package:mobile_app/src/data/models/payload/error_resp.dart';
 import 'package:mobile_app/src/data/models/payload/login_resp.dart';
@@ -17,7 +16,7 @@ class AuthService {
   //TODO
   static Future<List> refreshToken({required String token}) async {
     var response =
-        await client.post(REFRESH_TOKEN_URI, headers: <String, String>{
+    await client.post(REFRESH_TOKEN_URI, headers: <String, String>{
       'Authorization': 'Bearer $token',
     });
     if (response.statusCode == 200) {

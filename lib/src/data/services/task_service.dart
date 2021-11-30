@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:convert';
 
 import 'package:mobile_app/src/core/utils/http.dart';
@@ -62,12 +64,10 @@ class TaskService {
     }
   }
 
-  static Future<CommonResp?> create(
-      String newName, String newContent, int id) async {
+  static Future<CommonResp?> create(String newName, String newContent, int id) async {
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
     var response = await client.post(Uri.parse('$baseURL/task/create'),
         headers: authHeader(token!),
-        //TODO
         body: jsonEncode(<String, String>{
           "name": newName,
           "content": newContent,
@@ -81,9 +81,9 @@ class TaskService {
     }
   }
 
-  static Future<CommonResp?> find(String task) async {
+  static Future<CommonResp?> find(int id) async {
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
-    var response = await client.post(Uri.parse('$baseURL/task/find/'),
+    var response = await client.post(Uri.parse('$baseURL/task/find/$id'),
         headers: authHeader(token!));
     if (response.statusCode == 200) {
       var temp = CommonResp.fromJson(json.decode(response.body));

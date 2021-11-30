@@ -39,7 +39,6 @@ class TaskController extends GetxController {
   // }
 
   void listTask() async {
-    //TODO
     final data = await TaskService.list(_paginateParam.value);
     if (data!.isEmpty) _isLastPage.value = true;
     _tasks.addAll(data);
@@ -81,18 +80,18 @@ class TaskController extends GetxController {
     return false;
   }
 
-  // Future<CommonResp?> findTask(Task task, String newName) async {
-  //   var temp = await TaskService.find(newName);
-  //   if (temp!.code == "SUCCESS") {
-  //     //TODO
-  //     //_listProject();
-  //     _tasks
-  //         .firstWhere((element) => element.id == task.id)
-  //     ;
-  //     _tasks.refresh();
-  //   }
-  //   return temp;
-  // }
+  Future<CommonResp?> findTask(Task task, int id) async {
+    var temp = await TaskService.find(id);
+    if (temp!.code == "SUCCESS") {
+      //TODO
+      //_listProject();
+      _tasks
+          .firstWhere((element) => element.id == task.id)
+      ;
+      _tasks.refresh();
+    }
+    return temp;
+  }
 
   Future<CommonResp?> createTask(
       String newName, String newContent, int id) async {
