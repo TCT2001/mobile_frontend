@@ -12,7 +12,9 @@ import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
 
 class TaskPage extends GetView<TaskController> {
   int? projectId;
+
   TaskPage.ofUser();
+
   TaskPage.ofProject({required this.projectId});
 
   // TextEditingController nameController = TextEditingController(text: '');
@@ -29,255 +31,255 @@ class TaskPage extends GetView<TaskController> {
         appBar: AppBar(title: const Text("Task")), body: Text("123"));
   }
 
-  // // void deleteTask(Project project) {
-  // //   controller.projects.where((element) => project.id != element.id);
-  // // }
-  // //
-  // void renameOnPressed(Task task, String newName) async {
-  //   CommonResp? commonResp = await controller.renameTask(task, newName);
-  //   if (commonResp == null) {
-  //     customSnackBar("Rename", "Some expected error happened");
-  //     return;
-  //   }
-  //   if (commonResp.code == "SUCCESS") {
-  //     customSnackBar("Rename", "Success");
-  //   } else {
-  //     customSnackBar("Rename", "Some expected error happened");
-  //   }
-  // }
+// // void deleteTask(Project project) {
+// //   controller.projects.where((element) => project.id != element.id);
+// // }
+// //
+// void renameOnPressed(Task task, String newName) async {
+//   CommonResp? commonResp = await controller.renameTask(task, newName);
+//   if (commonResp == null) {
+//     customSnackBar("Rename", "Some expected error happened");
+//     return;
+//   }
+//   if (commonResp.code == "SUCCESS") {
+//     customSnackBar("Rename", "Success");
+//   } else {
+//     customSnackBar("Rename", "Some expected error happened");
+//   }
+// }
 
-  // // void createOnPressed(String newName) async {
-  // //   CommonResp? commonResp = await controller.createProject(newName);
-  // //   if (commonResp == null) {
-  // //     customSnackBar("Create", "Some expected error happened");
-  // //     return;
-  // //   }
-  // //   if (commonResp.code == "SUCCESS") {
-  // //     customSnackBar("Create", "Success");
-  // //   } else {
-  // //     customSnackBar("Create", "Some expected error happened");
-  // //   }
-  // // }
-  // //
-  // void createOnPressed(String newName, String newContent) async {
-  //   CommonResp? commonResp = await controller.createTask(newName, newContent);
-  //   if (commonResp == null) {
-  //     customSnackBar("Create", "Some expected error happened");
-  //     return;
-  //   }
-  //   if (commonResp.code == "SUCCESS") {
-  //     customSnackBar("Create", "Success");
-  //   } else {
-  //     customSnackBar("Create", "Some expected error happened");
-  //   }
-  // }
+// // void createOnPressed(String newName) async {
+// //   CommonResp? commonResp = await controller.createProject(newName);
+// //   if (commonResp == null) {
+// //     customSnackBar("Create", "Some expected error happened");
+// //     return;
+// //   }
+// //   if (commonResp.code == "SUCCESS") {
+// //     customSnackBar("Create", "Success");
+// //   } else {
+// //     customSnackBar("Create", "Some expected error happened");
+// //   }
+// // }
+// //
+// void createOnPressed(String newName, String newContent) async {
+//   CommonResp? commonResp = await controller.createTask(newName, newContent);
+//   if (commonResp == null) {
+//     customSnackBar("Create", "Some expected error happened");
+//     return;
+//   }
+//   if (commonResp.code == "SUCCESS") {
+//     customSnackBar("Create", "Success");
+//   } else {
+//     customSnackBar("Create", "Some expected error happened");
+//   }
+// }
 
-  // void createDialog() {
-  //   Get.defaultDialog(
-  //       titleStyle: const TextStyle(fontSize: 30),
-  //       title: 'Create',
-  //       content: Column(
-  //         mainAxisSize: MainAxisSize.min,
-  //         children: [
-  //           TextField(
-  //             controller: nameController,
-  //             keyboardType: TextInputType.text,
-  //             maxLines: 1,
-  //             decoration: const InputDecoration(
-  //                 labelText: 'Name',
-  //                 hintMaxLines: 1,
-  //                 border: OutlineInputBorder(
-  //                     borderSide: BorderSide(color: Colors.green, width: 4.0))),
-  //           ),
-  //           const SizedBox(
-  //             height: 15,
-  //           ),
-  //           TextField(
-  //             controller: contentController,
-  //             keyboardType: TextInputType.text,
-  //             maxLines: 1,
-  //             decoration: const InputDecoration(
-  //                 labelText: 'Content',
-  //                 hintMaxLines: 1,
-  //                 border: OutlineInputBorder(
-  //                     borderSide: BorderSide(color: Colors.green, width: 4.0))),
-  //           ),
-  //           const SizedBox(
-  //             height: 15,
-  //           ),
-  //           const Text('Select Task Scope'),
-  //           Obx(() => DropdownButton<String>(
-  //                 // Set the Items of DropDownButton
-  //                 items: const [
-  //                   DropdownMenuItem(
-  //                     value: "1",
-  //                     child: Text(
-  //                       "Public",
-  //                     ),
-  //                   ),
-  //                   DropdownMenuItem(
-  //                     value: "2",
-  //                     child: Text(
-  //                       "Private",
-  //                     ),
-  //                   ),
-  //                 ],
-  //                 value: controller.selectedScope.value.toString(),
-  //                 hint: Text('Select Task Scope'),
-  //                 isExpanded: true,
-  //                 onChanged: (selectedValue) {
-  //                   controller.selectedScope.value = int.parse(selectedValue!);
-  //                 },
-  //               )),
-  //           SizedBox(
-  //             height: 15,
-  //           ),
-  //           Text('Select Task Priority'),
-  //           Obx(() => DropdownButton<String>(
-  //                 // Set the Items of DropDownButton
-  //                 items: [
-  //                   DropdownMenuItem(
-  //                     value: "1",
-  //                     child: Text(
-  //                       "Critcal Priority",
-  //                     ),
-  //                   ),
-  //                   DropdownMenuItem(
-  //                     value: "2",
-  //                     child: Text(
-  //                       "Major Priority",
-  //                     ),
-  //                   ),
-  //                   DropdownMenuItem(
-  //                     value: "3",
-  //                     child: Text(
-  //                       "Normal Priority",
-  //                     ),
-  //                   ),
-  //                   DropdownMenuItem(
-  //                     value: "4",
-  //                     child: Text(
-  //                       "Minor Priority",
-  //                     ),
-  //                   ),
-  //                 ],
-  //                 value: controller.selectedPriority.value.toString(),
-  //                 hint: const Text('Select Task Priority'),
-  //                 isExpanded: true,
-  //                 onChanged: (selectedValue) {
-  //                   controller.selectedPriority.value =
-  //                       int.parse(selectedValue!);
-  //                 },
-  //               )),
-  //           const SizedBox(
-  //             height: 15,
-  //           ),
-  //           const Text('Select Task State'),
-  //           Obx(() => DropdownButton<String>(
-  //                 // Set the Items of DropDownButton
-  //                 items: const [
-  //                   DropdownMenuItem(
-  //                     value: "1",
-  //                     child: Text(
-  //                       "Submitted",
-  //                     ),
-  //                   ),
-  //                   DropdownMenuItem(
-  //                     value: "2",
-  //                     child: Text(
-  //                       "In Process",
-  //                     ),
-  //                   ),
-  //                   DropdownMenuItem(
-  //                     value: "3",
-  //                     child: Text(
-  //                       "Incomplete",
-  //                     ),
-  //                   ),
-  //                   DropdownMenuItem(
-  //                     value: "4",
-  //                     child: Text(
-  //                       "To be discussed",
-  //                     ),
-  //                   ),
-  //                   DropdownMenuItem(
-  //                     value: "5",
-  //                     child: Text(
-  //                       "Done",
-  //                     ),
-  //                   ),
-  //                   DropdownMenuItem(
-  //                     value: "6",
-  //                     child: Text(
-  //                       "Duplicate",
-  //                     ),
-  //                   ),
-  //                   DropdownMenuItem(
-  //                     value: "7",
-  //                     child: Text(
-  //                       "Obsolete",
-  //                     ),
-  //                   ),
-  //                 ],
-  //                 value: controller.selectedState.value.toString(),
-  //                 hint: const Text('Select Task State'),
-  //                 isExpanded: true,
-  //                 onChanged: (selectedValue) {
-  //                   controller.selectedState.value = int.parse(selectedValue!);
-  //                 },
-  //               )),
-  //           const SizedBox(
-  //             height: 15,
-  //           ),
-  //           ElevatedButton(
-  //             onPressed: () {
-  //               Get.back();
-  //               createOnPressed(nameController.text, contentController.text);
-  //             },
-  //             child: const Text(
-  //               'Create',
-  //               style: TextStyle(color: Colors.white, fontSize: 16.0),
-  //             ),
-  //           )
-  //         ],
-  //       ),
-  //       radius: 10.0);
-  // }
+// void createDialog() {
+//   Get.defaultDialog(
+//       titleStyle: const TextStyle(fontSize: 30),
+//       title: 'Create',
+//       content: Column(
+//         mainAxisSize: MainAxisSize.min,
+//         children: [
+//           TextField(
+//             controller: nameController,
+//             keyboardType: TextInputType.text,
+//             maxLines: 1,
+//             decoration: const InputDecoration(
+//                 labelText: 'Name',
+//                 hintMaxLines: 1,
+//                 border: OutlineInputBorder(
+//                     borderSide: BorderSide(color: Colors.green, width: 4.0))),
+//           ),
+//           const SizedBox(
+//             height: 15,
+//           ),
+//           TextField(
+//             controller: contentController,
+//             keyboardType: TextInputType.text,
+//             maxLines: 1,
+//             decoration: const InputDecoration(
+//                 labelText: 'Content',
+//                 hintMaxLines: 1,
+//                 border: OutlineInputBorder(
+//                     borderSide: BorderSide(color: Colors.green, width: 4.0))),
+//           ),
+//           const SizedBox(
+//             height: 15,
+//           ),
+//           const Text('Select Task Scope'),
+//           Obx(() => DropdownButton<String>(
+//                 // Set the Items of DropDownButton
+//                 items: const [
+//                   DropdownMenuItem(
+//                     value: "1",
+//                     child: Text(
+//                       "Public",
+//                     ),
+//                   ),
+//                   DropdownMenuItem(
+//                     value: "2",
+//                     child: Text(
+//                       "Private",
+//                     ),
+//                   ),
+//                 ],
+//                 value: controller.selectedScope.value.toString(),
+//                 hint: Text('Select Task Scope'),
+//                 isExpanded: true,
+//                 onChanged: (selectedValue) {
+//                   controller.selectedScope.value = int.parse(selectedValue!);
+//                 },
+//               )),
+//           SizedBox(
+//             height: 15,
+//           ),
+//           Text('Select Task Priority'),
+//           Obx(() => DropdownButton<String>(
+//                 // Set the Items of DropDownButton
+//                 items: [
+//                   DropdownMenuItem(
+//                     value: "1",
+//                     child: Text(
+//                       "Critcal Priority",
+//                     ),
+//                   ),
+//                   DropdownMenuItem(
+//                     value: "2",
+//                     child: Text(
+//                       "Major Priority",
+//                     ),
+//                   ),
+//                   DropdownMenuItem(
+//                     value: "3",
+//                     child: Text(
+//                       "Normal Priority",
+//                     ),
+//                   ),
+//                   DropdownMenuItem(
+//                     value: "4",
+//                     child: Text(
+//                       "Minor Priority",
+//                     ),
+//                   ),
+//                 ],
+//                 value: controller.selectedPriority.value.toString(),
+//                 hint: const Text('Select Task Priority'),
+//                 isExpanded: true,
+//                 onChanged: (selectedValue) {
+//                   controller.selectedPriority.value =
+//                       int.parse(selectedValue!);
+//                 },
+//               )),
+//           const SizedBox(
+//             height: 15,
+//           ),
+//           const Text('Select Task State'),
+//           Obx(() => DropdownButton<String>(
+//                 // Set the Items of DropDownButton
+//                 items: const [
+//                   DropdownMenuItem(
+//                     value: "1",
+//                     child: Text(
+//                       "Submitted",
+//                     ),
+//                   ),
+//                   DropdownMenuItem(
+//                     value: "2",
+//                     child: Text(
+//                       "In Process",
+//                     ),
+//                   ),
+//                   DropdownMenuItem(
+//                     value: "3",
+//                     child: Text(
+//                       "Incomplete",
+//                     ),
+//                   ),
+//                   DropdownMenuItem(
+//                     value: "4",
+//                     child: Text(
+//                       "To be discussed",
+//                     ),
+//                   ),
+//                   DropdownMenuItem(
+//                     value: "5",
+//                     child: Text(
+//                       "Done",
+//                     ),
+//                   ),
+//                   DropdownMenuItem(
+//                     value: "6",
+//                     child: Text(
+//                       "Duplicate",
+//                     ),
+//                   ),
+//                   DropdownMenuItem(
+//                     value: "7",
+//                     child: Text(
+//                       "Obsolete",
+//                     ),
+//                   ),
+//                 ],
+//                 value: controller.selectedState.value.toString(),
+//                 hint: const Text('Select Task State'),
+//                 isExpanded: true,
+//                 onChanged: (selectedValue) {
+//                   controller.selectedState.value = int.parse(selectedValue!);
+//                 },
+//               )),
+//           const SizedBox(
+//             height: 15,
+//           ),
+//           ElevatedButton(
+//             onPressed: () {
+//               Get.back();
+//               createOnPressed(nameController.text, contentController.text);
+//             },
+//             child: const Text(
+//               'Create',
+//               style: TextStyle(color: Colors.white, fontSize: 16.0),
+//             ),
+//           )
+//         ],
+//       ),
+//       radius: 10.0);
+// }
 
-  // // void renameDialog(Task task) {
-  // //   Get.defaultDialog(
-  // //       titleStyle: TextStyle(fontSize: 0),
-  // //       title: 'Rename',
-  // //       content: Column(
-  // //         mainAxisSize: MainAxisSize.min,
-  // //         children: [
-  // //           TextField(
-  // //             controller: textController,
-  // //             keyboardType: TextInputType.text,
-  // //             maxLines: 1,
-  // //             decoration: InputDecoration(
-  // //                 labelText: 'New Name',
-  // //                 hintMaxLines: 1,
-  // //                 border: OutlineInputBorder(
-  // //                     borderSide: BorderSide(color: Colors.green, width: 4.0))),
-  // //           ),
-  // //           SizedBox(
-  // //             height: 30.0,
-  // //           ),
-  // //           ElevatedButton(
-  // //             onPressed: () {
-  // //               Get.back();
-  // //               renameOnPressed(task, textController.text);
-  // //             },
-  // //             child: Text(
-  // //               'Rename',
-  // //               style: TextStyle(color: Colors.white, fontSize: 16.0),
-  // //             ),
-  // //           )
-  // //         ],
-  // //       ),
-  // //       radius: 10.0);
-  // // }
+// // void renameDialog(Task task) {
+// //   Get.defaultDialog(
+// //       titleStyle: TextStyle(fontSize: 0),
+// //       title: 'Rename',
+// //       content: Column(
+// //         mainAxisSize: MainAxisSize.min,
+// //         children: [
+// //           TextField(
+// //             controller: textController,
+// //             keyboardType: TextInputType.text,
+// //             maxLines: 1,
+// //             decoration: InputDecoration(
+// //                 labelText: 'New Name',
+// //                 hintMaxLines: 1,
+// //                 border: OutlineInputBorder(
+// //                     borderSide: BorderSide(color: Colors.green, width: 4.0))),
+// //           ),
+// //           SizedBox(
+// //             height: 30.0,
+// //           ),
+// //           ElevatedButton(
+// //             onPressed: () {
+// //               Get.back();
+// //               renameOnPressed(task, textController.text);
+// //             },
+// //             child: Text(
+// //               'Rename',
+// //               style: TextStyle(color: Colors.white, fontSize: 16.0),
+// //             ),
+// //           )
+// //         ],
+// //       ),
+// //       radius: 10.0);
+// // }
 
   // Widget customBody() {
   //   if (controller.tasks.isEmpty) {

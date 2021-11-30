@@ -16,7 +16,7 @@ class AuthService {
   //TODO
   static Future<List> refreshToken({required String token}) async {
     var response =
-        await client.post(REFRESH_TOKEN_URI, headers: <String, String>{
+    await client.post(REFRESH_TOKEN_URI, headers: <String, String>{
       'Authorization': 'Bearer $token',
     });
     if (response.statusCode == 200) {

@@ -86,8 +86,7 @@ class TaskService {
     }
   }
 
-  static Future<CommonResp?> create(
-      String newName, String newContent, int id) async {
+  static Future<CommonResp?> create(String newName, String newContent, int id) async {
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
     var response = await client.post(Uri.parse('$baseURL/task/create'),
         headers: authHeader(token!),
@@ -104,13 +103,14 @@ class TaskService {
     }
   }
 
-  static Future<CommonResp?> find(String task) async {
+  static Future<Task?> find(int id) async {
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
-    var response = await client.post(Uri.parse('$baseURL/task/find/'),
+    var response = await client.get(Uri.parse('$baseURL/prj/find/$id'),
         headers: authHeader(token!));
     if (response.statusCode == 200) {
       var temp = CommonResp.fromJson(json.decode(response.body));
-      return temp;
+      Map<String, dynamic> jso1 = temp.data as Map<String, dynamic>;
+      return Task.fromJson(jso1);
     } else {
       throw Exception('Failed');
     }
