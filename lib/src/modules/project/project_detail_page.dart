@@ -10,6 +10,7 @@ import 'package:mobile_app/src/data/models/task.dart';
 import 'package:mobile_app/src/data/providers/storage_provider.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
 import 'package:mobile_app/src/modules/task/task_controller.dart';
+import 'package:mobile_app/src/modules/task/task_project_page.dart';
 import 'package:select_form_field/select_form_field.dart';
 
 import 'project_controller.dart';
@@ -109,29 +110,39 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: appBar(),
-        body: Column(
-          children: <Widget>[
-            Container(
-              child: FutureBuilder<Project>(
-                future: project,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Text(snapshot.data!.toString());
-                  } else if (snapshot.hasError) {
-                    return Text('Loi');
-                  }
-                  // By default, show a loading spinner.
-                  return const CircularProgressIndicator();
-                },
-              ),
-            ),
-            Expanded(
-              child: Container(
-                child: showTaskList(),
-              ),
-            )
-          ],
-        ));
+        body: FutureBuilder<Project>(
+            future: project,
+            builder: (context, snapshot) {
+              return Column(
+                children: <Widget>[
+                  Container(child: showDetail(snapshot)),
+                  Expanded(
+                    child: Container(
+                      child: showTaskList(snapshot.data)
+                      // child: TaskProjectPage(project: snapshot.data!),
+                    ),
+                  )
+                ],
+              );
+            }));
+  }
+
+  Widget showTaskList(Project? project) {
+    if (project == null) {
+      return Text("NULL");
+    } else {
+      return  TaskProjectPage(project: project);
+    }
+  }
+
+  Widget showDetail(var snapshot) {
+    if (snapshot.hasData) {
+      return Text(snapshot.data!.toString());
+    } else if (snapshot.hasError) {
+      return Text('Loi');
+    }
+    // By default, show a loading spinner.
+    return const CircularProgressIndicator();
   }
 
   void showInviteForm() {
@@ -295,9 +306,5 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
             ),
           )),
     );
-  }
-
-  Widget showTaskList() {
-    return Text("Day Se La Task List Cua Project");
   }
 }

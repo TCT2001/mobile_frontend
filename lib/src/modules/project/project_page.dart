@@ -55,7 +55,7 @@ class ProjectPage extends GetView<ProjectController> {
           key: _key,
           itemBuilder: (context) {
             return <PopupMenuEntry<int>>[
-              PopupMenuItem(child: Text('Create'), value: 0),
+              PopupMenuItem(child: Text('Create project'), value: 0),
             ];
           },
         ),
@@ -206,7 +206,9 @@ class ProjectPage extends GetView<ProjectController> {
 
               return GestureDetector(
                 onTap: () {
-                  Get.toNamed(Routes.PROJECT_DETAIL,
+                  // Get.toNamed(Routes.TASK_PROJECT_PAGE,
+                  //     arguments: {"project": _items[index]});
+                   Get.toNamed(Routes.PROJECT_DETAIL,
                       arguments: {"id": _items[index].id});
                 },
                 child: Card(
