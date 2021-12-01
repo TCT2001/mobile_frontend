@@ -6,10 +6,9 @@ import 'package:get/get.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/project.dart';
-import 'package:mobile_app/src/data/models/task.dart';
 import 'package:mobile_app/src/data/providers/storage_provider.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
-import 'package:mobile_app/src/modules/task/task_controller.dart';
+import 'package:mobile_app/src/modules/task/task_project_controller.dart';
 import 'package:mobile_app/src/modules/task/task_project_page.dart';
 import 'package:select_form_field/select_form_field.dart';
 
@@ -43,7 +42,6 @@ class ProjectDetailPage extends StatefulWidget {
 
 class _ProjectDetailPageState extends State<ProjectDetailPage> {
   ProjectController controller = Get.put(ProjectController());
-  TaskController taskController = Get.put(TaskController());
   int id = Get.arguments['id'];
   Project clickedProject = Get.arguments['clickedProject'];
   late Future<Project> project;
@@ -264,6 +262,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   }
 
   void showCreateTaskForm() {
+    TaskProjectController taskController =
+        Get.put(TaskProjectController(projectId: id));
     Get.bottomSheet(
       Container(
           height: 250,
@@ -327,7 +327,6 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                                   newNameController.text,
                                   newContentController.text,
                                   id);
-                          print(id);
                           if (commonResp!.code == "SUCCESS") {
                             customSnackBar("Create Task", "Success");
                           } else {

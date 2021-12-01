@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -8,14 +7,10 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
-import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/task.dart';
-import 'package:mobile_app/src/data/providers/storage_provider.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
-import 'package:mobile_app/src/modules/task/task_controller.dart';
 import 'package:mobile_app/src/routes/app_routes.dart';
-import 'package:select_form_field/select_form_field.dart';
 import 'task_user_controller.dart';
 import 'package:mobile_app/src/core/utils/lazy_load_scroll_view.dart';
 
@@ -38,7 +33,7 @@ final List<Map<String, dynamic>> _items = [
   },
 ];
 
-class TaskUserPage extends GetView<TaskController> {
+class TaskUserPage extends GetView<TaskUserController> {
   TextEditingController nameController = TextEditingController(text: '');
   TextEditingController contentController = TextEditingController(text: '');
   TextEditingController invitedEmailController =
@@ -50,7 +45,9 @@ class TaskUserPage extends GetView<TaskController> {
   final GlobalKey<PopupMenuButtonState<int>> _key = GlobalKey();
 
   @override
-  TaskController controller = Get.put(TaskController());
+  TaskUserController controller = Get.put(TaskUserController());
+
+  TaskUserPage({Key? key}) : super(key: key);
 
   AppBar? taskAppBar() {
     return AppBar(
@@ -345,16 +342,10 @@ class TaskUserPage extends GetView<TaskController> {
 
   @override
   Widget build(BuildContext context) {
-    // return Scaffold(appBar: taskAppBar(),
-    //     body: Text('Task User Page')
-    // );
     return Obx(() => customBody());
   }
 
   Widget customBody() {
-    // TaskUserController controller =
-    // Get.put(TaskUserController(projectId: project.id!));
-    //controller.listTaskOfProject(project.id!);
     if (controller.tasks.isEmpty) {
       if (controller.isLastPage) {
         return Center(child: Text("No task"));
@@ -501,7 +492,7 @@ class TaskUserPage extends GetView<TaskController> {
           children: [
             Obx(() => DropdownButton<String>(
               // Set the Items of DropDownButton
-              items: [
+              items: const [
                 DropdownMenuItem(
                   value: "SUBMITTED",
                   child: Text(
@@ -590,7 +581,7 @@ class TaskUserPage extends GetView<TaskController> {
           children: [
             Obx(() => DropdownButton<String>(
               // Set the Items of DropDownButton
-              items: [
+              items: const [
                 DropdownMenuItem(
                   value: "CRITICAL",
                   child: Text(

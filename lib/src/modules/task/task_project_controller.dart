@@ -13,18 +13,14 @@ class TaskProjectController extends GetxController {
   TaskProjectController({required this.projectId});
 
   var _tasks = <Task>[].obs;
-  // var _tasksOfProject = <Task>[].obs;
   var _paginateParam = PaginateParam(page: 0).obs;
   var _isLastPage = false.obs;
 
   var selectedScope = "PUBLIC".obs;
   var selectedPriority = "NORMAL".obs;
   var selectedState = "SUBMITTED".obs;
-  //var projectId = 0.obs;
 
   List<Task> get tasks => _tasks.toList();
-
-  // List<Task> get tasksOfProject => _tasksOfProject.toList();
 
   int? get _page => _paginateParam.value.page;
 
@@ -32,18 +28,11 @@ class TaskProjectController extends GetxController {
 
   @override
   void onInit() {
+    print("On Init O Day");
     ever(_paginateParam, (_) => listTask());
     _changeParam(PaginateParam(page: 0));
     super.onInit();
   }
-
-  // void changeChoice(int arg, Task? task) {
-  //   _choice.value = arg;
-  //   if (task != null) {
-  //     _clickedTaskCard.value.id = task.id;
-  //     _clickedTaskCard.value.name = task.name;
-  //   }
-  // }
 
   void listTask() async {
     final data =
@@ -53,7 +42,7 @@ class TaskProjectController extends GetxController {
       return;
     }
     _tasks.addAll(data);
-    _tasks.refresh();
+    //_tasks.refresh();
   }
 
   void _changeParam(PaginateParam paginateParam) {
@@ -102,9 +91,9 @@ class TaskProjectController extends GetxController {
     var temp = await TaskService.create(newName, newContent, id!);
     if (temp!.code == "SUCCESS") {
       Task task = Task.fromJson(temp.data! as Map<String, dynamic>);
-
       _tasks.insert(0, task);
       // _projects.value = List.empty();
+      _tasks.refresh();
     }
     return temp;
   }

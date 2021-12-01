@@ -5,34 +5,23 @@ import 'package:mobile_app/src/modules/example/example_binding.dart';
 import 'package:mobile_app/src/modules/example/example_page.dart';
 import 'package:mobile_app/src/modules/home/home_binding.dart';
 import 'package:mobile_app/src/modules/home/home_page.dart';
-import 'package:mobile_app/src/modules/init/init_binding.dart';
-import 'package:mobile_app/src/modules/init/init_page.dart';
 import 'package:mobile_app/src/modules/layout/main_layout_binding.dart';
 import 'package:mobile_app/src/modules/layout/main_layout_page.dart';
-import 'package:mobile_app/src/modules/login/login_binding.dart';
-import 'package:mobile_app/src/modules/login/login_page.dart';
-import 'package:mobile_app/src/modules/login/login_test_page.dart';
+import 'package:mobile_app/src/modules/login/login_signup_page.dart';
 import 'package:mobile_app/src/modules/notification/noti_binding.dart';
 import 'package:mobile_app/src/modules/notification/noti_page.dart';
 import 'package:mobile_app/src/modules/project/project_binding.dart';
 import 'package:mobile_app/src/modules/project/project_detail_page.dart';
 import 'package:mobile_app/src/modules/project/project_page.dart';
-import 'package:mobile_app/src/modules/signup/signup_binding.dart';
-import 'package:mobile_app/src/modules/signup/signup_page.dart';
 import 'package:mobile_app/src/modules/splash/splash_page.dart';
-import 'package:mobile_app/src/modules/task/task_binding.dart';
 import 'package:mobile_app/src/modules/task/task_detail_page.dart';
-import 'package:mobile_app/src/modules/task/task_project_page.dart';
 import 'package:mobile_app/src/modules/task/task_user_page.dart';
 
 import 'app_routes.dart';
 
 abstract class AppPages {
   static final pages = [
-    GetPage(
-        name: Routes.HOME,
-        page: () => HomePage(),
-        binding: HomeBinding()),
+    GetPage(name: Routes.HOME, page: () => HomePage(), binding: HomeBinding()),
     GetPage(name: Routes.SPLASH, page: () => const SplashPage()),
     GetPage(
         name: Routes.EXAMPLE,
@@ -46,18 +35,9 @@ abstract class AppPages {
         name: Routes.MAIN,
         page: () => MainLayoutPage(),
         binding: MainLayoutBinding()),
-    GetPage(
-        name: Routes.INIT,
-        page: () => const InitPage(),
-        binding: InitBinding()),
     GetPage(name: Routes.SPLASH, page: () => const SplashPage()),
     //TODO
-    GetPage(
-        name: Routes.LOGIN, page: () => LoginScreen(), binding: LoginBinding()),
-    GetPage(
-        name: Routes.SIGNUP,
-        page: () => const SignupPage(),
-        binding: SignupBinding()),
+    GetPage(name: Routes.LOGIN, page: () => LoginScreen()),
     GetPage(
         name: Routes.PROJECT,
         page: () => ProjectPage(),
@@ -68,12 +48,12 @@ abstract class AppPages {
     //     page: () => TaskProjectPage(),
     //     binding: TaskBinding()),
     GetPage(
-        name: Routes.TASK_USER_PAGE,
-        page: () => TaskUserPage(),
-        binding: TaskBinding()),
+      name: Routes.TASK_USER_PAGE,
+      page: () => TaskUserPage(),
+    ),
     GetPage(
-        name: Routes.TASK_DETAIL_PAGE,
-        page: () => TaskDetailPage(),
-        binding: TaskBinding()),
+      name: Routes.TASK_DETAIL_PAGE,
+      page: () => TaskDetailPage(),
+    ),
   ];
 }

@@ -8,12 +8,7 @@ import 'package:mobile_app/src/data/models/task.dart';
 import 'package:mobile_app/src/data/services/task_service.dart';
 
 class TaskUserController extends GetxController {
-  //int projectId;
-
-  //TaskProjectController({required this.projectId});
-
   var _tasks = <Task>[].obs;
-  // var _tasksOfProject = <Task>[].obs;
   var _paginateParam = PaginateParam(page: 0).obs;
   var _isLastPage = false.obs;
 
@@ -37,16 +32,7 @@ class TaskUserController extends GetxController {
     super.onInit();
   }
 
-  // void changeChoice(int arg, Task? task) {
-  //   _choice.value = arg;
-  //   if (task != null) {
-  //     _clickedTaskCard.value.id = task.id;
-  //     _clickedTaskCard.value.name = task.name;
-  //   }
-  // }
-
   void listTask() async {
-    print(_paginateParam.value.page);
     final data =
     await TaskService.listByUsers(_paginateParam.value);
     if (data!.isEmpty) {

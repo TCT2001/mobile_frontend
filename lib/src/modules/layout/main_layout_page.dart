@@ -11,7 +11,6 @@ import 'package:mobile_app/src/modules/setting/setting_page.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:mobile_app/src/modules/task/task_user_page.dart';
-import 'package:mobile_app/src/routes/app_routes.dart';
 
 class MainLayoutPage extends GetView<MainLayoutController> {
   MainLayoutPage({Key? key}) : super(key: key);
@@ -69,10 +68,6 @@ class MainLayoutPage extends GetView<MainLayoutController> {
                       icon: LineIcons.tasks,
                       text: 'Tasks',
                     ),
-                    // GButton(
-                    //   icon: LineIcons.search,
-                    //   text: 'Search',
-                    // ),
                     GButton(
                       icon: LineIcons.bell,
                       text: 'Notifications',

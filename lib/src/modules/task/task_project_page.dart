@@ -1,25 +1,16 @@
 // ignore_for_file: prefer_const_constructors
-
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:mobile_app/src/core/utils/lazy_load_scroll_view.dart';
-import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/project.dart';
 import 'package:mobile_app/src/data/models/task.dart';
-import 'package:mobile_app/src/data/providers/storage_provider.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
-import 'package:mobile_app/src/modules/project/project_controller.dart';
-import 'package:mobile_app/src/modules/project/project_page.dart';
-import 'package:mobile_app/src/modules/task/task_controller.dart';
 import 'package:mobile_app/src/routes/app_routes.dart';
-import 'package:select_form_field/select_form_field.dart';
 
 import 'task_project_controller.dart';
 
@@ -31,94 +22,100 @@ Widget taskProjectList(Project project) {
   TaskProjectController controller =
       Get.put(TaskProjectController(projectId: project.id!));
 
-  var _items = controller.tasks;
+  return Obx(() {
+    var _items = controller.tasks;
 
-  if (controller.tasks.isEmpty) {
-    if (controller.isLastPage) {
+    if (controller.tasks.isEmpty) {
+      if (controller.isLastPage) {
+        return CircularProgressIndicator();
+      }
       return Center(child: Text("No task"));
-    } else {
-      return Center(child: CircularProgressIndicator());
     }
-  }
-  return LazyLoadScrollView(
-      onEndOfPage: controller.nextPage,
-      isLoading: controller.isLastPage,
-      child: ListTileTheme(
-        contentPadding: EdgeInsets.all(15),
-        iconColor: Colors.red,
-        textColor: Colors.black54,
-        tileColor: Colors.yellow[100],
-        style: ListTileStyle.list,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        dense: true,
-        child: ListView.builder(
-          itemCount: _items.length,
-          itemBuilder: (_, index) {
-            Task task = _items[index];
-            return GestureDetector(
-              onTap: () {
-                Get.toNamed(Routes.TASK_DETAIL_PAGE,
-                    arguments: {"id": _items[index].id});
-              },
-              child: Card(
-                margin: const EdgeInsets.all(10),
-                child: ListTile(
-                  title: Text(task.toString()),
-                  subtitle: Text("Chua biet"),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
+
+    // if (!controller.isLastPage) {
+    //   return Center(child: CircularProgressIndicator());
+    // }
+
+    return LazyLoadScrollView(
+        onEndOfPage: controller.nextPage,
+        isLoading: controller.isLastPage,
+        child: ListTileTheme(
+          contentPadding: EdgeInsets.all(15),
+          iconColor: Colors.red,
+          textColor: Colors.black54,
+          tileColor: Colors.yellow[100],
+          style: ListTileStyle.list,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          dense: true,
+          child: ListView.builder(
+            itemCount: _items.length,
+            itemBuilder: (_, index) {
+              Task task = _items[index];
+              return GestureDetector(
+                onTap: () {
+                  Get.toNamed(Routes.TASK_DETAIL_PAGE,
+                      arguments: {"id": _items[index].id});
+                },
+                child: Card(
+                  margin: const EdgeInsets.all(10),
+                  child: ListTile(
+                    title: Text(task.toString()),
+                    subtitle: Text("Chua biet"),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                            onPressed: () {
+                              renameDialog(
+                                  _items[index], nameController, controller);
+                              nameController.text = "";
+                            },
+                            icon: const Icon(Icons.edit)),
+                        IconButton(
+                          icon: const Icon(Icons.delete),
                           onPressed: () {
-                            renameDialog(
-                                _items[index], nameController, controller);
-                            nameController.text = "";
+                            Get.defaultDialog(
+                              title: "Confirm",
+                              middleText: "Are your sure to delete ?",
+                              backgroundColor: Colors.white,
+                              titleStyle: const TextStyle(color: Colors.black),
+                              middleTextStyle:
+                                  const TextStyle(color: Colors.black),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: const Text("Yes"),
+                                  onPressed: () async {
+                                    Get.back();
+                                    bool rs = await controller
+                                        .deleteTask(_items[index]);
+                                    if (rs) {
+                                      customSnackBar("Delete", "Success",
+                                          iconData: Icons.check_outlined,
+                                          iconColor: Colors.green);
+                                    }
+                                  },
+                                ),
+                                TextButton(
+                                  child: const Text("No"),
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                ),
+                              ],
+                            );
                           },
-                          icon: const Icon(Icons.edit)),
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {
-                          Get.defaultDialog(
-                            title: "Confirm",
-                            middleText: "Are your sure to delete ?",
-                            backgroundColor: Colors.white,
-                            titleStyle: const TextStyle(color: Colors.black),
-                            middleTextStyle:
-                                const TextStyle(color: Colors.black),
-                            actions: <Widget>[
-                              TextButton(
-                                child: const Text("Yes"),
-                                onPressed: () async {
-                                  Get.back();
-                                  bool rs = await controller
-                                      .deleteTask(_items[index]);
-                                  if (rs) {
-                                    customSnackBar("Delete", "Success",
-                                        iconData: Icons.check_outlined,
-                                        iconColor: Colors.green);
-                                  }
-                                },
-                              ),
-                              TextButton(
-                                child: const Text("No"),
-                                onPressed: () {
-                                  Get.back();
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            );
-          },
-        ),
-      ));
+              );
+            },
+          ),
+        ));
+  });
 }
 
 void renameDialog(Task task, var nameController, var controller) {
@@ -178,7 +175,7 @@ void updateStateDialog(Task task, var controller) {
         children: [
           Obx(() => DropdownButton<String>(
                 // Set the Items of DropDownButton
-                items: [
+                items: const [
                   DropdownMenuItem(
                     value: "SUBMITTED",
                     child: Text(
@@ -267,7 +264,7 @@ void updatePriorityDialog(Task task, var controller) {
         children: [
           Obx(() => DropdownButton<String>(
                 // Set the Items of DropDownButton
-                items: [
+                items: const [
                   DropdownMenuItem(
                     value: "CRITICAL",
                     child: Text(

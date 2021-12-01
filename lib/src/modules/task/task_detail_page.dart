@@ -9,9 +9,8 @@ import 'package:mobile_app/src/data/models/project.dart';
 import 'package:mobile_app/src/data/models/task.dart';
 import 'package:mobile_app/src/data/providers/storage_provider.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
-import 'package:mobile_app/src/modules/task/task_controller.dart';
+import 'package:mobile_app/src/modules/task/task_user_controller.dart';
 import 'package:select_form_field/select_form_field.dart';
-import 'task_controller.dart';
 
 class TaskDetailPage extends StatefulWidget {
   TaskDetailPage({Key? key}) : super(key: key);
@@ -21,8 +20,7 @@ class TaskDetailPage extends StatefulWidget {
 }
 
 class _TaskDetailPageState extends State<TaskDetailPage> {
-  TaskController controller = Get.put(TaskController());
-  TaskController taskController = Get.put(TaskController());
+  TaskUserController controller = Get.put(TaskUserController());
 
   int id = Get.arguments['id'];
   late Future<Project> project;
