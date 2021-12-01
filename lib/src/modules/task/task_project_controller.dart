@@ -102,9 +102,9 @@ class TaskProjectController extends GetxController {
     var temp = await TaskService.create(newName, newContent, id!);
     if (temp!.code == "SUCCESS") {
       Task task = Task.fromJson(temp.data! as Map<String, dynamic>);
-
       _tasks.insert(0, task);
       // _projects.value = List.empty();
+      _tasks.refresh();
     }
     return temp;
   }

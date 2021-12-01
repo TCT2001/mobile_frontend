@@ -374,7 +374,6 @@ class TaskProjectPage extends GetView<TaskProjectController> {
       }
     }
     var _items = controller.tasks;
-    // return Text("321");
     return LazyLoadScrollView(
         onEndOfPage: controller.nextPage,
         isLoading: controller.isLastPage,
@@ -392,12 +391,6 @@ class TaskProjectPage extends GetView<TaskProjectController> {
             itemCount: _items.length,
             itemBuilder: (_, index) {
               Task task = _items[index];
-              // int id = task.id!;
-              // String content = task.content!;
-              // String name = task.name!;
-              // String visibleTaskScope = task.visibleTaskScope!;
-              // String priority = task.priority!;
-              // int userIdIfVisibleIsPrivate = task.userIdIfVisibleIsPrivate!;
               return GestureDetector(
                 onTap: () {
                   Get.toNamed(Routes.TASK_DETAIL_PAGE,

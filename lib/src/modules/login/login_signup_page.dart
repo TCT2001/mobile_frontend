@@ -1,23 +1,20 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:get/get_core/get_core.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:mobile_app/src/core/utils/validator_utils.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
-import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/payload/login_resp.dart';
 import 'package:mobile_app/src/data/models/payload/signup_resp.dart';
 import 'package:mobile_app/src/data/providers/storage_provider.dart';
 import 'package:mobile_app/src/data/services/auth_service.dart';
-import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
 import 'package:mobile_app/src/routes/app_routes.dart';
 
-const users = const {
-  'dribbble@gmail.com': '12345',
-  'hunter@gmail.com': 'hunter',
-};
-
 class LoginScreen extends StatelessWidget {
-  Duration get loginTime => Duration(milliseconds: 2250);
+  const LoginScreen({Key? key}) : super(key: key);
+
+  Duration get loginTime => const Duration(milliseconds: 2250);
 
   Future<String?> _authUser(LoginData data) {
     print('Name: ${data.name}, Password: ${data.password}');
@@ -55,11 +52,7 @@ class LoginScreen extends StatelessWidget {
   }
 
   Future<String> _recoverPassword(String name) {
-    print('Name: $name');
     return Future.delayed(loginTime).then((_) {
-      if (!users.containsKey(name)) {
-        return 'User not exists';
-      }
       return "";
     });
   }
@@ -68,6 +61,15 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return FlutterLogin(
       logo: const AssetImage('assets/images/Logo.png'),
+      userValidator: (value) {
+        if (value == null || value.isEmpty) {
+          return "Khong duoc de trong";
+        }
+        if (!EmailValidator.validate(value) && !phoneRegExp.hasMatch(value)) {
+          return "Phai la email hoac sdt";
+        }
+        return null;
+      },
       onLogin: _authUser,
       onSignup: _signupUser,
       onSubmitAnimationCompleted: () {

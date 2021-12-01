@@ -11,7 +11,7 @@ class SplashController extends GetxController {
     if (await getStringLocalStorge(LocalStorageKey.TOKEN.toString()) != null) {
       Get.offAllNamed(Routes.MAIN);
     } else {
-      Get.offAllNamed(Routes.INIT);
+      Get.offAllNamed(Routes.LOGIN);
     }
   }
 }
