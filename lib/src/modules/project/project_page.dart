@@ -202,11 +202,8 @@ class ProjectPage extends GetView<ProjectController> {
               int id = project.id!;
               String name = project.name!;
               List<User> users = project.userDTOSet! as List<User>;
-
               return GestureDetector(
                 onTap: () {
-                  // Get.toNamed(Routes.TASK_PROJECT_PAGE,
-                  //     arguments: {"id": _items[index].id});
                    Get.toNamed(Routes.PROJECT_DETAIL,
                       arguments: {
                         "id": _items[index].id,

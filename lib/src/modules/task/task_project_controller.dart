@@ -46,7 +46,6 @@ class TaskProjectController extends GetxController {
   // }
 
   void listTask() async {
-    print(_paginateParam.value.page);
     final data =
         await TaskService.listByProject(_paginateParam.value, projectId);
     if (data!.isEmpty) {
@@ -54,6 +53,7 @@ class TaskProjectController extends GetxController {
       return;
     }
     _tasks.addAll(data);
+    _tasks.refresh();
   }
 
   void _changeParam(PaginateParam paginateParam) {

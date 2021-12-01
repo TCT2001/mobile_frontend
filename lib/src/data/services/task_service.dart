@@ -126,7 +126,7 @@ class TaskService {
 
   static Future<Task?> find(int id) async {
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
-    var response = await client.get(Uri.parse('$baseURL/prj/find/$id'),
+    var response = await client.get(Uri.parse('$baseURL/task/find/$id'),
         headers: authHeader(token!));
     if (response.statusCode == 200) {
       var temp = CommonResp.fromJson(json.decode(response.body));

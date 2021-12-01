@@ -6,6 +6,7 @@ class Project {
   late List? userDTOSet;
   Project({required this.id, required this.name, required this.userDTOSet});
   Project.name();
+  Project.id({required this.id});
   factory Project.fromJson(Map<String, dynamic> json) {
     return Project(
         id: json['id'],

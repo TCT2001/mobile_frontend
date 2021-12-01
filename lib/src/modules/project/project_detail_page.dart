@@ -47,7 +47,6 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   int id = Get.arguments['id'];
   Project clickedProject = Get.arguments['clickedProject'];
   late Future<Project> project;
-  late Future<List<Task>> tasks;
   final GlobalKey<PopupMenuButtonState<int>> _key = GlobalKey();
   late TextEditingController invitedEmailController = TextEditingController();
   late TextEditingController newNameController = TextEditingController();
@@ -62,7 +61,6 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   void initState() {
     super.initState();
     project = controller.find(id);
-    // tasks = taskController.list(id);
   }
 
   AppBar appBar() {
@@ -70,13 +68,15 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
       title: const Text('ProjectPage'),
       automaticallyImplyLeading: false,
       actionsIconTheme:
-      IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
+          IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
       leading: GestureDetector(
-        onTap: () {/* Write listener code here */
+        onTap: () {
+          //TODO
+          /* Write listener code here */
           Get.back();
-          },
+        },
         child: Icon(
-          Icons.arrow_back, // add custom icons also
+          Icons.arrow_back,
         ),
       ),
       actions: <Widget>[
@@ -95,45 +95,45 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
               showInviteForm();
             } else if (value == 1) {
               showCreateTaskForm();
+            } else if (value == 2) {
+              Get.defaultDialog(
+                title: "Confirm",
+                middleText: "Are your sure to delete ?",
+                backgroundColor: Colors.white,
+                titleStyle: const TextStyle(color: Colors.black),
+                middleTextStyle: const TextStyle(color: Colors.black),
+                actions: <Widget>[
+                  TextButton(
+                    child: const Text("Yes"),
+                    onPressed: () async {
+                      Get.back();
+                      bool rs =
+                          await controller.deleteProject(Project.id(id: id));
+                      if (rs) {
+                        customSnackBar("Delete", "Success",
+                            iconData: Icons.check_outlined,
+                            iconColor: Colors.green);
+                      }
+                      Get.back();
+                      Get.back();
+                    },
+                  ),
+                  TextButton(
+                    child: const Text("No"),
+                    onPressed: () {
+                      Get.back();
+                    },
+                  ),
+                ],
+              );
             }
-            // else if (value == 2) {
-            //   Get.defaultDialog(
-            //     title: "Confirm",
-            //     middleText: "Are your sure to delete ?",
-            //     backgroundColor: Colors.white,
-            //     titleStyle: const TextStyle(color: Colors.black),
-            //     middleTextStyle: const TextStyle(color: Colors.black),
-            //     actions: <Widget>[
-            //       TextButton(
-            //         child: const Text("Yes"),
-            //         onPressed: () async {
-            //           Get.back();
-            //           bool rs = await controller.deleteProject(clickedProject);
-            //           if (rs) {
-            //             customSnackBar("Delete", "Success",
-            //                 iconData: Icons.check_outlined,
-            //                 iconColor: Colors.green);
-            //           }
-            //           Get.back();
-            //           Get.back();
-            //         },
-            //       ),
-            //       TextButton(
-            //         child: const Text("No"),
-            //         onPressed: () {
-            //           Get.back();
-            //         },
-            //       ),
-            //     ],
-            //   );
-            // }
           },
           key: _key,
           itemBuilder: (context) {
             return <PopupMenuEntry<int>>[
               PopupMenuItem(child: Text('Invite'), value: 0),
               PopupMenuItem(child: Text('Create Task'), value: 1),
-              //PopupMenuItem(child: Text('Delete Project'), value: 2),
+              PopupMenuItem(child: Text('Delete Project'), value: 2),
             ];
           },
         ),
@@ -152,10 +152,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                 children: <Widget>[
                   Container(child: showDetail(snapshot)),
                   Expanded(
-                    child: Container(
-                      child: showTaskList(snapshot.data)
-                      // child: TaskProjectPage(project: snapshot.data!),
-                    ),
+                    child: Container(child: showTaskList(snapshot.data)),
                   )
                 ],
               );
@@ -166,7 +163,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
     if (project == null) {
       return Text("NULL");
     } else {
-      return  TaskProjectPage(project: project);
+      return taskProjectList(project);
     }
   }
 
@@ -202,7 +199,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                     const Text(
                       'Invite',
                       style:
-                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
                       height: 8,
@@ -288,7 +285,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                     const Text(
                       'Create Task',
                       style:
-                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
                       height: 8,

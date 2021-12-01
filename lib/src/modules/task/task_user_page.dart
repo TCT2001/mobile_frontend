@@ -343,6 +343,7 @@ class TaskUserPage extends GetView<TaskController> {
   //   );
   // }
 
+  @override
   Widget build(BuildContext context) {
     // return Scaffold(appBar: taskAppBar(),
     //     body: Text('Task User Page')
@@ -380,16 +381,10 @@ class TaskUserPage extends GetView<TaskController> {
             itemCount: _items.length,
             itemBuilder: (_, index) {
               Task task = _items[index];
-              // int id = task.id!;
-              // String content = task.content!;
-              // String name = task.name!;
-              // String visibleTaskScope = task.visibleTaskScope!;
-              // String priority = task.priority!;
-              // int userIdIfVisibleIsPrivate = task.userIdIfVisibleIsPrivate!;
               return GestureDetector(
                 onTap: () {
                   Get.toNamed(Routes.TASK_DETAIL_PAGE,
-                      arguments: {"task": _items[index]});
+                      arguments: {"id": _items[index].id});
                 },
                 child: Card(
                   margin: const EdgeInsets.all(10),
