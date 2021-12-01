@@ -32,10 +32,6 @@ Widget taskProjectList(Project project) {
       return Center(child: Text("No task"));
     }
 
-    // if (!controller.isLastPage) {
-    //   return Center(child: CircularProgressIndicator());
-    // }
-
     return LazyLoadScrollView(
         onEndOfPage: controller.nextPage,
         isLoading: controller.isLastPage,

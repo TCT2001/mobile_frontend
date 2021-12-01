@@ -40,7 +40,7 @@ class TaskService {
 
   static Future<List<Task>?> listByUsers(PaginateParam paginateParam) async {
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
-    var response = await client.post(Uri.parse('$baseURL/task/listByUsers'),
+    var response = await client.post(Uri.parse('$baseURL/task/listByUser'),
         headers: authHeader(token!), body: jsonEncode(paginateParam.toJson()));
     if (response.statusCode == 200) {
       var task = List<Task>.empty();
