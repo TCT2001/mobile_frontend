@@ -22,6 +22,12 @@ class ProjectController extends GetxController {
 
   var project = Project(id: -1, name: "##", userDTOSet: []).obs;
 
+  var _choice = 0.obs;
+
+  var _clickedProjectCard = Project(id: -1, name: "-1", userDTOSet: null).obs;
+
+  Project get clickedProjectCard => _clickedProjectCard.value;
+
   @override
   void onInit() {
     ever(_paginateParam, (_) => _listProject());
@@ -68,8 +74,8 @@ class ProjectController extends GetxController {
   }
 
   Future<CommonResp?> inviteProject(
-      String srcEmail, String desEmail, int id, String role) async {
-    var temp = await ProjectService.invite(srcEmail, desEmail, id, role);
+      String srcEmail, String desEmail, int? id, String role) async {
+    var temp = await ProjectService.invite(srcEmail, desEmail, id!, role);
     return temp;
   }
 
@@ -94,6 +100,7 @@ class ProjectController extends GetxController {
     }
     return temp;
   }
+
 
   @override
   void onClose() {

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_final_fields
+
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:mobile_app/src/data/models/paginate_param.dart';
@@ -5,17 +7,18 @@ import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/task.dart';
 import 'package:mobile_app/src/data/services/task_service.dart';
 
-class TaskController extends GetxController {
+class TaskProjectController extends GetxController {
+  int projectId;
+
+  TaskProjectController({required this.projectId});
+
   var _tasks = <Task>[].obs;
   var _paginateParam = PaginateParam(page: 0).obs;
   var _isLastPage = false.obs;
 
-  var selectedScope = 1.obs;
-  var selectedPriority = 1.obs;
-  var selectedState = 1.obs;
-
-  final newName = ''.obs;
-  final newContent = ''.obs;
+  var selectedScope = "PUBLIC".obs;
+  var selectedPriority = "NORMAL".obs;
+  var selectedState = "SUBMITTED".obs;
 
   List<Task> get tasks => _tasks.toList();
 
@@ -25,23 +28,21 @@ class TaskController extends GetxController {
 
   @override
   void onInit() {
+    print("On Init O Day");
     ever(_paginateParam, (_) => listTask());
     _changeParam(PaginateParam(page: 0));
     super.onInit();
   }
 
-  // void changeChoice(int arg, Task? task) {
-  //   _choice.value = arg;
-  //   if (task != null) {
-  //     _clickedTaskCard.value.id = task.id;
-  //     _clickedTaskCard.value.name = task.name;
-  //   }
-  // }
-
   void listTask() async {
-    final data = await TaskService.list(_paginateParam.value);
-    if (data!.isEmpty) _isLastPage.value = true;
+    final data =
+    await TaskService.listByProject(_paginateParam.value, projectId);
+    if (data!.isEmpty) {
+      _isLastPage.value = true;
+      return;
+    }
     _tasks.addAll(data);
+    //_tasks.refresh();
   }
 
   void _changeParam(PaginateParam paginateParam) {
@@ -86,14 +87,55 @@ class TaskController extends GetxController {
   }
 
   Future<CommonResp?> createTask(
-      String newName, String newContent, int id) async {
-    var temp = await TaskService.create(newName, newContent, id);
+      String newName, String newContent, int? id) async {
+    var temp = await TaskService.create(newName, newContent, id!);
     if (temp!.code == "SUCCESS") {
       Task task = Task.fromJson(temp.data! as Map<String, dynamic>);
-
       _tasks.insert(0, task);
       // _projects.value = List.empty();
+      _tasks.refresh();
     }
     return temp;
+  }
+
+  Future<CommonResp?> updateState(Task task, String newState) async {
+    var temp = await TaskService.updateState(task, newState);
+    if (temp!.code == "SUCCESS") {
+      //TODO
+      //_listProject();
+      _tasks.firstWhere((element) => element.id == task.id).taskState =
+          newState;
+      _tasks.refresh();
+    }
+    return temp;
+  }
+
+  Future<CommonResp?> updatePriority(Task task, String newPriority) async {
+    var temp = await TaskService.updatePriority(task, newPriority);
+    if (temp!.code == "SUCCESS") {
+      //TODO
+      //_listProject();
+      _tasks.firstWhere((element) => element.id == task.id).priority =
+          newPriority;
+      _tasks.refresh();
+    }
+    return temp;
+  }
+
+  Future<CommonResp?> updateContent(Task task, String newContent) async {
+    var temp = await TaskService.updateContent(task, newContent);
+    if (temp!.code == "SUCCESS") {
+      //TODO
+      //_listProject();
+      _tasks.firstWhere((element) => element.id == task.id).content =
+          newContent;
+      _tasks.refresh();
+    }
+    return temp;
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
   }
 }

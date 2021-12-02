@@ -6,10 +6,10 @@ import 'package:get/get.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/project.dart';
-import 'package:mobile_app/src/data/models/task.dart';
 import 'package:mobile_app/src/data/providers/storage_provider.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
-import 'package:mobile_app/src/modules/task/task_controller.dart';
+import 'package:mobile_app/src/modules/task/task_project_controller.dart';
+import 'package:mobile_app/src/modules/task/task_project_page.dart';
 import 'package:select_form_field/select_form_field.dart';
 
 import 'project_controller.dart';
@@ -42,10 +42,9 @@ class ProjectDetailPage extends StatefulWidget {
 
 class _ProjectDetailPageState extends State<ProjectDetailPage> {
   ProjectController controller = Get.put(ProjectController());
-  TaskController taskController = Get.put(TaskController());
   int id = Get.arguments['id'];
+  Project clickedProject = Get.arguments['clickedProject'];
   late Future<Project> project;
-  late Future<List<Task>> tasks;
   final GlobalKey<PopupMenuButtonState<int>> _key = GlobalKey();
   late TextEditingController invitedEmailController = TextEditingController();
   late TextEditingController newNameController = TextEditingController();
@@ -60,7 +59,6 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   void initState() {
     super.initState();
     project = controller.find(id);
-    // tasks = taskController.list(id);
   }
 
   AppBar appBar() {
@@ -70,9 +68,13 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
       actionsIconTheme:
       IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
       leading: GestureDetector(
-        onTap: () {/* Write listener code here */},
+        onTap: () {
+          //TODO
+          /* Write listener code here */
+          Get.back();
+        },
         child: Icon(
-          Icons.menu, // add custom icons also
+          Icons.arrow_back,
         ),
       ),
       actions: <Widget>[
@@ -91,6 +93,37 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
               showInviteForm();
             } else if (value == 1) {
               showCreateTaskForm();
+            } else if (value == 2) {
+              Get.defaultDialog(
+                title: "Confirm",
+                middleText: "Are your sure to delete ?",
+                backgroundColor: Colors.white,
+                titleStyle: const TextStyle(color: Colors.black),
+                middleTextStyle: const TextStyle(color: Colors.black),
+                actions: <Widget>[
+                  TextButton(
+                    child: const Text("Yes"),
+                    onPressed: () async {
+                      Get.back();
+                      bool rs =
+                      await controller.deleteProject(clickedProject);
+                      if (rs) {
+                        customSnackBar("Delete", "Success",
+                            iconData: Icons.check_outlined,
+                            iconColor: Colors.green);
+                      }
+                      Get.back();
+                      Get.back();
+                    },
+                  ),
+                  TextButton(
+                    child: const Text("No"),
+                    onPressed: () {
+                      Get.back();
+                    },
+                  ),
+                ],
+              );
             }
           },
           key: _key,
@@ -98,6 +131,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
             return <PopupMenuEntry<int>>[
               PopupMenuItem(child: Text('Invite'), value: 0),
               PopupMenuItem(child: Text('Create Task'), value: 1),
+              PopupMenuItem(child: Text('Delete Project'), value: 2),
             ];
           },
         ),
@@ -109,29 +143,36 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: appBar(),
-        body: Column(
-          children: <Widget>[
-            Container(
-              child: FutureBuilder<Project>(
-                future: project,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Text(snapshot.data!.toString());
-                  } else if (snapshot.hasError) {
-                    return Text('Loi');
-                  }
-                  // By default, show a loading spinner.
-                  return const CircularProgressIndicator();
-                },
-              ),
-            ),
-            Expanded(
-              child: Container(
-                child: showTaskList(),
-              ),
-            )
-          ],
-        ));
+        body: FutureBuilder<Project>(
+            future: project,
+            builder: (context, snapshot) {
+              return Column(
+                children: <Widget>[
+                  Container(child: showDetail(snapshot)),
+                  Expanded(
+                    child: Container(child: showTaskList(snapshot.data)),
+                  )
+                ],
+              );
+            }));
+  }
+
+  Widget showTaskList(Project? project) {
+    if (project == null) {
+      return Text("NULL");
+    } else {
+      return taskProjectList(project);
+    }
+  }
+
+  Widget showDetail(var snapshot) {
+    if (snapshot.hasData) {
+      return Text(snapshot.data!.toString());
+    } else if (snapshot.hasError) {
+      return Text('Loi');
+    }
+    // By default, show a loading spinner.
+    return const CircularProgressIndicator();
   }
 
   void showInviteForm() {
@@ -221,6 +262,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   }
 
   void showCreateTaskForm() {
+    TaskProjectController taskController =
+    Get.put(TaskProjectController(projectId: id));
     Get.bottomSheet(
       Container(
           height: 250,
@@ -278,6 +321,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                         icon: const Icon(Icons.send),
                         onPressed: () async {
                           //TODO
+                          Get.back();
                           CommonResp? commonResp =
                           await taskController.createTask(
                               newNameController.text,
@@ -295,9 +339,5 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
             ),
           )),
     );
-  }
-
-  Widget showTaskList() {
-    return Text("Day Se La Task List Cua Project");
   }
 }

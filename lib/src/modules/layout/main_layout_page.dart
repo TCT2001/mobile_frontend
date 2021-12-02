@@ -10,7 +10,7 @@ import 'package:mobile_app/src/modules/project/project_page.dart';
 import 'package:mobile_app/src/modules/setting/setting_page.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:mobile_app/src/modules/task/task_page.dart';
+import 'package:mobile_app/src/modules/task/task_user_page.dart';
 
 class MainLayoutPage extends GetView<MainLayoutController> {
   MainLayoutPage({Key? key}) : super(key: key);
@@ -20,7 +20,7 @@ class MainLayoutPage extends GetView<MainLayoutController> {
   List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     ProjectPage(),
-    TaskPage.ofUser(),
+    TaskUserPage(),
     // SearchPage(),
     NotiPage(),
     SettingPage()
