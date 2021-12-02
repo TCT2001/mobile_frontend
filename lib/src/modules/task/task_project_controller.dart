@@ -36,7 +36,7 @@ class TaskProjectController extends GetxController {
 
   void listTask() async {
     final data =
-    await TaskService.listByProject(_paginateParam.value, projectId);
+        await TaskService.listByProject(_paginateParam.value, projectId);
     if (data!.isEmpty) {
       _isLastPage.value = true;
       return;

@@ -27,7 +27,7 @@ class ProjectPage extends GetView<ProjectController> {
       title: const Text('ProjectPage'),
       automaticallyImplyLeading: false,
       actionsIconTheme:
-      IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
+          IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
       leading: GestureDetector(
         onTap: () {/* Write listener code here */},
         child: Icon(
@@ -59,33 +59,13 @@ class ProjectPage extends GetView<ProjectController> {
           },
         ),
       ],
-      bottom: TabBar(
-        tabs: const [
-          Tab(icon: Icon(Icons.home), text: 'Home'),
-          Tab(icon: Icon(Icons.star), text: 'Feed'),
-          Tab(icon: Icon(Icons.face), text: 'Profile'),
-          Tab(icon: Icon(Icons.settings), text: 'Settings'),
-        ],
-      ),
     );
   }
 
   @override
-  Widget build(BuildContext context) => DefaultTabController(
-      length: 4,
-      child: Scaffold(
-          appBar: projectAppBar(),
-          body: TabBarView(
-            children: [
-              body(),
-              buildPage('Feed Page'),
-              buildPage('Profile Page'),
-              buildPage('Settings Page'),
-            ],
-          )))
-      ;
-
-
+  Widget build(BuildContext context) {
+    return Obx(() => Scaffold(appBar: projectAppBar(), body: body()));
+  }
 
   void deleteProject(Project project) {
     controller.projects.where((element) => project.id != element.id);
@@ -224,7 +204,7 @@ class ProjectPage extends GetView<ProjectController> {
               List<User> users = project.userDTOSet! as List<User>;
               return GestureDetector(
                 onTap: () {
-                  Get.toNamed(Routes.PROJECT_DETAIL,
+                   Get.toNamed(Routes.PROJECT_DETAIL,
                       arguments: {
                         "id": _items[index].id,
                         "clickedProject" : _items[index]
@@ -253,7 +233,7 @@ class ProjectPage extends GetView<ProjectController> {
                               backgroundColor: Colors.white,
                               titleStyle: const TextStyle(color: Colors.black),
                               middleTextStyle:
-                              const TextStyle(color: Colors.black),
+                                  const TextStyle(color: Colors.black),
                               actions: <Widget>[
                                 TextButton(
                                   child: const Text("Yes"),
@@ -287,11 +267,4 @@ class ProjectPage extends GetView<ProjectController> {
           ),
         ));
   }
-
-  Widget buildPage(String text) => Center(
-    child: Text(
-      text,
-      style: TextStyle(fontSize: 28),
-    )
-  );
 }

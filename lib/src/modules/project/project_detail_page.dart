@@ -66,7 +66,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
       title: const Text('ProjectPage'),
       automaticallyImplyLeading: false,
       actionsIconTheme:
-      IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
+          IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
       leading: GestureDetector(
         onTap: () {
           //TODO
@@ -106,7 +106,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                     onPressed: () async {
                       Get.back();
                       bool rs =
-                      await controller.deleteProject(clickedProject);
+                          await controller.deleteProject(Project.id(id: id));
                       if (rs) {
                         customSnackBar("Delete", "Success",
                             iconData: Icons.check_outlined,
@@ -197,7 +197,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                     const Text(
                       'Invite',
                       style:
-                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
                       height: 8,
@@ -263,7 +263,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
 
   void showCreateTaskForm() {
     TaskProjectController taskController =
-    Get.put(TaskProjectController(projectId: id));
+        Get.put(TaskProjectController(projectId: id));
     Get.bottomSheet(
       Container(
           height: 250,
@@ -285,7 +285,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                     const Text(
                       'Create Task',
                       style:
-                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
                       height: 8,
@@ -323,10 +323,10 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                           //TODO
                           Get.back();
                           CommonResp? commonResp =
-                          await taskController.createTask(
-                              newNameController.text,
-                              newContentController.text,
-                              id);
+                              await taskController.createTask(
+                                  newNameController.text,
+                                  newContentController.text,
+                                  id);
                           if (commonResp!.code == "SUCCESS") {
                             customSnackBar("Create Task", "Success");
                           } else {

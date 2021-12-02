@@ -18,9 +18,9 @@ Widget taskProjectList(Project project) {
   TextEditingController nameController = TextEditingController(text: '');
   TextEditingController contentController = TextEditingController(text: '');
   TextEditingController invitedEmailController =
-  TextEditingController(text: '');
+      TextEditingController(text: '');
   TaskProjectController controller =
-  Get.put(TaskProjectController(projectId: project.id!));
+      Get.put(TaskProjectController(projectId: project.id!));
 
   return Obx(() {
     var _items = controller.tasks;
@@ -78,7 +78,7 @@ Widget taskProjectList(Project project) {
                               backgroundColor: Colors.white,
                               titleStyle: const TextStyle(color: Colors.black),
                               middleTextStyle:
-                              const TextStyle(color: Colors.black),
+                                  const TextStyle(color: Colors.black),
                               actions: <Widget>[
                                 TextButton(
                                   child: const Text("Yes"),
@@ -170,58 +170,58 @@ void updateStateDialog(Task task, var controller) {
         mainAxisSize: MainAxisSize.min,
         children: [
           Obx(() => DropdownButton<String>(
-            // Set the Items of DropDownButton
-            items: const [
-              DropdownMenuItem(
-                value: "SUBMITTED",
-                child: Text(
-                  "SUBMITTED",
-                ),
-              ),
-              DropdownMenuItem(
-                value: "IN_PROCESS",
-                child: Text(
-                  "IN PROCESS",
-                ),
-              ),
-              DropdownMenuItem(
-                value: "INCOMPLETE",
-                child: Text(
-                  "INCOMPLETE",
-                ),
-              ),
-              DropdownMenuItem(
-                value: "TO_BE_DISCUSSED",
-                child: Text(
-                  "TO BE DISCUSSED",
-                ),
-              ),
-              DropdownMenuItem(
-                value: "DONE",
-                child: Text(
-                  "DONE",
-                ),
-              ),
-              DropdownMenuItem(
-                value: "DUPLICATE",
-                child: Text(
-                  "DUPLICATE",
-                ),
-              ),
-              DropdownMenuItem(
-                value: "OBSOLETE",
-                child: Text(
-                  "OBSOLETE",
-                ),
-              ),
-            ],
-            value: controller.selectedState.value.toString(),
-            hint: const Text('Select Task Priority'),
-            isExpanded: true,
-            onChanged: (selectedValue) {
-              controller.selectedState.value = selectedValue!;
-            },
-          )),
+                // Set the Items of DropDownButton
+                items: const [
+                  DropdownMenuItem(
+                    value: "SUBMITTED",
+                    child: Text(
+                      "SUBMITTED",
+                    ),
+                  ),
+                  DropdownMenuItem(
+                    value: "IN_PROCESS",
+                    child: Text(
+                      "IN PROCESS",
+                    ),
+                  ),
+                  DropdownMenuItem(
+                    value: "INCOMPLETE",
+                    child: Text(
+                      "INCOMPLETE",
+                    ),
+                  ),
+                  DropdownMenuItem(
+                    value: "TO_BE_DISCUSSED",
+                    child: Text(
+                      "TO BE DISCUSSED",
+                    ),
+                  ),
+                  DropdownMenuItem(
+                    value: "DONE",
+                    child: Text(
+                      "DONE",
+                    ),
+                  ),
+                  DropdownMenuItem(
+                    value: "DUPLICATE",
+                    child: Text(
+                      "DUPLICATE",
+                    ),
+                  ),
+                  DropdownMenuItem(
+                    value: "OBSOLETE",
+                    child: Text(
+                      "OBSOLETE",
+                    ),
+                  ),
+                ],
+                value: controller.selectedState.value.toString(),
+                hint: const Text('Select Task Priority'),
+                isExpanded: true,
+                onChanged: (selectedValue) {
+                  controller.selectedState.value = selectedValue!;
+                },
+              )),
           ElevatedButton(
             onPressed: () {
               Get.back();
@@ -259,40 +259,40 @@ void updatePriorityDialog(Task task, var controller) {
         mainAxisSize: MainAxisSize.min,
         children: [
           Obx(() => DropdownButton<String>(
-            // Set the Items of DropDownButton
-            items: const [
-              DropdownMenuItem(
-                value: "CRITICAL",
-                child: Text(
-                  "Critcal Priority",
-                ),
-              ),
-              DropdownMenuItem(
-                value: "MAJOR",
-                child: Text(
-                  "Major Priority",
-                ),
-              ),
-              DropdownMenuItem(
-                value: "NORMAL",
-                child: Text(
-                  "Normal Priority",
-                ),
-              ),
-              DropdownMenuItem(
-                value: "MINOR",
-                child: Text(
-                  "Minor Priority",
-                ),
-              ),
-            ],
-            value: controller.selectedPriority.value.toString(),
-            hint: const Text('Select Task Priority'),
-            isExpanded: true,
-            onChanged: (selectedValue) {
-              controller.selectedPriority.value = selectedValue!;
-            },
-          )),
+                // Set the Items of DropDownButton
+                items: const [
+                  DropdownMenuItem(
+                    value: "CRITICAL",
+                    child: Text(
+                      "Critcal Priority",
+                    ),
+                  ),
+                  DropdownMenuItem(
+                    value: "MAJOR",
+                    child: Text(
+                      "Major Priority",
+                    ),
+                  ),
+                  DropdownMenuItem(
+                    value: "NORMAL",
+                    child: Text(
+                      "Normal Priority",
+                    ),
+                  ),
+                  DropdownMenuItem(
+                    value: "MINOR",
+                    child: Text(
+                      "Minor Priority",
+                    ),
+                  ),
+                ],
+                value: controller.selectedPriority.value.toString(),
+                hint: const Text('Select Task Priority'),
+                isExpanded: true,
+                onChanged: (selectedValue) {
+                  controller.selectedPriority.value = selectedValue!;
+                },
+              )),
           ElevatedButton(
             onPressed: () {
               Get.back();

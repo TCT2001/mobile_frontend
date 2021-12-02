@@ -24,26 +24,26 @@ class _MyHomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    //   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    //     RemoteNotification? notification = message.notification;
-    //     AndroidNotification? android = message.notification?.android;
-    //     if (notification != null && android != null) {
-    //       AppConfigService.flutterLocalNotificationsPlugin.show(
-    //           notification.hashCode,
-    //           notification.title,
-    //           notification.body,
-    //           NotificationDetails(
-    //             android: AndroidNotificationDetails(
-    //               AppConfigService.channel.id,
-    //               AppConfigService.channel.name,
-    //               AppConfigService.channel.description,
-    //               color: Colors.blue,
-    //               playSound: true,
-    //               icon: '@mipmap/ic_launcher',
-    //             ),
-    //           ));
-    //     }
-    //   });
+  //   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+  //     RemoteNotification? notification = message.notification;
+  //     AndroidNotification? android = message.notification?.android;
+  //     if (notification != null && android != null) {
+  //       AppConfigService.flutterLocalNotificationsPlugin.show(
+  //           notification.hashCode,
+  //           notification.title,
+  //           notification.body,
+  //           NotificationDetails(
+  //             android: AndroidNotificationDetails(
+  //               AppConfigService.channel.id,
+  //               AppConfigService.channel.name,
+  //               AppConfigService.channel.description,
+  //               color: Colors.blue,
+  //               playSound: true,
+  //               icon: '@mipmap/ic_launcher',
+  //             ),
+  //           ));
+  //     }
+  //   });
 
     // FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
     //   RemoteNotification? notification = message.notification;

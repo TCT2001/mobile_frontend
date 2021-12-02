@@ -8,6 +8,9 @@ abstract class Routes {
   static const CADASTRO = '/cadastro';
   static const EXAMPLE = '/example';
   static const NOTIFICATION = '/notification';
+  static const SIGNUP = '/signup';
+  static const NEO = '/neo';
+  static const INIT = '/init';
   static const SETTING = '/setting';
   static const PROJECT = '/project';
   static const PROJECT_DETAIL = "/project_detail"; //Nhan them id

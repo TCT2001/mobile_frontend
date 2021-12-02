@@ -21,7 +21,6 @@ class MainLayoutPage extends GetView<MainLayoutController> {
     HomePage(),
     ProjectPage(),
     TaskUserPage(),
-    // SearchPage(),
     NotiPage(),
     SettingPage()
   ];
@@ -69,10 +68,6 @@ class MainLayoutPage extends GetView<MainLayoutController> {
                       icon: LineIcons.tasks,
                       text: 'Tasks',
                     ),
-                    // GButton(
-                    //   icon: LineIcons.search,
-                    //   text: 'Search',
-                    // ),
                     GButton(
                       icon: LineIcons.bell,
                       text: 'Notifications',
