@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/src/data/providers/storage_provider.dart';
+import 'package:mobile_app/src/modules/changepassword/changepassword_page.dart';
 import 'package:mobile_app/src/modules/login/login_signup_page.dart';
 import 'package:settings_ui/settings_ui.dart';
 
@@ -48,7 +49,12 @@ class _SettingPageState extends State<SettingPage> {
               SettingsTile(
                 title: 'Change Password',
                 leading: const Icon(Icons.lock),
-                onPressed: (BuildContext context) {},
+                onPressed: (BuildContext context) {
+                  Get.to(ChangePasswordPage(),
+                  fullscreenDialog: true,
+                  transition: Transition.cupertino,
+                  duration: const Duration(seconds: 1));
+                },
               ),
               SettingsTile(
                 title: 'Logout',

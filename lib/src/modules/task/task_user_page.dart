@@ -14,24 +14,7 @@ import 'package:mobile_app/src/routes/app_routes.dart';
 import 'task_user_controller.dart';
 import 'package:mobile_app/src/core/utils/lazy_load_scroll_view.dart';
 
-final List<Map<String, dynamic>> _items = [
-  {
-    'value': 'ADMINISTRATOR',
-    'label': 'Admin',
-    'icon': Icon(Icons.stop),
-  },
-  {
-    'value': 'MEMBER',
-    'label': 'Member',
-    'icon': Icon(Icons.fiber_manual_record),
-    'textStyle': TextStyle(color: Colors.red),
-  },
-  {
-    'value': 'OBSERVER',
-    'label': 'observer',
-    'icon': Icon(Icons.grade),
-  },
-];
+
 
 class TaskUserPage extends GetView<TaskUserController> {
   TextEditingController nameController = TextEditingController(text: '');
@@ -46,6 +29,9 @@ class TaskUserPage extends GetView<TaskUserController> {
 
   TaskUserPage({Key? key}) : super(key: key);
 
+
+
+
   AppBar? taskAppBar() {
     return AppBar(
       title: Text('Tasks of User'),
@@ -55,9 +41,9 @@ class TaskUserPage extends GetView<TaskUserController> {
           //Ban sua giup toi =)) toi chi dua ve dc HOME hoac neu ve PROJECT thi toi mat Navbar
           //Get.offAllNamed(Routes.MAIN);
         },
-        // child: Icon(
-        //   Icons.arrow_back, // add custom icons also
-        // ),
+        child: Icon(
+          Icons.menu, // add custom icons also
+        ),
       ),
       actionsIconTheme:
           IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
@@ -172,6 +158,11 @@ class TaskUserPage extends GetView<TaskUserController> {
     );
   }
 
+  Widget build(BuildContext context) {
+    return Scaffold(appBar: taskAppBar(),
+        body: Text('Task User Page')
+    );
+  }
   // void inviteDialog() {
   //   Get.bottomSheet(
   //     Container(
@@ -336,9 +327,10 @@ class TaskUserPage extends GetView<TaskUserController> {
   // }
 
   @override
-  Widget build(BuildContext context) {
-    return customBody();
-  }
+  // Widget build(BuildContext context) {
+  //   return customBody();
+  // }
+
 
   Widget customBody() {
     TaskUserController controller = Get.put(TaskUserController());
