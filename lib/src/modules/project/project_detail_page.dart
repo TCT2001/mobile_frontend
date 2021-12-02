@@ -63,7 +63,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
 
   AppBar appBar() {
     return AppBar(
-      title: const Text('ProjectPage'),
+      title: const Text('ProjectDetailPage'),
       automaticallyImplyLeading: false,
       actionsIconTheme:
           IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
@@ -90,10 +90,63 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
         PopupMenuButton<int>(
           onSelected: (value) {
             if (value == 0) {
+              newNameController.text = "";
+              newContentController.text = "";
               showInviteForm();
             } else if (value == 1) {
               showCreateTaskForm();
-            } else if (value == 2) {
+            }
+            else if (value == 2){
+              newNameController.text = "";
+              Get.defaultDialog(
+                  titleStyle: TextStyle(fontSize: 0),
+                  title: 'Rename',
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextField(
+                        controller: newNameController,
+                        keyboardType: TextInputType.text,
+                        maxLines: 1,
+                        decoration: const InputDecoration(
+                            labelText: 'New Name',
+                            hintMaxLines: 1,
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.green, width: 4.0))),
+                      ),
+                      const SizedBox(
+                        height: 30.0,
+                      ),
+                      ElevatedButton(
+                        onPressed: () async {
+                          Get.back();
+                          CommonResp? commonResp = await controller.renameProject(Project.id(id: id), newNameController.text);
+                          if (commonResp == null) {
+                            customSnackBar("Rename", "Some expected error happened",
+                                iconData: Icons.warning_rounded, iconColor: Colors.red);
+                            return;
+                          }
+                          if (commonResp.code == "SUCCESS") {
+                            setState((){
+                              project = controller.find(id);
+                            });
+                            customSnackBar("Rename", "Success",
+                                iconData: Icons.check_outlined, iconColor: Colors.green);
+                          } else {
+                            customSnackBar("Rename", "Some expected error happened",
+                                iconData: Icons.warning_rounded, iconColor: Colors.red);
+                          }
+                        },
+                        child: const Text(
+                          'Rename',
+                          style: TextStyle(color: Colors.white, fontSize: 16.0),
+                        ),
+                      )
+                    ],
+                  ),
+                  radius: 10.0);
+            }
+            else if (value == 3) {
               Get.defaultDialog(
                 title: "Confirm",
                 middleText: "Are your sure to delete ?",
@@ -131,7 +184,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
             return <PopupMenuEntry<int>>[
               PopupMenuItem(child: Text('Invite'), value: 0),
               PopupMenuItem(child: Text('Create Task'), value: 1),
-              PopupMenuItem(child: Text('Delete Project'), value: 2),
+              PopupMenuItem(child: Text('Rename Project'), value: 2),
+              PopupMenuItem(child: Text('Delete Project'), value: 3),
             ];
           },
         ),
@@ -236,7 +290,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                           invitedEmail = invitedEmailController.text;
                           //TODO
                           if (!EmailValidator.validate(invitedEmail)) {
-                            customSnackBar("Email", "error");
+                            customSnackBar("Email", "error",
+                                iconData: Icons.warning_rounded, iconColor: Colors.red);
                             return;
                           }
 
@@ -246,7 +301,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                           var temp = await controller.inviteProject(
                               srcEmail!, invitedEmail, id, role);
                           if (temp!.code == "SUCCESS") {
-                            customSnackBar('Invite', "Success");
+                            customSnackBar('Invite', "Success",
+                                iconData: Icons.check_outlined, iconColor: Colors.green);
                             Get.back();
                           } else {
                             customSnackBar("Invite", temp.data as String);
@@ -328,9 +384,11 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                                   newContentController.text,
                                   id);
                           if (commonResp!.code == "SUCCESS") {
-                            customSnackBar("Create Task", "Success");
+                            customSnackBar("Create Task", "Success",
+                                iconData: Icons.check_outlined, iconColor: Colors.green);
                           } else {
-                            customSnackBar("Create Task", "Fail");
+                            customSnackBar("Create Task", "Fail",
+                                iconData: Icons.warning_rounded, iconColor: Colors.red);
                           }
                         })
                   ],

@@ -52,12 +52,10 @@ class TaskUserPage extends GetView<TaskUserController> {
       automaticallyImplyLeading: false,
       leading: GestureDetector(
         onTap: () {
-          //Ban sua giup toi =)) toi chi dua ve dc HOME hoac neu ve PROJECT thi toi mat Navbar
-          //Get.offAllNamed(Routes.MAIN);
         },
-        // child: Icon(
-        //   Icons.arrow_back, // add custom icons also
-        // ),
+        child: Icon(
+          Icons.menu, // add custom icons also
+        ),
       ),
       actionsIconTheme:
           IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
@@ -71,103 +69,103 @@ class TaskUserPage extends GetView<TaskUserController> {
                 size: 26.0,
               ),
             )),
-        PopupMenuButton<int>(
-          onSelected: (value) {
-            if (value == 0) {
-              nameController.text = "";
-              Get.defaultDialog(
-                  titleStyle: TextStyle(fontSize: 0),
-                  title: 'Rename',
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TextField(
-                        controller: nameController,
-                        keyboardType: TextInputType.text,
-                        maxLines: 1,
-                        decoration: const InputDecoration(
-                            labelText: 'New Name',
-                            hintMaxLines: 1,
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.green, width: 4.0))),
-                      ),
-                      const SizedBox(
-                        height: 30.0,
-                      ),
-                      ElevatedButton(
-                        onPressed: () async {
-                          Get.back();
-                          CommonResp? commonResp = await controller.renameTask(
-                              task, nameController.text);
-                          if (commonResp == null) {
-                            customSnackBar(
-                                "Rename", "Some expected error happened",
-                                iconData: Icons.warning_rounded,
-                                iconColor: Colors.red);
-                            return;
-                          }
-                          if (commonResp.code == "SUCCESS") {
-                            customSnackBar("Rename", "Success",
-                                iconData: Icons.check_outlined,
-                                iconColor: Colors.green);
-                          } else {
-                            customSnackBar(
-                                "Rename", "Some expected error happened",
-                                iconData: Icons.warning_rounded,
-                                iconColor: Colors.red);
-                          }
-                        },
-                        child: const Text(
-                          'Rename',
-                          style: TextStyle(color: Colors.white, fontSize: 16.0),
-                        ),
-                      )
-                    ],
-                  ),
-                  radius: 10.0);
-            } else if (value == 1) {
-              Get.defaultDialog(
-                title: "Confirm",
-                middleText: "Are your sure to delete ?",
-                backgroundColor: Colors.white,
-                titleStyle: const TextStyle(color: Colors.black),
-                middleTextStyle: const TextStyle(color: Colors.black),
-                actions: <Widget>[
-                  TextButton(
-                    child: const Text("Yes"),
-                    onPressed: () async {
-                      Get.back();
-                      bool rs = await controller.deleteTask(task);
-                      if (rs) {
-                        customSnackBar("Delete", "Success",
-                            iconData: Icons.check_outlined,
-                            iconColor: Colors.green);
-                      }
-                      //Ban sua giup toi neu xoa ve luon PROJECT dep nhe =)) toi chi dua ve dc HOME hoac neu ve PROJECT thi toi mat Navbar
-                      //Get.offAllNamed(Routes.MAIN);
-                    },
-                  ),
-                  TextButton(
-                    child: const Text("No"),
-                    onPressed: () {
-                      Get.back();
-                    },
-                  ),
-                ],
-              );
-            }
-          },
-          key: _key,
-          itemBuilder: (context) {
-            return <PopupMenuEntry<int>>[
-              PopupMenuItem(child: Text('Rename project'), value: 0),
-              PopupMenuItem(child: Text('Delete project'), value: 1),
-              //PopupMenuItem(child: Text('Invite'), value: 2),
-              //PopupMenuItem(child: Text('Create task'), value: 3),
-            ];
-          },
-        ),
+        // PopupMenuButton<int>(
+        //   onSelected: (value) {
+        //     if (value == 0) {
+        //       nameController.text = "";
+        //       Get.defaultDialog(
+        //           titleStyle: TextStyle(fontSize: 0),
+        //           title: 'Rename',
+        //           content: Column(
+        //             mainAxisSize: MainAxisSize.min,
+        //             children: [
+        //               TextField(
+        //                 controller: nameController,
+        //                 keyboardType: TextInputType.text,
+        //                 maxLines: 1,
+        //                 decoration: const InputDecoration(
+        //                     labelText: 'New Name',
+        //                     hintMaxLines: 1,
+        //                     border: OutlineInputBorder(
+        //                         borderSide: BorderSide(
+        //                             color: Colors.green, width: 4.0))),
+        //               ),
+        //               const SizedBox(
+        //                 height: 30.0,
+        //               ),
+        //               ElevatedButton(
+        //                 onPressed: () async {
+        //                   Get.back();
+        //                   CommonResp? commonResp = await controller.renameTask(
+        //                       task, nameController.text);
+        //                   if (commonResp == null) {
+        //                     customSnackBar(
+        //                         "Rename", "Some expected error happened",
+        //                         iconData: Icons.warning_rounded,
+        //                         iconColor: Colors.red);
+        //                     return;
+        //                   }
+        //                   if (commonResp.code == "SUCCESS") {
+        //                     customSnackBar("Rename", "Success",
+        //                         iconData: Icons.check_outlined,
+        //                         iconColor: Colors.green);
+        //                   } else {
+        //                     customSnackBar(
+        //                         "Rename", "Some expected error happened",
+        //                         iconData: Icons.warning_rounded,
+        //                         iconColor: Colors.red);
+        //                   }
+        //                 },
+        //                 child: const Text(
+        //                   'Rename',
+        //                   style: TextStyle(color: Colors.white, fontSize: 16.0),
+        //                 ),
+        //               )
+        //             ],
+        //           ),
+        //           radius: 10.0);
+        //     } else if (value == 1) {
+        //       Get.defaultDialog(
+        //         title: "Confirm",
+        //         middleText: "Are your sure to delete ?",
+        //         backgroundColor: Colors.white,
+        //         titleStyle: const TextStyle(color: Colors.black),
+        //         middleTextStyle: const TextStyle(color: Colors.black),
+        //         actions: <Widget>[
+        //           TextButton(
+        //             child: const Text("Yes"),
+        //             onPressed: () async {
+        //               Get.back();
+        //               bool rs = await controller.deleteTask(task);
+        //               if (rs) {
+        //                 customSnackBar("Delete", "Success",
+        //                     iconData: Icons.check_outlined,
+        //                     iconColor: Colors.green);
+        //               }
+        //               //Ban sua giup toi neu xoa ve luon PROJECT dep nhe =)) toi chi dua ve dc HOME hoac neu ve PROJECT thi toi mat Navbar
+        //               //Get.offAllNamed(Routes.MAIN);
+        //             },
+        //           ),
+        //           TextButton(
+        //             child: const Text("No"),
+        //             onPressed: () {
+        //               Get.back();
+        //             },
+        //           ),
+        //         ],
+        //       );
+        //     }
+        //   },
+        //   key: _key,
+        //   itemBuilder: (context) {
+        //     return <PopupMenuEntry<int>>[
+        //       PopupMenuItem(child: Text('Rename project'), value: 0),
+        //       PopupMenuItem(child: Text('Delete project'), value: 1),
+        //       //PopupMenuItem(child: Text('Invite'), value: 2),
+        //       //PopupMenuItem(child: Text('Create task'), value: 3),
+        //     ];
+        //   },
+        // ),
       ],
     );
   }
@@ -337,7 +335,7 @@ class TaskUserPage extends GetView<TaskUserController> {
 
   @override
   Widget build(BuildContext context) {
-    return customBody();
+    return Scaffold (appBar: taskAppBar(), body: customBody());
   }
 
   Widget customBody() {
@@ -372,13 +370,14 @@ class TaskUserPage extends GetView<TaskUserController> {
                 return GestureDetector(
                   onTap: () {
                     Get.toNamed(Routes.TASK_DETAIL_PAGE,
-                        arguments: {"id": _items[index].id});
+                        arguments: {"id": _items[index].id,
+                                    "task" : _items[index]});
                   },
                   child: Card(
                     margin: const EdgeInsets.all(10),
                     child: ListTile(
                       title: Text(task.toString()),
-                      subtitle: Text("Chua biet"),
+                      // subtitle: Text(""),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -472,13 +471,16 @@ class TaskUserPage extends GetView<TaskUserController> {
   void renameOnPressed(Task task, String newName) async {
     CommonResp? commonResp = await controller.renameTask(task, newName);
     if (commonResp == null) {
-      customSnackBar("Rename", "Some unexpected error happened");
+      customSnackBar("Rename", "Some unexpected error happened",
+          iconData: Icons.warning_rounded, iconColor: Colors.red);
       return;
     }
     if (commonResp.code == "SUCCESS") {
-      customSnackBar("Rename", "Success");
+      customSnackBar("Rename", "Success",
+          iconData: Icons.check_outlined, iconColor: Colors.green);
     } else {
-      customSnackBar("Rename", "Some unexpected error happened");
+      customSnackBar("Rename", "Some unexpected error happened",
+          iconData: Icons.warning_rounded, iconColor: Colors.red);
     }
   }
 
