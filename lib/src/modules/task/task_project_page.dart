@@ -14,13 +14,64 @@ import 'package:mobile_app/src/routes/app_routes.dart';
 
 import 'task_project_controller.dart';
 
-Widget taskProjectList(Project project) {
+Widget renameIconWidget(
+    String role, Task task, var nameController, var controller) {
+  if (role == "ADMINSTRATOR" || role == "OWNER") {
+    return IconButton(
+        onPressed: () {
+          renameDialog(task, nameController, controller);
+          nameController.text = "";
+        },
+        icon: const Icon(Icons.edit));
+  }
+  return const SizedBox.shrink();
+}
+
+Widget deleteIconWidget(String role, Task task, var controller) {
+  if (role == "OWNER") {
+    return IconButton(
+      icon: const Icon(Icons.delete),
+      onPressed: () {
+        Get.defaultDialog(
+          title: "Confirm",
+          middleText: "Are your sure to delete ?",
+          backgroundColor: Colors.white,
+          titleStyle: const TextStyle(color: Colors.black),
+          middleTextStyle: const TextStyle(color: Colors.black),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("Yes"),
+              onPressed: () async {
+                Get.back();
+                bool rs = await controller.deleteTask(task);
+                if (rs) {
+                  customSnackBar("Delete", "Success",
+                      iconData: Icons.check_outlined, iconColor: Colors.green);
+                }
+              },
+            ),
+            TextButton(
+              child: const Text("No"),
+              onPressed: () {
+                Get.back();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+  return const SizedBox.shrink();
+}
+
+Widget taskProjectList(Project project, var controller) {
   TextEditingController nameController = TextEditingController(text: '');
   TextEditingController contentController = TextEditingController(text: '');
-  TextEditingController invitedEmailController = TextEditingController(text: '');
-  TaskProjectController controller = Get.put(TaskProjectController(projectId: project.id!));
+  TextEditingController invitedEmailController =
+      TextEditingController(text: '');
 
   return Obx(() {
+    project.role = project.role!.toUpperCase();
     var _items = controller.tasks;
 
     if (controller.tasks.isEmpty) {
@@ -29,7 +80,6 @@ Widget taskProjectList(Project project) {
       }
       return Center(child: Text("No task"));
     }
-
     return LazyLoadScrollView(
         onEndOfPage: controller.nextPage,
         isLoading: controller.isLastPage,
@@ -49,9 +99,10 @@ Widget taskProjectList(Project project) {
               Task task = _items[index];
               return GestureDetector(
                 onTap: () {
-                  Get.toNamed(Routes.TASK_DETAIL_PAGE,
-                      arguments: {"id": _items[index].id,
-                                  "task" : _items[index]});
+                  Get.toNamed(Routes.TASK_DETAIL_PAGE, arguments: {
+                    "id": _items[index].id,
+                    "task": _items[index]
+                  });
                 },
                 child: Card(
                   margin: const EdgeInsets.all(10),
@@ -61,47 +112,10 @@ Widget taskProjectList(Project project) {
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        IconButton(
-                            onPressed: () {
-                              renameDialog(
-                                  _items[index], nameController, controller);
-                              nameController.text = "";
-                            },
-                            icon: const Icon(Icons.edit)),
-                        IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () {
-                            Get.defaultDialog(
-                              title: "Confirm",
-                              middleText: "Are your sure to delete ?",
-                              backgroundColor: Colors.white,
-                              titleStyle: const TextStyle(color: Colors.black),
-                              middleTextStyle:
-                                  const TextStyle(color: Colors.black),
-                              actions: <Widget>[
-                                TextButton(
-                                  child: const Text("Yes"),
-                                  onPressed: () async {
-                                    Get.back();
-                                    bool rs = await controller
-                                        .deleteTask(_items[index]);
-                                    if (rs) {
-                                      customSnackBar("Delete", "Success",
-                                          iconData: Icons.check_outlined,
-                                          iconColor: Colors.green);
-                                    }
-                                  },
-                                ),
-                                TextButton(
-                                  child: const Text("No"),
-                                  onPressed: () {
-                                    Get.back();
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        ),
+                        renameIconWidget(project.role!, _items[index],
+                            nameController, controller),
+                        deleteIconWidget(
+                            project.role!, _items[index], controller)
                       ],
                     ),
                   ),

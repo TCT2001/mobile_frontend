@@ -5,24 +5,58 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/src/core/utils/lazy_load_scroll_view.dart';
+import 'package:mobile_app/src/data/models/paginate_param.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/project.dart';
 import 'package:mobile_app/src/data/models/user.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
+import 'package:mobile_app/src/modules/home/search.dart';
 import 'package:mobile_app/src/routes/app_routes.dart';
 
 import 'project_controller.dart';
 
-class ProjectPage extends GetView<ProjectController> {
-  ProjectPage({Key? key}) : super(key: key);
-
-  TextEditingController textController = TextEditingController(text: '');
-  final GlobalKey<PopupMenuButtonState<int>> _key = GlobalKey();
+class ProjectPage extends StatefulWidget {
+  const ProjectPage({Key? key}) : super(key: key);
 
   @override
-  ProjectController controller = Get.put(ProjectController());
+  _ProjectPageState createState() => _ProjectPageState();
+}
 
-  AppBar? projectAppBar() {
+class _ProjectPageState extends State<ProjectPage> {
+  TextEditingController searchController = TextEditingController(text: '');
+  TextEditingController textController = TextEditingController(text: '');
+  final GlobalKey<PopupMenuButtonState<int>> _key = GlobalKey();
+  ProjectController controller = Get.put(ProjectController());
+  late String? sortValue = "Deadline";
+
+  Widget sort() {
+    return DropdownButton<String>(
+      items: const [
+        DropdownMenuItem<String>(
+          child: Text('Deadline'),
+          value: 'Deadline',
+        ),
+        DropdownMenuItem<String>(
+          child: Text('ASC'),
+          value: 'ASC',
+        ),
+        DropdownMenuItem<String>(
+          child: Text('DESC'),
+          value: 'DESC',
+        ),
+      ],
+      onChanged: (String? value) {
+        var a = value == "ASC";
+        controller.sort("deadline", a);
+        setState(() {
+          sortValue = value;
+        });
+      },
+      value: sortValue,
+    );
+  }
+
+  AppBar? projectAppBar(BuildContext context) {
     return AppBar(
       title: const Text('ProjectPage'),
       automaticallyImplyLeading: false,
@@ -35,15 +69,6 @@ class ProjectPage extends GetView<ProjectController> {
         ),
       ),
       actions: <Widget>[
-        Padding(
-            padding: EdgeInsets.only(right: 20.0),
-            child: GestureDetector(
-              onTap: () {},
-              child: Icon(
-                Icons.search,
-                size: 26.0,
-              ),
-            )),
         PopupMenuButton<int>(
           onSelected: (value) {
             if (value == 0) {
@@ -64,7 +89,29 @@ class ProjectPage extends GetView<ProjectController> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Scaffold(appBar: projectAppBar(), body: body()));
+    return Scaffold(
+        appBar: projectAppBar(context),
+        body: Column(
+          children: <Widget>[
+            Container(
+              child: sort(),
+            ),
+            Container(
+                child: TextField(
+              controller: searchController,
+              decoration: const InputDecoration(
+                icon: Icon(Icons.search),
+              ),
+              onChanged: (String? value) {
+                controller.searchByName(value!);
+                controller.update();
+              },
+            )),
+            Expanded(
+              child: Container(child: body()),
+            )
+          ],
+        ));
   }
 
   void deleteProject(Project project) {
@@ -174,97 +221,117 @@ class ProjectPage extends GetView<ProjectController> {
   }
 
   Widget body() {
-    if (controller.projects.isEmpty) {
-      if (controller.isLastPage) {
-        return Center(child: Text("No project"));
-      } else {
-        return Center(child: CircularProgressIndicator());
+    return Obx(() {
+      if (controller.projects.isEmpty) {
+        if (controller.isLastPage) {
+          return Center(child: Text("No project"));
+        } else {
+          return Center(child: CircularProgressIndicator());
+        }
       }
-    }
-    var _items = controller.projects;
-    return LazyLoadScrollView(
-        onEndOfPage: controller.nextPage,
-        isLoading: controller.isLastPage,
-        child: ListTileTheme(
-          contentPadding: EdgeInsets.all(15),
-          iconColor: Colors.red,
-          textColor: Colors.black54,
-          tileColor: Colors.yellow[100],
-          style: ListTileStyle.list,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          dense: true,
-          child: ListView.builder(
-            itemCount: _items.length,
-            itemBuilder: (_, index) {
-              Project project = _items[index];
-              int id = project.id!;
-              String name = project.name!;
-              List<User> users = project.userDTOSet! as List<User>;
-              return GestureDetector(
-                onTap: () {
-                   Get.toNamed(Routes.PROJECT_DETAIL,
-                      arguments: {
-                        "id": _items[index].id,
-                        "clickedProject" : _items[index]
-                      });
-                },
-                child: Card(
-                  margin: const EdgeInsets.all(10),
-                  child: ListTile(
-                    title: Text("Id: $id, Name: $name, Users: $users"),
-                    //subtitle: Text("Co gi khong"),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                            onPressed: () {
-                              renameDialog(_items[index]);
-                              textController.text = "";
-                            },
-                            icon: const Icon(Icons.edit)),
-                        IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () {
-                            Get.defaultDialog(
-                              title: "Confirm",
-                              middleText: "Are your sure to delete ?",
-                              backgroundColor: Colors.white,
-                              titleStyle: const TextStyle(color: Colors.black),
-                              middleTextStyle:
-                                  const TextStyle(color: Colors.black),
-                              actions: <Widget>[
-                                TextButton(
-                                  child: const Text("Yes"),
-                                  onPressed: () async {
-                                    Get.back();
-                                    bool rs = await controller
-                                        .deleteProject(_items[index]);
-                                    if (rs) {
-                                      customSnackBar("Delete", "Success",
-                                          iconData: Icons.check_outlined,
-                                          iconColor: Colors.green);
-                                    }
-                                  },
-                                ),
-                                TextButton(
-                                  child: const Text("No"),
-                                  onPressed: () {
-                                    Get.back();
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        )
-                      ],
+      var _items = controller.projects;
+      return LazyLoadScrollView(
+          onEndOfPage: controller.nextPage,
+          isLoading: controller.isLastPage,
+          child: ListTileTheme(
+            contentPadding: EdgeInsets.all(15),
+            iconColor: Colors.red,
+            textColor: Colors.black54,
+            tileColor: Colors.yellow[100],
+            style: ListTileStyle.list,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            dense: true,
+            child: ListView.builder(
+              itemCount: _items.length,
+              itemBuilder: (_, index) {
+                Project project = _items[index];
+                int id = project.id!;
+                String name = project.name!;
+                List<User> users = project.userDTOSet! as List<User>;
+                return GestureDetector(
+                  onTap: () {
+                    Get.toNamed(Routes.PROJECT_DETAIL, arguments: {
+                      "id": _items[index].id,
+                      "clickedProject": _items[index]
+                    });
+                  },
+                  child: Card(
+                    margin: const EdgeInsets.all(10),
+                    child: ListTile(
+                      title: Text("Id: $id, Name: $name, Users: $users"),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          renameIconWidget(_items[index].role!, _items[index]),
+                          deleteIconWidget(_items[index].role!, _items[index])
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
-          ),
-        ));
+                );
+              },
+            ),
+          ));
+    });
+  }
+
+  Widget renameIconWidget(String role, Project project) {
+    print(role);
+    if (role == "ADMINSTRATOR" || role == "OWNER") {
+      return IconButton(
+          onPressed: () {
+            renameDialog(project);
+            textController.text = "";
+          },
+          icon: const Icon(Icons.edit));
+    }
+    return const SizedBox.shrink();
+  }
+
+  Widget deleteIconWidget(String role, Project project) {
+    if (role == "OWNER") {
+      return IconButton(
+        icon: const Icon(Icons.delete),
+        onPressed: () {
+          Get.defaultDialog(
+            title: "Confirm",
+            middleText: "Are your sure to delete ?",
+            backgroundColor: Colors.white,
+            titleStyle: const TextStyle(color: Colors.black),
+            middleTextStyle: const TextStyle(color: Colors.black),
+            actions: <Widget>[
+              TextButton(
+                child: const Text("Yes"),
+                onPressed: () async {
+                  Get.back();
+                  bool rs = await controller.deleteProject(project);
+                  if (rs) {
+                    customSnackBar("Delete", "Success",
+                        iconData: Icons.check_outlined,
+                        iconColor: Colors.green);
+                  }
+                },
+              ),
+              TextButton(
+                child: const Text("No"),
+                onPressed: () {
+                  Get.back();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+    return const SizedBox.shrink();
   }
 }
+
+
+// class ProjectPage extends GetView<ProjectController> {
+//   ProjectPage({Key? key}) : super(key: key);
+
+  
+// }

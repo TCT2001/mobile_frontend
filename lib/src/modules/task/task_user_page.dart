@@ -46,301 +46,59 @@ class TaskUserPage extends GetView<TaskUserController> {
 
   TaskUserPage({Key? key}) : super(key: key);
 
+//TODO
   AppBar? taskAppBar() {
     return AppBar(
-      title: Text('Tasks of User'),
-      automaticallyImplyLeading: false,
-      leading: GestureDetector(
-        onTap: () {
-        },
-        child: Icon(
-          Icons.menu, // add custom icons also
+        title: Text('Tasks of User'),
+        automaticallyImplyLeading: false,
+        leading: GestureDetector(
+          onTap: () {},
+          child: Icon(
+            Icons.menu, // add custom icons also
+          ),
         ),
-      ),
-      actionsIconTheme:
-          IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
-      actions: <Widget>[
-        Padding(
-            padding: EdgeInsets.only(right: 20.0),
-            child: GestureDetector(
-              onTap: () {},
-              child: Icon(
-                Icons.search,
-                size: 26.0,
-              ),
-            )),
-        // PopupMenuButton<int>(
-        //   onSelected: (value) {
-        //     if (value == 0) {
-        //       nameController.text = "";
-        //       Get.defaultDialog(
-        //           titleStyle: TextStyle(fontSize: 0),
-        //           title: 'Rename',
-        //           content: Column(
-        //             mainAxisSize: MainAxisSize.min,
-        //             children: [
-        //               TextField(
-        //                 controller: nameController,
-        //                 keyboardType: TextInputType.text,
-        //                 maxLines: 1,
-        //                 decoration: const InputDecoration(
-        //                     labelText: 'New Name',
-        //                     hintMaxLines: 1,
-        //                     border: OutlineInputBorder(
-        //                         borderSide: BorderSide(
-        //                             color: Colors.green, width: 4.0))),
-        //               ),
-        //               const SizedBox(
-        //                 height: 30.0,
-        //               ),
-        //               ElevatedButton(
-        //                 onPressed: () async {
-        //                   Get.back();
-        //                   CommonResp? commonResp = await controller.renameTask(
-        //                       task, nameController.text);
-        //                   if (commonResp == null) {
-        //                     customSnackBar(
-        //                         "Rename", "Some expected error happened",
-        //                         iconData: Icons.warning_rounded,
-        //                         iconColor: Colors.red);
-        //                     return;
-        //                   }
-        //                   if (commonResp.code == "SUCCESS") {
-        //                     customSnackBar("Rename", "Success",
-        //                         iconData: Icons.check_outlined,
-        //                         iconColor: Colors.green);
-        //                   } else {
-        //                     customSnackBar(
-        //                         "Rename", "Some expected error happened",
-        //                         iconData: Icons.warning_rounded,
-        //                         iconColor: Colors.red);
-        //                   }
-        //                 },
-        //                 child: const Text(
-        //                   'Rename',
-        //                   style: TextStyle(color: Colors.white, fontSize: 16.0),
-        //                 ),
-        //               )
-        //             ],
-        //           ),
-        //           radius: 10.0);
-        //     } else if (value == 1) {
-        //       Get.defaultDialog(
-        //         title: "Confirm",
-        //         middleText: "Are your sure to delete ?",
-        //         backgroundColor: Colors.white,
-        //         titleStyle: const TextStyle(color: Colors.black),
-        //         middleTextStyle: const TextStyle(color: Colors.black),
-        //         actions: <Widget>[
-        //           TextButton(
-        //             child: const Text("Yes"),
-        //             onPressed: () async {
-        //               Get.back();
-        //               bool rs = await controller.deleteTask(task);
-        //               if (rs) {
-        //                 customSnackBar("Delete", "Success",
-        //                     iconData: Icons.check_outlined,
-        //                     iconColor: Colors.green);
-        //               }
-        //               //Ban sua giup toi neu xoa ve luon PROJECT dep nhe =)) toi chi dua ve dc HOME hoac neu ve PROJECT thi toi mat Navbar
-        //               //Get.offAllNamed(Routes.MAIN);
-        //             },
-        //           ),
-        //           TextButton(
-        //             child: const Text("No"),
-        //             onPressed: () {
-        //               Get.back();
-        //             },
-        //           ),
-        //         ],
-        //       );
-        //     }
-        //   },
-        //   key: _key,
-        //   itemBuilder: (context) {
-        //     return <PopupMenuEntry<int>>[
-        //       PopupMenuItem(child: Text('Rename project'), value: 0),
-        //       PopupMenuItem(child: Text('Delete project'), value: 1),
-        //       //PopupMenuItem(child: Text('Invite'), value: 2),
-        //       //PopupMenuItem(child: Text('Create task'), value: 3),
-        //     ];
-        //   },
-        // ),
-      ],
-    );
+        actionsIconTheme:
+            IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
+        actions: <Widget>[
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {},
+                child: Icon(
+                  Icons.search,
+                  size: 26.0,
+                ),
+              )),
+        ]);
   }
-
-  // void inviteDialog() {
-  //   Get.bottomSheet(
-  //     Container(
-  //         height: 250,
-  //         decoration: const BoxDecoration(
-  //           borderRadius: BorderRadius.only(
-  //             topRight: Radius.circular(16),
-  //             topLeft: Radius.circular(16),
-  //           ),
-  //           // color: Colors.white,
-  //           color: Color(0xff88e8f2),
-  //         ),
-  //         child: Padding(
-  //           padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
-  //           child: ListView(
-  //             children: [
-  //               Column(
-  //                 crossAxisAlignment: CrossAxisAlignment.start,
-  //                 children: [
-  //                   const Text(
-  //                     'Invite',
-  //                     style:
-  //                     TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-  //                   ),
-  //                   const SizedBox(
-  //                     height: 8,
-  //                   ),
-  //                   TextFormField(
-  //                     controller: invitedEmailController,
-  //                     decoration: InputDecoration(
-  //                       labelText: 'Email',
-  //                       hintText: 'Email',
-  //                       border: OutlineInputBorder(
-  //                         borderRadius: BorderRadius.circular(8),
-  //                       ),
-  //                     ),
-  //                   ),
-  //                   const SizedBox(
-  //                     height: 10,
-  //                   ),
-  //                   SelectFormField(
-  //                     type: SelectFormFieldType.dropdown, // or can be dialog
-  //                     initialValue: 'circle',
-  //                     icon: Icon(Icons.format_shapes),
-  //                     labelText: 'Role',
-  //                     items: _items,
-  //                     onChanged: (val) {
-  //                       role = val;
-  //                     },
-  //                     onSaved: (val) => print(val),
-  //                   ),
-  //                   const SizedBox(
-  //                     height: 10,
-  //                   ),
-  //                   FloatingActionButton.extended(
-  //                       label: const Text('Invite'),
-  //                       icon: const Icon(Icons.send),
-  //                       onPressed: () async {
-  //                         invitedEmail = invitedEmailController.text;
-  //                         //TODO
-  //                         if (!EmailValidator.validate(invitedEmail)) {
-  //                           customSnackBar("Email", "error");
-  //                           return;
-  //                         }
-  //
-  //                         var srcEmail = await getStringLocalStorge(
-  //                             LocalStorageKey.EMAIL.toString());
-  //
-  //                         var temp = await controller.inviteProject(
-  //                             srcEmail!, invitedEmail, project.id, role);
-  //                         if (temp!.code == "SUCCESS") {
-  //                           customSnackBar('Invite', "Success");
-  //                           Get.back();
-  //                         } else {
-  //                           customSnackBar("Invite", temp.data as String);
-  //                         }
-  //                         invitedEmailController.clear();
-  //                       })
-  //                 ],
-  //               )
-  //             ],
-  //           ),
-  //         )),
-  //   );
-  // }
-
-  // void createDialog() {
-  //   Get.bottomSheet(
-  //     Container(
-  //         height: 250,
-  //         decoration: const BoxDecoration(
-  //           borderRadius: BorderRadius.only(
-  //             topRight: Radius.circular(16),
-  //             topLeft: Radius.circular(16),
-  //           ),
-  //           // color: Colors.white,
-  //           color: Color(0xff88e8f2),
-  //         ),
-  //         child: Padding(
-  //           padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
-  //           child: ListView(
-  //             children: [
-  //               Column(
-  //                 crossAxisAlignment: CrossAxisAlignment.start,
-  //                 children: [
-  //                   const Text(
-  //                     'Create Task',
-  //                     style:
-  //                     TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-  //                   ),
-  //                   const SizedBox(
-  //                     height: 8,
-  //                   ),
-  //                   TextFormField(
-  //                     controller: nameController,
-  //                     decoration: InputDecoration(
-  //                       labelText: 'Name',
-  //                       hintText: 'Name',
-  //                       border: OutlineInputBorder(
-  //                         borderRadius: BorderRadius.circular(8),
-  //                       ),
-  //                     ),
-  //                   ),
-  //                   const SizedBox(
-  //                     height: 10,
-  //                   ),
-  //                   TextFormField(
-  //                     controller: contentController,
-  //                     decoration: InputDecoration(
-  //                       labelText: 'Content',
-  //                       hintText: 'Content',
-  //                       border: OutlineInputBorder(
-  //                         borderRadius: BorderRadius.circular(8),
-  //                       ),
-  //                     ),
-  //                   ),
-  //                   const SizedBox(
-  //                     height: 10,
-  //                   ),
-  //                   FloatingActionButton.extended(
-  //                       label: const Text('Create'),
-  //                       icon: const Icon(Icons.send),
-  //                       onPressed: () async {
-  //                         //TODO
-  //                         Get.back();
-  //                         CommonResp? commonResp = await controller.createTask(
-  //                             nameController.text,
-  //                             contentController.text,
-  //                             project.id);
-  //                         if (commonResp!.code == "SUCCESS") {
-  //                           customSnackBar("Create Task", "Success");
-  //                         } else {
-  //                           customSnackBar("Create Task", "Fail");
-  //                         }
-  //                       })
-  //                 ],
-  //               )
-  //             ],
-  //           ),
-  //         )),
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold (appBar: taskAppBar(), body: customBody());
+    TextEditingController searchController = TextEditingController(text: '');
+    return Scaffold(
+        appBar: taskAppBar(),
+        body: Column(
+          children: <Widget>[
+            Container(
+                child: TextField(
+              controller: searchController,
+              decoration: const InputDecoration(
+                icon: Icon(Icons.search),
+              ),
+              onChanged: (String? value) {
+                controller.searchByName(value!);
+                controller.update();
+              },
+            )),
+            Expanded(
+              child: Container(child: customBody()),
+            )
+          ],
+        ));
   }
 
   Widget customBody() {
     TaskUserController controller = Get.put(TaskUserController());
-
     return Obx(() {
       var _items = controller.tasks;
       if (controller.tasks.isEmpty) {
@@ -369,9 +127,10 @@ class TaskUserPage extends GetView<TaskUserController> {
                 Task task = _items[index];
                 return GestureDetector(
                   onTap: () {
-                    Get.toNamed(Routes.TASK_DETAIL_PAGE,
-                        arguments: {"id": _items[index].id,
-                                    "task" : _items[index]});
+                    Get.toNamed(Routes.TASK_DETAIL_PAGE, arguments: {
+                      "id": _items[index].id,
+                      "task": _items[index]
+                    });
                   },
                   child: Card(
                     margin: const EdgeInsets.all(10),

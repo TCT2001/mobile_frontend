@@ -4,13 +4,23 @@ class Project {
   late int? id;
   late String? name;
   late List? userDTOSet;
-  Project({required this.id, required this.name, required this.userDTOSet});
+  late String? role;
+  Project.nonRole(
+      {required this.id, required this.name, required this.userDTOSet});
+
+  Project(
+      {required this.id,
+      required this.name,
+      required this.role,
+      required this.userDTOSet});
   Project.name();
   Project.id({required this.id});
-  factory Project.fromJson(Map<String, dynamic> json) {
+
+factory Project.fromJson(Map<String, dynamic> json) {
     return Project(
         id: json['id'],
         name: json['name'],
+        role: json['role'] == null ? null : json['role'],
         userDTOSet: json["userDTOSet"] == null
             ? null
             : (json["userDTOSet"] as List)
@@ -29,8 +39,6 @@ class Project {
 
   @override
   int get hashCode => id.hashCode;
-
-
 
   @override
   String toString() => 'Project(id: $id, name: $name, userDTOSet: $userDTOSet)';

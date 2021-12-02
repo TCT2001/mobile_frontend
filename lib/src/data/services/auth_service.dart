@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:mobile_app/src/core/utils/http.dart';
 import 'package:mobile_app/src/data/models/payload/error_resp.dart';
 import 'package:mobile_app/src/data/models/payload/login_resp.dart';
@@ -49,23 +50,27 @@ class AuthService {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     String? deviceId;
     //TODO
-    // if (Platform.isAndroid) {
-    //   AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    //   print('Running on ${androidInfo.model}');
-    //   deviceId = await deviceInfo.androidInfo.then((value) => value.androidId);
-    // } else if (Platform.isIOS) {
-    //   deviceId =
-    //       await deviceInfo.iosInfo.then((value) => value.identifierForVendor);
-    // }
-    // print(deviceId);
+    if (Platform.isAndroid) {
+      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+      print('Running on ${androidInfo.model}');
+      deviceId = await deviceInfo.androidInfo.then((value) => value.androidId);
+    } else if (Platform.isIOS) {
+      deviceId =
+          await deviceInfo.iosInfo.then((value) => value.identifierForVendor);
+    }
+    print(deviceId);
+    var fcmToken = "";
+    await FirebaseMessaging.instance.getToken().then((token) {
+      fcmToken = token!; // Print the Token in Console
+    });
     var response = await client.post(LOGIN_URI,
         headers: nonAuthHeader,
         body: jsonEncode(<String, String>{
           "username": email,
           "password": password,
-          "deviceId": "a",
-          "platform": "1",
-          "fcmToken": "abcdefghi"
+          "deviceId": deviceId!,
+          "isAndroid": "1",
+          "fcmToken": fcmToken
           //TODO
         }));
     return loginRespFromJson(response.body);

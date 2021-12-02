@@ -13,6 +13,7 @@ class ProjectController extends GetxController {
   var _isLastPage = false.obs;
 
   final newName = ''.obs;
+  final sortValue = "Update Time".obs;
 
   List<Project> get projects => _projects.toList();
 
@@ -20,11 +21,11 @@ class ProjectController extends GetxController {
 
   bool get isLastPage => _isLastPage.value;
 
-  var project = Project(id: -1, name: "##", userDTOSet: []).obs;
+  var project = Project.nonRole(id: -1, name: "##", userDTOSet: []).obs;
 
   var _choice = 0.obs;
 
-  var _clickedProjectCard = Project(id: -1, name: "-1", userDTOSet: null).obs;
+  var _clickedProjectCard = Project.nonRole(id: -1, name: "-1", userDTOSet: null).obs;
 
   Project get clickedProjectCard => _clickedProjectCard.value;
 
@@ -56,6 +57,36 @@ class ProjectController extends GetxController {
   void nextPage() {
     _paginateParam.value.page += 1;
     _listProject();
+  }
+
+  void changeParam(PaginateParam paginateParam) {
+    _changeParam(paginateParam);
+    _listProject();
+  }
+
+  void sort(String sortField, bool sortAsc) async {
+    _projects.assignAll([]);
+    _paginateParam = PaginateParam(page: 0).obs;
+    _paginateParam.value.sortField = sortField;
+    _paginateParam.value.sortAscending = sortAsc;
+    final data = await ProjectService.list(_paginateParam.value);
+    if (data!.isEmpty) {
+      _isLastPage.value = true;
+      return;
+    }
+    _projects.assignAll(data);
+  }
+
+  void searchByName(String name) async {
+    _projects.assignAll([]);
+    _paginateParam = PaginateParam(page: 0).obs;
+    _paginateParam.value.filter = "name~$name";
+    final data = await ProjectService.list(_paginateParam.value);
+    if (data!.isEmpty) {
+      _isLastPage.value = true;
+      return;
+    }
+    _projects.assignAll(data);
   }
 
   Future<Project> find(int id) async {
