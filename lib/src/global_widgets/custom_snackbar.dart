@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mobile_app/src/core/constants/colors.dart';
 
-void customSnackBar(String? title, String? message, {int duration = 2, Color backgroudColor = Colors.white, Color textColor = Colors.black, IconData? iconData, Color? iconColor}) {
+void customSnackBar(String? title, String? message, {int duration = 2, Color backgroudColor = BathWater, Color textColor = Colors.black, IconData? iconData, Color? iconColor}) {
   Get.snackbar(
     title!,
     message!,

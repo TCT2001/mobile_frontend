@@ -214,7 +214,7 @@ class ProjectPage extends GetView<ProjectController> {
                   margin: const EdgeInsets.all(10),
                   child: ListTile(
                     title: Text("Id: $id, Name: $name, Users: $users"),
-                    subtitle: Text("Co gi khong"),
+                    //subtitle: Text("Co gi khong"),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
