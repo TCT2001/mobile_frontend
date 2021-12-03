@@ -7,6 +7,7 @@ class Task {
   late String? visibleTaskScope;
   late String? priority;
   late String? taskState;
+  late String? deadline;
   late int? userIdIfVisibleIsPrivate;
 
   factory Task.fromJson(Map<String, dynamic> json) {
@@ -17,6 +18,7 @@ class Task {
         visibleTaskScope: json['visibleTaskScope'],
         priority: json['priority'],
         taskState: json['taskState'],
+        deadline: json['deadline'],
         userIdIfVisibleIsPrivate: json['userIdIfVisibleIsPrivate']);
   }
   @override
@@ -34,6 +36,7 @@ class Task {
       required this.visibleTaskScope,
       required this.priority,
       required this.taskState,
+      required this.deadline,
       required this.userIdIfVisibleIsPrivate, userDTOSet});
 
   Task.name();

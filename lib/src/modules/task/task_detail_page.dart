@@ -359,7 +359,8 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                     String taskContent = task.content!;
                     String taskState = task.taskState!;
                     String taskPriority = task.priority!;
-                    return Text("Id : $taskId\n\nName: $taskName\n\nContent : $taskContent \n\nState : $taskState\n\nPriority : $taskPriority",
+                    String taskDeadline = task.deadline!;
+                    return Text("Id : $taskId\n\nName: $taskName\n\nContent : $taskContent \n\nState : $taskState\n\nPriority : $taskPriority\n\nDeadline: $taskDeadline",
                                 style : TextStyle(
                                   fontSize: 20
                                 ));

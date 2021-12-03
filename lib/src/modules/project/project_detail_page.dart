@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:date_format/date_format.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -48,6 +49,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   late Future<Project> project;
   final GlobalKey<ScaffoldState> _keyDraw = GlobalKey(); // Create a key
   final GlobalKey<PopupMenuButtonState<int>> _key = GlobalKey();
+  final _formKey = GlobalKey<FormState>();
   late TextEditingController invitedEmailController = TextEditingController();
   late TextEditingController newNameController = TextEditingController();
   late TextEditingController newContentController = TextEditingController();
@@ -56,6 +58,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   String role = '';
   String newTaskName = '';
   String newContentTask = '';
+  DateTime selectedDate = DateTime.now();
+  var deadline;
 
   @override
   void initState() {
@@ -420,8 +424,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
             // color: Colors.white,
             color: Color(0xff88e8f2),
           ),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+          child: Form(
+            key: _formKey,
             child: ListView(
               children: [
                 Column(
@@ -429,14 +433,21 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                   children: [
                     const Text(
                       'Create Task',
+                      textAlign: TextAlign.center,
                       style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
                       height: 8,
                     ),
                     TextFormField(
                       controller: newNameController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter task name';
+                        }
+                        return null;
+                      },
                       decoration: InputDecoration(
                         labelText: 'Name',
                         hintText: 'Name',
@@ -450,6 +461,12 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                     ),
                     TextFormField(
                       controller: newContentController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter task content';
+                        }
+                        return null;
+                      },
                       decoration: InputDecoration(
                         labelText: 'Content',
                         hintText: 'Content',
@@ -461,25 +478,153 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                     const SizedBox(
                       height: 10,
                     ),
+                    Text("Select Task State"),
+                    Obx(() => DropdownButton<String>(
+                      // Set the Items of DropDownButton
+                      items: const [
+                        DropdownMenuItem(
+                          value: "SUBMITTED",
+                          child: Text(
+                            "SUBMITTED",
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: "IN_PROCESS",
+                          child: Text(
+                            "IN PROCESS",
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: "INCOMPLETE",
+                          child: Text(
+                            "INCOMPLETE",
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: "TO_BE_DISCUSSED",
+                          child: Text(
+                            "TO BE DISCUSSED",
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: "DONE",
+                          child: Text(
+                            "DONE",
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: "DUPLICATE",
+                          child: Text(
+                            "DUPLICATE",
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: "OBSOLETE",
+                          child: Text(
+                            "OBSOLETE",
+                          ),
+                        ),
+                      ],
+                      value: taskController.selectedState.value.toString(),
+                      hint: const Text('Select Task State'),
+                      isExpanded: true,
+                      onChanged: (selectedValue) {
+                        taskController.selectedState.value = selectedValue!;
+                      },
+                    )),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text("Select Task Priority"),
+                    Obx(() => DropdownButton<String>(
+                      // Set the Items of DropDownButton
+                      items: const [
+                        DropdownMenuItem(
+                          value: "CRITICAL",
+                          child: Text(
+                            "Critcal Priority",
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: "MAJOR",
+                          child: Text(
+                            "Major Priority",
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: "NORMAL",
+                          child: Text(
+                            "Normal Priority",
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: "MINOR",
+                          child: Text(
+                            "Minor Priority",
+                          ),
+                        ),
+                      ],
+                      value: taskController.selectedPriority.value.toString(),
+                      hint: const Text('Select Task Priority'),
+                      isExpanded: true,
+                      onChanged: (selectedValue) {
+                        taskController.selectedPriority.value = selectedValue!;
+                      },
+                    )),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Text("Select Task Deadline"),
+                        const SizedBox(
+                          width: 175,
+                        ),
+                        IconButton(
+                            onPressed: () async {
+                              final DateTime? picked = await showDatePicker(
+                                context: context,
+                                initialDate: selectedDate,
+                                firstDate: DateTime.now(),
+                                lastDate: DateTime(2025),
+                                helpText: 'Select task deadline',
+                                errorFormatText: 'Enter valid date',
+                                errorInvalidText: 'Enter date in valid range',
+                              );
+                              if (picked != null)
+                                selectedDate = picked;
+                              deadline = formatDate(selectedDate, [yyyy, '-', mm, '-', dd]);
+                            },
+                            icon: const Icon(Icons.calendar_today_outlined)
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     FloatingActionButton.extended(
                         label: const Text('Create'),
                         icon: const Icon(Icons.send),
                         onPressed: () async {
                           //TODO
-                          Get.back();
-                          CommonResp? commonResp =
-                              await taskController.createTask(
-                                  newNameController.text,
-                                  newContentController.text,
-                                  id);
-                          if (commonResp!.code == "SUCCESS") {
-                            customSnackBar("Create Task", "Success",
-                                iconData: Icons.check_outlined,
-                                iconColor: Colors.green);
-                          } else {
-                            customSnackBar("Create Task", "Fail",
-                                iconData: Icons.warning_rounded,
-                                iconColor: Colors.red);
+                          if (_formKey.currentState!.validate()) {
+                            Get.back();
+                            CommonResp? commonResp =
+                            await taskController.createTask(
+                                newNameController.text, newContentController.text,
+                                taskController.selectedState.value, taskController.selectedPriority.value,
+                                deadline.toString(), id);
+                            if (commonResp!.code == "SUCCESS") {
+                              customSnackBar("Create Task", "Success",
+                                  iconData: Icons.check_outlined, iconColor: Colors.green);
+                            } else {
+                              customSnackBar("Create Task", "Fail",
+                                  iconData: Icons.warning_rounded, iconColor: Colors.red);
+                            }
+                            newNameController.clear();
+                            newContentController.clear();
+                            taskController.selectedScope = "PUBLIC".obs;
+                            taskController.selectedPriority = "NORMAL".obs;
+                            taskController.selectedState = "SUBMITTED".obs;
+                            selectedDate = DateTime.now();
                           }
                         })
                   ],

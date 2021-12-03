@@ -98,18 +98,6 @@ class TaskUserController extends GetxController {
     return temp!;
   }
 
-  Future<CommonResp?> createTask(
-      String newName, String newContent, int? id) async {
-    var temp = await TaskService.create(newName, newContent, id!);
-    if (temp!.code == "SUCCESS") {
-      Task task = Task.fromJson(temp.data! as Map<String, dynamic>);
-
-      _tasks.insert(0, task);
-      // _projects.value = List.empty();
-    }
-    return temp;
-  }
-
   Future<CommonResp?> updateState(Task task, String newState) async {
     var temp = await TaskService.updateState(task, newState);
     if (temp!.code == "SUCCESS") {
