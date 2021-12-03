@@ -16,22 +16,60 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage> {
   bool _a = true;
 
+
+  AppBar? projectAppBar() {
+    return AppBar(
+      title: const Text('Settings'),
+      automaticallyImplyLeading: false,
+      actionsIconTheme:
+      IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
+      leading: GestureDetector(
+        onTap: () {/* Write listener code here */},
+        child: Icon(
+          Icons.menu, // add custom icons also
+        ),
+      ),
+      actions: <Widget>[
+        Padding(
+            padding: EdgeInsets.only(right: 20.0),
+            child: GestureDetector(
+              onTap: () {},
+              child: Icon(
+                Icons.search,
+                size: 26.0,
+              ),
+            )),
+      ],
+      backgroundColor: const Color(0xff2d5f79),
+
+    );
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color(0xff88e8f2),
+      appBar: projectAppBar(),
         body: Container(
-            child: SettingsList(sections: [
+            decoration: const BoxDecoration(
+              image: DecorationImage(image: AssetImage("assets/images/girl.jpg"), fit: BoxFit.cover),
+
+            ),
+            child: SettingsList(
+                backgroundColor: Color(0xff2d5f79),
+                sections: [
           SettingsSection(
-            title: 'Section',
+            title: 'Settings',
             tiles: [
               SettingsTile(
                 title: 'Language',
                 subtitle: 'English',
                 leading: const Icon(Icons.language),
                 onPressed: (BuildContext context) {},
+
               ),
               SettingsTile.switchTile(
+                switchActiveColor: Color(0xff2d5f79),
                 title: 'Allow Notifications',
                 leading: const Icon(Icons.notifications),
                 switchValue: _a,
@@ -54,7 +92,9 @@ class _SettingPageState extends State<SettingPage> {
                   fullscreenDialog: true,
                   transition: Transition.cupertino,
                   duration: const Duration(seconds: 1));
+
                 },
+
               ),
               SettingsTile(
                 title: 'Logout',

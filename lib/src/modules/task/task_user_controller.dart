@@ -57,6 +57,20 @@ class TaskUserController extends GetxController {
     listTask();
   }
 
+  void searchByName(String name) async {
+    _tasks.assignAll([]);
+    _paginateParam = PaginateParam(page: 0).obs;
+    _paginateParam.value.filter = "name~$name";
+    final data = await TaskService.listByUsers(_paginateParam.value);
+    if (data!.isEmpty) {
+      _isLastPage.value = true;
+      return;
+    }
+    _tasks.assignAll(data);
+    // _listProject();
+    // _projects.;
+  }
+
   Future<CommonResp?> renameTask(Task task, String newName) async {
     var temp = await TaskService.rename(task, newName);
     if (temp!.code == "SUCCESS") {

@@ -1,14 +1,12 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'dart:convert';
-import 'dart:io';
 import 'package:mobile_app/src/core/utils/http.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/payload/error_resp.dart';
 import 'package:mobile_app/src/data/models/payload/login_resp.dart';
 import 'package:mobile_app/src/data/models/payload/signup_resp.dart';
-import 'package:mobile_app/src/data/models/payload/changepassword_resp.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:mobile_app/src/data/providers/storage_provider.dart';
 
@@ -17,7 +15,7 @@ class AuthService {
   static Uri SIGN_UP_URI = Uri.parse('$baseURL/auth/signup');
   static Uri LOGIN_URI = Uri.parse('$baseURL/auth/signin');
   static Uri LOGOUT_URI = Uri.parse('$baseURL/auth/logout');
-  static Uri CHANGE_PASSWORD_URI = Uri.parse('$baseURL/auth/changePassword');
+  static Uri RE_PASS_WORD_URI = Uri.parse('$baseURL/auth/changePassword');
 
   //TODO
   static Future<List> refreshToken({required String token}) async {
@@ -49,23 +47,6 @@ class AuthService {
     return signupRespFromJson(response.body);
   }
 
-  static Future<CommonResp?> changePassword(
-      String oldPassword, String newPassword) async {
-    var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
-    var response = await client.put(Uri.parse('$baseURL/auth/changePassword'),
-        headers: authHeader(token!),
-        body: jsonEncode(<String, String>{
-          "oldPassword": oldPassword,
-          "newPassword": newPassword,
-        }));
-    if (response.statusCode == 200) {
-      var temp = CommonResp.fromJson(json.decode(response.body));
-      return temp;
-    } else {
-      throw Exception('Failed');
-    }
-  }
-
   static Future<LoginResp> login(
       {required String email, required String password}) async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
@@ -92,4 +73,21 @@ class AuthService {
         }));
     return loginRespFromJson(response.body);
   }
-}
+
+  static Future<CommonResp?> changePassword(
+      String oldPassword, String newPassword) async {
+    var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
+    var response = await client.put(Uri.parse('$baseURL/auth/changePassword'),
+        headers: authHeader(token!),
+        body: jsonEncode(<String, String>{
+          "oldPassword": oldPassword,
+          "newPassword": newPassword,
+        }));
+    if (response.statusCode == 200) {
+      var temp = CommonResp.fromJson(json.decode(response.body));
+      return temp;
+    } else {
+      throw Exception('Failed');
+    }
+  // }
+}}
