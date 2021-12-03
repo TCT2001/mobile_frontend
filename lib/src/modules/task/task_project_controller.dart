@@ -100,8 +100,8 @@ class TaskProjectController extends GetxController {
   }
 
   Future<CommonResp?> createTask(
-      String newName, String newContent, int? id) async {
-    var temp = await TaskService.create(newName, newContent, id!);
+      String newName, String newContent, String newState, String newPriority, String deadline, int? id) async {
+    var temp = await TaskService.create(newName, newContent, newState, newPriority, deadline, id!);
     if (temp!.code == "SUCCESS") {
       Task task = Task.fromJson(temp.data! as Map<String, dynamic>);
       _tasks.insert(0, task);

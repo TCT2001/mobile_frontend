@@ -107,13 +107,16 @@ class TaskService {
   }
 
   static Future<CommonResp?> create(
-      String newName, String newContent, int id) async {
+      String newName, String newContent, String newState, String newPriority, String deadline, int id) async {
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
     var response = await client.post(Uri.parse('$baseURL/task/create'),
         headers: authHeader(token!),
         body: jsonEncode(<String, String>{
           "name": newName,
           "content": newContent,
+          "taskState": newState,
+          "priority": newPriority,
+          "deadline": deadline.toString(),
           "projectId": id.toString()
         }));
     if (response.statusCode == 200) {
