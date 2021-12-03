@@ -66,7 +66,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
       title: const Text('ProjectDetailPage'),
       automaticallyImplyLeading: false,
       actionsIconTheme:
-          IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
+      IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
+      backgroundColor: Color(0xff2d5f79),
       leading: GestureDetector(
         onTap: () {
           //TODO
@@ -137,6 +138,9 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                                 iconData: Icons.warning_rounded, iconColor: Colors.red);
                           }
                         },
+                        style: ElevatedButton.styleFrom(
+                          primary: Color(0xff2d5f79),
+                        ),
                         child: const Text(
                           'Rename',
                           style: TextStyle(color: Colors.white, fontSize: 16.0),
@@ -159,7 +163,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                     onPressed: () async {
                       Get.back();
                       bool rs =
-                          await controller.deleteProject(Project.id(id: id));
+                      await controller.deleteProject(clickedProject);
                       if (rs) {
                         customSnackBar("Delete", "Success",
                             iconData: Icons.check_outlined,
@@ -197,7 +201,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: appBar(),
-        body: FutureBuilder<Project>(
+        body:
+        FutureBuilder<Project>(
             future: project,
             builder: (context, snapshot) {
               return Column(
@@ -251,7 +256,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                     const Text(
                       'Invite',
                       style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
                       height: 8,
@@ -284,8 +289,10 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                       height: 10,
                     ),
                     FloatingActionButton.extended(
+                        backgroundColor: Color(0xff2d5f79),
                         label: const Text('Invite'),
                         icon: const Icon(Icons.send),
+
                         onPressed: () async {
                           invitedEmail = invitedEmailController.text;
                           //TODO
@@ -319,7 +326,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
 
   void showCreateTaskForm() {
     TaskProjectController taskController =
-        Get.put(TaskProjectController(projectId: id));
+    Get.put(TaskProjectController(projectId: id));
     Get.bottomSheet(
       Container(
           height: 250,
@@ -341,7 +348,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                     const Text(
                       'Create Task',
                       style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
                       height: 8,
@@ -373,16 +380,17 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                       height: 10,
                     ),
                     FloatingActionButton.extended(
+                        backgroundColor: Color(0xff2d5f79),
                         label: const Text('Create'),
                         icon: const Icon(Icons.send),
                         onPressed: () async {
                           //TODO
                           Get.back();
                           CommonResp? commonResp =
-                              await taskController.createTask(
-                                  newNameController.text,
-                                  newContentController.text,
-                                  id);
+                          await taskController.createTask(
+                              newNameController.text,
+                              newContentController.text,
+                              id);
                           if (commonResp!.code == "SUCCESS") {
                             customSnackBar("Create Task", "Success",
                                 iconData: Icons.check_outlined, iconColor: Colors.green);

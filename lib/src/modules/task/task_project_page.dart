@@ -17,8 +17,10 @@ import 'task_project_controller.dart';
 Widget taskProjectList(Project project) {
   TextEditingController nameController = TextEditingController(text: '');
   TextEditingController contentController = TextEditingController(text: '');
-  TextEditingController invitedEmailController = TextEditingController(text: '');
-  TaskProjectController controller = Get.put(TaskProjectController(projectId: project.id!));
+  TextEditingController invitedEmailController =
+      TextEditingController(text: '');
+  TaskProjectController controller =
+      Get.put(TaskProjectController(projectId: project.id!));
 
   return Obx(() {
     var _items = controller.tasks;
@@ -50,14 +52,13 @@ Widget taskProjectList(Project project) {
               return GestureDetector(
                 onTap: () {
                   Get.toNamed(Routes.TASK_DETAIL_PAGE,
-                      arguments: {"id": _items[index].id,
-                                  "task" : _items[index]});
+                      arguments: {"id": _items[index].id});
                 },
                 child: Card(
                   margin: const EdgeInsets.all(10),
                   child: ListTile(
                     title: Text(task.toString()),
-                    // subtitle: Text("Chua biet"),
+                    subtitle: Text("Chua biet"),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [

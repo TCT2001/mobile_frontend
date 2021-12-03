@@ -46,9 +46,13 @@ dependencies:
   flutter_login: ^3.0.0
   select_form_field: ^2.2.0
   device_info_plus: ^3.1.1
-  firebase_core: ^1.2.0
+  firebase_core: ^1.8.0
   firebase_messaging: ^10.0.0
   flutter_local_notifications: ^6.0.0
+  flutter_search_bar: ^2.1.0
+  firebase_auth: ^3.1.4
+  provider: ^6.0.1
+  cloud_firestore: ^2.5.4
 
 dev_dependencies:
   flutter_test:
@@ -79,6 +83,7 @@ flutter:
   assets:
     - assets/images/splash.gif
     - assets/images/Logo.png
+    - assets/images/girl.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -1,6 +1,6 @@
 class PaginateParam {
   int page;
-  late String? sortField = "";
+  late String? sortField = "updateTime";
   late bool? sortAscending = true;
   late String? filter = "";
 
@@ -17,7 +17,8 @@ class PaginateParam {
     if (sortAscending != null) {
       map['sortAscending'] = sortAscending;
     }
-    if (filter != null) {
+
+    if (filter != "") {
       map['filter'] = filter;
     }
     return map;

@@ -24,26 +24,26 @@ class _MyHomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-  //   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-  //     RemoteNotification? notification = message.notification;
-  //     AndroidNotification? android = message.notification?.android;
-  //     if (notification != null && android != null) {
-  //       AppConfigService.flutterLocalNotificationsPlugin.show(
-  //           notification.hashCode,
-  //           notification.title,
-  //           notification.body,
-  //           NotificationDetails(
-  //             android: AndroidNotificationDetails(
-  //               AppConfigService.channel.id,
-  //               AppConfigService.channel.name,
-  //               AppConfigService.channel.description,
-  //               color: Colors.blue,
-  //               playSound: true,
-  //               icon: '@mipmap/ic_launcher',
-  //             ),
-  //           ));
-  //     }
-  //   });
+    //   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    //     RemoteNotification? notification = message.notification;
+    //     AndroidNotification? android = message.notification?.android;
+    //     if (notification != null && android != null) {
+    //       AppConfigService.flutterLocalNotificationsPlugin.show(
+    //           notification.hashCode,
+    //           notification.title,
+    //           notification.body,
+    //           NotificationDetails(
+    //             android: AndroidNotificationDetails(
+    //               AppConfigService.channel.id,
+    //               AppConfigService.channel.name,
+    //               AppConfigService.channel.description,
+    //               color: Colors.blue,
+    //               playSound: true,
+    //               icon: '@mipmap/ic_launcher',
+    //             ),
+    //           ));
+    //     }
+    //   });
 
     // FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
     //   RemoteNotification? notification = message.notification;
@@ -75,8 +75,8 @@ class _MyHomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xfff6f7f9),
       appBar: AppBar(
+        backgroundColor: Color(0xff2d5f79),
         title: Text('Buyings'),
         actions: <Widget>[
           Padding(
@@ -92,7 +92,13 @@ class _MyHomePageState extends State<HomePage> {
               )),
         ],
       ),
-      body: Center(
+      body:
+
+           Container(
+               decoration: const BoxDecoration(
+                 image: DecorationImage(image: AssetImage("assets/images/girl.jpg"), fit: BoxFit.cover),
+
+               ),
           child: Padding(
               padding: const EdgeInsets.all(150),
               child: SizedBox(
@@ -101,7 +107,7 @@ class _MyHomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: const [
-                      Text("This is home page",
+                      Text("Home page",
                           style: TextStyle(
                               color: Color(0xff88e8f2),
                               fontWeight: FontWeight.bold,
@@ -109,7 +115,8 @@ class _MyHomePageState extends State<HomePage> {
                       SizedBox(height: 8),
                       SizedBox(height: 8),
                     ]),
-              ))),
+              ))
+      ),
     );
   }
 

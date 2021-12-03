@@ -27,7 +27,7 @@ class ProjectPage extends GetView<ProjectController> {
       title: const Text('ProjectPage'),
       automaticallyImplyLeading: false,
       actionsIconTheme:
-          IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
+      IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
       leading: GestureDetector(
         onTap: () {/* Write listener code here */},
         child: Icon(
@@ -54,18 +54,43 @@ class ProjectPage extends GetView<ProjectController> {
           key: _key,
           itemBuilder: (context) {
             return <PopupMenuEntry<int>>[
-              PopupMenuItem(child: Text('Create project'), value: 0),
+              PopupMenuItem(child: Text('Create project'), value: 0, ),
             ];
+
           },
         ),
       ],
+      backgroundColor: Color(0xff2d5f79),
+
+      bottom: TabBar(
+        tabs: const [
+          Tab(icon: Icon(Icons.home), text: 'Home'),
+          Tab(icon: Icon(Icons.star), text: 'Feed'),
+          Tab(icon: Icon(Icons.face), text: 'Profile'),
+          Tab(icon: Icon(Icons.settings), text: 'Settings'),
+        ],
+      ),
     );
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Obx(() => Scaffold(appBar: projectAppBar(), body: body()));
-  }
+  Widget build(BuildContext context) => DefaultTabController(
+      length: 4,
+      child: Scaffold(
+          appBar: projectAppBar(),
+          body:
+          TabBarView(
+            children: [
+              body(),
+              buildPage('Feed Page'),
+              buildPage('Profile Page'),
+              buildPage('Settings Page'),
+            ],
+          )
+      ))
+      ;
+
+
 
   void deleteProject(Project project) {
     controller.projects.where((element) => project.id != element.id);
@@ -128,9 +153,14 @@ class ProjectPage extends GetView<ProjectController> {
                 Get.back();
                 createOnPressed(textController.text);
               },
+              style: ElevatedButton.styleFrom(
+                primary: Color(0xff2d5f79)
+              ),
               child: const Text(
                 'Create',
-                style: TextStyle(color: Colors.white, fontSize: 16.0),
+                style:
+                TextStyle(color: Colors.white, fontSize: 16.0),
+
               ),
             )
           ],
@@ -181,6 +211,13 @@ class ProjectPage extends GetView<ProjectController> {
         return Center(child: CircularProgressIndicator());
       }
     }
+    // Image.network(
+    //   'https://images.unsplash.com/photo-1609102248009-b2411bff68f6?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80',
+    //   fit: BoxFit.cover,
+    //   width: double.infinity,
+    //   height: double.infinity,
+    // )
+
     var _items = controller.projects;
     return LazyLoadScrollView(
         onEndOfPage: controller.nextPage,
@@ -204,7 +241,7 @@ class ProjectPage extends GetView<ProjectController> {
               List<User> users = project.userDTOSet! as List<User>;
               return GestureDetector(
                 onTap: () {
-                   Get.toNamed(Routes.PROJECT_DETAIL,
+                  Get.toNamed(Routes.PROJECT_DETAIL,
                       arguments: {
                         "id": _items[index].id,
                         "clickedProject" : _items[index]
@@ -233,7 +270,7 @@ class ProjectPage extends GetView<ProjectController> {
                               backgroundColor: Colors.white,
                               titleStyle: const TextStyle(color: Colors.black),
                               middleTextStyle:
-                                  const TextStyle(color: Colors.black),
+                              const TextStyle(color: Colors.black),
                               actions: <Widget>[
                                 TextButton(
                                   child: const Text("Yes"),
@@ -265,6 +302,17 @@ class ProjectPage extends GetView<ProjectController> {
               );
             },
           ),
-        ));
+        )
+
+    );
+
   }
+
+  Widget buildPage(String text) => Center(
+
+    child: Text(
+      text,
+      style: TextStyle(fontSize: 28),
+    )
+  );
 }
