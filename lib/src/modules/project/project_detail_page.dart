@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/project.dart';
+import 'package:mobile_app/src/data/models/user.dart';
 import 'package:mobile_app/src/data/providers/storage_provider.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
 import 'package:mobile_app/src/modules/task/task_project_controller.dart';
@@ -252,6 +253,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   }
 
   Widget drawer(List members) {
+    members = members as List<User>;
     return Drawer(
       child: ListView(
         shrinkWrap: true,
@@ -268,9 +270,22 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
               child: ListView.builder(
                   itemCount: members.length,
                   itemBuilder: (BuildContext context, i) {
-                    return ListTile(
-                      title: Text(members[i].toString()),
-                    );
+                    final id =  members[i].id % 256 + 256;
+                    final hexString =id.toRadixString(16);
+                    return Card(
+                        child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        ListTile(
+                          leading: CircleAvatar(
+                            child: Image.network(
+                                "https://ui-avatars.com/api/?name=${members[i].email}&color=$hexString"),
+                          ),
+                          title: Text(members[i].toString()),
+                          subtitle: Text('TWICE'),
+                        ),
+                      ],
+                    ));
                   })),
           // ListTile(
           //   title: const Text('Close'),
