@@ -4,10 +4,14 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:mobile_app/src/core/utils/http.dart';
+import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
+import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/payload/error_resp.dart';
 import 'package:mobile_app/src/data/models/payload/login_resp.dart';
+import 'package:mobile_app/src/data/models/payload/noti_resp.dart';
 import 'package:mobile_app/src/data/models/payload/signup_resp.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:mobile_app/src/data/providers/storage_provider.dart';
 
 class AuthService {
   static Uri REFRESH_TOKEN_URI = Uri.parse('$baseURL/auth/refreshToken');
@@ -18,7 +22,7 @@ class AuthService {
   //TODO
   static Future<List> refreshToken({required String token}) async {
     var response =
-    await client.post(REFRESH_TOKEN_URI, headers: <String, String>{
+        await client.post(REFRESH_TOKEN_URI, headers: <String, String>{
       'Authorization': 'Bearer $token',
     });
     if (response.statusCode == 200) {
@@ -74,5 +78,30 @@ class AuthService {
           //TODO
         }));
     return loginRespFromJson(response.body);
+  }
+
+  static Future<List<NotificationCustom>> listNoti() async {
+    var response = await client.post(
+      Uri.parse("$baseURL/notification/list"),
+      headers: nonAuthHeader,
+    );
+    List? temp = json.decode(response.body) as List;
+    List<NotificationCustom> rs =
+        temp.map((e) => NotificationCustom.fromJson(e)).toList();
+    return rs;
+  }
+
+  static Future<CommonResp> acceptInvitation(String arg) async {
+    var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
+    var response = await client.post(
+      Uri.parse("$baseURL/auth/responseInvitation/$arg"),
+      headers: authHeader(token!),
+    );
+    if (response.statusCode == 200) {
+      var temp = CommonResp.fromJson(json.decode(response.body));
+      return temp;
+    } else {
+      throw Exception('Failed');
+    }
   }
 }

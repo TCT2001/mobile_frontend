@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +45,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   int id = Get.arguments['id'];
   Project clickedProject = Get.arguments['clickedProject'];
   late Future<Project> project;
+  final GlobalKey<ScaffoldState> _keyDraw = GlobalKey(); // Create a key
   final GlobalKey<PopupMenuButtonState<int>> _key = GlobalKey();
   late TextEditingController invitedEmailController = TextEditingController();
   late TextEditingController newNameController = TextEditingController();
@@ -61,22 +62,12 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
     project = controller.find(id);
   }
 
-  AppBar appBar(String role) {
+  AppBar appBar(String role, BuildContext context) {
     return AppBar(
       title: const Text('ProjectDetailPage'),
       automaticallyImplyLeading: false,
       actionsIconTheme:
           IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
-      leading: GestureDetector(
-        onTap: () {
-          //TODO
-          /* Write listener code here */
-          Get.back();
-        },
-        child: Icon(
-          Icons.arrow_back,
-        ),
-      ),
       actions: <Widget>[
         Padding(
             padding: EdgeInsets.only(right: 20.0),
@@ -181,6 +172,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                   ),
                 ],
               );
+            } else if (value == 4) {
+              _keyDraw.currentState!.openDrawer();
             }
           },
           key: _key,
@@ -199,15 +192,19 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
         PopupMenuItem(child: Text('Create Task'), value: 1),
         PopupMenuItem(child: Text('Rename Project'), value: 2),
         PopupMenuItem(child: Text('Delete Project'), value: 3),
+        PopupMenuItem(child: Text('Members'), value: 4)
       ];
     } else if (role == "ADMINISTRATOR") {
       return <PopupMenuEntry<int>>[
         PopupMenuItem(child: Text('Invite'), value: 0),
         PopupMenuItem(child: Text('Create Task'), value: 1),
         PopupMenuItem(child: Text('Rename Project'), value: 2),
+        PopupMenuItem(child: Text('Members'), value: 4),
       ];
     } else {
-      return <PopupMenuEntry<int>>[];
+      return <PopupMenuEntry<int>>[
+        PopupMenuItem(child: Text('Members'), value: 4)
+      ];
     }
   }
 
@@ -220,8 +217,17 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
     return FutureBuilder<Project>(
         future: project,
         builder: (context, snapshot) {
+          if (snapshot.data == null) {
+            return Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
           return Scaffold(
-            appBar: appBar("Owner"),
+            key: _keyDraw,
+            drawer: drawer(snapshot.data!.userDTOSet!),
+            appBar: appBar(snapshot.data!.role!, context),
             body: Column(
               children: <Widget>[
                 Container(child: showDetail(snapshot)),
@@ -243,6 +249,38 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
             ),
           );
         });
+  }
+
+  Widget drawer(List members) {
+    return Drawer(
+      child: ListView(
+        shrinkWrap: true,
+        padding: EdgeInsets.zero,
+        children: [
+          const DrawerHeader(
+            decoration: BoxDecoration(
+              color: Colors.blue,
+            ),
+            child: Text("Members in project"),
+          ),
+          Container(
+              height: double.maxFinite,
+              child: ListView.builder(
+                  itemCount: members.length,
+                  itemBuilder: (BuildContext context, i) {
+                    return ListTile(
+                      title: Text(members[i].toString()),
+                    );
+                  })),
+          // ListTile(
+          //   title: const Text('Close'),
+          //   onTap: () {
+          //     Navigator.pop(context);
+          //   },
+          // ),
+        ],
+      ),
+    );
   }
 
   Widget showTaskList(Project? project, var taskProjectController) {

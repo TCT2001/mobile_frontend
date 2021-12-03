@@ -20,7 +20,6 @@ class HomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<HomePage> {
   int _counter = 0;
-
   @override
   void initState() {
     super.initState();
@@ -77,20 +76,7 @@ class _MyHomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Color(0xfff6f7f9),
       appBar: AppBar(
-        title: Text('Buyings'),
-        actions: <Widget>[
-          Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {
-                  showSearch(context: context, delegate: Search());
-                },
-                child: Icon(
-                  Icons.search,
-                  size: 26.0,
-                ),
-              )),
-        ],
+        title: Text('Home'),
       ),
       body: Center(
           child: Padding(
@@ -106,7 +92,6 @@ class _MyHomePageState extends State<HomePage> {
                               color: Color(0xff88e8f2),
                               fontWeight: FontWeight.bold,
                               fontSize: 18)),
-                      SizedBox(height: 8),
                       SizedBox(height: 8),
                     ]),
               ))),

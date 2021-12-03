@@ -75,9 +75,9 @@ Widget taskProjectList(Project project, var controller) {
     var _items = controller.tasks;
 
     if (controller.tasks.isEmpty) {
-      if (controller.isLastPage) {
-        return CircularProgressIndicator();
-      }
+      // if (controller.isLastPage) {
+      //   return Center(child: CircularProgressIndicator());
+      // }
       return Center(child: Text("No task"));
     }
     return LazyLoadScrollView(
