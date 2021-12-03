@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:mobile_app/src/data/models/payload/changepassword_resp.dart';
+
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/services/auth_service.dart';
 
@@ -15,7 +15,7 @@ class ChangePasswordController extends GetxController {
       CommonResp? changepasswordResp =
       await AuthService.changePassword(oldPassword, newPassword);
       if (changepasswordResp!.code == "SUCCESS") {
-        return "";;
+        return "";
       } else {
         error = "Unexpected Error";
       }
