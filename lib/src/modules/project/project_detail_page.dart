@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_const_constructors_in_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:date_format/date_format.dart';
 import 'package:email_validator/email_validator.dart';
@@ -589,9 +589,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                                 errorFormatText: 'Enter valid date',
                                 errorInvalidText: 'Enter date in valid range',
                               );
-                              if (picked != null) {
+                              if (picked != null)
                                 selectedDate = picked;
-                              }
                               deadline = formatDate(selectedDate, [yyyy, '-', mm, '-', dd]);
                             },
                             icon: const Icon(Icons.calendar_today_outlined)

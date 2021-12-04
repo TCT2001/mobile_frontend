@@ -28,6 +28,7 @@ class TaskProjectController extends GetxController {
 
   @override
   void onInit() {
+    print("On Init O Day");
     ever(_paginateParam, (_) => listTask());
     _changeParam(PaginateParam(page: 0));
     super.onInit();
@@ -144,5 +145,10 @@ class TaskProjectController extends GetxController {
       _tasks.refresh();
     }
     return temp;
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
   }
 }
