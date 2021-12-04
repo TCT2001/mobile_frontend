@@ -57,7 +57,7 @@ class _ProjectPageState extends State<ProjectPage> {
       title: const Text('ProjectPage'),
       automaticallyImplyLeading: false,
       actionsIconTheme:
-          IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
+      IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
       leading: GestureDetector(
         onTap: () {/* Write listener code here */},
         child: Icon(
@@ -75,11 +75,22 @@ class _ProjectPageState extends State<ProjectPage> {
           key: _key,
           itemBuilder: (context) {
             return <PopupMenuEntry<int>>[
-              PopupMenuItem(child: Text('Create project'), value: 0),
+              PopupMenuItem(child: Text('Create project'), value: 0, ),
             ];
+
           },
         ),
       ],
+      backgroundColor: Color(0xff2d5f79),
+
+      bottom: TabBar(
+        tabs: const [
+          Tab(icon: Icon(Icons.home), text: 'Home'),
+          Tab(icon: Icon(Icons.star), text: 'Feed'),
+          Tab(icon: Icon(Icons.face), text: 'Profile'),
+          Tab(icon: Icon(Icons.settings), text: 'Settings'),
+        ],
+      ),
     );
   }
 
@@ -171,9 +182,14 @@ class _ProjectPageState extends State<ProjectPage> {
                 Get.back();
                 createOnPressed(textController.text);
               },
+              style: ElevatedButton.styleFrom(
+                primary: Color(0xff2d5f79)
+              ),
               child: const Text(
                 'Create',
-                style: TextStyle(color: Colors.white, fontSize: 16.0),
+                style:
+                TextStyle(color: Colors.white, fontSize: 16.0),
+
               ),
             )
           ],

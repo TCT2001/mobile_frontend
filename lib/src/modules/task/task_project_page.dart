@@ -105,7 +105,7 @@ Widget taskProjectList(Project project, var controller) {
                   margin: const EdgeInsets.all(10),
                   child: ListTile(
                     title: Text(task.toString()),
-                    // subtitle: Text("Chua biet"),
+                    subtitle: Text("Chua biet"),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [

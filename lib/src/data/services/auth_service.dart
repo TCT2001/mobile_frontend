@@ -18,8 +18,8 @@ class AuthService {
   static Uri SIGN_UP_URI = Uri.parse('$baseURL/auth/signup');
   static Uri LOGIN_URI = Uri.parse('$baseURL/auth/signin');
   static Uri LOGOUT_URI = Uri.parse('$baseURL/auth/logout');
+  static Uri RE_PASS_WORD_URI = Uri.parse('$baseURL/auth/changePassword');
 
-  //TODO
   static Future<List> refreshToken({required String token}) async {
     var response =
         await client.post(REFRESH_TOKEN_URI, headers: <String, String>{
@@ -96,6 +96,23 @@ class AuthService {
       Uri.parse("$baseURL/auth/responseInvitation/$arg"),
       headers: authHeader(token!),
     );
+    if (response.statusCode == 200) {
+      var temp = CommonResp.fromJson(json.decode(response.body));
+      return temp;
+    } else {
+      throw Exception('Failed');
+    }
+  }
+
+  static Future<CommonResp?> changePassword(
+      String oldPassword, String newPassword) async {
+    var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
+    var response = await client.put(Uri.parse('$baseURL/auth/changePassword'),
+        headers: authHeader(token!),
+        body: jsonEncode(<String, String>{
+          "oldPassword": oldPassword,
+          "newPassword": newPassword,
+        }));
     if (response.statusCode == 200) {
       var temp = CommonResp.fromJson(json.decode(response.body));
       return temp;

@@ -88,6 +88,7 @@ class MainLayoutPage extends GetView<MainLayoutController> {
       floatingActionButton: FloatingActionButton.extended(
         label: Text('Feedback'),
         icon: Icon(Icons.report_gmailerrorred),
+        backgroundColor: Color(0xff2d5f79),
         onPressed: () {
           displayFeedbackWindow();
         },

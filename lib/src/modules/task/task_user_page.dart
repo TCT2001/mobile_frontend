@@ -37,7 +37,7 @@ class TaskUserPage extends GetView<TaskUserController> {
   TextEditingController nameController = TextEditingController(text: '');
   TextEditingController contentController = TextEditingController(text: '');
   TextEditingController invitedEmailController =
-      TextEditingController(text: '');
+  TextEditingController(text: '');
 
   late Task task;
   String invitedEmail = '';
@@ -46,6 +46,7 @@ class TaskUserPage extends GetView<TaskUserController> {
 
   TaskUserPage({Key? key}) : super(key: key);
 
+//TODO
   AppBar? taskAppBar() {
     return AppBar(
         title: Text('Tasks of User'),
@@ -153,9 +154,9 @@ class TaskUserPage extends GetView<TaskUserController> {
                                 middleText: "Are your sure to delete ?",
                                 backgroundColor: Colors.white,
                                 titleStyle:
-                                    const TextStyle(color: Colors.black),
+                                const TextStyle(color: Colors.black),
                                 middleTextStyle:
-                                    const TextStyle(color: Colors.black),
+                                const TextStyle(color: Colors.black),
                                 actions: <Widget>[
                                   TextButton(
                                     child: const Text("Yes"),
@@ -250,58 +251,58 @@ class TaskUserPage extends GetView<TaskUserController> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Obx(() => DropdownButton<String>(
-                  // Set the Items of DropDownButton
-                  items: const [
-                    DropdownMenuItem(
-                      value: "SUBMITTED",
-                      child: Text(
-                        "SUBMITTED",
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: "IN_PROCESS",
-                      child: Text(
-                        "IN PROCESS",
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: "INCOMPLETE",
-                      child: Text(
-                        "INCOMPLETE",
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: "TO_BE_DISCUSSED",
-                      child: Text(
-                        "TO BE DISCUSSED",
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: "DONE",
-                      child: Text(
-                        "DONE",
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: "DUPLICATE",
-                      child: Text(
-                        "DUPLICATE",
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: "OBSOLETE",
-                      child: Text(
-                        "OBSOLETE",
-                      ),
-                    ),
-                  ],
-                  value: controller.selectedState.value.toString(),
-                  hint: const Text('Select Task Priority'),
-                  isExpanded: true,
-                  onChanged: (selectedValue) {
-                    controller.selectedState.value = selectedValue!;
-                  },
-                )),
+              // Set the Items of DropDownButton
+              items: const [
+                DropdownMenuItem(
+                  value: "SUBMITTED",
+                  child: Text(
+                    "SUBMITTED",
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: "IN_PROCESS",
+                  child: Text(
+                    "IN PROCESS",
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: "INCOMPLETE",
+                  child: Text(
+                    "INCOMPLETE",
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: "TO_BE_DISCUSSED",
+                  child: Text(
+                    "TO BE DISCUSSED",
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: "DONE",
+                  child: Text(
+                    "DONE",
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: "DUPLICATE",
+                  child: Text(
+                    "DUPLICATE",
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: "OBSOLETE",
+                  child: Text(
+                    "OBSOLETE",
+                  ),
+                ),
+              ],
+              value: controller.selectedState.value.toString(),
+              hint: const Text('Select Task Priority'),
+              isExpanded: true,
+              onChanged: (selectedValue) {
+                controller.selectedState.value = selectedValue!;
+              },
+            )),
             ElevatedButton(
               onPressed: () {
                 Get.back();
@@ -339,40 +340,40 @@ class TaskUserPage extends GetView<TaskUserController> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Obx(() => DropdownButton<String>(
-                  // Set the Items of DropDownButton
-                  items: const [
-                    DropdownMenuItem(
-                      value: "CRITICAL",
-                      child: Text(
-                        "Critcal Priority",
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: "MAJOR",
-                      child: Text(
-                        "Major Priority",
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: "NORMAL",
-                      child: Text(
-                        "Normal Priority",
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: "MINOR",
-                      child: Text(
-                        "Minor Priority",
-                      ),
-                    ),
-                  ],
-                  value: controller.selectedPriority.value.toString(),
-                  hint: const Text('Select Task Priority'),
-                  isExpanded: true,
-                  onChanged: (selectedValue) {
-                    controller.selectedPriority.value = selectedValue!;
-                  },
-                )),
+              // Set the Items of DropDownButton
+              items: const [
+                DropdownMenuItem(
+                  value: "CRITICAL",
+                  child: Text(
+                    "Critcal Priority",
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: "MAJOR",
+                  child: Text(
+                    "Major Priority",
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: "NORMAL",
+                  child: Text(
+                    "Normal Priority",
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: "MINOR",
+                  child: Text(
+                    "Minor Priority",
+                  ),
+                ),
+              ],
+              value: controller.selectedPriority.value.toString(),
+              hint: const Text('Select Task Priority'),
+              isExpanded: true,
+              onChanged: (selectedValue) {
+                controller.selectedPriority.value = selectedValue!;
+              },
+            )),
             ElevatedButton(
               onPressed: () {
                 Get.back();

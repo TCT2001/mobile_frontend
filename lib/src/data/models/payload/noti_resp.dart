@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class NotificationCustom {
   late int projectId;
   late String message;
@@ -13,12 +11,12 @@ class NotificationCustom {
 
   factory NotificationCustom.fromJson(Map<String, dynamic> map) {
     return NotificationCustom(
-      projectId: map['projectId'],
-      message: map['message'],
-      doerUsername: map['doerUsername']
-    );
+        projectId: map['projectId'],
+        message: map['message'],
+        doerUsername: map['doerUsername']);
   }
 
   @override
-  String toString() => 'NotificationCustom(projectId: $projectId, message: $message)';
+  String toString() =>
+      'NotificationCustom(projectId: $projectId, message: $message)';
 }
