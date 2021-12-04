@@ -128,8 +128,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                         onPressed: () async {
                           Get.back();
                           CommonResp? commonResp =
-                              await controller.renameProject(
-                                  Project.id(id: id), newNameController.text);
+                          await controller.renameProject(
+                              Project.id(id: id), newNameController.text);
                           if (commonResp == null) {
                             customSnackBar(
                                 "Rename", "Some expected error happened",
@@ -213,7 +213,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
         PopupMenuItem(child: Text('Delete Project'), value: 3),
         PopupMenuItem(child: Text('Members'), value: 4)
       ];
-    } else if (role == "ADMINISTRATOR") {
+    }
+    else if (role == "ADMINISTRATOR") {
       return <PopupMenuEntry<int>>[
         PopupMenuItem(child: Text('Invite'), value: 0),
         PopupMenuItem(child: Text('Create Task'), value: 1),
@@ -231,7 +232,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   Widget build(BuildContext context) {
     TextEditingController searchController = TextEditingController();
     TaskProjectController taskProjectController =
-        Get.put(TaskProjectController(projectId: id));
+    Get.put(TaskProjectController(projectId: id));
 
     return FutureBuilder<Project>(
         future: project,
@@ -263,7 +264,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                 Expanded(
                     child: Container(
                         child:
-                            showTaskList(snapshot.data, taskProjectController)))
+                        showTaskList(snapshot.data, taskProjectController)))
               ],
             ),
           );
@@ -279,7 +280,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
         children: [
           const DrawerHeader(
             decoration: BoxDecoration(
-              color: Colors.blue,
+              color: Color(0xff88e8f2),
             ),
             child: Text("Members in project"),
           ),
@@ -292,18 +293,18 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                     final hexString = id.toRadixString(16);
                     return Card(
                         child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        ListTile(
-                          leading: CircleAvatar(
-                            child: Image.network(
-                                "https://ui-avatars.com/api/?name=${members[i].email}&color=$hexString"),
-                          ),
-                          title: Text(members[i].toString()),
-                          subtitle: Text('TWICE'),
-                        ),
-                      ],
-                    ));
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            ListTile(
+                              leading: CircleAvatar(
+                                child: Image.network(
+                                    "https://ui-avatars.com/api/?name=${members[i].email}&color=$hexString"),
+                              ),
+                              title: Text(members[i].toString()),
+                              subtitle: Text('TWICE'),
+                            ),
+                          ],
+                        ));
                   })),
           // ListTile(
           //   title: const Text('Close'),
@@ -496,99 +497,99 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                     ),
                     Text("Select Task State"),
                     Obx(() => DropdownButton<String>(
-                          // Set the Items of DropDownButton
-                          items: const [
-                            DropdownMenuItem(
-                              value: "SUBMITTED",
-                              child: Text(
-                                "SUBMITTED",
-                              ),
-                            ),
-                            DropdownMenuItem(
-                              value: "IN_PROCESS",
-                              child: Text(
-                                "IN PROCESS",
-                              ),
-                            ),
-                            DropdownMenuItem(
-                              value: "INCOMPLETE",
-                              child: Text(
-                                "INCOMPLETE",
-                              ),
-                            ),
-                            DropdownMenuItem(
-                              value: "TO_BE_DISCUSSED",
-                              child: Text(
-                                "TO BE DISCUSSED",
-                              ),
-                            ),
-                            DropdownMenuItem(
-                              value: "DONE",
-                              child: Text(
-                                "DONE",
-                              ),
-                            ),
-                            DropdownMenuItem(
-                              value: "DUPLICATE",
-                              child: Text(
-                                "DUPLICATE",
-                              ),
-                            ),
-                            DropdownMenuItem(
-                              value: "OBSOLETE",
-                              child: Text(
-                                "OBSOLETE",
-                              ),
-                            ),
-                          ],
-                          value: taskController.selectedState.value.toString(),
-                          hint: const Text('Select Task State'),
-                          isExpanded: true,
-                          onChanged: (selectedValue) {
-                            taskController.selectedState.value = selectedValue!;
-                          },
-                        )),
+                      // Set the Items of DropDownButton
+                      items: const [
+                        DropdownMenuItem(
+                          value: "SUBMITTED",
+                          child: Text(
+                            "SUBMITTED",
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: "IN_PROCESS",
+                          child: Text(
+                            "IN PROCESS",
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: "INCOMPLETE",
+                          child: Text(
+                            "INCOMPLETE",
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: "TO_BE_DISCUSSED",
+                          child: Text(
+                            "TO BE DISCUSSED",
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: "DONE",
+                          child: Text(
+                            "DONE",
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: "DUPLICATE",
+                          child: Text(
+                            "DUPLICATE",
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: "OBSOLETE",
+                          child: Text(
+                            "OBSOLETE",
+                          ),
+                        ),
+                      ],
+                      value: taskController.selectedState.value.toString(),
+                      hint: const Text('Select Task State'),
+                      isExpanded: true,
+                      onChanged: (selectedValue) {
+                        taskController.selectedState.value = selectedValue!;
+                      },
+                    )),
                     const SizedBox(
                       height: 10,
                     ),
                     Text("Select Task Priority"),
                     Obx(() => DropdownButton<String>(
-                          // Set the Items of DropDownButton
-                          items: const [
-                            DropdownMenuItem(
-                              value: "CRITICAL",
-                              child: Text(
-                                "Critcal Priority",
-                              ),
-                            ),
-                            DropdownMenuItem(
-                              value: "MAJOR",
-                              child: Text(
-                                "Major Priority",
-                              ),
-                            ),
-                            DropdownMenuItem(
-                              value: "NORMAL",
-                              child: Text(
-                                "Normal Priority",
-                              ),
-                            ),
-                            DropdownMenuItem(
-                              value: "MINOR",
-                              child: Text(
-                                "Minor Priority",
-                              ),
-                            ),
-                          ],
-                          value:
-                              taskController.selectedPriority.value.toString(),
-                          hint: const Text('Select Task Priority'),
-                          isExpanded: true,
-                          onChanged: (selectedValue) {
-                            taskController.selectedPriority.value =
-                                selectedValue!;
-                          },
-                        )),
+                      // Set the Items of DropDownButton
+                      items: const [
+                        DropdownMenuItem(
+                          value: "CRITICAL",
+                          child: Text(
+                            "Critcal Priority",
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: "MAJOR",
+                          child: Text(
+                            "Major Priority",
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: "NORMAL",
+                          child: Text(
+                            "Normal Priority",
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: "MINOR",
+                          child: Text(
+                            "Minor Priority",
+                          ),
+                        ),
+                      ],
+                      value:
+                      taskController.selectedPriority.value.toString(),
+                      hint: const Text('Select Task Priority'),
+                      isExpanded: true,
+                      onChanged: (selectedValue) {
+                        taskController.selectedPriority.value =
+                        selectedValue!;
+                      },
+                    )),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
@@ -627,13 +628,13 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                           if (_formKey.currentState!.validate()) {
                             Get.back();
                             CommonResp? commonResp =
-                                await taskController.createTask(
-                                    newNameController.text,
-                                    newContentController.text,
-                                    taskController.selectedState.value,
-                                    taskController.selectedPriority.value,
-                                    deadline.toString(),
-                                    id);
+                            await taskController.createTask(
+                                newNameController.text,
+                                newContentController.text,
+                                taskController.selectedState.value,
+                                taskController.selectedPriority.value,
+                                deadline.toString(),
+                                id);
                             if (commonResp!.code == "SUCCESS") {
                               customSnackBar("Create Task", "Success",
                                   iconData: Icons.check_outlined,

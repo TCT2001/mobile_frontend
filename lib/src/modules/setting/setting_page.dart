@@ -51,9 +51,12 @@ class _SettingPageState extends State<SettingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        //backgroundColor: const Color(0xff88e8f2),
+      // backgroundColor: const Color(0xff88e8f2),
         body: Container(
-            child: SettingsList(sections: [
+
+            child: SettingsList(
+
+                sections: [
               SettingsSection(
                 title: 'Profile',
                 tiles: [
@@ -73,15 +76,15 @@ class _SettingPageState extends State<SettingPage> {
                 title: 'More about',
                 tiles: [
                   SettingsTile(
-                      title: 'App Info',
-                      leading: const Icon(Icons.info),
-                      onPressed: (BuildContext context) {
-                        Get.to(AppInfoPage(),
-                            fullscreenDialog: true,
-                            transition: Transition.cupertino,
-                            duration: const Duration(seconds: 1));
-                      },
-                    ),
+                    title: 'App Info',
+                    leading: const Icon(Icons.info),
+                    onPressed: (BuildContext context) {
+                      Get.to(AppInfoPage(),
+                          fullscreenDialog: true,
+                          transition: Transition.cupertino,
+                          duration: const Duration(seconds: 1));
+                    },
+                  ),
                   SettingsTile(
                     title: 'Instructions',
                     leading: const Icon(Icons.lightbulb),
@@ -94,59 +97,59 @@ class _SettingPageState extends State<SettingPage> {
                   ),
                 ],
               ),
-          SettingsSection(
-            title: 'General',
-            tiles: [
-              // SettingsTile(
-              //   title: 'Language',
-              //   subtitle: 'English',
-              //   leading: const Icon(Icons.language),
-              //   onPressed: (BuildContext context) {},
-              // ),
-              SettingsTile.switchTile(
-                switchActiveColor: Color(0xff2d5f79),
-                title: 'Allow Notifications',
-                leading: const Icon(Icons.notifications),
-                switchValue: _a,
-                onToggle: (bool value) {
-                  setState(() {
-                    _a = value;
-                  });
-                },
-              ),
-              // SettingsTile(
-              //   title: 'App Info',
-              //   leading: const Icon(Icons.info),
-              //   onPressed: (BuildContext context) {
-              //     // Get.to(AppInfoPage(),
-              //     //     fullscreenDialog: true,
-              //     //     transition: Transition.cupertino,
-              //     //     duration: const Duration(seconds: 1));
-              //   },
-              // ),
-              SettingsTile(
-                title: 'Change Password',
-                leading: const Icon(Icons.lock),
-                onPressed: (BuildContext context) {
-                  Get.to(ChangePasswordPage(),
-                  fullscreenDialog: true,
-                  transition: Transition.cupertino,
-                  duration: const Duration(seconds: 1));
-                },
-              ),
-              SettingsTile(
-                title: 'Logout',
-                leading: const Icon(Icons.logout),
-                onPressed: (BuildContext context) {
-                  cleanLocalStorage();
-                  Get.offAll(const LoginScreen(),
-                      fullscreenDialog: true,
-                      transition: Transition.cupertino,
-                      duration: const Duration(seconds: 1));
-                },
-              ),
-            ],
-          )
-        ])));
+              SettingsSection(
+                title: 'General',
+                tiles: [
+                  // SettingsTile(
+                  //   title: 'Language',
+                  //   subtitle: 'English',
+                  //   leading: const Icon(Icons.language),
+                  //   onPressed: (BuildContext context) {},
+                  // ),
+                  SettingsTile.switchTile(
+                    switchActiveColor: Color(0xff2d5f79),
+                    title: 'Allow Notifications',
+                    leading: const Icon(Icons.notifications),
+                    switchValue: _a,
+                    onToggle: (bool value) {
+                      setState(() {
+                        _a = value;
+                      });
+                    },
+                  ),
+                  // SettingsTile(
+                  //   title: 'App Info',
+                  //   leading: const Icon(Icons.info),
+                  //   onPressed: (BuildContext context) {
+                  //     // Get.to(AppInfoPage(),
+                  //     //     fullscreenDialog: true,
+                  //     //     transition: Transition.cupertino,
+                  //     //     duration: const Duration(seconds: 1));
+                  //   },
+                  // ),
+                  SettingsTile(
+                    title: 'Change Password',
+                    leading: const Icon(Icons.lock),
+                    onPressed: (BuildContext context) {
+                      Get.to(ChangePasswordPage(),
+                          fullscreenDialog: true,
+                          transition: Transition.cupertino,
+                          duration: const Duration(seconds: 1));
+                    },
+                  ),
+                  SettingsTile(
+                    title: 'Logout',
+                    leading: const Icon(Icons.logout),
+                    onPressed: (BuildContext context) {
+                      cleanLocalStorage();
+                      Get.offAll(const LoginScreen(),
+                          fullscreenDialog: true,
+                          transition: Transition.cupertino,
+                          duration: const Duration(seconds: 1));
+                    },
+                  ),
+                ],
+              )
+            ])));
   }
 }

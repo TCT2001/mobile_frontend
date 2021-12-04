@@ -33,14 +33,14 @@ class Task {
 
   Task(
       {required this.id,
-      required this.content,
-      required this.name,
-      required this.visibleTaskScope,
-      required this.priority,
-      required this.taskState,
-      required this.deadline,
-      required this.userIdIfVisibleIsPrivate, userDTOSet,
-      required this.briefContent});
+        required this.content,
+        required this.name,
+        required this.visibleTaskScope,
+        required this.priority,
+        required this.taskState,
+        required this.deadline,
+        required this.userIdIfVisibleIsPrivate, userDTOSet,
+        required this.briefContent});
 
   Task.name();
 
@@ -48,8 +48,8 @@ class Task {
   @override
   int get hashCode => id.hashCode;
 
-  // @override
-  // String toString() {
-  //   return 'Task{id: $id, name: $name}';
-  // }
+// @override
+// String toString() {
+//   return 'Task{id: $id, name: $name}';
+// }
 }

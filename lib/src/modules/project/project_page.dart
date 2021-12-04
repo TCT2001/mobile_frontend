@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mobile_app/src/core/constants/colors.dart';
 import 'package:mobile_app/src/core/utils/lazy_load_scroll_view.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/project.dart';
@@ -88,6 +89,7 @@ class _ProjectPageState extends State<ProjectPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Bg,
         appBar: projectAppBar(context),
         body: Column(
           children: <Widget>[
@@ -96,15 +98,15 @@ class _ProjectPageState extends State<ProjectPage> {
             ),
             Container(
                 child: TextField(
-              controller: searchController,
-              decoration: const InputDecoration(
-                icon: Icon(Icons.search),
-              ),
-              onChanged: (String? value) {
-                controller.searchByName(value!);
-                controller.update();
-              },
-            )),
+                  controller: searchController,
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.search),
+                  ),
+                  onChanged: (String? value) {
+                    controller.searchByName(value!);
+                    controller.update();
+                  },
+                )),
             Expanded(
               child: Container(child: body()),
             )
@@ -174,7 +176,7 @@ class _ProjectPageState extends State<ProjectPage> {
                 createOnPressed(textController.text);
               },
               style: ElevatedButton.styleFrom(
-                primary: Color(0xff2d5f79)
+                  primary: Color(0xff2d5f79)
               ),
               child: const Text(
                 'Create',
@@ -238,9 +240,9 @@ class _ProjectPageState extends State<ProjectPage> {
           isLoading: controller.isLastPage,
           child: ListTileTheme(
             contentPadding: EdgeInsets.all(15),
-            iconColor: Colors.red,
-            textColor: Colors.black54,
-            tileColor: Colors.yellow[100],
+            iconColor: Colors.black45,
+            textColor: Colors.black,
+            tileColor: BathWater,
             style: ListTileStyle.list,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
@@ -261,9 +263,11 @@ class _ProjectPageState extends State<ProjectPage> {
                     });
                   },
                   child: Card(
+                    color: BathWater,
                     margin: const EdgeInsets.all(10),
                     child: ListTile(
-                      title: Text("Id: $id, Name: $name, Users: $users"),
+                      title: Text("$id. $name "),
+                      // subtitle: Text("$users"),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -335,5 +339,5 @@ class _ProjectPageState extends State<ProjectPage> {
 // class ProjectPage extends GetView<ProjectController> {
 //   ProjectPage({Key? key}) : super(key: key);
 
-  
+
 // }
