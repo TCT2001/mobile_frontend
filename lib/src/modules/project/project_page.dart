@@ -1,16 +1,12 @@
 // ignore_for_file: must_be_immutable, prefer_const_constructors
 
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/src/core/utils/lazy_load_scroll_view.dart';
-import 'package:mobile_app/src/data/models/paginate_param.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/project.dart';
 import 'package:mobile_app/src/data/models/user.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
-import 'package:mobile_app/src/modules/home/search.dart';
 import 'package:mobile_app/src/routes/app_routes.dart';
 
 import 'project_controller.dart';

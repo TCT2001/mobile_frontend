@@ -23,8 +23,6 @@ class ProjectController extends GetxController {
 
   var project = Project.nonRole(id: -1, name: "##", userDTOSet: []).obs;
 
-  var _choice = 0.obs;
-
   var _clickedProjectCard = Project.nonRole(id: -1, name: "-1", userDTOSet: null).obs;
 
   Project get clickedProjectCard => _clickedProjectCard.value;

@@ -46,7 +46,6 @@ class TaskUserPage extends GetView<TaskUserController> {
 
   TaskUserPage({Key? key}) : super(key: key);
 
-//TODO
   AppBar? taskAppBar() {
     return AppBar(
         title: Text('Tasks of User'),

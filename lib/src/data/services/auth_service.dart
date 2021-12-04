@@ -62,10 +62,9 @@ class AuthService {
       deviceId =
           await deviceInfo.iosInfo.then((value) => value.identifierForVendor);
     }
-    print(deviceId);
     var fcmToken = "";
     await FirebaseMessaging.instance.getToken().then((token) {
-      fcmToken = token!; // Print the Token in Console
+      fcmToken = token!;
     });
     var response = await client.post(LOGIN_URI,
         headers: nonAuthHeader,
