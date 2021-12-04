@@ -24,18 +24,18 @@ factory Project.fromJson(Map<String, dynamic> json) {
         userDTOSet: json["userDTOSet"] == null
             ? null
             : (json["userDTOSet"] as List)
-                .map((i) => User.fromJson(i))
-                .toList());
+            .map((i) => User.fromJson(i))
+            .toList());
     // return Project.name();
   }
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Project &&
-          runtimeType == other.runtimeType &&
-          id == other.id &&
-          name == other.name;
+          other is Project &&
+              runtimeType == other.runtimeType &&
+              id == other.id &&
+              name == other.name;
 
   @override
   int get hashCode => id.hashCode;

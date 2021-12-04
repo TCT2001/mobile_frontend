@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:mobile_app/src/core/utils/lazy_load_scroll_view.dart';
@@ -9,6 +10,7 @@ import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/project.dart';
 import 'package:mobile_app/src/data/models/task.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
+import 'package:mobile_app/src/modules/task/task_project_controller.dart';
 import 'package:mobile_app/src/routes/app_routes.dart';
 
 Widget renameIconWidget(
@@ -66,6 +68,8 @@ Widget taskProjectList(Project project, var controller) {
   TextEditingController contentController = TextEditingController(text: '');
   TextEditingController invitedEmailController =
       TextEditingController(text: '');
+  TaskProjectController controller =
+      Get.put(TaskProjectController(projectId: project.id!));
 
   return Obx(() {
     project.role = project.role!.toUpperCase();
@@ -105,7 +109,7 @@ Widget taskProjectList(Project project, var controller) {
                   margin: const EdgeInsets.all(10),
                   child: ListTile(
                     title: Text(task.toString()),
-                    // subtitle: Text("Chua biet"),
+                    subtitle: Text("Chua biet"),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [

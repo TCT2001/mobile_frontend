@@ -72,7 +72,18 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
       title: const Text('ProjectDetailPage'),
       automaticallyImplyLeading: false,
       actionsIconTheme:
-          IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
+      IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
+      backgroundColor: Color(0xff2d5f79),
+      leading: GestureDetector(
+        onTap: () {
+          //TODO
+          /* Write listener code here */
+          Get.back();
+        },
+        child: Icon(
+          Icons.arrow_back,
+        ),
+      ),
       actions: <Widget>[
         Padding(
             padding: EdgeInsets.only(right: 20.0),
@@ -140,6 +151,9 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                                 iconColor: Colors.red);
                           }
                         },
+                        style: ElevatedButton.styleFrom(
+                          primary: Color(0xff2d5f79),
+                        ),
                         child: const Text(
                           'Rename',
                           style: TextStyle(color: Colors.white, fontSize: 16.0),
@@ -161,7 +175,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                     onPressed: () async {
                       Get.back();
                       bool rs =
-                          await controller.deleteProject(Project.id(id: id));
+                      await controller.deleteProject(clickedProject);
                       if (rs) {
                         customSnackBar("Delete", "Success",
                             iconData: Icons.check_outlined,
@@ -342,7 +356,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                     const Text(
                       'Invite',
                       style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
                       height: 8,
@@ -375,8 +389,10 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                       height: 10,
                     ),
                     FloatingActionButton.extended(
+                        backgroundColor: Color(0xff2d5f79),
                         label: const Text('Invite'),
                         icon: const Icon(Icons.send),
+
                         onPressed: () async {
                           invitedEmail = invitedEmailController.text;
                           //TODO
@@ -412,7 +428,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
 
   void showCreateTaskForm() {
     TaskProjectController taskController =
-        Get.put(TaskProjectController(projectId: id));
+    Get.put(TaskProjectController(projectId: id));
     Get.bottomSheet(
       Container(
           height: 250,
@@ -435,7 +451,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                       'Create Task',
                       textAlign: TextAlign.center,
                       style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
                       height: 8,
@@ -604,6 +620,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                       height: 10,
                     ),
                     FloatingActionButton.extended(
+                        backgroundColor: Color(0xff2d5f79),
                         label: const Text('Create'),
                         icon: const Icon(Icons.send),
                         onPressed: () async {

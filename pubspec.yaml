@@ -51,6 +51,7 @@ dependencies:
   flutter_local_notifications: ^6.0.0
   flutter_search_bar: ^2.1.0
   date_format: ^2.0.4
+  carousel_slider: ^4.0.0
 
 dev_dependencies:
   flutter_test:
@@ -81,6 +82,12 @@ flutter:
   assets:
     - assets/images/splash.gif
     - assets/images/Logo.png
+    - assets/images/1.PNG
+    - assets/images/2.PNG
+    - assets/images/3.PNG
+    - assets/images/4.PNG
+    - assets/images/5.PNG
+    - assets/images/girl.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

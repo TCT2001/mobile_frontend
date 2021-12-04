@@ -9,6 +9,7 @@ class Task {
   late String? taskState;
   late String? deadline;
   late int? userIdIfVisibleIsPrivate;
+  late String? briefContent;
 
   factory Task.fromJson(Map<String, dynamic> json) {
     return Task(
@@ -19,6 +20,7 @@ class Task {
         priority: json['priority'],
         taskState: json['taskState'],
         deadline: json['deadline'],
+        briefContent: json['briefContent'],
         userIdIfVisibleIsPrivate: json['userIdIfVisibleIsPrivate']);
   }
   @override
@@ -37,7 +39,8 @@ class Task {
       required this.priority,
       required this.taskState,
       required this.deadline,
-      required this.userIdIfVisibleIsPrivate, userDTOSet});
+      required this.userIdIfVisibleIsPrivate, userDTOSet,
+      required this.briefContent});
 
   Task.name();
 
@@ -45,8 +48,8 @@ class Task {
   @override
   int get hashCode => id.hashCode;
 
-  @override
-  String toString() {
-    return 'Task{id: $id, name: $name}';
-  }
+  // @override
+  // String toString() {
+  //   return 'Task{id: $id, name: $name}';
+  // }
 }
