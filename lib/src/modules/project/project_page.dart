@@ -272,8 +272,10 @@ class _ProjectPageState extends State<ProjectPage> {
                     color: BathWater,
                     margin: const EdgeInsets.all(10),
                     child: ListTile(
-                      title: Text("Project: $name "),
-                      subtitle: Text("Role: $role \nOwner: ${boss.email} \nTeam's number: $number"),
+                      title: Text("Project: $name                                                Role: $role\n                                      "
+                          "                                 Owner: ${boss.email}\n                                      "
+                          "                                 Team's number: $number"),
+                      // subtitle: Text("Role: $role Owner: ${boss.email} \nTeam's number: $number"),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
