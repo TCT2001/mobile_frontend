@@ -18,46 +18,46 @@ class _MyHomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
-      if (notification != null && android != null) {
-        AppConfigService.flutterLocalNotificationsPlugin.show(
-            notification.hashCode,
-            notification.title,
-            notification.body,
-            NotificationDetails(
-              android: AndroidNotificationDetails(
-                AppConfigService.channel.id,
-                AppConfigService.channel.name,
-                AppConfigService.channel.description,
-                color: Colors.blue,
-                playSound: true,
-                icon: '@mipmap/ic_launcher',
-              ),
-            ));
-      }
-    });
+    // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    //   RemoteNotification? notification = message.notification;
+    //   AndroidNotification? android = message.notification?.android;
+    //   if (notification != null && android != null) {
+    //     AppConfigService.flutterLocalNotificationsPlugin.show(
+    //         notification.hashCode,
+    //         notification.title,
+    //         notification.body,
+    //         NotificationDetails(
+    //           android: AndroidNotificationDetails(
+    //             AppConfigService.channel.id,
+    //             AppConfigService.channel.name,
+    //             AppConfigService.channel.description,
+    //             color: Colors.blue,
+    //             playSound: true,
+    //             icon: '@mipmap/ic_launcher',
+    //           ),
+    //         ));
+    //   }
+    // });
 
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
-      if (notification != null && android != null) {
-        showDialog(
-            context: context,
-            builder: (_) {
-              return AlertDialog(
-                title: Text(notification.title!),
-                content: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [Text(notification.body!)],
-                  ),
-                ),
-              );
-            });
-      }
-    });
+    // FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    //   RemoteNotification? notification = message.notification;
+    //   AndroidNotification? android = message.notification?.android;
+    //   if (notification != null && android != null) {
+    //     showDialog(
+    //         context: context,
+    //         builder: (_) {
+    //           return AlertDialog(
+    //             title: Text(notification.title!),
+    //             content: SingleChildScrollView(
+    //               child: Column(
+    //                 crossAxisAlignment: CrossAxisAlignment.start,
+    //                 children: [Text(notification.body!)],
+    //               ),
+    //             ),
+    //           );
+    //         });
+    //   }
+    // });
   }
 
   void _incrementCounter() {
@@ -103,18 +103,18 @@ class _MyHomePageState extends State<HomePage> {
     setState(() {
       _counter++;
     });
-    AppConfigService.flutterLocalNotificationsPlugin.show(
-        0,
-        "Testing $_counter",
-        "How you doin ?",
-        NotificationDetails(
-            android: AndroidNotificationDetails(
-                AppConfigService.channel.id,
-                AppConfigService.channel.name,
-                AppConfigService.channel.description,
-                importance: Importance.high,
-                color: Colors.blue,
-                playSound: true,
-                icon: '@mipmap/ic_launcher')));
+    // AppConfigService.flutterLocalNotificationsPlugin.show(
+    //     0,
+    //     "Testing $_counter",
+    //     "How you doin ?",
+    //     NotificationDetails(
+    //         android: AndroidNotificationDetails(
+    //             AppConfigService.channel.id,
+    //             AppConfigService.channel.name,
+    //             AppConfigService.channel.description,
+    //             importance: Importance.high,
+    //             color: Colors.blue,
+    //             playSound: true,
+    //             icon: '@mipmap/ic_launcher')));
   }
 }

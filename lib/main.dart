@@ -8,7 +8,7 @@ import 'src/routes/app_pages.dart';
 import 'src/routes/app_routes.dart';
 
 Future<void> main() async {
-  await Get.putAsync(() => AppConfigService().init());
+  //await Get.putAsync(() => AppConfigService().init());
   runApp(GetMaterialApp(
     title: 'Makit',
     theme: ThemeData(

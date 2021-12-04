@@ -5,8 +5,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 
 class AppConfigService extends GetxService {
-  static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  // static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  //     FlutterLocalNotificationsPlugin();
 
   // Khong can thiet
   // Future<void> _firebaseMessagingBackgroundHandler(
@@ -15,35 +15,35 @@ class AppConfigService extends GetxService {
   //   print('A bg message just showed up :  ${message.messageId}');
   // }
 
-  static const AndroidNotificationChannel channel = AndroidNotificationChannel(
-      'high_importance_channel', // id
-      'High Importance Notifications', // title
-      'This channel is used for important notifications.', // description
-      importance: Importance.high,
-      playSound: true);
+  // static const AndroidNotificationChannel channel = AndroidNotificationChannel(
+  //     'high_importance_channel', // id
+  //     'High Importance Notifications', // title
+  //     'This channel is used for important notifications.', // description
+  //     importance: Importance.high,
+  //     playSound: true);
 
   Future<AppConfigService> init() async {
     WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp();
+    // await Firebase.initializeApp();
 
     //This cause null
     // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-    await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
-        ?.createNotificationChannel(channel);
+    // await flutterLocalNotificationsPlugin
+    //     .resolvePlatformSpecificImplementation<
+    //         AndroidFlutterLocalNotificationsPlugin>()
+    //     ?.createNotificationChannel(channel);
 
-    await FirebaseMessaging.instance
-        .setForegroundNotificationPresentationOptions(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
+    // await FirebaseMessaging.instance
+    //     .setForegroundNotificationPresentationOptions(
+    //   alert: true,
+    //   badge: true,
+    //   sound: true,
+    // );
 
-    await FirebaseMessaging.instance.getToken().then((token) {
-      print(token); // Print the Token in Console
-    });
+    // await FirebaseMessaging.instance.getToken().then((token) {
+    //   print(token); // Print the Token in Console
+    // });
 
     return this;
   }

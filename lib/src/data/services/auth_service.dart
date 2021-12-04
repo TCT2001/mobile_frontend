@@ -55,24 +55,24 @@ class AuthService {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     String? deviceId;
     //TODO
-    if (Platform.isAndroid) {
-      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-      print('Running on ${androidInfo.model}');
-      deviceId = await deviceInfo.androidInfo.then((value) => value.androidId);
-    } else if (Platform.isIOS) {
-      deviceId =
-          await deviceInfo.iosInfo.then((value) => value.identifierForVendor);
-    }
-    var fcmToken = "";
-    await FirebaseMessaging.instance.getToken().then((token) {
-      fcmToken = token!;
-    });
+    // if (Platform.isAndroid) {
+    //   AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    //   print('Running on ${androidInfo.model}');
+    //   deviceId = await deviceInfo.androidInfo.then((value) => value.androidId);
+    // } else if (Platform.isIOS) {
+    //   deviceId =
+    //       await deviceInfo.iosInfo.then((value) => value.identifierForVendor);
+    // }
+    var fcmToken = "333";
+    // await FirebaseMessaging.instance.getToken().then((token) {
+    //   fcmToken = token!;
+    // });
     var response = await client.post(LOGIN_URI,
         headers: nonAuthHeader,
         body: jsonEncode(<String, String>{
           "username": email,
           "password": password,
-          "deviceId": deviceId!,
+          "deviceId": "123",
           "isAndroid": "1",
           "fcmToken": fcmToken
           //TODO
