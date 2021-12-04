@@ -278,7 +278,6 @@ class _ProjectPageState extends State<ProjectPage> {
   }
 
   Widget renameIconWidget(String role, Project project) {
-    print(role);
     if (role == "ADMINSTRATOR" || role == "OWNER") {
       return IconButton(
           onPressed: () {

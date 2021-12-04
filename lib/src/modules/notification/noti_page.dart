@@ -1,9 +1,9 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:mobile_app/src/data/models/payload/noti_resp.dart';
 import 'package:mobile_app/src/data/services/auth_service.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
-import 'noti_controller.dart';
 
 class NotiPage extends StatefulWidget {
   const NotiPage({Key? key}) : super(key: key);

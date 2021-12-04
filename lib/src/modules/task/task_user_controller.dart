@@ -33,7 +33,6 @@ class TaskUserController extends GetxController {
   }
 
   void listTask() async {
-    print("List Task Of User");
     final data =
     await TaskService.listByUsers(_paginateParam.value);
     if (data!.isEmpty) {
