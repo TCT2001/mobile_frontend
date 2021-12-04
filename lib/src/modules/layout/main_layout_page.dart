@@ -50,7 +50,7 @@ class MainLayoutPage extends GetView<MainLayoutController> {
                   hoverColor: Colors.grey[100]!,
                   gap: 8,
                   activeColor: Colors.black,
-                  iconSize: 15,
+                  iconSize: 12,
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   duration: Duration(milliseconds: 400),
                   tabBackgroundColor: Colors.grey[100]!,
@@ -88,7 +88,6 @@ class MainLayoutPage extends GetView<MainLayoutController> {
       floatingActionButton: FloatingActionButton.extended(
         label: Text('Feedback'),
         icon: Icon(Icons.report_gmailerrorred),
-        backgroundColor: Color(0xff2d5f79),
         onPressed: () {
           displayFeedbackWindow();
         },

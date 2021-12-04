@@ -58,6 +58,7 @@ class TaskService {
 
   static Future<List<Task>?> listByProject(
       PaginateParam paginateParam, int projectId) async {
+    print(projectId);
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
     var response = await client.post(
         Uri.parse('$baseURL/task/listByProject/$projectId'),

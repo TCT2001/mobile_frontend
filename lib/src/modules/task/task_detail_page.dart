@@ -1,11 +1,16 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
+import 'package:mobile_app/src/data/models/project.dart';
 import 'package:mobile_app/src/data/models/task.dart';
+import 'package:mobile_app/src/data/providers/storage_provider.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
 import 'package:mobile_app/src/modules/task/task_user_controller.dart';
+import 'package:select_form_field/select_form_field.dart';
 
 class TaskDetailPage extends StatefulWidget {
   TaskDetailPage({Key? key}) : super(key: key);
@@ -36,7 +41,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
     task = controller.find(id);
   }
 
-  AppBar? taskDetailAppBar() {
+  AppBar? taskDetailAppBar(){
     return AppBar(
       title: Text('Task detail'),
       automaticallyImplyLeading: false,
@@ -49,7 +54,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
         ),
       ),
       actionsIconTheme:
-          IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
+      IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
       actions: <Widget>[
         Padding(
             padding: EdgeInsets.only(right: 20.0),
@@ -78,8 +83,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                             labelText: 'New Name',
                             hintMaxLines: 1,
                             border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.green, width: 4.0))),
+                                borderSide: BorderSide(color: Colors.green, width: 4.0))),
                       ),
                       SizedBox(
                         height: 30.0,
@@ -87,13 +91,10 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                       ElevatedButton(
                         onPressed: () async {
                           Get.back();
-                          CommonResp? commonResp = await controller.renameTask(
-                              taskClicked, newNameController.text);
+                          CommonResp? commonResp = await controller.renameTask(taskClicked, newNameController.text);
                           if (commonResp == null) {
-                            customSnackBar(
-                                "Rename", "Some unexpected error happened",
-                                iconData: Icons.warning_rounded,
-                                iconColor: Colors.red);
+                            customSnackBar("Rename", "Some unexpected error happened",
+                                iconData: Icons.warning_rounded, iconColor: Colors.red);
                             return;
                           }
                           if (commonResp.code == "SUCCESS") {
@@ -101,13 +102,10 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                               task = controller.find(id);
                             });
                             customSnackBar("Rename", "Success",
-                                iconData: Icons.check_outlined,
-                                iconColor: Colors.green);
+                                iconData: Icons.check_outlined, iconColor: Colors.green);
                           } else {
-                            customSnackBar(
-                                "Rename", "Some unexpected error happened",
-                                iconData: Icons.warning_rounded,
-                                iconColor: Colors.red);
+                            customSnackBar("Rename", "Some unexpected error happened",
+                                iconData: Icons.warning_rounded, iconColor: Colors.red);
                           }
                         },
                         child: Text(
@@ -118,7 +116,8 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                     ],
                   ),
                   radius: 10.0);
-            } else if (value == 1) {
+            }
+            else if (value == 1) {
               Get.defaultDialog(
                   titleStyle: TextStyle(fontSize: 10),
                   title: 'Select Task State',
@@ -126,69 +125,65 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Obx(() => DropdownButton<String>(
-                            // Set the Items of DropDownButton
-                            items: [
-                              DropdownMenuItem(
-                                value: "SUBMITTED",
-                                child: Text(
-                                  "SUBMITTED",
-                                ),
-                              ),
-                              DropdownMenuItem(
-                                value: "IN_PROCESS",
-                                child: Text(
-                                  "IN PROCESS",
-                                ),
-                              ),
-                              DropdownMenuItem(
-                                value: "INCOMPLETE",
-                                child: Text(
-                                  "INCOMPLETE",
-                                ),
-                              ),
-                              DropdownMenuItem(
-                                value: "TO_BE_DISCUSSED",
-                                child: Text(
-                                  "TO BE DISCUSSED",
-                                ),
-                              ),
-                              DropdownMenuItem(
-                                value: "DONE",
-                                child: Text(
-                                  "DONE",
-                                ),
-                              ),
-                              DropdownMenuItem(
-                                value: "DUPLICATE",
-                                child: Text(
-                                  "DUPLICATE",
-                                ),
-                              ),
-                              DropdownMenuItem(
-                                value: "OBSOLETE",
-                                child: Text(
-                                  "OBSOLETE",
-                                ),
-                              ),
-                            ],
-                            value: controller.selectedState.value.toString(),
-                            hint: const Text('Select Task Priority'),
-                            isExpanded: true,
-                            onChanged: (selectedValue) {
-                              controller.selectedState.value = selectedValue!;
-                            },
-                          )),
+                        // Set the Items of DropDownButton
+                        items: [
+                          DropdownMenuItem(
+                            value: "SUBMITTED",
+                            child: Text(
+                              "SUBMITTED",
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: "IN_PROCESS",
+                            child: Text(
+                              "IN PROCESS",
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: "INCOMPLETE",
+                            child: Text(
+                              "INCOMPLETE",
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: "TO_BE_DISCUSSED",
+                            child: Text(
+                              "TO BE DISCUSSED",
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: "DONE",
+                            child: Text(
+                              "DONE",
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: "DUPLICATE",
+                            child: Text(
+                              "DUPLICATE",
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: "OBSOLETE",
+                            child: Text(
+                              "OBSOLETE",
+                            ),
+                          ),
+                        ],
+                        value: controller.selectedState.value.toString(),
+                        hint: const Text('Select Task Priority'),
+                        isExpanded: true,
+                        onChanged: (selectedValue) {
+                          controller.selectedState.value = selectedValue!;
+                        },
+                      )),
                       ElevatedButton(
                         onPressed: () async {
                           Get.back();
-                          CommonResp? commonResp = await controller.updateState(
-                              taskClicked,
-                              controller.selectedState.value.toString());
+                          CommonResp? commonResp = await controller.updateState(taskClicked, controller.selectedState.value.toString());
                           if (commonResp == null) {
-                            customSnackBar(
-                                "Update State", "Some expected error happened",
-                                iconData: Icons.warning_rounded,
-                                iconColor: Colors.red);
+                            customSnackBar("Update State", "Some expected error happened",
+                                iconData: Icons.warning_rounded, iconColor: Colors.red);
                             return;
                           }
                           if (commonResp.code == "SUCCESS") {
@@ -196,13 +191,10 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                               task = controller.find(id);
                             });
                             customSnackBar("Update State", "Success",
-                                iconData: Icons.check_outlined,
-                                iconColor: Colors.green);
+                                iconData: Icons.check_outlined, iconColor: Colors.green);
                           } else {
-                            customSnackBar(
-                                "Update State", "Some expected error happened",
-                                iconData: Icons.warning_rounded,
-                                iconColor: Colors.red);
+                            customSnackBar("Update State", "Some expected error happened",
+                                iconData: Icons.warning_rounded, iconColor: Colors.red);
                           }
                         },
                         child: Text(
@@ -213,7 +205,8 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                     ],
                   ),
                   radius: 10.0);
-            } else if (value == 2) {
+            }
+            else if (value == 2) {
               Get.defaultDialog(
                   titleStyle: TextStyle(fontSize: 10),
                   title: 'Select Task Priority',
@@ -221,52 +214,47 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Obx(() => DropdownButton<String>(
-                            // Set the Items of DropDownButton
-                            items: [
-                              DropdownMenuItem(
-                                value: "CRITICAL",
-                                child: Text(
-                                  "Critcal Priority",
-                                ),
-                              ),
-                              DropdownMenuItem(
-                                value: "MAJOR",
-                                child: Text(
-                                  "Major Priority",
-                                ),
-                              ),
-                              DropdownMenuItem(
-                                value: "NORMAL",
-                                child: Text(
-                                  "Normal Priority",
-                                ),
-                              ),
-                              DropdownMenuItem(
-                                value: "MINOR",
-                                child: Text(
-                                  "Minor Priority",
-                                ),
-                              ),
-                            ],
-                            value: controller.selectedPriority.value.toString(),
-                            hint: const Text('Select Task Priority'),
-                            isExpanded: true,
-                            onChanged: (selectedValue) {
-                              controller.selectedPriority.value =
-                                  selectedValue!;
-                            },
-                          )),
+                        // Set the Items of DropDownButton
+                        items: [
+                          DropdownMenuItem(
+                            value: "CRITICAL",
+                            child: Text(
+                              "Critcal Priority",
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: "MAJOR",
+                            child: Text(
+                              "Major Priority",
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: "NORMAL",
+                            child: Text(
+                              "Normal Priority",
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: "MINOR",
+                            child: Text(
+                              "Minor Priority",
+                            ),
+                          ),
+                        ],
+                        value: controller.selectedPriority.value.toString(),
+                        hint: const Text('Select Task Priority'),
+                        isExpanded: true,
+                        onChanged: (selectedValue) {
+                          controller.selectedPriority.value = selectedValue!;
+                        },
+                      )),
                       ElevatedButton(
                         onPressed: () async {
                           Get.back();
-                          CommonResp? commonResp =
-                              await controller.updatePriority(taskClicked,
-                                  controller.selectedPriority.value.toString());
+                          CommonResp? commonResp = await controller.updatePriority(taskClicked, controller.selectedPriority.value.toString());
                           if (commonResp == null) {
-                            customSnackBar("Update Priority",
-                                "Some expected error happened",
-                                iconData: Icons.warning_rounded,
-                                iconColor: Colors.red);
+                            customSnackBar("Update Priority", "Some expected error happened",
+                                iconData: Icons.warning_rounded, iconColor: Colors.red);
                             return;
                           }
                           if (commonResp.code == "SUCCESS") {
@@ -274,13 +262,10 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                               task = controller.find(id);
                             });
                             customSnackBar("Update Priority", "Success",
-                                iconData: Icons.check_outlined,
-                                iconColor: Colors.green);
+                                iconData: Icons.check_outlined, iconColor: Colors.green);
                           } else {
-                            customSnackBar("Update Priority",
-                                "Some expected error happened",
-                                iconData: Icons.warning_rounded,
-                                iconColor: Colors.red);
+                            customSnackBar("Update Priority", "Some expected error happened",
+                                iconData: Icons.warning_rounded, iconColor: Colors.red);
                           }
                         },
                         child: Text(
@@ -291,7 +276,8 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                     ],
                   ),
                   radius: 10.0);
-            } else if (value == 3) {
+            }
+            else if(value == 3){
               newContentController.text = "";
               Get.defaultDialog(
                   titleStyle: TextStyle(fontSize: 0),
@@ -307,8 +293,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                             labelText: 'New Content',
                             hintMaxLines: 1,
                             border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.green, width: 4.0))),
+                                borderSide: BorderSide(color: Colors.green, width: 4.0))),
                       ),
                       SizedBox(
                         height: 30.0,
@@ -316,14 +301,10 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                       ElevatedButton(
                         onPressed: () async {
                           Get.back();
-                          CommonResp? commonResp =
-                              await controller.updateContent(
-                                  taskClicked, newContentController.text);
+                          CommonResp? commonResp = await controller.updateContent(taskClicked, newContentController.text);
                           if (commonResp == null) {
-                            customSnackBar("UpdateContent",
-                                "Some unexpected error happened",
-                                iconData: Icons.warning_rounded,
-                                iconColor: Colors.red);
+                            customSnackBar("UpdateContent", "Some unexpected error happened",
+                                iconData: Icons.warning_rounded, iconColor: Colors.red);
                             return;
                           }
                           if (commonResp.code == "SUCCESS") {
@@ -331,13 +312,10 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                               task = controller.find(id);
                             });
                             customSnackBar("Update Content", "Success",
-                                iconData: Icons.check_outlined,
-                                iconColor: Colors.green);
+                                iconData: Icons.check_outlined, iconColor: Colors.green);
                           } else {
-                            customSnackBar("Update Content",
-                                "Some unexpected error happened",
-                                iconData: Icons.warning_rounded,
-                                iconColor: Colors.red);
+                            customSnackBar("Update Content", "Some unexpected error happened",
+                                iconData: Icons.warning_rounded, iconColor: Colors.red);
                           }
                         },
                         child: Text(
@@ -382,9 +360,10 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                     String taskState = task.taskState!;
                     String taskPriority = task.priority!;
                     String taskDeadline = task.deadline!;
-                    return Text(
-                        "Id : $taskId\n\nName: $taskName\n\nContent : $taskContent \n\nState : $taskState\n\nPriority : $taskPriority\n\nDeadline: $taskDeadline",
-                        style: TextStyle(fontSize: 20));
+                    return Text("Id : $taskId\n\nName: $taskName\n\nContent : $taskContent \n\nState : $taskState\n\nPriority : $taskPriority\n\nDeadline: $taskDeadline",
+                                style : TextStyle(
+                                  fontSize: 20
+                                ));
                   } else if (snapshot.hasError) {
                     return Text('Loi');
                   }
