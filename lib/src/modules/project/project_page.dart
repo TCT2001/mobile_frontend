@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable, prefer_const_constructors
 
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/src/core/constants/colors.dart';
@@ -254,7 +255,12 @@ class _ProjectPageState extends State<ProjectPage> {
                 Project project = _items[index];
                 int id = project.id!;
                 String name = project.name!;
+                String role = project.role!;
                 List<User> users = project.userDTOSet! as List<User>;
+                var rs = users.where((e) => e.role == 'OWNER');
+                var boss = rs.first;
+
+                int number = project.userDTOSet!.length;
                 return GestureDetector(
                   onTap: () {
                     Get.toNamed(Routes.PROJECT_DETAIL, arguments: {
@@ -266,8 +272,8 @@ class _ProjectPageState extends State<ProjectPage> {
                     color: BathWater,
                     margin: const EdgeInsets.all(10),
                     child: ListTile(
-                      title: Text("$id. $name "),
-                      // subtitle: Text("$users"),
+                      title: Text("Project: $name "),
+                      subtitle: Text("Role: $role \nOwner: ${boss.email} \nTeam's number: $number"),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [

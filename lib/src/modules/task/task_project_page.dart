@@ -101,6 +101,7 @@ Widget taskProjectList(Project project, var controller) {
               Task task = _items[index];
               int id = task.id!;
               String name = task.name!;
+              String deadline = task.deadline??"no set";
               return GestureDetector(
                 onTap: () {
                   Get.toNamed(Routes.TASK_DETAIL_PAGE, arguments: {
@@ -112,7 +113,8 @@ Widget taskProjectList(Project project, var controller) {
                   color: BathWater,
                   margin: const EdgeInsets.all(10),
                   child: ListTile(
-                    title: Text("$id. $name"),
+                    title: Text("Name: ${task.name}"),
+                    subtitle: Text("State: ${task.taskState} \nBriefContent: ${task.briefContent} \nDeadline: ${deadline}"),
 
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
