@@ -3,12 +3,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:get/get.dart';
-import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
-import 'package:mobile_app/src/data/providers/storage_provider.dart';
 import 'package:mobile_app/src/data/services/app_config_service.dart';
-
-import 'search.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -20,30 +15,29 @@ class HomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<HomePage> {
   int _counter = 0;
-
   @override
   void initState() {
     super.initState();
-    //   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    //     RemoteNotification? notification = message.notification;
-    //     AndroidNotification? android = message.notification?.android;
-    //     if (notification != null && android != null) {
-    //       AppConfigService.flutterLocalNotificationsPlugin.show(
-    //           notification.hashCode,
-    //           notification.title,
-    //           notification.body,
-    //           NotificationDetails(
-    //             android: AndroidNotificationDetails(
-    //               AppConfigService.channel.id,
-    //               AppConfigService.channel.name,
-    //               AppConfigService.channel.description,
-    //               color: Colors.blue,
-    //               playSound: true,
-    //               icon: '@mipmap/ic_launcher',
-    //             ),
-    //           ));
-    //     }
-    //   });
+    // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    //   RemoteNotification? notification = message.notification;
+    //   AndroidNotification? android = message.notification?.android;
+    //   if (notification != null && android != null) {
+    //     AppConfigService.flutterLocalNotificationsPlugin.show(
+    //         notification.hashCode,
+    //         notification.title,
+    //         notification.body,
+    //         NotificationDetails(
+    //           android: AndroidNotificationDetails(
+    //             AppConfigService.channel.id,
+    //             AppConfigService.channel.name,
+    //             AppConfigService.channel.description,
+    //             color: Colors.blue,
+    //             playSound: true,
+    //             icon: '@mipmap/ic_launcher',
+    //           ),
+    //         ));
+    //   }
+    // });
 
     // FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
     //   RemoteNotification? notification = message.notification;
@@ -77,28 +71,15 @@ class _MyHomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff2d5f79),
-        title: Text('Buyings'),
-        actions: <Widget>[
-          Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {
-                  showSearch(context: context, delegate: Search());
-                },
-                child: Icon(
-                  Icons.search,
-                  size: 26.0,
-                ),
-              )),
-        ],
+        title: Text('Home'),
       ),
       body:
 
-           Container(
-               decoration: const BoxDecoration(
-                 image: DecorationImage(image: AssetImage("assets/images/girl.jpg"), fit: BoxFit.cover),
+      Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(image: AssetImage("assets/images/girl.jpg"), fit: BoxFit.cover),
 
-               ),
+          ),
           child: Padding(
               padding: const EdgeInsets.all(150),
               child: SizedBox(
@@ -112,7 +93,6 @@ class _MyHomePageState extends State<HomePage> {
                               color: Color(0xff88e8f2),
                               fontWeight: FontWeight.bold,
                               fontSize: 18)),
-                      SizedBox(height: 8),
                       SizedBox(height: 8),
                     ]),
               ))

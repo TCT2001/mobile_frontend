@@ -28,7 +28,6 @@ class TaskProjectController extends GetxController {
 
   @override
   void onInit() {
-    print("On Init O Day");
     ever(_paginateParam, (_) => listTask());
     _changeParam(PaginateParam(page: 0));
     super.onInit();
@@ -36,7 +35,7 @@ class TaskProjectController extends GetxController {
 
   void listTask() async {
     final data =
-        await TaskService.listByProject(_paginateParam.value, projectId);
+    await TaskService.listByProject(_paginateParam.value, projectId);
     if (data!.isEmpty) {
       _isLastPage.value = true;
       return;
@@ -63,7 +62,8 @@ class TaskProjectController extends GetxController {
     _tasks.assignAll([]);
     _paginateParam = PaginateParam(page: 0).obs;
     _paginateParam.value.filter = "name~$name";
-    final data = await TaskService.listByProject(_paginateParam.value, projectId);
+    final data =
+    await TaskService.listByProject(_paginateParam.value, projectId);
     if (data!.isEmpty) {
       _isLastPage.value = true;
       return;
@@ -71,12 +71,10 @@ class TaskProjectController extends GetxController {
     _tasks.assignAll(data);
   }
 
-
   Future<CommonResp?> renameTask(Task task, String newName) async {
     var temp = await TaskService.rename(task, newName);
     if (temp!.code == "SUCCESS") {
-      //TODO
-      //_listProject();
+
       _tasks.firstWhere((element) => element.id == task.id).name =
           _tasks.firstWhere((element) => element.id == task.id).name = newName;
       _tasks.refresh();
@@ -100,8 +98,8 @@ class TaskProjectController extends GetxController {
   }
 
   Future<CommonResp?> createTask(
-      String newName, String newContent, int? id) async {
-    var temp = await TaskService.create(newName, newContent, id!);
+      String newName, String newContent, String newState, String newPriority, String deadline, int? id) async {
+    var temp = await TaskService.create(newName, newContent, newState, newPriority, deadline, id!);
     if (temp!.code == "SUCCESS") {
       Task task = Task.fromJson(temp.data! as Map<String, dynamic>);
       _tasks.insert(0, task);
@@ -114,8 +112,7 @@ class TaskProjectController extends GetxController {
   Future<CommonResp?> updateState(Task task, String newState) async {
     var temp = await TaskService.updateState(task, newState);
     if (temp!.code == "SUCCESS") {
-      //TODO
-      //_listProject();
+
       _tasks.firstWhere((element) => element.id == task.id).taskState =
           newState;
       _tasks.refresh();
@@ -126,8 +123,6 @@ class TaskProjectController extends GetxController {
   Future<CommonResp?> updatePriority(Task task, String newPriority) async {
     var temp = await TaskService.updatePriority(task, newPriority);
     if (temp!.code == "SUCCESS") {
-      //TODO
-      //_listProject();
       _tasks.firstWhere((element) => element.id == task.id).priority =
           newPriority;
       _tasks.refresh();
@@ -145,10 +140,5 @@ class TaskProjectController extends GetxController {
       _tasks.refresh();
     }
     return temp;
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
   }
 }

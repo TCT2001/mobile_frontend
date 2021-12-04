@@ -33,7 +33,6 @@ class TaskUserController extends GetxController {
   }
 
   void listTask() async {
-    print("List Task Of User");
     final data =
     await TaskService.listByUsers(_paginateParam.value);
     if (data!.isEmpty) {
@@ -74,8 +73,7 @@ class TaskUserController extends GetxController {
   Future<CommonResp?> renameTask(Task task, String newName) async {
     var temp = await TaskService.rename(task, newName);
     if (temp!.code == "SUCCESS") {
-      //TODO
-      //_listProject();
+
       _tasks.firstWhere((element) => element.id == task.id).name =
           _tasks.firstWhere((element) => element.id == task.id).name = newName;
       _tasks.refresh();
@@ -98,23 +96,10 @@ class TaskUserController extends GetxController {
     return temp!;
   }
 
-  Future<CommonResp?> createTask(
-      String newName, String newContent, int? id) async {
-    var temp = await TaskService.create(newName, newContent, id!);
-    if (temp!.code == "SUCCESS") {
-      Task task = Task.fromJson(temp.data! as Map<String, dynamic>);
-
-      _tasks.insert(0, task);
-      // _projects.value = List.empty();
-    }
-    return temp;
-  }
-
   Future<CommonResp?> updateState(Task task, String newState) async {
     var temp = await TaskService.updateState(task, newState);
     if (temp!.code == "SUCCESS") {
-      //TODO
-      //_listProject();
+
       _tasks.firstWhere((element) => element.id == task.id).taskState =
           newState;
       _tasks.refresh();
@@ -125,8 +110,7 @@ class TaskUserController extends GetxController {
   Future<CommonResp?> updatePriority(Task task, String newPriority) async {
     var temp = await TaskService.updatePriority(task, newPriority);
     if (temp!.code == "SUCCESS") {
-      //TODO
-      //_listProject();
+
       _tasks.firstWhere((element) => element.id == task.id).priority =
           newPriority;
       _tasks.refresh();
@@ -137,8 +121,7 @@ class TaskUserController extends GetxController {
   Future<CommonResp?> updateContent(Task task, String newContent) async {
     var temp = await TaskService.updateContent(task, newContent);
     if (temp!.code == "SUCCESS") {
-      //TODO
-      //_listProject();
+
       _tasks.firstWhere((element) => element.id == task.id).content =
           newContent;
       _tasks.refresh();

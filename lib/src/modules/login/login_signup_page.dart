@@ -17,10 +17,9 @@ class LoginScreen extends StatelessWidget {
   Duration get loginTime => const Duration(milliseconds: 2250);
 
   Future<String?> _authUser(LoginData data) {
-    print('Name: ${data.name}, Password: ${data.password}');
     return Future.delayed(loginTime).then((_) async {
       LoginResp loginResp =
-          await AuthService.login(email: data.name, password: data.password);
+      await AuthService.login(email: data.name, password: data.password);
 
       if (loginResp.code == "SUCCESS") {
         setStringLocalStorge(
@@ -39,10 +38,9 @@ class LoginScreen extends StatelessWidget {
   }
 
   Future<String?> _signupUser(SignupData data) {
-    print('Signup Name: ${data.name}, Password: ${data.password}');
     return Future.delayed(loginTime).then((_) async {
       SignupResp signupResp =
-          await AuthService.signup(email: data.name!, password: data.password!);
+      await AuthService.signup(email: data.name!, password: data.password!);
       if (signupResp.code == "SUCCESS") {
         return null;
       } else {

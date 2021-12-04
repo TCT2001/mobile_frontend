@@ -5,41 +5,91 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:mobile_app/src/core/constants/colors.dart';
 import 'package:mobile_app/src/core/utils/lazy_load_scroll_view.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/project.dart';
 import 'package:mobile_app/src/data/models/task.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
+import 'package:mobile_app/src/modules/task/task_project_controller.dart';
 import 'package:mobile_app/src/routes/app_routes.dart';
 
-import 'task_project_controller.dart';
+Widget renameIconWidget(
+    String role, Task task, var nameController, var controller) {
+  if (role == "ADMINSTRATOR" || role == "OWNER") {
+    return IconButton(
+        onPressed: () {
+          renameDialog(task, nameController, controller);
+          nameController.text = "";
+        },
+        icon: const Icon(Icons.edit));
+  }
+  return const SizedBox.shrink();
+}
 
-Widget taskProjectList(Project project) {
+Widget deleteIconWidget(String role, Task task, var controller) {
+  if (role == "OWNER") {
+    return IconButton(
+      icon: const Icon(Icons.delete),
+      onPressed: () {
+        Get.defaultDialog(
+          title: "Confirm",
+          middleText: "Are your sure to delete ?",
+          backgroundColor: Colors.white,
+          titleStyle: const TextStyle(color: Colors.black),
+          middleTextStyle: const TextStyle(color: Colors.black),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("Yes"),
+              onPressed: () async {
+                Get.back();
+                bool rs = await controller.deleteTask(task);
+                if (rs) {
+                  customSnackBar("Delete", "Success",
+                      iconData: Icons.check_outlined, iconColor: Colors.green);
+                }
+              },
+            ),
+            TextButton(
+              child: const Text("No"),
+              onPressed: () {
+                Get.back();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+  return const SizedBox.shrink();
+}
+
+Widget taskProjectList(Project project, var controller) {
   TextEditingController nameController = TextEditingController(text: '');
   TextEditingController contentController = TextEditingController(text: '');
   TextEditingController invitedEmailController =
-      TextEditingController(text: '');
+  TextEditingController(text: '');
   TaskProjectController controller =
-      Get.put(TaskProjectController(projectId: project.id!));
+  Get.put(TaskProjectController(projectId: project.id!));
 
   return Obx(() {
+    project.role = project.role!.toUpperCase();
     var _items = controller.tasks;
 
     if (controller.tasks.isEmpty) {
-      if (controller.isLastPage) {
-        return CircularProgressIndicator();
-      }
+      // if (controller.isLastPage) {
+      //   return Center(child: CircularProgressIndicator());
+      // }
       return Center(child: Text("No task"));
     }
-
     return LazyLoadScrollView(
         onEndOfPage: controller.nextPage,
         isLoading: controller.isLastPage,
         child: ListTileTheme(
           contentPadding: EdgeInsets.all(15),
-          iconColor: Colors.red,
-          textColor: Colors.black54,
-          tileColor: Colors.yellow[100],
+          iconColor: Colors.black45,
+          textColor: Colors.black,
+          tileColor: BathWater,
           style: ListTileStyle.list,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
@@ -49,60 +99,28 @@ Widget taskProjectList(Project project) {
             itemCount: _items.length,
             itemBuilder: (_, index) {
               Task task = _items[index];
+              int id = task.id!;
+              String name = task.name!;
               return GestureDetector(
                 onTap: () {
-                  Get.toNamed(Routes.TASK_DETAIL_PAGE,
-                      arguments: {"id": _items[index].id});
+                  Get.toNamed(Routes.TASK_DETAIL_PAGE, arguments: {
+                    "id": _items[index].id,
+                    "task": _items[index]
+                  });
                 },
                 child: Card(
+                  color: BathWater,
                   margin: const EdgeInsets.all(10),
                   child: ListTile(
-                    title: Text(task.toString()),
-                    subtitle: Text("Chua biet"),
+                    title: Text("$id. $name"),
+
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        IconButton(
-                            onPressed: () {
-                              renameDialog(
-                                  _items[index], nameController, controller);
-                              nameController.text = "";
-                            },
-                            icon: const Icon(Icons.edit)),
-                        IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () {
-                            Get.defaultDialog(
-                              title: "Confirm",
-                              middleText: "Are your sure to delete ?",
-                              backgroundColor: Colors.white,
-                              titleStyle: const TextStyle(color: Colors.black),
-                              middleTextStyle:
-                                  const TextStyle(color: Colors.black),
-                              actions: <Widget>[
-                                TextButton(
-                                  child: const Text("Yes"),
-                                  onPressed: () async {
-                                    Get.back();
-                                    bool rs = await controller
-                                        .deleteTask(_items[index]);
-                                    if (rs) {
-                                      customSnackBar("Delete", "Success",
-                                          iconData: Icons.check_outlined,
-                                          iconColor: Colors.green);
-                                    }
-                                  },
-                                ),
-                                TextButton(
-                                  child: const Text("No"),
-                                  onPressed: () {
-                                    Get.back();
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        ),
+                        renameIconWidget(project.role!, _items[index],
+                            nameController, controller),
+                        deleteIconWidget(
+                            project.role!, _items[index], controller)
                       ],
                     ),
                   ),
@@ -170,58 +188,58 @@ void updateStateDialog(Task task, var controller) {
         mainAxisSize: MainAxisSize.min,
         children: [
           Obx(() => DropdownButton<String>(
-                // Set the Items of DropDownButton
-                items: const [
-                  DropdownMenuItem(
-                    value: "SUBMITTED",
-                    child: Text(
-                      "SUBMITTED",
-                    ),
-                  ),
-                  DropdownMenuItem(
-                    value: "IN_PROCESS",
-                    child: Text(
-                      "IN PROCESS",
-                    ),
-                  ),
-                  DropdownMenuItem(
-                    value: "INCOMPLETE",
-                    child: Text(
-                      "INCOMPLETE",
-                    ),
-                  ),
-                  DropdownMenuItem(
-                    value: "TO_BE_DISCUSSED",
-                    child: Text(
-                      "TO BE DISCUSSED",
-                    ),
-                  ),
-                  DropdownMenuItem(
-                    value: "DONE",
-                    child: Text(
-                      "DONE",
-                    ),
-                  ),
-                  DropdownMenuItem(
-                    value: "DUPLICATE",
-                    child: Text(
-                      "DUPLICATE",
-                    ),
-                  ),
-                  DropdownMenuItem(
-                    value: "OBSOLETE",
-                    child: Text(
-                      "OBSOLETE",
-                    ),
-                  ),
-                ],
-                value: controller.selectedState.value.toString(),
-                hint: const Text('Select Task Priority'),
-                isExpanded: true,
-                onChanged: (selectedValue) {
-                  controller.selectedState.value = selectedValue!;
-                },
-              )),
+            // Set the Items of DropDownButton
+            items: const [
+              DropdownMenuItem(
+                value: "SUBMITTED",
+                child: Text(
+                  "SUBMITTED",
+                ),
+              ),
+              DropdownMenuItem(
+                value: "IN_PROCESS",
+                child: Text(
+                  "IN PROCESS",
+                ),
+              ),
+              DropdownMenuItem(
+                value: "INCOMPLETE",
+                child: Text(
+                  "INCOMPLETE",
+                ),
+              ),
+              DropdownMenuItem(
+                value: "TO_BE_DISCUSSED",
+                child: Text(
+                  "TO BE DISCUSSED",
+                ),
+              ),
+              DropdownMenuItem(
+                value: "DONE",
+                child: Text(
+                  "DONE",
+                ),
+              ),
+              DropdownMenuItem(
+                value: "DUPLICATE",
+                child: Text(
+                  "DUPLICATE",
+                ),
+              ),
+              DropdownMenuItem(
+                value: "OBSOLETE",
+                child: Text(
+                  "OBSOLETE",
+                ),
+              ),
+            ],
+            value: controller.selectedState.value.toString(),
+            hint: const Text('Select Task Priority'),
+            isExpanded: true,
+            onChanged: (selectedValue) {
+              controller.selectedState.value = selectedValue!;
+            },
+          )),
           ElevatedButton(
             onPressed: () {
               Get.back();
@@ -259,40 +277,40 @@ void updatePriorityDialog(Task task, var controller) {
         mainAxisSize: MainAxisSize.min,
         children: [
           Obx(() => DropdownButton<String>(
-                // Set the Items of DropDownButton
-                items: const [
-                  DropdownMenuItem(
-                    value: "CRITICAL",
-                    child: Text(
-                      "Critcal Priority",
-                    ),
-                  ),
-                  DropdownMenuItem(
-                    value: "MAJOR",
-                    child: Text(
-                      "Major Priority",
-                    ),
-                  ),
-                  DropdownMenuItem(
-                    value: "NORMAL",
-                    child: Text(
-                      "Normal Priority",
-                    ),
-                  ),
-                  DropdownMenuItem(
-                    value: "MINOR",
-                    child: Text(
-                      "Minor Priority",
-                    ),
-                  ),
-                ],
-                value: controller.selectedPriority.value.toString(),
-                hint: const Text('Select Task Priority'),
-                isExpanded: true,
-                onChanged: (selectedValue) {
-                  controller.selectedPriority.value = selectedValue!;
-                },
-              )),
+            // Set the Items of DropDownButton
+            items: const [
+              DropdownMenuItem(
+                value: "CRITICAL",
+                child: Text(
+                  "Critcal Priority",
+                ),
+              ),
+              DropdownMenuItem(
+                value: "MAJOR",
+                child: Text(
+                  "Major Priority",
+                ),
+              ),
+              DropdownMenuItem(
+                value: "NORMAL",
+                child: Text(
+                  "Normal Priority",
+                ),
+              ),
+              DropdownMenuItem(
+                value: "MINOR",
+                child: Text(
+                  "Minor Priority",
+                ),
+              ),
+            ],
+            value: controller.selectedPriority.value.toString(),
+            hint: const Text('Select Task Priority'),
+            isExpanded: true,
+            onChanged: (selectedValue) {
+              controller.selectedPriority.value = selectedValue!;
+            },
+          )),
           ElevatedButton(
             onPressed: () {
               Get.back();

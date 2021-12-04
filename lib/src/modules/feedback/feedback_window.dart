@@ -45,6 +45,7 @@ void displayFeedbackWindow() {
                     height: 10,
                   ),
                   FloatingActionButton.extended(
+                      backgroundColor: Color(0xff2d5f79),
                       label: const Text('Send feedback'),
                       icon: const Icon(Icons.send),
                       onPressed: () {

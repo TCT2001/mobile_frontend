@@ -36,7 +36,6 @@ abstract class AppPages {
         page: () => MainLayoutPage(),
         binding: MainLayoutBinding()),
     GetPage(name: Routes.SPLASH, page: () => const SplashPage()),
-    //TODO
     GetPage(name: Routes.LOGIN, page: () => LoginScreen()),
     GetPage(
         name: Routes.PROJECT,

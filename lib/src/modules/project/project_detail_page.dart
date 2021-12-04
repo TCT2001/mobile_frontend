@@ -1,11 +1,13 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_const_constructors_in_immutables
 
+import 'package:date_format/date_format.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/project.dart';
+import 'package:mobile_app/src/data/models/user.dart';
 import 'package:mobile_app/src/data/providers/storage_provider.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
 import 'package:mobile_app/src/modules/task/task_project_controller.dart';
@@ -45,7 +47,9 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   int id = Get.arguments['id'];
   Project clickedProject = Get.arguments['clickedProject'];
   late Future<Project> project;
+  final GlobalKey<ScaffoldState> _keyDraw = GlobalKey(); // Create a key
   final GlobalKey<PopupMenuButtonState<int>> _key = GlobalKey();
+  final _formKey = GlobalKey<FormState>();
   late TextEditingController invitedEmailController = TextEditingController();
   late TextEditingController newNameController = TextEditingController();
   late TextEditingController newContentController = TextEditingController();
@@ -54,6 +58,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   String role = '';
   String newTaskName = '';
   String newContentTask = '';
+  DateTime selectedDate = DateTime.now();
+  var deadline;
 
   @override
   void initState() {
@@ -61,7 +67,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
     project = controller.find(id);
   }
 
-  AppBar appBar() {
+  AppBar appBar(String role, BuildContext context) {
     return AppBar(
       title: const Text('ProjectDetailPage'),
       automaticallyImplyLeading: false,
@@ -96,8 +102,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
               showInviteForm();
             } else if (value == 1) {
               showCreateTaskForm();
-            }
-            else if (value == 2){
+            } else if (value == 2) {
               newNameController.text = "";
               Get.defaultDialog(
                   titleStyle: TextStyle(fontSize: 0),
@@ -113,7 +118,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                             labelText: 'New Name',
                             hintMaxLines: 1,
                             border: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.green, width: 4.0))),
+                                borderSide: BorderSide(
+                                    color: Colors.green, width: 4.0))),
                       ),
                       const SizedBox(
                         height: 30.0,
@@ -121,21 +127,28 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                       ElevatedButton(
                         onPressed: () async {
                           Get.back();
-                          CommonResp? commonResp = await controller.renameProject(Project.id(id: id), newNameController.text);
+                          CommonResp? commonResp =
+                          await controller.renameProject(
+                              Project.id(id: id), newNameController.text);
                           if (commonResp == null) {
-                            customSnackBar("Rename", "Some expected error happened",
-                                iconData: Icons.warning_rounded, iconColor: Colors.red);
+                            customSnackBar(
+                                "Rename", "Some expected error happened",
+                                iconData: Icons.warning_rounded,
+                                iconColor: Colors.red);
                             return;
                           }
                           if (commonResp.code == "SUCCESS") {
-                            setState((){
+                            setState(() {
                               project = controller.find(id);
                             });
                             customSnackBar("Rename", "Success",
-                                iconData: Icons.check_outlined, iconColor: Colors.green);
+                                iconData: Icons.check_outlined,
+                                iconColor: Colors.green);
                           } else {
-                            customSnackBar("Rename", "Some expected error happened",
-                                iconData: Icons.warning_rounded, iconColor: Colors.red);
+                            customSnackBar(
+                                "Rename", "Some expected error happened",
+                                iconData: Icons.warning_rounded,
+                                iconColor: Colors.red);
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -149,8 +162,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                     ],
                   ),
                   radius: 10.0);
-            }
-            else if (value == 3) {
+            } else if (value == 3) {
               Get.defaultDialog(
                 title: "Confirm",
                 middleText: "Are your sure to delete ?",
@@ -169,8 +181,6 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                             iconData: Icons.check_outlined,
                             iconColor: Colors.green);
                       }
-                      Get.back();
-                      Get.back();
                     },
                   ),
                   TextButton(
@@ -181,46 +191,137 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                   ),
                 ],
               );
+            } else if (value == 4) {
+              _keyDraw.currentState!.openDrawer();
             }
           },
           key: _key,
           itemBuilder: (context) {
-            return <PopupMenuEntry<int>>[
-              PopupMenuItem(child: Text('Invite'), value: 0),
-              PopupMenuItem(child: Text('Create Task'), value: 1),
-              PopupMenuItem(child: Text('Rename Project'), value: 2),
-              PopupMenuItem(child: Text('Delete Project'), value: 3),
-            ];
+            return listAppbar(role.toUpperCase());
           },
         ),
       ],
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: appBar(),
-        body:
-        FutureBuilder<Project>(
-            future: project,
-            builder: (context, snapshot) {
-              return Column(
-                children: <Widget>[
-                  Container(child: showDetail(snapshot)),
-                  Expanded(
-                    child: Container(child: showTaskList(snapshot.data)),
-                  )
-                ],
-              );
-            }));
+  List<PopupMenuEntry<int>> listAppbar(String role) {
+    if (role == "OWNER") {
+      return <PopupMenuEntry<int>>[
+        PopupMenuItem(child: Text('Invite'), value: 0),
+        PopupMenuItem(child: Text('Create Task'), value: 1),
+        PopupMenuItem(child: Text('Rename Project'), value: 2),
+        PopupMenuItem(child: Text('Delete Project'), value: 3),
+        PopupMenuItem(child: Text('Members'), value: 4)
+      ];
+    }
+    else if (role == "ADMINISTRATOR") {
+      return <PopupMenuEntry<int>>[
+        PopupMenuItem(child: Text('Invite'), value: 0),
+        PopupMenuItem(child: Text('Create Task'), value: 1),
+        PopupMenuItem(child: Text('Rename Project'), value: 2),
+        PopupMenuItem(child: Text('Members'), value: 4),
+      ];
+    } else {
+      return <PopupMenuEntry<int>>[
+        PopupMenuItem(child: Text('Members'), value: 4)
+      ];
+    }
   }
 
-  Widget showTaskList(Project? project) {
+  @override
+  Widget build(BuildContext context) {
+    TextEditingController searchController = TextEditingController();
+    TaskProjectController taskProjectController =
+    Get.put(TaskProjectController(projectId: id));
+
+    return FutureBuilder<Project>(
+        future: project,
+        builder: (context, snapshot) {
+          if (snapshot.data == null) {
+            return Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+          return Scaffold(
+            key: _keyDraw,
+            drawer: drawer(snapshot.data!.userDTOSet!),
+            appBar: appBar(snapshot.data!.role!, context),
+            body: Column(
+              children: <Widget>[
+                Container(child: showDetail(snapshot)),
+                TextField(
+                  controller: searchController,
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.search),
+                  ),
+                  onChanged: (String? value) {
+                    taskProjectController.searchByName(value!);
+                    controller.update();
+                  },
+                ),
+                Expanded(
+                    child: Container(
+                        child:
+                        showTaskList(snapshot.data, taskProjectController)))
+              ],
+            ),
+          );
+        });
+  }
+
+  Widget drawer(List members) {
+    members = members as List<User>;
+    return Drawer(
+      child: ListView(
+        shrinkWrap: true,
+        padding: EdgeInsets.zero,
+        children: [
+          const DrawerHeader(
+            decoration: BoxDecoration(
+              color: Color(0xff88e8f2),
+            ),
+            child: Text("Members in project"),
+          ),
+          Container(
+              height: double.maxFinite,
+              child: ListView.builder(
+                  itemCount: members.length,
+                  itemBuilder: (BuildContext context, i) {
+                    final id = members[i].id % 256 + 256;
+                    final hexString = id.toRadixString(16);
+                    return Card(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            ListTile(
+                              leading: CircleAvatar(
+                                child: Image.network(
+                                    "https://ui-avatars.com/api/?name=${members[i].email}&color=$hexString"),
+                              ),
+                              title: Text(members[i].toString()),
+                              subtitle: Text('TWICE'),
+                            ),
+                          ],
+                        ));
+                  })),
+          // ListTile(
+          //   title: const Text('Close'),
+          //   onTap: () {
+          //     Navigator.pop(context);
+          //   },
+          // ),
+        ],
+      ),
+    );
+  }
+
+  Widget showTaskList(Project? project, var taskProjectController) {
     if (project == null) {
       return Text("NULL");
     } else {
-      return taskProjectList(project);
+      return taskProjectList(project, taskProjectController);
     }
   }
 
@@ -298,7 +399,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                           //TODO
                           if (!EmailValidator.validate(invitedEmail)) {
                             customSnackBar("Email", "error",
-                                iconData: Icons.warning_rounded, iconColor: Colors.red);
+                                iconData: Icons.warning_rounded,
+                                iconColor: Colors.red);
                             return;
                           }
 
@@ -309,7 +411,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                               srcEmail!, invitedEmail, id, role);
                           if (temp!.code == "SUCCESS") {
                             customSnackBar('Invite', "Success",
-                                iconData: Icons.check_outlined, iconColor: Colors.green);
+                                iconData: Icons.check_outlined,
+                                iconColor: Colors.green);
                             Get.back();
                           } else {
                             customSnackBar("Invite", temp.data as String);
@@ -338,8 +441,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
             // color: Colors.white,
             color: Color(0xff88e8f2),
           ),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+          child: Form(
+            key: _formKey,
             child: ListView(
               children: [
                 Column(
@@ -347,6 +450,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                   children: [
                     const Text(
                       'Create Task',
+                      textAlign: TextAlign.center,
                       style:
                       TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
@@ -355,6 +459,12 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                     ),
                     TextFormField(
                       controller: newNameController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter task name';
+                        }
+                        return null;
+                      },
                       decoration: InputDecoration(
                         labelText: 'Name',
                         hintText: 'Name',
@@ -368,6 +478,12 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                     ),
                     TextFormField(
                       controller: newContentController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter task content';
+                        }
+                        return null;
+                      },
                       decoration: InputDecoration(
                         labelText: 'Content',
                         hintText: 'Content',
@@ -379,24 +495,161 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                     const SizedBox(
                       height: 10,
                     ),
+                    Text("Select Task State"),
+                    Obx(() => DropdownButton<String>(
+                      // Set the Items of DropDownButton
+                      items: const [
+                        DropdownMenuItem(
+                          value: "SUBMITTED",
+                          child: Text(
+                            "SUBMITTED",
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: "IN_PROCESS",
+                          child: Text(
+                            "IN PROCESS",
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: "INCOMPLETE",
+                          child: Text(
+                            "INCOMPLETE",
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: "TO_BE_DISCUSSED",
+                          child: Text(
+                            "TO BE DISCUSSED",
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: "DONE",
+                          child: Text(
+                            "DONE",
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: "DUPLICATE",
+                          child: Text(
+                            "DUPLICATE",
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: "OBSOLETE",
+                          child: Text(
+                            "OBSOLETE",
+                          ),
+                        ),
+                      ],
+                      value: taskController.selectedState.value.toString(),
+                      hint: const Text('Select Task State'),
+                      isExpanded: true,
+                      onChanged: (selectedValue) {
+                        taskController.selectedState.value = selectedValue!;
+                      },
+                    )),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text("Select Task Priority"),
+                    Obx(() => DropdownButton<String>(
+                      // Set the Items of DropDownButton
+                      items: const [
+                        DropdownMenuItem(
+                          value: "CRITICAL",
+                          child: Text(
+                            "Critcal Priority",
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: "MAJOR",
+                          child: Text(
+                            "Major Priority",
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: "NORMAL",
+                          child: Text(
+                            "Normal Priority",
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: "MINOR",
+                          child: Text(
+                            "Minor Priority",
+                          ),
+                        ),
+                      ],
+                      value:
+                      taskController.selectedPriority.value.toString(),
+                      hint: const Text('Select Task Priority'),
+                      isExpanded: true,
+                      onChanged: (selectedValue) {
+                        taskController.selectedPriority.value =
+                        selectedValue!;
+                      },
+                    )),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Text("Select Task Deadline"),
+                        const SizedBox(
+                          width: 175,
+                        ),
+                        IconButton(
+                            onPressed: () async {
+                              final DateTime? picked = await showDatePicker(
+                                context: context,
+                                initialDate: selectedDate,
+                                firstDate: DateTime.now(),
+                                lastDate: DateTime(2025),
+                                helpText: 'Select task deadline',
+                                errorFormatText: 'Enter valid date',
+                                errorInvalidText: 'Enter date in valid range',
+                              );
+                              if (picked != null) {
+                                selectedDate = picked;
+                              }
+                              deadline = formatDate(
+                                  selectedDate, [yyyy, '-', mm, '-', dd]);
+                            },
+                            icon: const Icon(Icons.calendar_today_outlined)),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     FloatingActionButton.extended(
                         backgroundColor: Color(0xff2d5f79),
                         label: const Text('Create'),
                         icon: const Icon(Icons.send),
                         onPressed: () async {
-                          //TODO
-                          Get.back();
-                          CommonResp? commonResp =
-                          await taskController.createTask(
-                              newNameController.text,
-                              newContentController.text,
-                              id);
-                          if (commonResp!.code == "SUCCESS") {
-                            customSnackBar("Create Task", "Success",
-                                iconData: Icons.check_outlined, iconColor: Colors.green);
-                          } else {
-                            customSnackBar("Create Task", "Fail",
-                                iconData: Icons.warning_rounded, iconColor: Colors.red);
+                          if (_formKey.currentState!.validate()) {
+                            Get.back();
+                            CommonResp? commonResp =
+                            await taskController.createTask(
+                                newNameController.text,
+                                newContentController.text,
+                                taskController.selectedState.value,
+                                taskController.selectedPriority.value,
+                                deadline.toString(),
+                                id);
+                            if (commonResp!.code == "SUCCESS") {
+                              customSnackBar("Create Task", "Success",
+                                  iconData: Icons.check_outlined,
+                                  iconColor: Colors.green);
+                            } else {
+                              customSnackBar("Create Task", "Fail",
+                                  iconData: Icons.warning_rounded,
+                                  iconColor: Colors.red);
+                            }
+                            newNameController.clear();
+                            newContentController.clear();
+                            taskController.selectedScope = "PUBLIC".obs;
+                            taskController.selectedPriority = "NORMAL".obs;
+                            taskController.selectedState = "SUBMITTED".obs;
+                            selectedDate = DateTime.now();
                           }
                         })
                   ],

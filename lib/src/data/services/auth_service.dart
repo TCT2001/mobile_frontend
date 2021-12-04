@@ -1,11 +1,14 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'dart:convert';
+import 'dart:io';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:mobile_app/src/core/utils/http.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/payload/error_resp.dart';
 import 'package:mobile_app/src/data/models/payload/login_resp.dart';
+import 'package:mobile_app/src/data/models/payload/noti_resp.dart';
 import 'package:mobile_app/src/data/models/payload/signup_resp.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:mobile_app/src/data/providers/storage_provider.dart';
@@ -60,18 +63,46 @@ class AuthService {
     //   deviceId =
     //       await deviceInfo.iosInfo.then((value) => value.identifierForVendor);
     // }
-    // print(deviceId);
+    var fcmToken = "333";
+    // await FirebaseMessaging.instance.getToken().then((token) {
+    //   fcmToken = token!;
+    // });
     var response = await client.post(LOGIN_URI,
         headers: nonAuthHeader,
         body: jsonEncode(<String, String>{
           "username": email,
           "password": password,
-          "deviceId": "a",
-          "platform": "1",
-          "fcmToken": "abcdefghi"
+          "deviceId": "123",
+          "isAndroid": "1",
+          "fcmToken": fcmToken
           //TODO
         }));
     return loginRespFromJson(response.body);
+  }
+
+  static Future<List<NotificationCustom>> listNoti() async {
+    var response = await client.post(
+      Uri.parse("$baseURL/notification/list"),
+      headers: nonAuthHeader,
+    );
+    List? temp = json.decode(response.body) as List;
+    List<NotificationCustom> rs =
+    temp.map((e) => NotificationCustom.fromJson(e)).toList();
+    return rs;
+  }
+
+  static Future<CommonResp> acceptInvitation(String arg) async {
+    var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
+    var response = await client.post(
+      Uri.parse("$baseURL/auth/responseInvitation/$arg"),
+      headers: authHeader(token!),
+    );
+    if (response.statusCode == 200) {
+      var temp = CommonResp.fromJson(json.decode(response.body));
+      return temp;
+    } else {
+      throw Exception('Failed');
+    }
   }
 
   static Future<CommonResp?> changePassword(
@@ -89,5 +120,5 @@ class AuthService {
     } else {
       throw Exception('Failed');
     }
-  // }
-}}
+  }
+}
