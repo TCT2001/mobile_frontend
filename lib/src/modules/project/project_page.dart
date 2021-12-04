@@ -77,7 +77,7 @@ class _ProjectPageState extends State<ProjectPage> {
           key: _key,
           itemBuilder: (context) {
             return <PopupMenuEntry<int>>[
-              PopupMenuItem(child: Text('Create project'), value: 0, ),
+              PopupMenuItem(child: Text('☕ Create project'), value: 0, ),
             ];
 
           },
@@ -220,6 +220,7 @@ class _ProjectPageState extends State<ProjectPage> {
                 'Rename',
                 style: TextStyle(color: Colors.white, fontSize: 16.0),
               ),
+              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Color(0xff2d5f79)) ),
             )
           ],
         ),
@@ -272,10 +273,8 @@ class _ProjectPageState extends State<ProjectPage> {
                     color: BathWater,
                     margin: const EdgeInsets.all(10),
                     child: ListTile(
-                      title: Text("Project: $name                                                Role: $role\n                                      "
-                          "                                 Owner: ${boss.email}\n                                      "
-                          "                                 Team's number: $number"),
-                      // subtitle: Text("Role: $role Owner: ${boss.email} \nTeam's number: $number"),
+                      title: Text("☕ Project: $name"),
+                      subtitle: Text("\n📜 Role: $role\n      Owner: ${boss.email} \n      Team's number: $number"),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [

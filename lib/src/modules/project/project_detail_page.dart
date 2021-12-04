@@ -282,7 +282,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
             decoration: BoxDecoration(
               color: Color(0xff88e8f2),
             ),
-            child: Text("Members in project"),
+            child: Text("Members in project 👨‍💼"),
           ),
           Container(
               height: double.maxFinite,

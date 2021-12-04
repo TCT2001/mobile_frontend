@@ -113,8 +113,8 @@ Widget taskProjectList(Project project, var controller) {
                   color: BathWater,
                   margin: const EdgeInsets.all(10),
                   child: ListTile(
-                    title: Text("Name: ${task.name}"),
-                    subtitle: Text("State: ${task.taskState} \nBriefContent: ${task.briefContent} \nDeadline: ${deadline}"),
+                    title: Text("📄 Name: ${task.name}"),
+                    subtitle: Text("\n📋  State: ${task.taskState} \n      BriefContent: ${task.briefContent} \n      Deadline: ${deadline}"),
 
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -163,6 +163,7 @@ void renameDialog(Task task, var nameController, var controller) {
               'Rename',
               style: TextStyle(color: Colors.white, fontSize: 16.0),
             ),
+            style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Color(0xff2d5f79)) ),
           )
         ],
       ),
