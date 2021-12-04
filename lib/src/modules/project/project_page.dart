@@ -1,12 +1,16 @@
 // ignore_for_file: must_be_immutable, prefer_const_constructors
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/src/core/utils/lazy_load_scroll_view.dart';
+import 'package:mobile_app/src/data/models/paginate_param.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/project.dart';
 import 'package:mobile_app/src/data/models/user.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
+import 'package:mobile_app/src/modules/home/search.dart';
 import 'package:mobile_app/src/routes/app_routes.dart';
 
 import 'project_controller.dart';
@@ -57,7 +61,7 @@ class _ProjectPageState extends State<ProjectPage> {
       title: const Text('ProjectPage'),
       automaticallyImplyLeading: false,
       actionsIconTheme:
-      IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
+          IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
       leading: GestureDetector(
         onTap: () {/* Write listener code here */},
         child: Icon(
@@ -75,22 +79,11 @@ class _ProjectPageState extends State<ProjectPage> {
           key: _key,
           itemBuilder: (context) {
             return <PopupMenuEntry<int>>[
-              PopupMenuItem(child: Text('Create project'), value: 0, ),
+              PopupMenuItem(child: Text('Create project'), value: 0),
             ];
-
           },
         ),
       ],
-      backgroundColor: Color(0xff2d5f79),
-
-      bottom: TabBar(
-        tabs: const [
-          Tab(icon: Icon(Icons.home), text: 'Home'),
-          Tab(icon: Icon(Icons.star), text: 'Feed'),
-          Tab(icon: Icon(Icons.face), text: 'Profile'),
-          Tab(icon: Icon(Icons.settings), text: 'Settings'),
-        ],
-      ),
     );
   }
 
@@ -182,14 +175,9 @@ class _ProjectPageState extends State<ProjectPage> {
                 Get.back();
                 createOnPressed(textController.text);
               },
-              style: ElevatedButton.styleFrom(
-                primary: Color(0xff2d5f79)
-              ),
               child: const Text(
                 'Create',
-                style:
-                TextStyle(color: Colors.white, fontSize: 16.0),
-
+                style: TextStyle(color: Colors.white, fontSize: 16.0),
               ),
             )
           ],
