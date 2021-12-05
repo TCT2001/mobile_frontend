@@ -113,8 +113,8 @@ Widget taskProjectList(Project project, var controller) {
                   color: BathWater,
                   margin: const EdgeInsets.all(10),
                   child: ListTile(
-                    title: Text("📄 Name: ${task.name}"),
-                    subtitle: Text("\n📋  State: ${task.taskState} \n       BriefContent: ${task.briefContent} \n       Deadline:\n       ${deadline}"),
+                    title: Text("📄 Task: ${task.name}"),
+                    subtitle: Text("\n📋  State: ${task.taskState} \n      BriefContent: ${task.briefContent} \n      Deadline:\n      ${deadline}"),
 
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
