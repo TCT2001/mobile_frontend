@@ -5,6 +5,9 @@
 
 background image: (https://user-images.githubusercontent.com/81580234/144606427-a3ff0d19-c1f6-46e6-b916-e1eb4a7b272d.jpg)
 
+Splash: 
+![Best](https://user-images.githubusercontent.com/81580234/144733465-56f0ef2b-4201-48f0-8e90-fd7ecaa28d27.gif)
+
 https://blog.waldo.io/flutter-card/
 
 Ctrl + .
