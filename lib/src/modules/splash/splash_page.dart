@@ -23,7 +23,7 @@ class SplashPage extends GetView<SplashController> {
             width: 100.0.hp,
             decoration: const BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage('assets/images/splash.gif'))),
+                    image: AssetImage('assets/images/Best.gif'))),
           ),
         )));
   }
