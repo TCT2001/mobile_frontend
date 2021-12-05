@@ -108,7 +108,7 @@ class _NotificationPageState extends State<NotiPage> {
 
             var data = snapshot.data!;
             return ListView.builder(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(0),
                 itemCount: data.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Card(
