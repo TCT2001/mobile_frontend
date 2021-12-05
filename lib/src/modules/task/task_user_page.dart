@@ -127,6 +127,7 @@ class TaskUserPage extends GetView<TaskUserController> {
               itemCount: _items.length,
               itemBuilder: (_, index) {
                 Task task = _items[index];
+                String deadline = task.deadline??"no set";
                 return GestureDetector(
                   onTap: () {
                     Get.toNamed(Routes.TASK_DETAIL_PAGE, arguments: {
@@ -138,8 +139,8 @@ class TaskUserPage extends GetView<TaskUserController> {
                     color: BathWater,
                     margin: const EdgeInsets.all(10),
                     child: ListTile(
-                      title: Text("Name: ${task.name}"),
-                      subtitle: Text("State: ${task.taskState}"),
+                      title: Text("📄 Task: ${task.name}"),
+                      subtitle: Text("\n📋  State: ${task.taskState} \n      BriefContent: ${task.briefContent} \n      Deadline: ${deadline}"),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -224,6 +225,7 @@ class TaskUserPage extends GetView<TaskUserController> {
                 'Rename',
                 style: TextStyle(color: Colors.white, fontSize: 16.0),
               ),
+              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Color(0xff2d5f79)) ),
             )
           ],
         ),

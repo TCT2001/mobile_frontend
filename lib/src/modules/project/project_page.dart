@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable, prefer_const_constructors
 
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/src/core/constants/colors.dart';
@@ -77,7 +78,7 @@ class _ProjectPageState extends State<ProjectPage> {
           itemBuilder: (context) {
             return <PopupMenuEntry<int>>[
               PopupMenuItem(
-                child: Text('Create project'),
+                child: Text('☕ Create project'),
                 value: 0,
               ),
             ];
@@ -217,6 +218,9 @@ class _ProjectPageState extends State<ProjectPage> {
                 'Rename',
                 style: TextStyle(color: Colors.white, fontSize: 16.0),
               ),
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Color(0xff2d5f79))),
             )
           ],
         ),
@@ -240,19 +244,23 @@ class _ProjectPageState extends State<ProjectPage> {
             contentPadding: EdgeInsets.all(15),
             iconColor: Colors.black45,
             textColor: Colors.black,
-            tileColor: BathWater,
+            tileColor: Colors.white,
             style: ListTileStyle.list,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            dense: true,
+            // shape: RoundedRectangleBorder(
+            //   borderRadius: BorderRadius.circular(10.0),
+            // ),
+            //dense: true,
             child: ListView.builder(
               itemCount: _items.length,
               itemBuilder: (_, index) {
                 Project project = _items[index];
                 int id = project.id!;
                 String name = project.name!;
+                String role = project.role!;
                 List<User> users = project.userDTOSet! as List<User>;
+                var rs = users.where((e) => e.role == 'OWNER');
+                var boss = rs.first;
+                int number = project.userDTOSet!.length;
                 return GestureDetector(
                   onTap: () {
                     Get.toNamed(Routes.PROJECT_DETAIL, arguments: {
@@ -260,21 +268,23 @@ class _ProjectPageState extends State<ProjectPage> {
                       "clickedProject": _items[index]
                     });
                   },
-                  child: Card(
-                    color: BathWater,
-                    margin: const EdgeInsets.all(10),
-                    child: ListTile(
-                      title: Text("$id. $name "),
-                      // subtitle: Text("$users"),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          renameIconWidget(_items[index].role!, _items[index]),
-                          deleteIconWidget(_items[index].role!, _items[index])
-                        ],
-                      ),
-                    ),
-                  ),
+                  child: buildCard(project, boss, users),
+                  // child: Card(
+                  //   color: BathWater,
+                  //   margin: const EdgeInsets.all(10),
+                  //   child: ListTile(
+                  //     title: Text("☕ Project: $name"),
+                  //     subtitle: Text(
+                  //         "\n📜 Role: $role\n      Owner: ${boss.email} \n      Team's number: $number"),
+                  //     trailing: Row(
+                  //       mainAxisSize: MainAxisSize.min,
+                  //       children: [
+                  //         renameIconWidget(_items[index].role!, _items[index]),
+                  //         deleteIconWidget(_items[index].role!, _items[index])
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                 );
               },
             ),
@@ -289,7 +299,7 @@ class _ProjectPageState extends State<ProjectPage> {
             renameDialog(project);
             textController.text = "";
           },
-          icon: const Icon(Icons.edit));
+          icon: const Icon(Icons.edit, color: Colors.blue,));
     }
     return const SizedBox.shrink();
   }
@@ -297,7 +307,7 @@ class _ProjectPageState extends State<ProjectPage> {
   Widget deleteIconWidget(String role, Project project) {
     if (role == "OWNER") {
       return IconButton(
-        icon: const Icon(Icons.delete),
+        icon: const Icon(Icons.delete, color: Colors.red),
         onPressed: () {
           Get.defaultDialog(
             title: "Confirm",
@@ -331,11 +341,42 @@ class _ProjectPageState extends State<ProjectPage> {
     }
     return const SizedBox.shrink();
   }
+
+  Card buildCard(Project project, User owner, List<User> list) {
+    var heading = project.name!;
+    var subheading = owner.email;
+    return Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        elevation: 4.0,
+        margin: const EdgeInsets.all(10),
+        child: Column(children: [
+          ListTile(
+            title: Text(heading, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+            subtitle: Text(subheading),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                renameIconWidget(project.role!, project),
+                deleteIconWidget(project.role!, project)
+              ],
+            ),
+          ),
+          Container(
+            height: 40,
+            margin: EdgeInsets.only(right: 10),
+            child: ListView.builder(
+                reverse: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: list.length > 5 ? 5 : list.length,
+                itemBuilder: (_, index) {
+                  final id = list[index].id % 256 + 256;
+                  final hexString = id.toRadixString(16);
+                  return Image.network(
+                      "https://ui-avatars.com/api/?name=${list[index].email}&color=$hexString");
+                }),
+          ),
+        ]));
+  }
 }
-
-
-// class ProjectPage extends GetView<ProjectController> {
-//   ProjectPage({Key? key}) : super(key: key);
-
-  
-// }
