@@ -292,7 +292,7 @@ class _ProjectPageState extends State<ProjectPage> {
   }
 
   Widget renameIconWidget(String role, Project project) {
-    if (role == "ADMINSTRATOR" || role == "OWNER") {
+    if (role == "ADMINISTRATOR" || role == "OWNER") {
       return IconButton(
           onPressed: () {
             renameDialog(project);

@@ -111,6 +111,9 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                                 iconColor: Colors.red);
                           }
                         },
+                        style: ElevatedButton.styleFrom(
+                          primary: Color(0xff2d5f79),
+                        ),
                         child: Text(
                           'Rename',
                           style: TextStyle(color: Colors.white, fontSize: 16.0),
@@ -132,43 +135,43 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                           DropdownMenuItem(
                             value: "SUBMITTED",
                             child: Text(
-                              "SUBMITTED",
+                              "Submitted",
                             ),
                           ),
                           DropdownMenuItem(
                             value: "IN_PROCESS",
                             child: Text(
-                              "IN PROCESS",
+                              "In process",
                             ),
                           ),
                           DropdownMenuItem(
                             value: "INCOMPLETE",
                             child: Text(
-                              "INCOMPLETE",
+                              "Incomplete",
                             ),
                           ),
                           DropdownMenuItem(
                             value: "TO_BE_DISCUSSED",
                             child: Text(
-                              "TO BE DISCUSSED",
+                              "To be discussed",
                             ),
                           ),
                           DropdownMenuItem(
                             value: "DONE",
                             child: Text(
-                              "DONE",
+                              "Done",
                             ),
                           ),
                           DropdownMenuItem(
                             value: "DUPLICATE",
                             child: Text(
-                              "DUPLICATE",
+                              "Duplicate",
                             ),
                           ),
                           DropdownMenuItem(
                             value: "OBSOLETE",
                             child: Text(
-                              "OBSOLETE",
+                              "Obsolete",
                             ),
                           ),
                         ],
@@ -206,6 +209,9 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                                 iconColor: Colors.red);
                           }
                         },
+                        style: ElevatedButton.styleFrom(
+                          primary: Color(0xff2d5f79),
+                        ),
                         child: Text(
                           'Update',
                           style: TextStyle(color: Colors.white, fontSize: 16.0),
@@ -227,25 +233,25 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                           DropdownMenuItem(
                             value: "CRITICAL",
                             child: Text(
-                              "Critcal Priority",
+                              "Critical",
                             ),
                           ),
                           DropdownMenuItem(
                             value: "MAJOR",
                             child: Text(
-                              "Major Priority",
+                              "Major",
                             ),
                           ),
                           DropdownMenuItem(
                             value: "NORMAL",
                             child: Text(
-                              "Normal Priority",
+                              "Normal",
                             ),
                           ),
                           DropdownMenuItem(
                             value: "MINOR",
                             child: Text(
-                              "Minor Priority",
+                              "Minor",
                             ),
                           ),
                         ],
@@ -284,6 +290,9 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                                 iconColor: Colors.red);
                           }
                         },
+                        style: ElevatedButton.styleFrom(
+                          primary: Color(0xff2d5f79),
+                        ),
                         child: Text(
                           'Update',
                           style: TextStyle(color: Colors.white, fontSize: 16.0),
@@ -341,6 +350,9 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                                 iconColor: Colors.red);
                           }
                         },
+                        style: ElevatedButton.styleFrom(
+                          primary: Color(0xff2d5f79),
+                        ),
                         child: Text(
                           'Update',
                           style: TextStyle(color: Colors.white, fontSize: 16.0),
