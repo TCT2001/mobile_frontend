@@ -432,7 +432,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
     Get.put(TaskProjectController(projectId: id));
     Get.bottomSheet(
       Container(
-          height: 250,
+          height: 400,
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
               topRight: Radius.circular(16),
@@ -441,21 +441,21 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
             // color: Colors.white,
             color: Color(0xff88e8f2),
           ),
-          child: Form(
-            key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
             child: ListView(
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Create Task',
-                      textAlign: TextAlign.center,
-                      style:
-                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
+                    // const Text(
+                    //   'Create Task',
+                    //   textAlign: TextAlign.center,
+                    //   style:
+                    //   TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    // ),
                     const SizedBox(
-                      height: 8,
+                      height: 0,
                     ),
                     TextFormField(
                       controller: newNameController,
@@ -493,7 +493,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                       ),
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 6,
                     ),
                     Text("Select Task State"),
                     Obx(() => DropdownButton<String>(
@@ -502,43 +502,43 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                         DropdownMenuItem(
                           value: "SUBMITTED",
                           child: Text(
-                            "SUBMITTED",
+                            "Submitted",
                           ),
                         ),
                         DropdownMenuItem(
                           value: "IN_PROCESS",
                           child: Text(
-                            "IN PROCESS",
+                            "In process",
                           ),
                         ),
                         DropdownMenuItem(
                           value: "INCOMPLETE",
                           child: Text(
-                            "INCOMPLETE",
+                            "Incomplete",
                           ),
                         ),
                         DropdownMenuItem(
                           value: "TO_BE_DISCUSSED",
                           child: Text(
-                            "TO BE DISCUSSED",
+                            "To be discussed",
                           ),
                         ),
                         DropdownMenuItem(
                           value: "DONE",
                           child: Text(
-                            "DONE",
+                            "Done",
                           ),
                         ),
                         DropdownMenuItem(
                           value: "DUPLICATE",
                           child: Text(
-                            "DUPLICATE",
+                            "Duplicate",
                           ),
                         ),
                         DropdownMenuItem(
                           value: "OBSOLETE",
                           child: Text(
-                            "OBSOLETE",
+                            "Obsolete",
                           ),
                         ),
                       ],
@@ -550,7 +550,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                       },
                     )),
                     const SizedBox(
-                      height: 10,
+                      height: 6,
                     ),
                     Text("Select Task Priority"),
                     Obx(() => DropdownButton<String>(
@@ -559,25 +559,25 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                         DropdownMenuItem(
                           value: "CRITICAL",
                           child: Text(
-                            "Critcal Priority",
+                            "Critical",
                           ),
                         ),
                         DropdownMenuItem(
                           value: "MAJOR",
                           child: Text(
-                            "Major Priority",
+                            "Major",
                           ),
                         ),
                         DropdownMenuItem(
                           value: "NORMAL",
                           child: Text(
-                            "Normal Priority",
+                            "Normal",
                           ),
                         ),
                         DropdownMenuItem(
                           value: "MINOR",
                           child: Text(
-                            "Minor Priority",
+                            "Minor",
                           ),
                         ),
                       ],
@@ -618,7 +618,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                       ],
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 0,
                     ),
                     FloatingActionButton.extended(
                         backgroundColor: Color(0xff2d5f79),

@@ -140,7 +140,7 @@ class TaskUserPage extends GetView<TaskUserController> {
                     margin: const EdgeInsets.all(10),
                     child: ListTile(
                       title: Text("📄 Task: ${task.name}"),
-                      subtitle: Text("\n📋  State: ${task.taskState} \n      BriefContent: ${task.briefContent} \n      Deadline: ${deadline}"),
+                      subtitle: Text("\n📋  State: ${task.taskState} \n       BriefContent: ${task.briefContent} \n       Deadline: ${deadline}"),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
