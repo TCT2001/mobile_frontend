@@ -12,6 +12,7 @@ class Task {
   late String? briefContent;
 
   factory Task.fromJson(Map<String, dynamic> json) {
+    print(json);
     return Task(
         id: json['id'],
         name: json['name'],

@@ -16,7 +16,7 @@ class MainLayoutPage extends GetView<MainLayoutController> {
   MainLayoutPage({Key? key}) : super(key: key);
 
   static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
+  TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
   List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     ProjectPage(),

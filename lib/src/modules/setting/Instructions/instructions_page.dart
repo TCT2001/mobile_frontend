@@ -19,6 +19,7 @@ class _InstructionsPageState extends State<InstructionsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xff2d5f79),
         title: Text('Slider App'),
       ),
       body: Center(

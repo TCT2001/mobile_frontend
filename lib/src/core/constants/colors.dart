@@ -13,3 +13,4 @@ const Color Betsy = Color(0xff73c6d9);
 const Color BathWater = Color(0xff88e8f2);
 const Color Bg = Color(0xffffffff);
 const Color Red = Color (0xffff0000);
+const Color lo = Color (0xff211f35);

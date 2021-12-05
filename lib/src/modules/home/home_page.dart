@@ -70,15 +70,16 @@ class _MyHomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xff2d5f79),
         title: Text('Home'),
       ),
       body:
 
-           Container(
-               decoration: const BoxDecoration(
-                 image: DecorationImage(image: AssetImage("assets/images/girl.jpg"), fit: BoxFit.cover),
+      Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(image: AssetImage("assets/images/girl.jpg"), fit: BoxFit.cover),
 
-               ),
+          ),
           child: Padding(
               padding: const EdgeInsets.all(150),
               child: SizedBox(

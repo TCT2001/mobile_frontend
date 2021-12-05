@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:mobile_app/src/core/constants/colors.dart';
 import 'package:mobile_app/src/data/models/payload/noti_resp.dart';
 import 'package:mobile_app/src/data/services/auth_service.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
@@ -14,6 +15,7 @@ class NotiPage extends StatefulWidget {
 
   AppBar? projectAppBar() {
     return AppBar(
+
       title: const Text('Notifications'),
       automaticallyImplyLeading: false,
       actionsIconTheme:
@@ -41,41 +43,41 @@ class NotiPage extends StatefulWidget {
 
   }
 
- @override
+  @override
   Widget build(BuildContext context) {
-   return Scaffold(
-     appBar: projectAppBar(),
-     body: Container(
-         decoration: const BoxDecoration(
-           image: DecorationImage(image: AssetImage("assets/images/girl.jpg"), fit: BoxFit.cover),
+    return Scaffold(
+      appBar: projectAppBar(),
+      body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(image: AssetImage("assets/images/girl.jpg"), fit: BoxFit.cover),
 
-         ),
+          ),
 
-         child: Padding(
-             padding: const EdgeInsets.all(130),
+          child: Padding(
+              padding: const EdgeInsets.all(130),
 
-             child: SizedBox(
-               height: MediaQuery.of(context).size.height,
-               child: Column(
-                   mainAxisAlignment: MainAxisAlignment.center,
-                   crossAxisAlignment: CrossAxisAlignment.center,
-                   children: const [
-                     Text("Notification page",
-                         style: TextStyle(
-                             color: Color(0xff88e8f2),
-                             fontWeight: FontWeight.bold,
-                             fontSize: 20)),
-                     SizedBox(height: 28),
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: const [
+                      Text("Notification page",
+                          style: TextStyle(
+                              color: Color(0xff88e8f2),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20)),
+                      SizedBox(height: 28),
 
-                     SizedBox(height: 28),
+                      SizedBox(height: 28),
 
 
-                   ]),
-             )
-         )),
-   )
-   ;
- }
+                    ]),
+              )
+          )),
+    )
+    ;
+  }
 }
 
 class _NotificationPageState extends State<NotiPage> {
@@ -90,8 +92,13 @@ class _NotificationPageState extends State<NotiPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Notification")),
-      body: FutureBuilder<List<NotificationCustom>>(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+          backgroundColor: Color(0xff2d5f79),
+          title: Text("Notification")),
+      body:
+      FutureBuilder<List<NotificationCustom>>(
+
           future: notification,
           builder: (context, snapshot) {
             if (snapshot.data == null) {
@@ -103,6 +110,7 @@ class _NotificationPageState extends State<NotiPage> {
                 itemCount: data.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Card(
+                    color: BathWater,
                     margin: const EdgeInsets.all(10),
                     child: ListTile(
                       title: Text(data[index].toString()),

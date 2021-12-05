@@ -7,6 +7,7 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
+import 'package:mobile_app/src/core/constants/colors.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/task.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
@@ -49,6 +50,7 @@ class TaskUserPage extends GetView<TaskUserController> {
 //TODO
   AppBar? taskAppBar() {
     return AppBar(
+        backgroundColor: Color(0xff2d5f79),
         title: Text('Tasks of User'),
         automaticallyImplyLeading: false,
         leading: GestureDetector(
@@ -58,7 +60,7 @@ class TaskUserPage extends GetView<TaskUserController> {
           ),
         ),
         actionsIconTheme:
-            IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
+        IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
         actions: <Widget>[
           Padding(
               padding: EdgeInsets.only(right: 20.0),
@@ -81,15 +83,15 @@ class TaskUserPage extends GetView<TaskUserController> {
           children: <Widget>[
             Container(
                 child: TextField(
-              controller: searchController,
-              decoration: const InputDecoration(
-                icon: Icon(Icons.search),
-              ),
-              onChanged: (String? value) {
-                controller.searchByName(value!);
-                controller.update();
-              },
-            )),
+                  controller: searchController,
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.search),
+                  ),
+                  onChanged: (String? value) {
+                    controller.searchByName(value!);
+                    controller.update();
+                  },
+                )),
             Expanded(
               child: Container(child: customBody()),
             )
@@ -113,9 +115,9 @@ class TaskUserPage extends GetView<TaskUserController> {
           isLoading: controller.isLastPage,
           child: ListTileTheme(
             contentPadding: EdgeInsets.all(15),
-            iconColor: Colors.red,
-            textColor: Colors.black54,
-            tileColor: Colors.yellow[100],
+            iconColor: Colors.black45,
+            textColor: Colors.black,
+            tileColor: BathWater,
             style: ListTileStyle.list,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
@@ -133,10 +135,11 @@ class TaskUserPage extends GetView<TaskUserController> {
                     });
                   },
                   child: Card(
+                    color: BathWater,
                     margin: const EdgeInsets.all(10),
                     child: ListTile(
-                      title: Text("${task.taskState} va ${task.name}"),
-                      // subtitle: Text(""),
+                      title: Text("Name: ${task.name}"),
+                      subtitle: Text("State: ${task.taskState}"),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [

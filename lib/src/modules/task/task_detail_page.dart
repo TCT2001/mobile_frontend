@@ -38,6 +38,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
 
   AppBar? taskDetailAppBar() {
     return AppBar(
+      backgroundColor: Color(0xff2d5f79),
       title: Text('Task detail'),
       automaticallyImplyLeading: false,
       leading: GestureDetector(
@@ -221,47 +222,47 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Obx(() => DropdownButton<String>(
-                            // Set the Items of DropDownButton
-                            items: [
-                              DropdownMenuItem(
-                                value: "CRITICAL",
-                                child: Text(
-                                  "Critcal Priority",
-                                ),
-                              ),
-                              DropdownMenuItem(
-                                value: "MAJOR",
-                                child: Text(
-                                  "Major Priority",
-                                ),
-                              ),
-                              DropdownMenuItem(
-                                value: "NORMAL",
-                                child: Text(
-                                  "Normal Priority",
-                                ),
-                              ),
-                              DropdownMenuItem(
-                                value: "MINOR",
-                                child: Text(
-                                  "Minor Priority",
-                                ),
-                              ),
-                            ],
-                            value: controller.selectedPriority.value.toString(),
-                            hint: const Text('Select Task Priority'),
-                            isExpanded: true,
-                            onChanged: (selectedValue) {
-                              controller.selectedPriority.value =
-                                  selectedValue!;
-                            },
-                          )),
+                        // Set the Items of DropDownButton
+                        items: [
+                          DropdownMenuItem(
+                            value: "CRITICAL",
+                            child: Text(
+                              "Critcal Priority",
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: "MAJOR",
+                            child: Text(
+                              "Major Priority",
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: "NORMAL",
+                            child: Text(
+                              "Normal Priority",
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: "MINOR",
+                            child: Text(
+                              "Minor Priority",
+                            ),
+                          ),
+                        ],
+                        value: controller.selectedPriority.value.toString(),
+                        hint: const Text('Select Task Priority'),
+                        isExpanded: true,
+                        onChanged: (selectedValue) {
+                          controller.selectedPriority.value =
+                          selectedValue!;
+                        },
+                      )),
                       ElevatedButton(
                         onPressed: () async {
                           Get.back();
                           CommonResp? commonResp =
-                              await controller.updatePriority(taskClicked,
-                                  controller.selectedPriority.value.toString());
+                          await controller.updatePriority(taskClicked,
+                              controller.selectedPriority.value.toString());
                           if (commonResp == null) {
                             customSnackBar("Update Priority",
                                 "Some expected error happened",
@@ -317,8 +318,8 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                         onPressed: () async {
                           Get.back();
                           CommonResp? commonResp =
-                              await controller.updateContent(
-                                  taskClicked, newContentController.text);
+                          await controller.updateContent(
+                              taskClicked, newContentController.text);
                           if (commonResp == null) {
                             customSnackBar("UpdateContent",
                                 "Some unexpected error happened",
@@ -367,6 +368,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
         appBar: taskDetailAppBar(),
         body: Column(
           children: <Widget>[

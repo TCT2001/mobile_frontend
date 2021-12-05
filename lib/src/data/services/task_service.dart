@@ -104,8 +104,8 @@ class TaskService {
     }
   }
 
-  static Future<CommonResp?> create(
-      String newName, String newContent, String newState, String newPriority, String deadline, int id) async {
+  static Future<CommonResp?> create(String newName, String newContent,
+      String newState, String newPriority, String deadline, int id) async {
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
     var response = await client.post(Uri.parse('$baseURL/task/create'),
         headers: authHeader(token!),
