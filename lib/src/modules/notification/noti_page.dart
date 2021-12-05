@@ -116,7 +116,7 @@ class _NotificationPageState extends State<NotiPage> {
                     margin: const EdgeInsets.all(10),
                     child: ListTile(
                       title: Text(data[index].toString()),
-                      subtitle: Text(data[index].doerUsername),
+                      // subtitle: Text(data[index].doerUsername),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [

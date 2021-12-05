@@ -595,7 +595,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                       children: <Widget>[
                         Text("Select Task Deadline"),
                         const SizedBox(
-                          height: 4, width: 175,
+                          height: 1, width: 175,
                         ),
                         IconButton(
                             onPressed: () async {
