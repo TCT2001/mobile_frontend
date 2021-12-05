@@ -250,7 +250,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
             appBar: appBar(snapshot.data!.role!, context),
             body: Column(
               children: <Widget>[
-                Container(child: showDetail(snapshot)),
+                // Container(child: showDetail(snapshot)),
                 TextField(
                   controller: searchController,
                   decoration: const InputDecoration(
