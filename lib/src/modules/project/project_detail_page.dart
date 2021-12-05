@@ -432,7 +432,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
     Get.put(TaskProjectController(projectId: id));
     Get.bottomSheet(
       Container(
-          height: 400,
+          height: 850,
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
               topRight: Radius.circular(16),
@@ -474,7 +474,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                       ),
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 6,
                     ),
                     TextFormField(
                       controller: newContentController,
@@ -493,7 +493,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                       ),
                     ),
                     const SizedBox(
-                      height: 6,
+                      height: 4,
                     ),
                     Text("Select Task State"),
                     Obx(() => DropdownButton<String>(
@@ -550,7 +550,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                       },
                     )),
                     const SizedBox(
-                      height: 6,
+                      height: 4,
                     ),
                     Text("Select Task Priority"),
                     Obx(() => DropdownButton<String>(
@@ -595,7 +595,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                       children: <Widget>[
                         Text("Select Task Deadline"),
                         const SizedBox(
-                          width: 175,
+                          height: 4, width: 175,
                         ),
                         IconButton(
                             onPressed: () async {

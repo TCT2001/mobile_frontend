@@ -196,29 +196,29 @@ void updateStateDialog(Task task, var controller) {
               DropdownMenuItem(
                 value: "SUBMITTED",
                 child: Text(
-                  "SUBMITTED",
+                  "Submitted",
                 ),
               ),
               DropdownMenuItem(
                 value: "IN_PROCESS",
                 child: Text(
-                  "IN PROCESS",
+                  "In process",
                 ),
               ),
               DropdownMenuItem(
                 value: "INCOMPLETE",
                 child: Text(
-                  "INCOMPLETE",
+                  "Incomplete",
                 ),
               ),
               DropdownMenuItem(
                 value: "TO_BE_DISCUSSED",
                 child: Text(
-                  "TO BE DISCUSSED",
+                  "To be discussed",
                 ),
               ),
               DropdownMenuItem(
-                value: "DONE",
+                value: "Done",
                 child: Text(
                   "DONE",
                 ),
@@ -226,13 +226,13 @@ void updateStateDialog(Task task, var controller) {
               DropdownMenuItem(
                 value: "DUPLICATE",
                 child: Text(
-                  "DUPLICATE",
+                  "Duplicate",
                 ),
               ),
               DropdownMenuItem(
                 value: "OBSOLETE",
                 child: Text(
-                  "OBSOLETE",
+                  "Obsolete",
                 ),
               ),
             ],
@@ -285,25 +285,25 @@ void updatePriorityDialog(Task task, var controller) {
               DropdownMenuItem(
                 value: "CRITICAL",
                 child: Text(
-                  "Critcal Priority",
+                  "Critical Priority",
                 ),
               ),
               DropdownMenuItem(
                 value: "MAJOR",
                 child: Text(
-                  "Major Priority",
+                  "Major",
                 ),
               ),
               DropdownMenuItem(
                 value: "NORMAL",
                 child: Text(
-                  "Normal Priority",
+                  "Normal",
                 ),
               ),
               DropdownMenuItem(
                 value: "MINOR",
                 child: Text(
-                  "Minor Priority",
+                  "Minor",
                 ),
               ),
             ],
