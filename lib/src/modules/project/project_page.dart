@@ -299,7 +299,10 @@ class _ProjectPageState extends State<ProjectPage> {
             renameDialog(project);
             textController.text = "";
           },
-          icon: const Icon(Icons.edit, color: Colors.blue,));
+          icon: const Icon(
+            Icons.edit,
+            color: Colors.blue,
+          ));
     }
     return const SizedBox.shrink();
   }
@@ -353,8 +356,11 @@ class _ProjectPageState extends State<ProjectPage> {
         margin: const EdgeInsets.all(10),
         child: Column(children: [
           ListTile(
-            title: Text(heading, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
-            subtitle: Text(subheading),
+            title: Text(
+              "\u{1F4D1}  $heading",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            subtitle: Text("\u{1F511}    $subheading"),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -364,7 +370,7 @@ class _ProjectPageState extends State<ProjectPage> {
             ),
           ),
           Container(
-            height: 40,
+            height: 35,
             margin: EdgeInsets.only(right: 10),
             child: ListView.builder(
                 reverse: true,

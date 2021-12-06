@@ -5,6 +5,8 @@
 
 background image: (https://user-images.githubusercontent.com/81580234/144606427-a3ff0d19-c1f6-46e6-b916-e1eb4a7b272d.jpg)
 
+http://unicode.org/Public/emoji/1.0/emoji-data.txt 
+
 https://blog.waldo.io/flutter-card/
 
 Ctrl + .

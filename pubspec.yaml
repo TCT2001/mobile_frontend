@@ -52,6 +52,7 @@ dependencies:
   flutter_search_bar: ^2.1.0
   date_format: ^2.0.4
   carousel_slider: ^4.0.0
+  hexcolor: ^2.0.5
 
 dev_dependencies:
   flutter_test:
