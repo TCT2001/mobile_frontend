@@ -37,7 +37,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
     super.initState();
     // project = controller.find(id);
     task = controller.find(id);
-    userId = getStringLocalStorge(LocalStorageKey.USER_ID.toString());
+    userId = getIntLocalStorge(LocalStorageKey.USER_ID.toString());
   }
 
   AppBar? taskDetailAppBar() {
@@ -475,42 +475,5 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
         ],
       ),
     );
-  }
-
-  Card buildCard() {
-    var heading = "1";
-    var subheading = "2";
-    return Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        elevation: 4.0,
-        margin: const EdgeInsets.all(10),
-        child: Column(children: [
-          ListTile(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            title: Text(
-              "\u{1F4D1}  $heading",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            subtitle: Text("\u{1F511}    $subheading"),
-          ),
-          Container(
-            height: 35,
-            margin: EdgeInsets.only(right: 10),
-            // child: ListView.builder(
-            //     reverse: true,
-            //     scrollDirection: Axis.horizontal,
-            //     itemCount: list.length > 5 ? 5 : list.length,
-            //     itemBuilder: (_, index) {
-            //       final id = list[index].id % 256 + 256;
-            //       final hexString = id.toRadixString(16);
-            //       return Image.network(
-            //           "https://ui-avatars.com/api/?name=${list[index].email}&color=$hexString");
-            //     }),
-          ),
-        ]));
   }
 }

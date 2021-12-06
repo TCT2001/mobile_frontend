@@ -26,6 +26,8 @@ Several Splash:
 - [getx tutorial](https://www.youtube.com/watch?v=wtHBsvj2QKA&list=PLCaS22Sjc8YR32XmudgmVqs49t-eKKr9t)
 - [getx pattern](https://github.com/kauemurakami/getx_pattern)
 
+
+https://www.flutterclutter.dev/flutter/tutorials/how-to-add-a-border-to-a-widget/2020/587/
 # Settings
 
 - Signout

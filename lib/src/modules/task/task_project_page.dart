@@ -115,7 +115,6 @@ Widget taskProjectList(Project project, var controller) {
                     color: BathWater,
                     margin: const EdgeInsets.all(10),
                     child: Column(children: [
-
                       ListTile(
                         leading: Icon(Icons.arrow_drop_down_circle),
                         title: Text(

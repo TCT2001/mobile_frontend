@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +7,7 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:mobile_app/src/core/constants/colors.dart';
 import 'package:mobile_app/src/core/utils/lazy_load_scroll_view.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
@@ -150,7 +151,7 @@ class TaskUserPage extends GetView<TaskUserController> {
             contentPadding: EdgeInsets.all(15),
             iconColor: Colors.black45,
             textColor: Colors.black,
-            tileColor: BathWater,
+            tileColor: Colors.white,
             style: ListTileStyle.list,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
@@ -160,53 +161,125 @@ class TaskUserPage extends GetView<TaskUserController> {
               itemCount: _items.length,
               itemBuilder: (_, index) {
                 Task task = _items[index];
-                String deadline = task.deadline ?? "no set";
                 return GestureDetector(
-                    onTap: () {
-                      Get.toNamed(Routes.TASK_DETAIL_PAGE, arguments: {
-                        "id": _items[index].id,
-                        "task": _items[index]
-                      });
-                    },
-                    child: Card(
-                      color: BathWater,
-                      margin: const EdgeInsets.all(10),
-                      child: Column(children: [
-                        ListTile(
-                          leading: Icon(Icons.arrow_drop_down_circle),
-                          title: Text("📄 Task: ${task.name}"),
-                          subtitle: Text(
-                              "\n📋  BriefContent: ${task.briefContent} \n      Deadline: ${deadline}"),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              renameIconWidget(
-                                  _items[index].role!, _items[index]),
-                              deleteIconWidget(
-                                  _items[index].role!, _items[index])
-                            ],
-                          ),
-                        ),
-                        ButtonBar(alignment: MainAxisAlignment.end, children: [
-                          TextButton(
-                            onPressed: () {
-                              // Perform some action
-                            },
-                            child: Text('${task.taskState}'),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              // Perform some action
-                            },
-                            child: Text('${task.priority}'),
-                          )
-                        ])
-                      ]),
-                    ));
+                  onTap: () {
+                    Get.toNamed(Routes.TASK_DETAIL_PAGE, arguments: {
+                      "id": _items[index].id,
+                      "task": _items[index]
+                    });
+                  },
+                  child: buildCard(task),
+                  // child: Card(
+                  //   color: BathWater,
+                  //   margin: const EdgeInsets.all(10),
+                  //   child: Column(children: [
+                  //     ListTile(
+                  //       leading: Icon(Icons.arrow_drop_down_circle),
+                  //       title: Text("📄 Task: ${task.name}"),
+                  //       subtitle: Text(
+                  //           "\n📋  BriefContent: ${task.briefContent} \n      Deadline: ${deadline}"),
+                  //       trailing: Row(
+                  //         mainAxisSize: MainAxisSize.min,
+                  //         children: [
+                  //           renameIconWidget(
+                  //               _items[index].role!, _items[index]),
+                  //           deleteIconWidget(
+                  //               _items[index].role!, _items[index])
+                  //         ],
+                  //       ),
+                  //     ),
+                  //     ButtonBar(alignment: MainAxisAlignment.end, children: [
+                  //       TextButton(
+                  //         onPressed: () {
+                  //           // Perform some action
+                  //         },
+                  //         child: Text('${task.taskState}'),
+                  //       ),
+                  //       TextButton(
+                  //         onPressed: () {
+                  //           // Perform some action
+                  //         },
+                  //         child: Text('${task.priority}'),
+                  //       )
+                  //     ])
+                  //   ]),
+                  // )
+                );
               },
             ),
           ));
     });
+  }
+
+  Card buildCard(Task task) {
+    String deadline = task.deadline ?? "no set";
+    var subheading = task.name;
+    return Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        elevation: 4.0,
+        margin: const EdgeInsets.all(10),
+        child: Column(children: [
+          Container(
+              margin: EdgeInsets.only(right: 20, top: 5, bottom: 0),
+              child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    // Positioned(
+                    //   left: 0,
+                    //   child: Text("${task.briefContent}",
+                    //       style: TextStyle(
+                    //           fontSize: 18, fontWeight: FontWeight.bold)),
+                    // ),
+                    Container(
+                      //color: HexColor("#1dd33f"),
+                      padding: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        color: HexColor("#4fddd6"),
+                          border: Border.all(
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(30)),
+                      child: Text(task.taskState!,
+                          style: TextStyle(
+                              color: HexColor("#352b2e"),
+                              fontWeight: FontWeight.bold)),
+                    ),
+                    SizedBox(width: 20),
+                    Container(
+                      padding: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                          color: HexColor("#e8688e"),
+                          border: Border.all(
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(30)),
+                      child: Text(task.priority!,
+                          style: TextStyle(
+                              color: HexColor("#352b2e"),
+                              fontWeight: FontWeight.bold)),
+                    ),
+                  ])),
+          ListTile(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            title: Text(
+              "${task.briefContent}",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            subtitle: Text("\u{1F511}    $subheading"),
+          ),
+          Container(
+              height: 15,
+              margin: EdgeInsets.only(right: 20, bottom: 2),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [Text("Deadline: $deadline")]))
+        ]));
   }
 
   void renameDialog(Task task) {
