@@ -237,7 +237,7 @@ class TaskUserPage extends GetView<TaskUserController> {
                       //color: HexColor("#1dd33f"),
                       padding: EdgeInsets.all(5),
                       decoration: BoxDecoration(
-                        color: HexColor("#4fddd6"),
+                          color: HexColor("#4fddd6"),
                           border: Border.all(
                             width: 1,
                           ),
@@ -271,6 +271,13 @@ class TaskUserPage extends GetView<TaskUserController> {
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             subtitle: Text("\u{1F511}    $subheading"),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                renameIconWidget(task.role!, task),
+                deleteIconWidget(task.role!, task)
+              ],
+            ),
           ),
           Container(
               height: 15,
