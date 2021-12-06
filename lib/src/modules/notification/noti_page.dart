@@ -97,6 +97,7 @@ class _NotificationPageState extends State<NotiPage> {
       appBar: AppBar(
           backgroundColor: Color(0xff2d5f79),
           title: Text("Notification")),
+
       body:
       FutureBuilder<List<NotificationCustom>>(
 

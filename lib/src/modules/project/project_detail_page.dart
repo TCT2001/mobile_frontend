@@ -53,6 +53,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   late TextEditingController invitedEmailController = TextEditingController();
   late TextEditingController newNameController = TextEditingController();
   late TextEditingController newContentController = TextEditingController();
+  TextEditingController searchController = TextEditingController(text: '');
 
   String invitedEmail = '';
   String role = '';
@@ -85,15 +86,15 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
         ),
       ),
       actions: <Widget>[
-        Padding(
-            padding: EdgeInsets.only(right: 20.0),
-            child: GestureDetector(
-              onTap: () {},
-              child: Icon(
-                Icons.search,
-                size: 26.0,
-              ),
-            )),
+        // Padding(
+        //     padding: EdgeInsets.only(right: 20.0),
+        //     child: GestureDetector(
+        //       onTap: () {},
+        //       child: Icon(
+        //         Icons.search,
+        //         size: 26.0,
+        //       ),
+        //     )),
         PopupMenuButton<int>(
           onSelected: (value) {
             if (value == 0) {
@@ -211,7 +212,16 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
         PopupMenuItem(child: Text('Create Task'), value: 1),
         PopupMenuItem(child: Text('Rename Project'), value: 2),
         PopupMenuItem(child: Text('Delete Project'), value: 3),
-        PopupMenuItem(child: Text('Members'), value: 4)
+        PopupMenuItem(child: Text('Members'), value: 4),
+        PopupMenuItem(child: TextField(controller: searchController,
+          decoration: const InputDecoration(
+            icon: Icon(Icons.search),
+          ),
+
+          onChanged: (String? value) {
+            controller.searchByName(value!);
+            controller.update();
+          },),)
       ];
     }
     else if (role == "ADMINISTRATOR") {
@@ -251,18 +261,19 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
             body: Column(
               children: <Widget>[
                 // Container(child: showDetail(snapshot)),
-                TextField(
-                  controller: searchController,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.search),
-                  ),
-                  onChanged: (String? value) {
-                    taskProjectController.searchByName(value!);
-                    controller.update();
-                  },
-                ),
+                // TextField(
+                //   controller: searchController,
+                //   decoration: const InputDecoration(
+                //     icon: Icon(Icons.search),
+                //   ),
+                //   onChanged: (String? value) {
+                //     taskProjectController.searchByName(value!);
+                //     controller.update();
+                //   },
+                // ),
                 Expanded(
                     child: Container(
+                        decoration: BoxDecoration(image: DecorationImage(image: Image.asset("assets/images/background.jpg").image, fit: BoxFit.cover)),
                         child:
                         showTaskList(snapshot.data, taskProjectController)))
               ],

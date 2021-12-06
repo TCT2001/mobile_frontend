@@ -1,6 +1,5 @@
 // ignore_for_file: must_be_immutable, prefer_const_constructors
 
-import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/src/core/constants/colors.dart';
@@ -31,15 +30,15 @@ class _ProjectPageState extends State<ProjectPage> {
     return DropdownButton<String>(
       items: const [
         DropdownMenuItem<String>(
-          child: Text('Deadline'),
+          child: Text('⏰ Deadline'),
           value: 'Deadline',
         ),
         DropdownMenuItem<String>(
-          child: Text('ASC'),
+          child: Text('      ASC'),
           value: 'ASC',
         ),
         DropdownMenuItem<String>(
-          child: Text('DESC'),
+          child: Text('      DESC'),
           value: 'DESC',
         ),
       ],
@@ -59,14 +58,29 @@ class _ProjectPageState extends State<ProjectPage> {
       title: const Text('ProjectPage'),
       automaticallyImplyLeading: false,
       actionsIconTheme:
-      IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
+          IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
       leading: GestureDetector(
-        onTap: () {/* Write listener code here */},
+        onTap: () {
+          /* Write listener code here */
+        },
         child: Icon(
           Icons.menu, // add custom icons also
         ),
       ),
       actions: <Widget>[
+        // Container(
+        //     width: 120,
+        //     child: TextField(
+        //       controller: searchController,
+        //       decoration: const InputDecoration(
+        //         icon: Icon(Icons.search, color: Color(0xffffffff),),
+        //       ),
+        //
+        //       onChanged: (String? value) {
+        //         controller.searchByName(value!);
+        //         controller.update();
+        //       },
+        //     )),
         PopupMenuButton<int>(
           onSelected: (value) {
             if (value == 0) {
@@ -77,9 +91,24 @@ class _ProjectPageState extends State<ProjectPage> {
           key: _key,
           itemBuilder: (context) {
             return <PopupMenuEntry<int>>[
-              PopupMenuItem(child: Text('☕ Create project'), value: 0, ),
+              PopupMenuItem(
+                child: Text('☕ Create project'),
+                value: 0,
+              ),
+              PopupMenuItem(child: sort()),
+              PopupMenuItem(
+                child: TextField(
+                  controller: searchController,
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.search),
+                  ),
+                  onChanged: (String? value) {
+                    controller.searchByName(value!);
+                    controller.update();
+                  },
+                ),
+              )
             ];
-
           },
         ),
       ],
@@ -94,22 +123,32 @@ class _ProjectPageState extends State<ProjectPage> {
         appBar: projectAppBar(context),
         body: Column(
           children: <Widget>[
-            Container(
-              child: sort(),
-            ),
-            Container(
-                child: TextField(
-                  controller: searchController,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.search),
-                  ),
-                  onChanged: (String? value) {
-                    controller.searchByName(value!);
-                    controller.update();
-                  },
-                )),
+            // Container(
+            //   child: sort(),
+            //   // decoration: BoxDecoration(image: DecorationImage(image: Image.asset("assets/images/background.jpg").image, fit: BoxFit.cover)),
+            // ),
+            // Container(
+            //   width: 90,
+            // child: TextField(
+            //   controller: searchController,
+            //   decoration: const InputDecoration(
+            //     icon: Icon(Icons.search),
+            //   ),
+            //
+            //   onChanged: (String? value) {
+            //     controller.searchByName(value!);
+            //     controller.update();
+            //   },
+            // )),
+
             Expanded(
-              child: Container(child: body()),
+              child: Container(
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image:
+                              Image.asset("assets/images/background.jpg").image,
+                          fit: BoxFit.cover)),
+                  child: body()),
             )
           ],
         ));
@@ -176,14 +215,10 @@ class _ProjectPageState extends State<ProjectPage> {
                 Get.back();
                 createOnPressed(textController.text);
               },
-              style: ElevatedButton.styleFrom(
-                  primary: Color(0xff2d5f79)
-              ),
+              style: ElevatedButton.styleFrom(primary: Color(0xff2d5f79)),
               child: const Text(
                 'Create',
-                style:
-                TextStyle(color: Colors.white, fontSize: 16.0),
-
+                style: TextStyle(color: Colors.white, fontSize: 16.0),
               ),
             )
           ],
@@ -220,7 +255,9 @@ class _ProjectPageState extends State<ProjectPage> {
                 'Rename',
                 style: TextStyle(color: Colors.white, fontSize: 16.0),
               ),
-              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Color(0xff2d5f79)) ),
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Color(0xff2d5f79))),
             )
           ],
         ),
@@ -270,20 +307,41 @@ class _ProjectPageState extends State<ProjectPage> {
                     });
                   },
                   child: Card(
-                    color: BathWater,
-                    margin: const EdgeInsets.all(10),
-                    child: ListTile(
-                      title: Text("☕ Project: $name"),
-                      subtitle: Text("\n📜 Role: $role\n      Owner: ${boss.email} \n      Team's number: $number"),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          renameIconWidget(_items[index].role!, _items[index]),
-                          deleteIconWidget(_items[index].role!, _items[index])
-                        ],
-                      ),
-                    ),
-                  ),
+                      color: BathWater,
+                      margin: const EdgeInsets.all(10),
+                      child: Column(children: [
+                        ListTile(
+                          leading: Icon(Icons.arrow_drop_down_circle),
+                          title: Text("☕ Project: $name",
+                              style: TextStyle(fontSize: 20)),
+                          subtitle: Text("\n📜 Owner: ${boss.email} \n ",
+                              style: TextStyle(
+                                  color: Colors.black.withOpacity(0.6))),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              renameIconWidget(
+                                  _items[index].role!, _items[index]),
+                              deleteIconWidget(
+                                  _items[index].role!, _items[index])
+                            ],
+                          ),
+                        ),
+                        ButtonBar(alignment: MainAxisAlignment.end, children: [
+                          TextButton(
+                            onPressed: () {
+                              // Perform some action
+                            },
+                            child: Text('${project.role}'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              // Perform some action
+                            },
+                            child: Text('Members: $number'),
+                          ),
+                        ])
+                      ])),
                 );
               },
             ),
@@ -342,9 +400,7 @@ class _ProjectPageState extends State<ProjectPage> {
   }
 }
 
-
 // class ProjectPage extends GetView<ProjectController> {
 //   ProjectPage({Key? key}) : super(key: key);
-
 
 // }
