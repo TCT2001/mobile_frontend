@@ -3,7 +3,10 @@
 "username": "tct@2001.com",
 "password": "Tct@2001" or "tuyen331"
 
-background image: (https://user-images.githubusercontent.com/81580234/144606427-a3ff0d19-c1f6-46e6-b916-e1eb4a7b272d.jpg)
+background image:  ![computer_girl_by_abbottcreations_d882cw1-fullview](https://user-images.githubusercontent.com/81580234/144733496-704997c2-5461-4a12-9dc9-8cc8b3971aa0.jpg)
+Splash:
+
+![Best](https://user-images.githubusercontent.com/81580234/144733465-56f0ef2b-4201-48f0-8e90-fd7ecaa28d27.gif)
 
 http://unicode.org/Public/emoji/1.0/emoji-data.txt 
 
