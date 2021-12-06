@@ -4,6 +4,7 @@ import 'package:date_format/date_format.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mobile_app/src/core/constants/colors.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/project.dart';
@@ -175,8 +176,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                     child: const Text("Yes"),
                     onPressed: () async {
                       Get.back();
-                      bool rs =
-                      await controller.deleteProject(clickedProject);
+                      bool rs = await controller.deleteProject(clickedProject);
                       if (rs) {
                         customSnackBar("Delete", "Success",
                             iconData: Icons.check_outlined,
@@ -213,18 +213,20 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
         PopupMenuItem(child: Text('Rename Project'), value: 2),
         PopupMenuItem(child: Text('Delete Project'), value: 3),
         PopupMenuItem(child: Text('Members'), value: 4),
-        PopupMenuItem(child: TextField(controller: searchController,
-          decoration: const InputDecoration(
-            icon: Icon(Icons.search),
+        PopupMenuItem(
+          child: TextField(
+            controller: searchController,
+            decoration: const InputDecoration(
+              icon: Icon(Icons.search),
+            ),
+            onChanged: (String? value) {
+              controller.searchByName(value!);
+              controller.update();
+            },
           ),
-
-          onChanged: (String? value) {
-            controller.searchByName(value!);
-            controller.update();
-          },),)
+        )
       ];
-    }
-    else if (role == "ADMINISTRATOR") {
+    } else if (role == "ADMINISTRATOR") {
       return <PopupMenuEntry<int>>[
         PopupMenuItem(child: Text('Invite'), value: 0),
         PopupMenuItem(child: Text('Create Task'), value: 1),
@@ -255,27 +257,25 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
             );
           }
           return Scaffold(
+            backgroundColor: Bg,
             key: _keyDraw,
             drawer: drawer(snapshot.data!.userDTOSet!),
             appBar: appBar(snapshot.data!.role!, context),
             body: Column(
               children: <Widget>[
-                // Container(child: showDetail(snapshot)),
-                // TextField(
-                //   controller: searchController,
-                //   decoration: const InputDecoration(
-                //     icon: Icon(Icons.search),
-                //   ),
-                //   onChanged: (String? value) {
-                //     taskProjectController.searchByName(value!);
-                //     controller.update();
-                //   },
-                // ),
+                Container(child: showDetail(snapshot)),
+                TextField(
+                  controller: searchController,
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.search),
+                  ),
+                  onChanged: (String? value) {
+                    taskProjectController.searchByName(value!);
+                    controller.update();
+                  },
+                ),
                 Expanded(
-                    child: Container(
-                        decoration: BoxDecoration(image: DecorationImage(image: Image.asset("assets/images/background.jpg").image, fit: BoxFit.cover)),
-                        child:
-                        showTaskList(snapshot.data, taskProjectController)))
+                    child: showTaskList(snapshot.data, taskProjectController))
               ],
             ),
           );
@@ -291,7 +291,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
         children: [
           const DrawerHeader(
             decoration: BoxDecoration(
-              color: Color(0xff88e8f2),
+              color: Colors.blue,
             ),
             child: Text("Members in project 👨‍💼"),
           ),
@@ -404,7 +404,6 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                         backgroundColor: Color(0xff2d5f79),
                         label: const Text('Invite'),
                         icon: const Icon(Icons.send),
-
                         onPressed: () async {
                           invitedEmail = invitedEmailController.text;
                           //TODO
@@ -459,12 +458,12 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // const Text(
-                    //   'Create Task',
-                    //   textAlign: TextAlign.center,
-                    //   style:
-                    //   TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    // ),
+                    const Text(
+                      'Create Task',
+                      textAlign: TextAlign.center,
+                      style:
+                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
                     const SizedBox(
                       height: 0,
                     ),
@@ -513,43 +512,43 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                         DropdownMenuItem(
                           value: "SUBMITTED",
                           child: Text(
-                            "Submitted",
+                            "SUBMITTED",
                           ),
                         ),
                         DropdownMenuItem(
                           value: "IN_PROCESS",
                           child: Text(
-                            "In process",
+                            "IN PROCESS",
                           ),
                         ),
                         DropdownMenuItem(
                           value: "INCOMPLETE",
                           child: Text(
-                            "Incomplete",
+                            "INCOMPLETE",
                           ),
                         ),
                         DropdownMenuItem(
                           value: "TO_BE_DISCUSSED",
                           child: Text(
-                            "To be discussed",
+                            "TO BE DISCUSSED",
                           ),
                         ),
                         DropdownMenuItem(
                           value: "DONE",
                           child: Text(
-                            "Done",
+                            "DONE",
                           ),
                         ),
                         DropdownMenuItem(
                           value: "DUPLICATE",
                           child: Text(
-                            "Duplicate",
+                            "DUPLICATE",
                           ),
                         ),
                         DropdownMenuItem(
                           value: "OBSOLETE",
                           child: Text(
-                            "Obsolete",
+                            "OBSOLETE",
                           ),
                         ),
                       ],
@@ -570,25 +569,25 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                         DropdownMenuItem(
                           value: "CRITICAL",
                           child: Text(
-                            "Critical",
+                            "Critcal Priority",
                           ),
                         ),
                         DropdownMenuItem(
                           value: "MAJOR",
                           child: Text(
-                            "Major",
+                            "Major Priority",
                           ),
                         ),
                         DropdownMenuItem(
                           value: "NORMAL",
                           child: Text(
-                            "Normal",
+                            "Normal Priority",
                           ),
                         ),
                         DropdownMenuItem(
                           value: "MINOR",
                           child: Text(
-                            "Minor",
+                            "Minor Priority",
                           ),
                         ),
                       ],
@@ -606,7 +605,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                       children: <Widget>[
                         Text("Select Task Deadline"),
                         const SizedBox(
-                          height: 1, width: 175,
+                          height: 1,
+                          width: 175,
                         ),
                         IconButton(
                             onPressed: () async {

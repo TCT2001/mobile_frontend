@@ -107,6 +107,7 @@ class TaskUserPage extends GetView<TaskUserController> {
   Widget build(BuildContext context) {
     TextEditingController searchController = TextEditingController(text: '');
     return Scaffold(
+        backgroundColor: Bg,
         appBar: taskAppBar(),
         body: Column(
           children: <Widget>[
@@ -120,15 +121,7 @@ class TaskUserPage extends GetView<TaskUserController> {
             //     controller.update();
             //   },
             // ),
-            Expanded(
-              child: Container(
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image:
-                          Image.asset("assets/images/background.jpg").image,
-                          fit: BoxFit.cover)),
-                  child: customBody()),
-            )
+            Expanded(child: customBody()),
           ],
         ));
   }
@@ -169,41 +162,6 @@ class TaskUserPage extends GetView<TaskUserController> {
                     });
                   },
                   child: buildCard(task),
-                  // child: Card(
-                  //   color: BathWater,
-                  //   margin: const EdgeInsets.all(10),
-                  //   child: Column(children: [
-                  //     ListTile(
-                  //       leading: Icon(Icons.arrow_drop_down_circle),
-                  //       title: Text("📄 Task: ${task.name}"),
-                  //       subtitle: Text(
-                  //           "\n📋  BriefContent: ${task.briefContent} \n      Deadline: ${deadline}"),
-                  //       trailing: Row(
-                  //         mainAxisSize: MainAxisSize.min,
-                  //         children: [
-                  //           renameIconWidget(
-                  //               _items[index].role!, _items[index]),
-                  //           deleteIconWidget(
-                  //               _items[index].role!, _items[index])
-                  //         ],
-                  //       ),
-                  //     ),
-                  //     ButtonBar(alignment: MainAxisAlignment.end, children: [
-                  //       TextButton(
-                  //         onPressed: () {
-                  //           // Perform some action
-                  //         },
-                  //         child: Text('${task.taskState}'),
-                  //       ),
-                  //       TextButton(
-                  //         onPressed: () {
-                  //           // Perform some action
-                  //         },
-                  //         child: Text('${task.priority}'),
-                  //       )
-                  //     ])
-                  //   ]),
-                  // )
                 );
               },
             ),
@@ -558,7 +516,7 @@ class TaskUserPage extends GetView<TaskUserController> {
             renameDialog(task);
             nameController.text = "";
           },
-          icon: const Icon(Icons.edit));
+          icon: const Icon(Icons.edit), color: Colors.blue);
     }
     return const SizedBox.shrink();
   }
@@ -566,7 +524,7 @@ class TaskUserPage extends GetView<TaskUserController> {
   Widget deleteIconWidget(String role, Task task) {
     if (role == "OWNER" || role == "ADMINISTRATOR") {
       return IconButton(
-        icon: const Icon(Icons.delete),
+        icon: const Icon(Icons.delete, color: Colors.red),
         onPressed: () {
           Get.defaultDialog(
             title: "Confirm",
