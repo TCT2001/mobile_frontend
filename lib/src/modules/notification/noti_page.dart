@@ -46,6 +46,7 @@ class NotiPage extends StatefulWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Bg,
       appBar: projectAppBar(),
       body: Container(
           decoration: const BoxDecoration(
@@ -92,7 +93,7 @@ class _NotificationPageState extends State<NotiPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Bg,
       appBar: AppBar(
           backgroundColor: Color(0xff2d5f79),
           title: Text("Notification")),

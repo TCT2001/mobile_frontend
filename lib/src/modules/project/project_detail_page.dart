@@ -4,6 +4,7 @@ import 'package:date_format/date_format.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mobile_app/src/core/constants/colors.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/project.dart';
@@ -212,15 +213,18 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
         PopupMenuItem(child: Text('Rename Project'), value: 2),
         PopupMenuItem(child: Text('Delete Project'), value: 3),
         PopupMenuItem(child: Text('Members'), value: 4),
-        PopupMenuItem(child: TextField(controller: searchController,
-          decoration: const InputDecoration(
-            icon: Icon(Icons.search),
+        PopupMenuItem(
+          child: TextField(
+            controller: searchController,
+            decoration: const InputDecoration(
+              icon: Icon(Icons.search),
+            ),
+            onChanged: (String? value) {
+              controller.searchByName(value!);
+              controller.update();
+            },
           ),
-
-          onChanged: (String? value) {
-            controller.searchByName(value!);
-            controller.update();
-          },),)
+        )
       ];
     } else if (role == "ADMINISTRATOR") {
       return <PopupMenuEntry<int>>[
@@ -253,27 +257,25 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
             );
           }
           return Scaffold(
+            backgroundColor: Bg,
             key: _keyDraw,
             drawer: drawer(snapshot.data!.userDTOSet!),
             appBar: appBar(snapshot.data!.role!, context),
             body: Column(
               children: <Widget>[
-                // Container(child: showDetail(snapshot)),
-                // TextField(
-                //   controller: searchController,
-                //   decoration: const InputDecoration(
-                //     icon: Icon(Icons.search),
-                //   ),
-                //   onChanged: (String? value) {
-                //     taskProjectController.searchByName(value!);
-                //     controller.update();
-                //   },
-                // ),
+                Container(child: showDetail(snapshot)),
+                TextField(
+                  controller: searchController,
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.search),
+                  ),
+                  onChanged: (String? value) {
+                    taskProjectController.searchByName(value!);
+                    controller.update();
+                  },
+                ),
                 Expanded(
-                    child: Container(
-                        decoration: BoxDecoration(image: DecorationImage(image: Image.asset("assets/images/background.jpg").image, fit: BoxFit.cover)),
-                        child:
-                            showTaskList(snapshot.data, taskProjectController)))
+                    child: showTaskList(snapshot.data, taskProjectController))
               ],
             ),
           );
@@ -603,7 +605,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                       children: <Widget>[
                         Text("Select Task Deadline"),
                         const SizedBox(
-                          height: 1, width: 175,
+                          height: 1,
+                          width: 175,
                         ),
                         IconButton(
                             onPressed: () async {

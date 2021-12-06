@@ -106,7 +106,7 @@ class _ProjectPageState extends State<ProjectPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Bg,
+      backgroundColor: Bg,
         appBar: projectAppBar(context),
         body: Column(
           children: <Widget>[
