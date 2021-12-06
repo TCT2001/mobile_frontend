@@ -3,9 +3,20 @@
 "username": "tct@2001.com",
 "password": "Tct@2001" or "tuyen331"
 
-background image: (https://user-images.githubusercontent.com/81580234/144606427-a3ff0d19-c1f6-46e6-b916-e1eb4a7b272d.jpg)
+background image:  ![computer_girl_by_abbottcreations_d882cw1-fullview](https://user-images.githubusercontent.com/81580234/144733496-704997c2-5461-4a12-9dc9-8cc8b3971aa0.jpg)
+Splash:
+
+![Best](https://user-images.githubusercontent.com/81580234/144733465-56f0ef2b-4201-48f0-8e90-fd7ecaa28d27.gif)
+
+http://unicode.org/Public/emoji/1.0/emoji-data.txt 
+
+https://blog.waldo.io/flutter-card/
 
 Ctrl + .
+
+Several Splash: 
+![J59](https://user-images.githubusercontent.com/81580234/144733422-203d405b-c0ed-45b8-aad5-0691d8d50db8.gif)
+![VJl](https://user-images.githubusercontent.com/81580234/144733432-3287a883-5f49-4a40-accb-dc305ecf747a.gif)
 
 - https://stackoverflow.com/questions/60285825/dart-cannot-convert-listdynamic-to-listmapstring-dynamic-despite-cast
 - https://stackoverflow.com/questions/55150329/flutter-searchdelegate-on-search-i-have-to-make-api-after-getting-response-i
@@ -15,6 +26,8 @@ Ctrl + .
 - [getx tutorial](https://www.youtube.com/watch?v=wtHBsvj2QKA&list=PLCaS22Sjc8YR32XmudgmVqs49t-eKKr9t)
 - [getx pattern](https://github.com/kauemurakami/getx_pattern)
 
+
+https://www.flutterclutter.dev/flutter/tutorials/how-to-add-a-border-to-a-widget/2020/587/
 # Settings
 
 - Signout

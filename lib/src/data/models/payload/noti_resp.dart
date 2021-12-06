@@ -13,9 +13,9 @@ class NotificationCustom {
 
   factory NotificationCustom.fromJson(Map<String, dynamic> map) {
     return NotificationCustom(
-        projectId: map['projectId'],
-        message: map['message'],
-        doerUsername: map['doerUsername']
+      projectId: map['projectId'],
+      message: map['message'],
+      doerUsername: map['doerUsername']
     );
   }
 

@@ -52,9 +52,7 @@ dependencies:
   flutter_search_bar: ^2.1.0
   date_format: ^2.0.4
   carousel_slider: ^4.0.0
-  cloud_firestore: ^2.5.4
-  firebase_auth: ^3.1.4
-  provider: ^6.0.1
+  hexcolor: ^2.0.5
 
 dev_dependencies:
   flutter_test:
@@ -91,6 +89,8 @@ flutter:
     - assets/images/4.PNG
     - assets/images/5.PNG
     - assets/images/girl.jpg
+    - assets/images/Best.gif
+    - assets/images/background.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

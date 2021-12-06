@@ -4,6 +4,7 @@ import 'package:date_format/date_format.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mobile_app/src/core/constants/colors.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/project.dart';
@@ -53,6 +54,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   late TextEditingController invitedEmailController = TextEditingController();
   late TextEditingController newNameController = TextEditingController();
   late TextEditingController newContentController = TextEditingController();
+  TextEditingController searchController = TextEditingController(text: '');
 
   String invitedEmail = '';
   String role = '';
@@ -72,7 +74,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
       title: const Text('ProjectDetailPage'),
       automaticallyImplyLeading: false,
       actionsIconTheme:
-      IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
+          IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
       backgroundColor: Color(0xff2d5f79),
       leading: GestureDetector(
         onTap: () {
@@ -85,15 +87,15 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
         ),
       ),
       actions: <Widget>[
-        Padding(
-            padding: EdgeInsets.only(right: 20.0),
-            child: GestureDetector(
-              onTap: () {},
-              child: Icon(
-                Icons.search,
-                size: 26.0,
-              ),
-            )),
+        // Padding(
+        //     padding: EdgeInsets.only(right: 20.0),
+        //     child: GestureDetector(
+        //       onTap: () {},
+        //       child: Icon(
+        //         Icons.search,
+        //         size: 26.0,
+        //       ),
+        //     )),
         PopupMenuButton<int>(
           onSelected: (value) {
             if (value == 0) {
@@ -128,8 +130,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                         onPressed: () async {
                           Get.back();
                           CommonResp? commonResp =
-                          await controller.renameProject(
-                              Project.id(id: id), newNameController.text);
+                              await controller.renameProject(
+                                  Project.id(id: id), newNameController.text);
                           if (commonResp == null) {
                             customSnackBar(
                                 "Rename", "Some expected error happened",
@@ -174,8 +176,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                     child: const Text("Yes"),
                     onPressed: () async {
                       Get.back();
-                      bool rs =
-                      await controller.deleteProject(clickedProject);
+                      bool rs = await controller.deleteProject(clickedProject);
                       if (rs) {
                         customSnackBar("Delete", "Success",
                             iconData: Icons.check_outlined,
@@ -211,10 +212,21 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
         PopupMenuItem(child: Text('Create Task'), value: 1),
         PopupMenuItem(child: Text('Rename Project'), value: 2),
         PopupMenuItem(child: Text('Delete Project'), value: 3),
-        PopupMenuItem(child: Text('Members'), value: 4)
+        PopupMenuItem(child: Text('Members'), value: 4),
+        PopupMenuItem(
+          child: TextField(
+            controller: searchController,
+            decoration: const InputDecoration(
+              icon: Icon(Icons.search),
+            ),
+            onChanged: (String? value) {
+              controller.searchByName(value!);
+              controller.update();
+            },
+          ),
+        )
       ];
-    }
-    else if (role == "ADMINISTRATOR") {
+    } else if (role == "ADMINISTRATOR") {
       return <PopupMenuEntry<int>>[
         PopupMenuItem(child: Text('Invite'), value: 0),
         PopupMenuItem(child: Text('Create Task'), value: 1),
@@ -232,7 +244,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   Widget build(BuildContext context) {
     TextEditingController searchController = TextEditingController();
     TaskProjectController taskProjectController =
-    Get.put(TaskProjectController(projectId: id));
+        Get.put(TaskProjectController(projectId: id));
 
     return FutureBuilder<Project>(
         future: project,
@@ -245,6 +257,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
             );
           }
           return Scaffold(
+            backgroundColor: Bg,
             key: _keyDraw,
             drawer: drawer(snapshot.data!.userDTOSet!),
             appBar: appBar(snapshot.data!.role!, context),
@@ -262,9 +275,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                   },
                 ),
                 Expanded(
-                    child: Container(
-                        child:
-                        showTaskList(snapshot.data, taskProjectController)))
+                    child: showTaskList(snapshot.data, taskProjectController))
               ],
             ),
           );
@@ -280,9 +291,9 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
         children: [
           const DrawerHeader(
             decoration: BoxDecoration(
-              color: Color(0xff88e8f2),
+              color: Colors.blue,
             ),
-            child: Text("Members in project"),
+            child: Text("Members in project 👨‍💼"),
           ),
           Container(
               height: double.maxFinite,
@@ -293,18 +304,18 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                     final hexString = id.toRadixString(16);
                     return Card(
                         child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            ListTile(
-                              leading: CircleAvatar(
-                                child: Image.network(
-                                    "https://ui-avatars.com/api/?name=${members[i].email}&color=$hexString"),
-                              ),
-                              title: Text(members[i].toString()),
-                              subtitle: Text('TWICE'),
-                            ),
-                          ],
-                        ));
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        ListTile(
+                          leading: CircleAvatar(
+                            child: Image.network(
+                                "https://ui-avatars.com/api/?name=${members[i].email}&color=$hexString"),
+                          ),
+                          title: Text(members[i].toString()),
+                          subtitle: Text('TWICE'),
+                        ),
+                      ],
+                    ));
                   })),
           // ListTile(
           //   title: const Text('Close'),
@@ -357,7 +368,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                     const Text(
                       'Invite',
                       style:
-                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
                       height: 8,
@@ -393,7 +404,6 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                         backgroundColor: Color(0xff2d5f79),
                         label: const Text('Invite'),
                         icon: const Icon(Icons.send),
-
                         onPressed: () async {
                           invitedEmail = invitedEmailController.text;
                           //TODO
@@ -429,10 +439,10 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
 
   void showCreateTaskForm() {
     TaskProjectController taskController =
-    Get.put(TaskProjectController(projectId: id));
+        Get.put(TaskProjectController(projectId: id));
     Get.bottomSheet(
       Container(
-          height: 250,
+          height: 850,
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
               topRight: Radius.circular(16),
@@ -441,8 +451,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
             // color: Colors.white,
             color: Color(0xff88e8f2),
           ),
-          child: Form(
-            key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
             child: ListView(
               children: [
                 Column(
@@ -452,10 +462,10 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                       'Create Task',
                       textAlign: TextAlign.center,
                       style:
-                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
-                      height: 8,
+                      height: 0,
                     ),
                     TextFormField(
                       controller: newNameController,
@@ -474,7 +484,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                       ),
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 6,
                     ),
                     TextFormField(
                       controller: newContentController,
@@ -493,108 +503,109 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                       ),
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 4,
                     ),
                     Text("Select Task State"),
                     Obx(() => DropdownButton<String>(
-                      // Set the Items of DropDownButton
-                      items: const [
-                        DropdownMenuItem(
-                          value: "SUBMITTED",
-                          child: Text(
-                            "SUBMITTED",
-                          ),
-                        ),
-                        DropdownMenuItem(
-                          value: "IN_PROCESS",
-                          child: Text(
-                            "IN PROCESS",
-                          ),
-                        ),
-                        DropdownMenuItem(
-                          value: "INCOMPLETE",
-                          child: Text(
-                            "INCOMPLETE",
-                          ),
-                        ),
-                        DropdownMenuItem(
-                          value: "TO_BE_DISCUSSED",
-                          child: Text(
-                            "TO BE DISCUSSED",
-                          ),
-                        ),
-                        DropdownMenuItem(
-                          value: "DONE",
-                          child: Text(
-                            "DONE",
-                          ),
-                        ),
-                        DropdownMenuItem(
-                          value: "DUPLICATE",
-                          child: Text(
-                            "DUPLICATE",
-                          ),
-                        ),
-                        DropdownMenuItem(
-                          value: "OBSOLETE",
-                          child: Text(
-                            "OBSOLETE",
-                          ),
-                        ),
-                      ],
-                      value: taskController.selectedState.value.toString(),
-                      hint: const Text('Select Task State'),
-                      isExpanded: true,
-                      onChanged: (selectedValue) {
-                        taskController.selectedState.value = selectedValue!;
-                      },
-                    )),
+                          // Set the Items of DropDownButton
+                          items: const [
+                            DropdownMenuItem(
+                              value: "SUBMITTED",
+                              child: Text(
+                                "SUBMITTED",
+                              ),
+                            ),
+                            DropdownMenuItem(
+                              value: "IN_PROCESS",
+                              child: Text(
+                                "IN PROCESS",
+                              ),
+                            ),
+                            DropdownMenuItem(
+                              value: "INCOMPLETE",
+                              child: Text(
+                                "INCOMPLETE",
+                              ),
+                            ),
+                            DropdownMenuItem(
+                              value: "TO_BE_DISCUSSED",
+                              child: Text(
+                                "TO BE DISCUSSED",
+                              ),
+                            ),
+                            DropdownMenuItem(
+                              value: "DONE",
+                              child: Text(
+                                "DONE",
+                              ),
+                            ),
+                            DropdownMenuItem(
+                              value: "DUPLICATE",
+                              child: Text(
+                                "DUPLICATE",
+                              ),
+                            ),
+                            DropdownMenuItem(
+                              value: "OBSOLETE",
+                              child: Text(
+                                "OBSOLETE",
+                              ),
+                            ),
+                          ],
+                          value: taskController.selectedState.value.toString(),
+                          hint: const Text('Select Task State'),
+                          isExpanded: true,
+                          onChanged: (selectedValue) {
+                            taskController.selectedState.value = selectedValue!;
+                          },
+                        )),
                     const SizedBox(
-                      height: 10,
+                      height: 4,
                     ),
                     Text("Select Task Priority"),
                     Obx(() => DropdownButton<String>(
-                      // Set the Items of DropDownButton
-                      items: const [
-                        DropdownMenuItem(
-                          value: "CRITICAL",
-                          child: Text(
-                            "Critcal Priority",
-                          ),
-                        ),
-                        DropdownMenuItem(
-                          value: "MAJOR",
-                          child: Text(
-                            "Major Priority",
-                          ),
-                        ),
-                        DropdownMenuItem(
-                          value: "NORMAL",
-                          child: Text(
-                            "Normal Priority",
-                          ),
-                        ),
-                        DropdownMenuItem(
-                          value: "MINOR",
-                          child: Text(
-                            "Minor Priority",
-                          ),
-                        ),
-                      ],
-                      value:
-                      taskController.selectedPriority.value.toString(),
-                      hint: const Text('Select Task Priority'),
-                      isExpanded: true,
-                      onChanged: (selectedValue) {
-                        taskController.selectedPriority.value =
-                        selectedValue!;
-                      },
-                    )),
+                          // Set the Items of DropDownButton
+                          items: const [
+                            DropdownMenuItem(
+                              value: "CRITICAL",
+                              child: Text(
+                                "Critcal Priority",
+                              ),
+                            ),
+                            DropdownMenuItem(
+                              value: "MAJOR",
+                              child: Text(
+                                "Major Priority",
+                              ),
+                            ),
+                            DropdownMenuItem(
+                              value: "NORMAL",
+                              child: Text(
+                                "Normal Priority",
+                              ),
+                            ),
+                            DropdownMenuItem(
+                              value: "MINOR",
+                              child: Text(
+                                "Minor Priority",
+                              ),
+                            ),
+                          ],
+                          value:
+                              taskController.selectedPriority.value.toString(),
+                          hint: const Text('Select Task Priority'),
+                          isExpanded: true,
+                          onChanged: (selectedValue) {
+                            taskController.selectedPriority.value =
+                                selectedValue!;
+                          },
+                        )),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         Text("Select Task Deadline"),
                         const SizedBox(
+                          height: 1,
                           width: 175,
                         ),
                         IconButton(
@@ -618,7 +629,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                       ],
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 0,
                     ),
                     FloatingActionButton.extended(
                         backgroundColor: Color(0xff2d5f79),
@@ -628,13 +639,13 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                           if (_formKey.currentState!.validate()) {
                             Get.back();
                             CommonResp? commonResp =
-                            await taskController.createTask(
-                                newNameController.text,
-                                newContentController.text,
-                                taskController.selectedState.value,
-                                taskController.selectedPriority.value,
-                                deadline.toString(),
-                                id);
+                                await taskController.createTask(
+                                    newNameController.text,
+                                    newContentController.text,
+                                    taskController.selectedState.value,
+                                    taskController.selectedPriority.value,
+                                    deadline.toString(),
+                                    id);
                             if (commonResp!.code == "SUCCESS") {
                               customSnackBar("Create Task", "Success",
                                   iconData: Icons.check_outlined,

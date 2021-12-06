@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,13 +7,15 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:mobile_app/src/core/constants/colors.dart';
+import 'package:mobile_app/src/core/utils/lazy_load_scroll_view.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/task.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
 import 'package:mobile_app/src/routes/app_routes.dart';
+
 import 'task_user_controller.dart';
-import 'package:mobile_app/src/core/utils/lazy_load_scroll_view.dart';
 
 final List<Map<String, dynamic>> _items = [
   {
@@ -37,8 +39,9 @@ final List<Map<String, dynamic>> _items = [
 class TaskUserPage extends GetView<TaskUserController> {
   TextEditingController nameController = TextEditingController(text: '');
   TextEditingController contentController = TextEditingController(text: '');
+  TextEditingController searchController = TextEditingController(text: '');
   TextEditingController invitedEmailController =
-  TextEditingController(text: '');
+      TextEditingController(text: '');
 
   late Task task;
   String invitedEmail = '';
@@ -50,38 +53,37 @@ class TaskUserPage extends GetView<TaskUserController> {
 //TODO
   AppBar? taskAppBar() {
     return AppBar(
-        backgroundColor: Color(0xff2d5f79),
-        title: Text('Tasks of User'),
-        automaticallyImplyLeading: false,
-        leading: GestureDetector(
-          onTap: () {},
-          child: Icon(
-            Icons.menu, // add custom icons also
-          ),
+      title: const Text('Task of User'),
+      automaticallyImplyLeading: false,
+      actionsIconTheme:
+          IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
+      leading: GestureDetector(
+        onTap: () {
+          /* Write listener code here */
+        },
+        child: Icon(
+          Icons.menu, // add custom icons also
         ),
-        actionsIconTheme:
-        IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
-        actions: <Widget>[
-          Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {},
-                child: Icon(
-                  Icons.search,
-                  size: 26.0,
-                ),
-              )),
-        ]);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    TextEditingController searchController = TextEditingController(text: '');
-    return Scaffold(
-        appBar: taskAppBar(),
-        body: Column(
-          children: <Widget>[
-            Container(
+      ),
+      actions: <Widget>[
+        // Container(
+        //     width: 120,
+        //     child: TextField(
+        //       controller: searchController,
+        //       decoration: const InputDecoration(
+        //         icon: Icon(Icons.search, color: Color(0xffffffff),),
+        //       ),
+        //
+        //       onChanged: (String? value) {
+        //         controller.searchByName(value!);
+        //         controller.update();
+        //       },
+        //     )),
+        PopupMenuButton<int>(
+          key: _key,
+          itemBuilder: (context) {
+            return <PopupMenuEntry<int>>[
+              PopupMenuItem(
                 child: TextField(
                   controller: searchController,
                   decoration: const InputDecoration(
@@ -91,10 +93,35 @@ class TaskUserPage extends GetView<TaskUserController> {
                     controller.searchByName(value!);
                     controller.update();
                   },
-                )),
-            Expanded(
-              child: Container(child: customBody()),
-            )
+                ),
+              )
+            ];
+          },
+        ),
+      ],
+      backgroundColor: Color(0xff2d5f79),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    TextEditingController searchController = TextEditingController(text: '');
+    return Scaffold(
+        backgroundColor: Bg,
+        appBar: taskAppBar(),
+        body: Column(
+          children: <Widget>[
+            // TextField(
+            //   controller: searchController,
+            //   decoration: const InputDecoration(
+            //     icon: Icon(Icons.search),
+            //   ),
+            //   onChanged: (String? value) {
+            //     controller.searchByName(value!);
+            //     controller.update();
+            //   },
+            // ),
+            Expanded(child: customBody()),
           ],
         ));
   }
@@ -117,7 +144,7 @@ class TaskUserPage extends GetView<TaskUserController> {
             contentPadding: EdgeInsets.all(15),
             iconColor: Colors.black45,
             textColor: Colors.black,
-            tileColor: BathWater,
+            tileColor: Colors.white,
             style: ListTileStyle.list,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
@@ -134,65 +161,90 @@ class TaskUserPage extends GetView<TaskUserController> {
                       "task": _items[index]
                     });
                   },
-                  child: Card(
-                    color: BathWater,
-                    margin: const EdgeInsets.all(10),
-                    child: ListTile(
-                      title: Text("Name: ${task.name}"),
-                      subtitle: Text("State: ${task.taskState}"),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                              onPressed: () {
-                                renameDialog(_items[index]);
-                                nameController.text = "";
-                              },
-                              icon: const Icon(Icons.edit)),
-                          IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () {
-                              Get.defaultDialog(
-                                title: "Confirm",
-                                middleText: "Are your sure to delete ?",
-                                backgroundColor: Colors.white,
-                                titleStyle:
-                                const TextStyle(color: Colors.black),
-                                middleTextStyle:
-                                const TextStyle(color: Colors.black),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: const Text("Yes"),
-                                    onPressed: () async {
-                                      Get.back();
-                                      bool rs = await controller
-                                          .deleteTask(_items[index]);
-                                      if (rs) {
-                                        customSnackBar("Delete", "Success",
-                                            iconData: Icons.check_outlined,
-                                            iconColor: Colors.green);
-                                      }
-                                    },
-                                  ),
-                                  TextButton(
-                                    child: const Text("No"),
-                                    onPressed: () {
-                                      Get.back();
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  child: buildCard(task),
                 );
               },
             ),
           ));
     });
+  }
+
+  Card buildCard(Task task) {
+    String deadline = task.deadline ?? "no set";
+    var subheading = task.name;
+    return Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        elevation: 4.0,
+        margin: const EdgeInsets.all(10),
+        child: Column(children: [
+          Container(
+              margin: EdgeInsets.only(right: 20, top: 5, bottom: 0),
+              child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    // Positioned(
+                    //   left: 0,
+                    //   child: Text("${task.briefContent}",
+                    //       style: TextStyle(
+                    //           fontSize: 18, fontWeight: FontWeight.bold)),
+                    // ),
+                    Container(
+                      //color: HexColor("#1dd33f"),
+                      padding: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                          color: HexColor("#4fddd6"),
+                          border: Border.all(
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(30)),
+                      child: Text(task.taskState!,
+                          style: TextStyle(
+                              color: HexColor("#352b2e"),
+                              fontWeight: FontWeight.bold)),
+                    ),
+                    SizedBox(width: 20),
+                    Container(
+                      padding: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                          color: HexColor("#e8688e"),
+                          border: Border.all(
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(30)),
+                      child: Text(task.priority!,
+                          style: TextStyle(
+                              color: HexColor("#352b2e"),
+                              fontWeight: FontWeight.bold)),
+                    ),
+                  ])),
+          ListTile(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            title: Text(
+              "${task.briefContent}",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            subtitle: Text("\u{1F511}    $subheading"),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                renameIconWidget(task.role!, task),
+                deleteIconWidget(task.role!, task)
+              ],
+            ),
+          ),
+          Container(
+              height: 15,
+              margin: EdgeInsets.only(right: 20, bottom: 2),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [Text("Deadline: $deadline")]))
+        ]));
   }
 
   void renameDialog(Task task) {
@@ -224,6 +276,9 @@ class TaskUserPage extends GetView<TaskUserController> {
                 'Rename',
                 style: TextStyle(color: Colors.white, fontSize: 16.0),
               ),
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Color(0xff2d5f79))),
             )
           ],
         ),
@@ -254,58 +309,58 @@ class TaskUserPage extends GetView<TaskUserController> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Obx(() => DropdownButton<String>(
-              // Set the Items of DropDownButton
-              items: const [
-                DropdownMenuItem(
-                  value: "SUBMITTED",
-                  child: Text(
-                    "SUBMITTED",
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: "IN_PROCESS",
-                  child: Text(
-                    "IN PROCESS",
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: "INCOMPLETE",
-                  child: Text(
-                    "INCOMPLETE",
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: "TO_BE_DISCUSSED",
-                  child: Text(
-                    "TO BE DISCUSSED",
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: "DONE",
-                  child: Text(
-                    "DONE",
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: "DUPLICATE",
-                  child: Text(
-                    "DUPLICATE",
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: "OBSOLETE",
-                  child: Text(
-                    "OBSOLETE",
-                  ),
-                ),
-              ],
-              value: controller.selectedState.value.toString(),
-              hint: const Text('Select Task Priority'),
-              isExpanded: true,
-              onChanged: (selectedValue) {
-                controller.selectedState.value = selectedValue!;
-              },
-            )),
+                  // Set the Items of DropDownButton
+                  items: const [
+                    DropdownMenuItem(
+                      value: "SUBMITTED",
+                      child: Text(
+                        "SUBMITTED",
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: "IN_PROCESS",
+                      child: Text(
+                        "IN PROCESS",
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: "INCOMPLETE",
+                      child: Text(
+                        "INCOMPLETE",
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: "TO_BE_DISCUSSED",
+                      child: Text(
+                        "TO BE DISCUSSED",
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: "DONE",
+                      child: Text(
+                        "DONE",
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: "DUPLICATE",
+                      child: Text(
+                        "DUPLICATE",
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: "OBSOLETE",
+                      child: Text(
+                        "OBSOLETE",
+                      ),
+                    ),
+                  ],
+                  value: controller.selectedState.value.toString(),
+                  hint: const Text('Select Task Priority'),
+                  isExpanded: true,
+                  onChanged: (selectedValue) {
+                    controller.selectedState.value = selectedValue!;
+                  },
+                )),
             ElevatedButton(
               onPressed: () {
                 Get.back();
@@ -343,40 +398,40 @@ class TaskUserPage extends GetView<TaskUserController> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Obx(() => DropdownButton<String>(
-              // Set the Items of DropDownButton
-              items: const [
-                DropdownMenuItem(
-                  value: "CRITICAL",
-                  child: Text(
-                    "Critcal Priority",
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: "MAJOR",
-                  child: Text(
-                    "Major Priority",
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: "NORMAL",
-                  child: Text(
-                    "Normal Priority",
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: "MINOR",
-                  child: Text(
-                    "Minor Priority",
-                  ),
-                ),
-              ],
-              value: controller.selectedPriority.value.toString(),
-              hint: const Text('Select Task Priority'),
-              isExpanded: true,
-              onChanged: (selectedValue) {
-                controller.selectedPriority.value = selectedValue!;
-              },
-            )),
+                  // Set the Items of DropDownButton
+                  items: const [
+                    DropdownMenuItem(
+                      value: "CRITICAL",
+                      child: Text(
+                        "Critcal Priority",
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: "MAJOR",
+                      child: Text(
+                        "Major Priority",
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: "NORMAL",
+                      child: Text(
+                        "Normal Priority",
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: "MINOR",
+                      child: Text(
+                        "Minor Priority",
+                      ),
+                    ),
+                  ],
+                  value: controller.selectedPriority.value.toString(),
+                  hint: const Text('Select Task Priority'),
+                  isExpanded: true,
+                  onChanged: (selectedValue) {
+                    controller.selectedPriority.value = selectedValue!;
+                  },
+                )),
             ElevatedButton(
               onPressed: () {
                 Get.back();
@@ -452,5 +507,55 @@ class TaskUserPage extends GetView<TaskUserController> {
     } else {
       customSnackBar("Update Content", "Some unexpected error happened");
     }
+  }
+
+  Widget renameIconWidget(String role, Task task) {
+    if (role == "ADMINISTRATOR" || role == "OWNER") {
+      return IconButton(
+          onPressed: () {
+            renameDialog(task);
+            nameController.text = "";
+          },
+          icon: const Icon(Icons.edit), color: Colors.blue);
+    }
+    return const SizedBox.shrink();
+  }
+
+  Widget deleteIconWidget(String role, Task task) {
+    if (role == "OWNER" || role == "ADMINISTRATOR") {
+      return IconButton(
+        icon: const Icon(Icons.delete, color: Colors.red),
+        onPressed: () {
+          Get.defaultDialog(
+            title: "Confirm",
+            middleText: "Are your sure to delete ?",
+            backgroundColor: Colors.white,
+            titleStyle: const TextStyle(color: Colors.black),
+            middleTextStyle: const TextStyle(color: Colors.black),
+            actions: <Widget>[
+              TextButton(
+                child: const Text("Yes"),
+                onPressed: () async {
+                  Get.back();
+                  bool rs = await controller.deleteTask(task);
+                  if (rs) {
+                    customSnackBar("Delete", "Success",
+                        iconData: Icons.check_outlined,
+                        iconColor: Colors.green);
+                  }
+                },
+              ),
+              TextButton(
+                child: const Text("No"),
+                onPressed: () {
+                  Get.back();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+    return const SizedBox.shrink();
   }
 }

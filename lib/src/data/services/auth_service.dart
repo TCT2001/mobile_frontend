@@ -1,8 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'dart:convert';
-import 'dart:io';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:mobile_app/src/core/utils/http.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
@@ -23,7 +21,7 @@ class AuthService {
   //TODO
   static Future<List> refreshToken({required String token}) async {
     var response =
-    await client.post(REFRESH_TOKEN_URI, headers: <String, String>{
+        await client.post(REFRESH_TOKEN_URI, headers: <String, String>{
       'Authorization': 'Bearer $token',
     });
     if (response.statusCode == 200) {
@@ -87,7 +85,7 @@ class AuthService {
     );
     List? temp = json.decode(response.body) as List;
     List<NotificationCustom> rs =
-    temp.map((e) => NotificationCustom.fromJson(e)).toList();
+        temp.map((e) => NotificationCustom.fromJson(e)).toList();
     return rs;
   }
 
@@ -104,7 +102,7 @@ class AuthService {
       throw Exception('Failed');
     }
   }
-
+  
   static Future<CommonResp?> changePassword(
       String oldPassword, String newPassword) async {
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
