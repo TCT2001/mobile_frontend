@@ -3,8 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/task.dart';
+import 'package:mobile_app/src/data/providers/storage_provider.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
 import 'package:mobile_app/src/modules/task/task_user_controller.dart';
 
@@ -21,7 +23,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
   int id = Get.arguments['id'];
   Task taskClicked = Get.arguments['task'];
   late Future<Task> task;
-
+  late var userId;
   final GlobalKey<PopupMenuButtonState<int>> _key = GlobalKey();
   late TextEditingController invitedEmailController = TextEditingController();
   late TextEditingController newNameController = TextEditingController();
@@ -35,6 +37,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
     super.initState();
     // project = controller.find(id);
     task = controller.find(id);
+    userId = getStringLocalStorge(LocalStorageKey.USER_ID.toString());
   }
 
   AppBar? taskDetailAppBar() {
@@ -112,6 +115,9 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                                 iconColor: Colors.red);
                           }
                         },
+                        style: ElevatedButton.styleFrom(
+                          primary: Color(0xff2d5f79),
+                        ),
                         child: Text(
                           'Rename',
                           style: TextStyle(color: Colors.white, fontSize: 16.0),
@@ -207,6 +213,9 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                                 iconColor: Colors.red);
                           }
                         },
+                        style: ElevatedButton.styleFrom(
+                          primary: Color(0xff2d5f79),
+                        ),
                         child: Text(
                           'Update',
                           style: TextStyle(color: Colors.white, fontSize: 16.0),
@@ -285,6 +294,9 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                                 iconColor: Colors.red);
                           }
                         },
+                        style: ElevatedButton.styleFrom(
+                          primary: Color(0xff2d5f79),
+                        ),
                         child: Text(
                           'Update',
                           style: TextStyle(color: Colors.white, fontSize: 16.0),
@@ -342,6 +354,9 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                                 iconColor: Colors.red);
                           }
                         },
+                        style: ElevatedButton.styleFrom(
+                          primary: Color(0xff2d5f79),
+                        ),
                         child: Text(
                           'Update',
                           style: TextStyle(color: Colors.white, fontSize: 16.0),
@@ -383,9 +398,9 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                     String taskContent = task.content!;
                     String taskState = task.taskState!;
                     String taskPriority = task.priority!;
-                    String taskDeadline = task.deadline!;
+                    //String taskDeadline = task.deadline!;
                     return Text(
-                        "Id : $taskId\n\nName: $taskName\n\nContent : $taskContent \n\nState : $taskState\n\nPriority : $taskPriority\n\nDeadline: $taskDeadline",
+                        "Id : $taskId\n\nName: $taskName\n\nContent : $taskContent \n\nState : $taskState\n\nPriority : $taskPriority\n\nDeadline: 123",
                         style: TextStyle(fontSize: 20));
                   } else if (snapshot.hasError) {
                     return Text('Loi');
@@ -395,8 +410,11 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                 },
               ),
             ),
+            //ListView.builder(itemBuilder: itemBuilder)
             postComment('2h', 'This is a comment', 'Unknown Name',
-                'https://lh3.googleusercontent.com/ogw/ADea4I41utR78MVuw5cnbm9nqhCOzg55A4fz6mA0qS1h=s83-c-mo')
+                'https://lh3.googleusercontent.com/ogw/ADea4I41utR78MVuw5cnbm9nqhCOzg55A4fz6mA0qS1h=s83-c-mo'),
+            postComment('2h', 'This is a comment', 'Unknown Name',
+                'https://lh3.googleusercontent.com/ogw/ADea4I41utR78MVuw5cnbm9nqhCOzg55A4fz6mA0qS1h=s83-c-mo'),
           ],
         ));
   }
@@ -408,7 +426,8 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          CircleAvatar(maxRadius: 16, backgroundImage: NetworkImage(profileImage)),
+          CircleAvatar(
+              maxRadius: 16, backgroundImage: NetworkImage(profileImage)),
           SizedBox(
             width: 16.0,
           ),
@@ -456,5 +475,42 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
         ],
       ),
     );
+  }
+
+  Card buildCard() {
+    var heading = "1";
+    var subheading = "2";
+    return Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        elevation: 4.0,
+        margin: const EdgeInsets.all(10),
+        child: Column(children: [
+          ListTile(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            title: Text(
+              "\u{1F4D1}  $heading",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            subtitle: Text("\u{1F511}    $subheading"),
+          ),
+          Container(
+            height: 35,
+            margin: EdgeInsets.only(right: 10),
+            // child: ListView.builder(
+            //     reverse: true,
+            //     scrollDirection: Axis.horizontal,
+            //     itemCount: list.length > 5 ? 5 : list.length,
+            //     itemBuilder: (_, index) {
+            //       final id = list[index].id % 256 + 256;
+            //       final hexString = id.toRadixString(16);
+            //       return Image.network(
+            //           "https://ui-avatars.com/api/?name=${list[index].email}&color=$hexString");
+            //     }),
+          ),
+        ]));
   }
 }

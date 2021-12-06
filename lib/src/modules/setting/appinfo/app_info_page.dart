@@ -15,15 +15,15 @@ class _AppInfoPageState extends State<AppInfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xff2d5f79),
-        title: Text('App Info'),
+        backgroundColor: const Color(0xff2d5f79),
+        title: const Text('App Info'),
       ),
       backgroundColor: const Color(0xff88e8f2),
       body: Container(
           child: SettingsList(sections: [
             SettingsSection(
                 title: 'App Info',
-                tiles: [
+                tiles: const [
                   SettingsTile(
                     title: 'Name',
                     subtitle: 'Makit',
@@ -31,7 +31,7 @@ class _AppInfoPageState extends State<AppInfoPage> {
                   ),
                   SettingsTile(
                     title: 'Detail',
-                    subtitle: 'toDoList used for projects management',
+                    subtitle: 'toDoList App',
                     //leading: const Icon(Icons.lightbulb),
                   ),
 

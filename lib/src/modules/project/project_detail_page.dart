@@ -53,6 +53,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   late TextEditingController invitedEmailController = TextEditingController();
   late TextEditingController newNameController = TextEditingController();
   late TextEditingController newContentController = TextEditingController();
+  TextEditingController searchController = TextEditingController(text: '');
 
   String invitedEmail = '';
   String role = '';
@@ -85,15 +86,15 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
         ),
       ),
       actions: <Widget>[
-        Padding(
-            padding: EdgeInsets.only(right: 20.0),
-            child: GestureDetector(
-              onTap: () {},
-              child: Icon(
-                Icons.search,
-                size: 26.0,
-              ),
-            )),
+        // Padding(
+        //     padding: EdgeInsets.only(right: 20.0),
+        //     child: GestureDetector(
+        //       onTap: () {},
+        //       child: Icon(
+        //         Icons.search,
+        //         size: 26.0,
+        //       ),
+        //     )),
         PopupMenuButton<int>(
           onSelected: (value) {
             if (value == 0) {
@@ -210,7 +211,16 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
         PopupMenuItem(child: Text('Create Task'), value: 1),
         PopupMenuItem(child: Text('Rename Project'), value: 2),
         PopupMenuItem(child: Text('Delete Project'), value: 3),
-        PopupMenuItem(child: Text('Members'), value: 4)
+        PopupMenuItem(child: Text('Members'), value: 4),
+        PopupMenuItem(child: TextField(controller: searchController,
+          decoration: const InputDecoration(
+            icon: Icon(Icons.search),
+          ),
+
+          onChanged: (String? value) {
+            controller.searchByName(value!);
+            controller.update();
+          },),)
       ];
     } else if (role == "ADMINISTRATOR") {
       return <PopupMenuEntry<int>>[
@@ -248,19 +258,20 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
             appBar: appBar(snapshot.data!.role!, context),
             body: Column(
               children: <Widget>[
-                Container(child: showDetail(snapshot)),
-                TextField(
-                  controller: searchController,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.search),
-                  ),
-                  onChanged: (String? value) {
-                    taskProjectController.searchByName(value!);
-                    controller.update();
-                  },
-                ),
+                // Container(child: showDetail(snapshot)),
+                // TextField(
+                //   controller: searchController,
+                //   decoration: const InputDecoration(
+                //     icon: Icon(Icons.search),
+                //   ),
+                //   onChanged: (String? value) {
+                //     taskProjectController.searchByName(value!);
+                //     controller.update();
+                //   },
+                // ),
                 Expanded(
                     child: Container(
+                        decoration: BoxDecoration(image: DecorationImage(image: Image.asset("assets/images/background.jpg").image, fit: BoxFit.cover)),
                         child:
                             showTaskList(snapshot.data, taskProjectController)))
               ],
@@ -429,7 +440,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
         Get.put(TaskProjectController(projectId: id));
     Get.bottomSheet(
       Container(
-          height: 250,
+          height: 850,
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
               topRight: Radius.circular(16),
@@ -438,8 +449,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
             // color: Colors.white,
             color: Color(0xff88e8f2),
           ),
-          child: Form(
-            key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
             child: ListView(
               children: [
                 Column(
@@ -452,7 +463,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
-                      height: 8,
+                      height: 0,
                     ),
                     TextFormField(
                       controller: newNameController,
@@ -471,7 +482,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                       ),
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 6,
                     ),
                     TextFormField(
                       controller: newContentController,
@@ -490,7 +501,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                       ),
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 4,
                     ),
                     Text("Select Task State"),
                     Obx(() => DropdownButton<String>(
@@ -547,7 +558,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                           },
                         )),
                     const SizedBox(
-                      height: 10,
+                      height: 4,
                     ),
                     Text("Select Task Priority"),
                     Obx(() => DropdownButton<String>(
@@ -592,7 +603,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                       children: <Widget>[
                         Text("Select Task Deadline"),
                         const SizedBox(
-                          width: 175,
+                          height: 1, width: 175,
                         ),
                         IconButton(
                             onPressed: () async {
@@ -615,7 +626,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                       ],
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 0,
                     ),
                     FloatingActionButton.extended(
                         backgroundColor: Color(0xff2d5f79),

@@ -77,7 +77,7 @@ class _MyHomePageState extends State<HomePage> {
 
       Container(
           decoration: const BoxDecoration(
-            image: DecorationImage(image: AssetImage("assets/images/girl.jpg"), fit: BoxFit.cover),
+            image: DecorationImage(image: AssetImage("assets/images/background.jpg"), fit: BoxFit.cover),
 
           ),
           child: Padding(
