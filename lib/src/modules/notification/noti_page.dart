@@ -113,7 +113,7 @@ class _NotificationPageState extends State<NotiPage> {
                 itemCount: data.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Card(
-                    color: BathWater,
+                    color: Color(0xffbddef1),
                     margin: const EdgeInsets.all(10),
                     child: ListTile(
                       title: Text(data[index].toString()),

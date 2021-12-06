@@ -2,8 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/task.dart';
+import 'package:mobile_app/src/data/providers/storage_provider.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
 import 'package:mobile_app/src/modules/task/task_user_controller.dart';
 
@@ -20,7 +23,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
   int id = Get.arguments['id'];
   Task taskClicked = Get.arguments['task'];
   late Future<Task> task;
-
+  late var userId;
   final GlobalKey<PopupMenuButtonState<int>> _key = GlobalKey();
   late TextEditingController invitedEmailController = TextEditingController();
   late TextEditingController newNameController = TextEditingController();
@@ -34,6 +37,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
     super.initState();
     // project = controller.find(id);
     task = controller.find(id);
+    userId = getIntLocalStorge(LocalStorageKey.USER_ID.toString());
   }
 
   AppBar? taskDetailAppBar() {
@@ -135,43 +139,43 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                           DropdownMenuItem(
                             value: "SUBMITTED",
                             child: Text(
-                              "Submitted",
+                              "SUBMITTED",
                             ),
                           ),
                           DropdownMenuItem(
                             value: "IN_PROCESS",
                             child: Text(
-                              "In process",
+                              "IN PROCESS",
                             ),
                           ),
                           DropdownMenuItem(
                             value: "INCOMPLETE",
                             child: Text(
-                              "Incomplete",
+                              "INCOMPLETE",
                             ),
                           ),
                           DropdownMenuItem(
                             value: "TO_BE_DISCUSSED",
                             child: Text(
-                              "To be discussed",
+                              "TO BE DISCUSSED",
                             ),
                           ),
                           DropdownMenuItem(
                             value: "DONE",
                             child: Text(
-                              "Done",
+                              "DONE",
                             ),
                           ),
                           DropdownMenuItem(
                             value: "DUPLICATE",
                             child: Text(
-                              "Duplicate",
+                              "DUPLICATE",
                             ),
                           ),
                           DropdownMenuItem(
                             value: "OBSOLETE",
                             child: Text(
-                              "Obsolete",
+                              "OBSOLETE",
                             ),
                           ),
                         ],
@@ -233,25 +237,25 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                           DropdownMenuItem(
                             value: "CRITICAL",
                             child: Text(
-                              "Critical",
+                              "Critcal Priority",
                             ),
                           ),
                           DropdownMenuItem(
                             value: "MAJOR",
                             child: Text(
-                              "Major",
+                              "Major Priority",
                             ),
                           ),
                           DropdownMenuItem(
                             value: "NORMAL",
                             child: Text(
-                              "Normal",
+                              "Normal Priority",
                             ),
                           ),
                           DropdownMenuItem(
                             value: "MINOR",
                             child: Text(
-                              "Minor",
+                              "Minor Priority",
                             ),
                           ),
                         ],
@@ -380,12 +384,10 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
         appBar: taskDetailAppBar(),
         body: Column(
           children: <Widget>[
             Container(
-
               child: FutureBuilder<Task>(
                 future: task,
                 builder: (context, snapshot) {
@@ -396,9 +398,9 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                     String taskContent = task.content!;
                     String taskState = task.taskState!;
                     String taskPriority = task.priority!;
-                    String taskDeadline = task.deadline!;
+                    //String taskDeadline = task.deadline!;
                     return Text(
-                        "Id : $taskId\n\nName: $taskName\n\nContent : $taskContent \n\nState : $taskState\n\nPriority : $taskPriority\n\nDeadline: $taskDeadline",
+                        "Id : $taskId\n\nName: $taskName\n\nContent : $taskContent \n\nState : $taskState\n\nPriority : $taskPriority\n\nDeadline: 123",
                         style: TextStyle(fontSize: 20));
                   } else if (snapshot.hasError) {
                     return Text('Loi');
@@ -407,8 +409,71 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                   return const CircularProgressIndicator();
                 },
               ),
-            )
+            ),
+            //ListView.builder(itemBuilder: itemBuilder)
+            postComment('2h', 'This is a comment', 'Unknown Name',
+                'https://lh3.googleusercontent.com/ogw/ADea4I41utR78MVuw5cnbm9nqhCOzg55A4fz6mA0qS1h=s83-c-mo'),
+            postComment('2h', 'This is a comment', 'Unknown Name',
+                'https://lh3.googleusercontent.com/ogw/ADea4I41utR78MVuw5cnbm9nqhCOzg55A4fz6mA0qS1h=s83-c-mo'),
           ],
         ));
+  }
+
+  Widget postComment(String time, String postComment, String profileName,
+      String profileImage) {
+    return Padding(
+      padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          CircleAvatar(
+              maxRadius: 16, backgroundImage: NetworkImage(profileImage)),
+          SizedBox(
+            width: 16.0,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: HexColor('#E9F1FE'),
+                  borderRadius: BorderRadius.circular(6.0),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        profileName,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        postComment,
+                        style: TextStyle(fontSize: 16.0),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 12.0,
+              ),
+              Row(
+                children: [
+                  Text(time, style: TextStyle(fontWeight: FontWeight.w600)),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.24,
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.02,
+                  ),
+                ],
+              )
+            ],
+          )
+        ],
+      ),
+    );
   }
 }

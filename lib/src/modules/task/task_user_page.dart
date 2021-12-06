@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +7,7 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:mobile_app/src/core/constants/colors.dart';
 import 'package:mobile_app/src/core/utils/lazy_load_scroll_view.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
@@ -40,7 +41,7 @@ class TaskUserPage extends GetView<TaskUserController> {
   TextEditingController contentController = TextEditingController(text: '');
   TextEditingController searchController = TextEditingController(text: '');
   TextEditingController invitedEmailController =
-      TextEditingController(text: '');
+  TextEditingController(text: '');
 
   late Task task;
   String invitedEmail = '';
@@ -55,7 +56,7 @@ class TaskUserPage extends GetView<TaskUserController> {
       title: const Text('Task of User'),
       automaticallyImplyLeading: false,
       actionsIconTheme:
-          IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
+      IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
       leading: GestureDetector(
         onTap: () {
           /* Write listener code here */
@@ -124,7 +125,7 @@ class TaskUserPage extends GetView<TaskUserController> {
                   decoration: BoxDecoration(
                       image: DecorationImage(
                           image:
-                              Image.asset("assets/images/background.jpg").image,
+                          Image.asset("assets/images/background.jpg").image,
                           fit: BoxFit.cover)),
                   child: customBody()),
             )
@@ -150,7 +151,7 @@ class TaskUserPage extends GetView<TaskUserController> {
             contentPadding: EdgeInsets.all(15),
             iconColor: Colors.black45,
             textColor: Colors.black,
-            tileColor: BathWater,
+            tileColor: Colors.white,
             style: ListTileStyle.list,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
@@ -160,90 +161,132 @@ class TaskUserPage extends GetView<TaskUserController> {
               itemCount: _items.length,
               itemBuilder: (_, index) {
                 Task task = _items[index];
-                String deadline = task.deadline ?? "no set";
                 return GestureDetector(
-                    onTap: () {
-                      Get.toNamed(Routes.TASK_DETAIL_PAGE, arguments: {
-                        "id": _items[index].id,
-                        "task": _items[index]
-                      });
-                    },
-                    child: Card(
-                      color: BathWater,
-                      margin: const EdgeInsets.all(10),
-                      child: Column(children: [
-                        ListTile(
-                          leading: Icon(Icons.arrow_drop_down_circle),
-                          title: Text("📄 Task: ${task.name}"),
-                          subtitle: Text(
-                              "\n📋  BriefContent: ${task.briefContent} \n      Deadline: ${deadline}"),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                  onPressed: () {
-                                    renameDialog(_items[index]);
-                                    nameController.text = "";
-                                  },
-                                  icon: const Icon(Icons.edit)),
-                              IconButton(
-                                icon: const Icon(Icons.delete),
-                                onPressed: () {
-                                  Get.defaultDialog(
-                                    title: "Confirm",
-                                    middleText: "Are your sure to delete ?",
-                                    backgroundColor: Colors.white,
-                                    titleStyle:
-                                        const TextStyle(color: Colors.black),
-                                    middleTextStyle:
-                                        const TextStyle(color: Colors.black),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        child: const Text("Yes"),
-                                        onPressed: () async {
-                                          Get.back();
-                                          bool rs = await controller
-                                              .deleteTask(_items[index]);
-                                          if (rs) {
-                                            customSnackBar("Delete", "Success",
-                                                iconData: Icons.check_outlined,
-                                                iconColor: Colors.green);
-                                          }
-                                        },
-                                      ),
-                                      TextButton(
-                                        child: const Text("No"),
-                                        onPressed: () {
-                                          Get.back();
-                                        },
-                                      ),
-                                    ],
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                        ButtonBar(alignment: MainAxisAlignment.end, children: [
-                          TextButton(
-                            onPressed: () {
-                              // Perform some action
-                            },
-                            child: Text('${task.taskState}'),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              // Perform some action
-                            },
-                            child: Text('${task.priority}'),
-                          )
-                        ])
-                      ]),
-                    ));
+                  onTap: () {
+                    Get.toNamed(Routes.TASK_DETAIL_PAGE, arguments: {
+                      "id": _items[index].id,
+                      "task": _items[index]
+                    });
+                  },
+                  child: buildCard(task),
+                  // child: Card(
+                  //   color: BathWater,
+                  //   margin: const EdgeInsets.all(10),
+                  //   child: Column(children: [
+                  //     ListTile(
+                  //       leading: Icon(Icons.arrow_drop_down_circle),
+                  //       title: Text("📄 Task: ${task.name}"),
+                  //       subtitle: Text(
+                  //           "\n📋  BriefContent: ${task.briefContent} \n      Deadline: ${deadline}"),
+                  //       trailing: Row(
+                  //         mainAxisSize: MainAxisSize.min,
+                  //         children: [
+                  //           renameIconWidget(
+                  //               _items[index].role!, _items[index]),
+                  //           deleteIconWidget(
+                  //               _items[index].role!, _items[index])
+                  //         ],
+                  //       ),
+                  //     ),
+                  //     ButtonBar(alignment: MainAxisAlignment.end, children: [
+                  //       TextButton(
+                  //         onPressed: () {
+                  //           // Perform some action
+                  //         },
+                  //         child: Text('${task.taskState}'),
+                  //       ),
+                  //       TextButton(
+                  //         onPressed: () {
+                  //           // Perform some action
+                  //         },
+                  //         child: Text('${task.priority}'),
+                  //       )
+                  //     ])
+                  //   ]),
+                  // )
+                );
               },
             ),
           ));
     });
+  }
+
+  Card buildCard(Task task) {
+    String deadline = task.deadline ?? "no set";
+    var subheading = task.name;
+    return Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        elevation: 4.0,
+        margin: const EdgeInsets.all(10),
+        child: Column(children: [
+          Container(
+              margin: EdgeInsets.only(right: 20, top: 5, bottom: 0),
+              child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    // Positioned(
+                    //   left: 0,
+                    //   child: Text("${task.briefContent}",
+                    //       style: TextStyle(
+                    //           fontSize: 18, fontWeight: FontWeight.bold)),
+                    // ),
+                    Container(
+                      //color: HexColor("#1dd33f"),
+                      padding: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                          color: HexColor("#4fddd6"),
+                          border: Border.all(
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(30)),
+                      child: Text(task.taskState!,
+                          style: TextStyle(
+                              color: HexColor("#352b2e"),
+                              fontWeight: FontWeight.bold)),
+                    ),
+                    SizedBox(width: 20),
+                    Container(
+                      padding: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                          color: HexColor("#e8688e"),
+                          border: Border.all(
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(30)),
+                      child: Text(task.priority!,
+                          style: TextStyle(
+                              color: HexColor("#352b2e"),
+                              fontWeight: FontWeight.bold)),
+                    ),
+                  ])),
+          ListTile(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            title: Text(
+              "${task.briefContent}",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            subtitle: Text("\u{1F511}    $subheading"),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                renameIconWidget(task.role!, task),
+                deleteIconWidget(task.role!, task)
+              ],
+            ),
+          ),
+          Container(
+              height: 15,
+              margin: EdgeInsets.only(right: 20, bottom: 2),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [Text("Deadline: $deadline")]))
+        ]));
   }
 
   void renameDialog(Task task) {
@@ -277,7 +320,7 @@ class TaskUserPage extends GetView<TaskUserController> {
               ),
               style: ButtonStyle(
                   backgroundColor:
-                      MaterialStateProperty.all<Color>(Color(0xff2d5f79))),
+                  MaterialStateProperty.all<Color>(Color(0xff2d5f79))),
             )
           ],
         ),
@@ -308,58 +351,58 @@ class TaskUserPage extends GetView<TaskUserController> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Obx(() => DropdownButton<String>(
-                  // Set the Items of DropDownButton
-                  items: const [
-                    DropdownMenuItem(
-                      value: "SUBMITTED",
-                      child: Text(
-                        "SUBMITTED",
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: "IN_PROCESS",
-                      child: Text(
-                        "IN PROCESS",
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: "INCOMPLETE",
-                      child: Text(
-                        "INCOMPLETE",
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: "TO_BE_DISCUSSED",
-                      child: Text(
-                        "TO BE DISCUSSED",
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: "DONE",
-                      child: Text(
-                        "DONE",
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: "DUPLICATE",
-                      child: Text(
-                        "DUPLICATE",
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: "OBSOLETE",
-                      child: Text(
-                        "OBSOLETE",
-                      ),
-                    ),
-                  ],
-                  value: controller.selectedState.value.toString(),
-                  hint: const Text('Select Task Priority'),
-                  isExpanded: true,
-                  onChanged: (selectedValue) {
-                    controller.selectedState.value = selectedValue!;
-                  },
-                )),
+              // Set the Items of DropDownButton
+              items: const [
+                DropdownMenuItem(
+                  value: "SUBMITTED",
+                  child: Text(
+                    "SUBMITTED",
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: "IN_PROCESS",
+                  child: Text(
+                    "IN PROCESS",
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: "INCOMPLETE",
+                  child: Text(
+                    "INCOMPLETE",
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: "TO_BE_DISCUSSED",
+                  child: Text(
+                    "TO BE DISCUSSED",
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: "DONE",
+                  child: Text(
+                    "DONE",
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: "DUPLICATE",
+                  child: Text(
+                    "DUPLICATE",
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: "OBSOLETE",
+                  child: Text(
+                    "OBSOLETE",
+                  ),
+                ),
+              ],
+              value: controller.selectedState.value.toString(),
+              hint: const Text('Select Task Priority'),
+              isExpanded: true,
+              onChanged: (selectedValue) {
+                controller.selectedState.value = selectedValue!;
+              },
+            )),
             ElevatedButton(
               onPressed: () {
                 Get.back();
@@ -397,40 +440,40 @@ class TaskUserPage extends GetView<TaskUserController> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Obx(() => DropdownButton<String>(
-                  // Set the Items of DropDownButton
-                  items: const [
-                    DropdownMenuItem(
-                      value: "CRITICAL",
-                      child: Text(
-                        "Critcal Priority",
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: "MAJOR",
-                      child: Text(
-                        "Major Priority",
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: "NORMAL",
-                      child: Text(
-                        "Normal Priority",
-                      ),
-                    ),
-                    DropdownMenuItem(
-                      value: "MINOR",
-                      child: Text(
-                        "Minor Priority",
-                      ),
-                    ),
-                  ],
-                  value: controller.selectedPriority.value.toString(),
-                  hint: const Text('Select Task Priority'),
-                  isExpanded: true,
-                  onChanged: (selectedValue) {
-                    controller.selectedPriority.value = selectedValue!;
-                  },
-                )),
+              // Set the Items of DropDownButton
+              items: const [
+                DropdownMenuItem(
+                  value: "CRITICAL",
+                  child: Text(
+                    "Critcal Priority",
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: "MAJOR",
+                  child: Text(
+                    "Major Priority",
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: "NORMAL",
+                  child: Text(
+                    "Normal Priority",
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: "MINOR",
+                  child: Text(
+                    "Minor Priority",
+                  ),
+                ),
+              ],
+              value: controller.selectedPriority.value.toString(),
+              hint: const Text('Select Task Priority'),
+              isExpanded: true,
+              onChanged: (selectedValue) {
+                controller.selectedPriority.value = selectedValue!;
+              },
+            )),
             ElevatedButton(
               onPressed: () {
                 Get.back();
@@ -506,5 +549,55 @@ class TaskUserPage extends GetView<TaskUserController> {
     } else {
       customSnackBar("Update Content", "Some unexpected error happened");
     }
+  }
+
+  Widget renameIconWidget(String role, Task task) {
+    if (role == "ADMINISTRATOR" || role == "OWNER") {
+      return IconButton(
+          onPressed: () {
+            renameDialog(task);
+            nameController.text = "";
+          },
+          icon: const Icon(Icons.edit));
+    }
+    return const SizedBox.shrink();
+  }
+
+  Widget deleteIconWidget(String role, Task task) {
+    if (role == "OWNER" || role == "ADMINISTRATOR") {
+      return IconButton(
+        icon: const Icon(Icons.delete),
+        onPressed: () {
+          Get.defaultDialog(
+            title: "Confirm",
+            middleText: "Are your sure to delete ?",
+            backgroundColor: Colors.white,
+            titleStyle: const TextStyle(color: Colors.black),
+            middleTextStyle: const TextStyle(color: Colors.black),
+            actions: <Widget>[
+              TextButton(
+                child: const Text("Yes"),
+                onPressed: () async {
+                  Get.back();
+                  bool rs = await controller.deleteTask(task);
+                  if (rs) {
+                    customSnackBar("Delete", "Success",
+                        iconData: Icons.check_outlined,
+                        iconColor: Colors.green);
+                  }
+                },
+              ),
+              TextButton(
+                child: const Text("No"),
+                onPressed: () {
+                  Get.back();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+    return const SizedBox.shrink();
   }
 }

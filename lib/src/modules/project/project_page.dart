@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:mobile_app/src/core/constants/colors.dart';
 import 'package:mobile_app/src/core/utils/lazy_load_scroll_view.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
@@ -121,7 +122,8 @@ class _ProjectPageState extends State<ProjectPage> {
     return Scaffold(
         backgroundColor: Bg,
         appBar: projectAppBar(context),
-        body: Column(
+        body:
+        Column(
           children: <Widget>[
             // Container(
             //   child: sort(),
@@ -146,7 +148,7 @@ class _ProjectPageState extends State<ProjectPage> {
                   decoration: BoxDecoration(
                       image: DecorationImage(
                           image:
-                              Image.asset("assets/images/background.jpg").image,
+                              Image.asset("assets/images/girl.jpg").image,
                           fit: BoxFit.cover)),
                   child: body()),
             )
@@ -281,7 +283,7 @@ class _ProjectPageState extends State<ProjectPage> {
             contentPadding: EdgeInsets.all(15),
             iconColor: Colors.black45,
             textColor: Colors.black,
-            tileColor: BathWater,
+            tileColor: Colors.white,
             style: ListTileStyle.list,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
@@ -307,40 +309,66 @@ class _ProjectPageState extends State<ProjectPage> {
                     });
                   },
                   child: Card(
-                      color: BathWater,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      elevation: 4.0,
                       margin: const EdgeInsets.all(10),
                       child: Column(children: [
+                        Container(
+                            margin: EdgeInsets.only(right: 20, top: 5, bottom: 0),
+                            child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  // Positioned(
+                                  //   left: 0,
+                                  //   child: Text("${task.briefContent}",
+                                  //       style: TextStyle(
+                                  //           fontSize: 18, fontWeight: FontWeight.bold)),
+                                  // ),
+                                  Container(
+                                    //color: HexColor("#1dd33f"),
+                                    padding: EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
+                                        color: HexColor("#4fddd6"),
+                                        border: Border.all(
+                                          width: 1,
+                                        ),
+                                        borderRadius: BorderRadius.circular(30)),
+                                  ),
+                                  SizedBox(width: 20),
+                                  Container(
+                                    padding: EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
+                                        color: HexColor("#e8688e"),
+                                        border: Border.all(
+                                          width: 1,
+                                        ),
+                                        borderRadius: BorderRadius.circular(30)),
+                                  ),
+                                ])),
                         ListTile(
-                          leading: Icon(Icons.arrow_drop_down_circle),
-                          title: Text("☕ Project: $name",
-                              style: TextStyle(fontSize: 20)),
-                          subtitle: Text("\n📜 Owner: ${boss.email} \n ",
-                              style: TextStyle(
-                                  color: Colors.black.withOpacity(0.6))),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          title: Text(
+                            "☕ Project: $name",
+                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Text("\n📜 Owner: ${boss.email} \n "),
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              renameIconWidget(
-                                  _items[index].role!, _items[index]),
-                              deleteIconWidget(
-                                  _items[index].role!, _items[index])
+                              renameIconWidget(project.role!, project),
+                              deleteIconWidget(project.role!, project)
                             ],
                           ),
                         ),
-                        ButtonBar(alignment: MainAxisAlignment.end, children: [
-                          TextButton(
-                            onPressed: () {
-                              // Perform some action
-                            },
-                            child: Text('${project.role}'),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              // Perform some action
-                            },
-                            child: Text('Members: $number'),
-                          ),
-                        ])
+                        Container(
+                            height: 15,
+                            margin: EdgeInsets.only(right: 20, bottom: 2),
+                            )
                       ])),
                 );
               },

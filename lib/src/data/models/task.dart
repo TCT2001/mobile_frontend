@@ -10,6 +10,7 @@ class Task {
   late String? deadline;
   late int? userIdIfVisibleIsPrivate;
   late String? briefContent;
+  late String? role;
 
   factory Task.fromJson(Map<String, dynamic> json) {
     return Task(
@@ -21,6 +22,7 @@ class Task {
         taskState: json['taskState'],
         deadline: json['deadline'],
         briefContent: json['briefContent'],
+        role: json['role'],
         userIdIfVisibleIsPrivate: json['userIdIfVisibleIsPrivate']);
   }
   @override
@@ -40,7 +42,8 @@ class Task {
         required this.taskState,
         required this.deadline,
         required this.userIdIfVisibleIsPrivate, userDTOSet,
-        required this.briefContent});
+        required this.briefContent,
+        required this.role});
 
   Task.name();
 
