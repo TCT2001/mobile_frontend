@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/src/core/constants/colors.dart';
 import 'package:mobile_app/src/core/utils/lazy_load_scroll_view.dart';
+import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/project.dart';
 import 'package:mobile_app/src/data/models/user.dart';
+import 'package:mobile_app/src/data/providers/storage_provider.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
 import 'package:mobile_app/src/routes/app_routes.dart';
 
@@ -106,7 +108,7 @@ class _ProjectPageState extends State<ProjectPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Bg,
+        backgroundColor: Bg,
         appBar: projectAppBar(context),
         body: Column(
           children: <Widget>[
