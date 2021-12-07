@@ -11,6 +11,7 @@ import 'package:mobile_app/src/data/models/project.dart';
 import 'package:mobile_app/src/data/models/user.dart';
 import 'package:mobile_app/src/data/providers/storage_provider.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
+import 'package:mobile_app/src/modules/project/piechart/piechart_page.dart';
 import 'package:mobile_app/src/modules/task/task_project_controller.dart';
 import 'package:mobile_app/src/modules/task/task_project_page.dart';
 import 'package:select_form_field/select_form_field.dart';
@@ -194,6 +195,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
               );
             } else if (value == 4) {
               _keyDraw.currentState!.openDrawer();
+            } else if (value == 5) {
+              Get.to(PiechartPage());
             }
           },
           key: _key,
@@ -213,6 +216,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
         PopupMenuItem(child: Text('Rename Project'), value: 2),
         PopupMenuItem(child: Text('Delete Project'), value: 3),
         PopupMenuItem(child: Text('Members'), value: 4),
+        PopupMenuItem(child: Text('Show Piechart'), value: 5),
         PopupMenuItem(
           child: TextField(
             controller: searchController,
@@ -232,6 +236,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
         PopupMenuItem(child: Text('Create Task'), value: 1),
         PopupMenuItem(child: Text('Rename Project'), value: 2),
         PopupMenuItem(child: Text('Members'), value: 4),
+        PopupMenuItem(child: Text('Show Piechart'), value: 5),
       ];
     } else {
       return <PopupMenuEntry<int>>[

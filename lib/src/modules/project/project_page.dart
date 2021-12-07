@@ -115,17 +115,16 @@ class _ProjectPageState extends State<ProjectPage> {
             Container(
               child: sort(),
             ),
-            Container(
-                child: TextField(
+            TextField(
               controller: searchController,
               decoration: const InputDecoration(
-                icon: Icon(Icons.search),
+            icon: Icon(Icons.search),
               ),
               onChanged: (String? value) {
-                controller.searchByName(value!);
-                controller.update();
+            controller.searchByName(value!);
+            controller.update();
               },
-            )),
+            ),
             Expanded(child: body()
                 // child: Container(
                 //     decoration: BoxDecoration(

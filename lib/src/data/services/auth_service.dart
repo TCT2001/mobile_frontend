@@ -18,6 +18,7 @@ class AuthService {
   static Uri LOGOUT_URI = Uri.parse('$baseURL/auth/logout');
   static Uri RE_PASS_WORD_URI = Uri.parse('$baseURL/auth/changePassword');
 
+
   //TODO
   static Future<List> refreshToken({required String token}) async {
     var response =

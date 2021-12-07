@@ -16,6 +16,7 @@ class ProjectService {
   static Uri FIND_BY_ID = Uri.parse('$baseURL/prj/find/{id}');
   static Uri RENAME_URI = Uri.parse('$baseURL/prj/rename/');
   static Uri DELETE_URI = Uri.parse('$baseURL/prj/delete/');
+  static Uri PIE_CHART = Uri.parse('$baseURL/prj/stat?i={id}');
 
   static Future<List<Project>?> list(PaginateParam paginateParam) async {
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
@@ -57,6 +58,19 @@ class ProjectService {
       var temp = CommonResp.fromJson(json.decode(response.body));
       Map<String, dynamic> jso1 = temp.data as Map<String, dynamic>;
       return Project.fromJson(jso1);
+    } else {
+      throw Exception('Failed');
+    }
+  }
+
+  static Future<CommonResp?> piechart(int id) async {
+    var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
+    var response = await client.get(Uri.parse('$baseURL/prj/stat?i=$id'),
+        headers: authHeader(token!));
+    if (response.statusCode == 200) {
+      var temp = CommonResp.fromJson(json.decode(response.body));
+      Map<String, dynamic> jso1 = temp.data as Map<String, dynamic>;
+      return temp;
     } else {
       throw Exception('Failed');
     }
