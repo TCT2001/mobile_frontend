@@ -3,11 +3,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:mobile_app/src/core/constants/colors.dart';
+import 'package:mobile_app/src/core/utils/lazy_load_scroll_view.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
+import 'package:mobile_app/src/data/models/comment.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/task.dart';
+import 'package:mobile_app/src/data/models/user.dart';
 import 'package:mobile_app/src/data/providers/storage_provider.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
+import 'package:mobile_app/src/modules/task/comment_controller.dart';
 import 'package:mobile_app/src/modules/task/task_user_controller.dart';
 
 class TaskDetailPage extends StatefulWidget {
@@ -22,18 +27,22 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
 
   int id = Get.arguments['id'];
   Task taskClicked = Get.arguments['task'];
+
   late Future<Task> task;
   late var userId;
   final GlobalKey<PopupMenuButtonState<int>> _key = GlobalKey();
+  final _formKey = GlobalKey<FormState>();
   late TextEditingController invitedEmailController = TextEditingController();
   late TextEditingController newNameController = TextEditingController();
   late TextEditingController newContentController = TextEditingController();
+  late TextEditingController newCommentController = TextEditingController();
 
   String newTaskName = '';
   String newContentTask = '';
+  String comment = '';
 
   @override
-  void initState() {
+  void initState(){
     super.initState();
     // project = controller.find(id);
     task = controller.find(id);
@@ -410,13 +419,114 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                 },
               ),
             ),
+        Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextFormField(
+                controller : newCommentController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: ElevatedButton(
+                  onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    comment = newCommentController.text;
+                    int uId = await userId;
+                    CommonResp? commonResp =
+                        await controller.postComment(id, uId, comment);
+                    if (commonResp!.code == "SUCCESS") {
+                      customSnackBar("Comment", "Success",
+                          iconData: Icons.check_outlined,
+                          iconColor: Colors.green);
+                    } else {
+                      customSnackBar("Comment", "Fail",
+                          iconData: Icons.warning_rounded,
+                          iconColor: Colors.red);
+                    }
+                    newCommentController.clear();
+                  }
+                  },
+                  child: const Text('Comment'),
+                ),
+              ),
+            ],
+          ),
+        ),
+            // FutureBuilder<Task>(
+            //   builder: (context,snapshot){
+            //     if (snapshot.data == null) {
+            //       return Scaffold(
+            //         body: Center(
+            //           child: CircularProgressIndicator(),
+            //         ),
+            //       );
+            //     }
+            //     return Expanded(child: showCommentList(snapshot.data, controller));
+            //   }
+            // ),
             //ListView.builder(itemBuilder: itemBuilder)
-            postComment('2h', 'This is a comment', 'Unknown Name',
+            postComment('2h', comment, 'Unknown Name',
                 'https://lh3.googleusercontent.com/ogw/ADea4I41utR78MVuw5cnbm9nqhCOzg55A4fz6mA0qS1h=s83-c-mo'),
             postComment('2h', 'This is a comment', 'Unknown Name',
                 'https://lh3.googleusercontent.com/ogw/ADea4I41utR78MVuw5cnbm9nqhCOzg55A4fz6mA0qS1h=s83-c-mo'),
           ],
         ));
+  }
+
+  Widget showCommentList(Task? task, var commentController) {
+    if (task == null) {
+      return Text("NULL");
+    } else {
+      return commentList(task, commentController);
+    }
+  }
+
+  Widget commentList(Task task, var controller) {
+    CommentController controller =
+    Get.put(CommentController(taskId: task.id!));
+
+    return Obx(() {
+      var _items = controller.comments;
+
+      if (controller.comments.isEmpty) {
+        // if (controller.isLastPage) {
+        //   return Center(child: CircularProgressIndicator());
+        // }
+        return Center(child: Text("No task"));
+      }
+      return LazyLoadScrollView(
+          onEndOfPage: controller.nextPage,
+          isLoading: controller.isLastPage,
+          child: ListTileTheme(
+            contentPadding: EdgeInsets.all(15),
+            iconColor: Colors.black45,
+            textColor: Colors.black,
+            tileColor: Colors.white,
+            style: ListTileStyle.list,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            dense: true,
+            child: ListView.builder(
+              itemCount: _items.length,
+              itemBuilder: (_, index) {
+                Comment comment = _items[index];
+                String? content = comment.content;
+                return GestureDetector(
+                    //TODO
+                    child: postComment(DateTime.now().toString(), content!, 'Unknow', 'https://lh3.googleusercontent.com/ogw/ADea4I41utR78MVuw5cnbm9nqhCOzg55A4fz6mA0qS1h=s83-c-mo'));
+              },
+            ),
+          ));
+    });
   }
 
   Widget postComment(String time, String postComment, String profileName,

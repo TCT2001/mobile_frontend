@@ -640,6 +640,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                           icon: const Icon(Icons.send),
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
+                              Get.back();
                               CommonResp? commonResp =
                                   await taskController.createTask(
                                       newNameController.text,
