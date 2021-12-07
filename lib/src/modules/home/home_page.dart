@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:mobile_app/src/core/constants/colors.dart';
 import 'package:mobile_app/src/data/models/task.dart';
 import 'package:mobile_app/src/data/services/app_config_service.dart';
 import 'package:mobile_app/src/modules/home/home_controller.dart';
@@ -76,6 +77,7 @@ class _MyHomePageState extends State<HomePage> {
     homeController.updateT();
     List<Task> tasks = homeController.recentTask;
     return Scaffold(
+      backgroundColor: Bg,
       appBar: AppBar(
         backgroundColor: Color(0xff2d5f79),
         title: Text('Home'),
@@ -90,7 +92,10 @@ class _MyHomePageState extends State<HomePage> {
     );
   }
 
-  Card buildCard(Task task) {
+  Widget buildCard(Task task) {
+    if (task.id == -1) {
+      return SizedBox.shrink();
+    }
     String deadline = task.deadline ?? "no set";
     var subheading = task.name;
     return Card(

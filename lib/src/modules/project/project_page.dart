@@ -291,22 +291,6 @@ class _ProjectPageState extends State<ProjectPage> {
                     });
                   },
                   child: buildCard(project, boss, users),
-                  // child: Card(
-                  //   color: BathWater,
-                  //   margin: const EdgeInsets.all(10),
-                  //   child: ListTile(
-                  //     title: Text("☕ Project: $name"),
-                  //     subtitle: Text(
-                  //         "\n📜 Role: $role\n      Owner: ${boss.email} \n      Team's number: $number"),
-                  //     trailing: Row(
-                  //       mainAxisSize: MainAxisSize.min,
-                  //       children: [
-                  //         renameIconWidget(_items[index].role!, _items[index]),
-                  //         deleteIconWidget(_items[index].role!, _items[index])
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
                 );
               },
             ),

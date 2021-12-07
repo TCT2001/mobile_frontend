@@ -131,8 +131,12 @@ class TaskService {
         headers: authHeader(token!));
     if (response.statusCode == 200) {
       var temp = CommonResp.fromJson(json.decode(response.body));
-      Map<String, dynamic> jso1 = temp.data as Map<String, dynamic>;
-      return Task.fromJson(jso1);
+      if (temp.code == "SUCCESS") {
+        Map<String, dynamic> jso1 = temp.data as Map<String, dynamic>;
+        return Task.fromJson(jso1);
+      } else {
+        return Task.name(-1);
+      }
     } else {
       throw Exception('Failed');
     }

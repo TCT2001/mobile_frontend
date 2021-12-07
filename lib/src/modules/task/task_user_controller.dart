@@ -59,7 +59,7 @@ class TaskUserController extends GetxController {
   void searchByName(String name) async {
     _tasks.assignAll([]);
     _paginateParam = PaginateParam(page: 0).obs;
-    _paginateParam.value.filter = "name~$name";
+    _paginateParam.value.filter = "name~${name}ORbriefContent~$name";
     final data = await TaskService.listByUsers(_paginateParam.value);
     if (data!.isEmpty) {
       _isLastPage.value = true;
