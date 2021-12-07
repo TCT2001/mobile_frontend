@@ -73,17 +73,21 @@ class _MyHomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    homeController.updateT();
     List<Task> tasks = homeController.recentTask;
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color(0xff2d5f79),
-          title: Text('Home'),
-        ),
-        body: ListView.builder(
-            itemCount: tasks.length,
+      appBar: AppBar(
+        backgroundColor: Color(0xff2d5f79),
+        title: Text('Home'),
+      ),
+      body: GetBuilder<HomeController>(
+        builder: (_dx) => ListView.builder(
+            itemCount: _dx.recentTask.length,
             itemBuilder: (context, index) {
-              return buildCard(tasks[index]);
-            }));
+              return buildCard(_dx.recentTask[index]);
+            }),
+      ),
+    );
   }
 
   Card buildCard(Task task) {

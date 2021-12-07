@@ -8,9 +8,11 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:mobile_app/src/core/constants/colors.dart';
 import 'package:mobile_app/src/core/utils/lazy_load_scroll_view.dart';
+import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/project.dart';
 import 'package:mobile_app/src/data/models/task.dart';
+import 'package:mobile_app/src/data/providers/storage_provider.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
 import 'package:mobile_app/src/modules/task/task_project_controller.dart';
 import 'package:mobile_app/src/routes/app_routes.dart';
@@ -101,7 +103,25 @@ Widget taskProjectList(Project project, var controller) {
             itemBuilder: (_, index) {
               Task task = _items[index];
               return GestureDetector(
-                  onTap: () {
+                  onTap: () async {
+                    String? ids = await getStringLocalStorge(
+                        LocalStorageKey.RECENT_TASK.toString());
+                    if (ids != null) {
+                      var rs = ids.split("|");
+                      if (rs.length >= 5) {
+                        if (rs.contains(_items[index].id.toString())) {
+                          rs.remove(_items[index].id.toString());
+                        } else {
+                          rs.removeAt(0);
+                        }
+                      }
+                      rs.add(_items[index].id.toString());
+                      ids = rs.join("|");
+                    } else {
+                      ids = "${_items[index].id}";
+                    }
+                    setStringLocalStorge(
+                        LocalStorageKey.RECENT_TASK.toString(), "");
                     Get.toNamed(Routes.TASK_DETAIL_PAGE, arguments: {
                       "id": _items[index].id,
                       "task": _items[index]
