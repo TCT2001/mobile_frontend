@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'project.dart';
 
 class Task {
@@ -27,10 +29,10 @@ class Task {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is Project &&
-              runtimeType == other.runtimeType &&
-              id == other.id &&
-              name == other.name;
+      other is Project &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          name == other.name;
 
   Task(
       {required this.id,
@@ -40,11 +42,11 @@ class Task {
       required this.priority,
       required this.taskState,
       required this.deadline,
-      required this.userIdIfVisibleIsPrivate, userDTOSet,
+      required this.userIdIfVisibleIsPrivate,
+      userDTOSet,
       required this.briefContent});
 
   Task.name();
-
 
   @override
   int get hashCode => id.hashCode;
@@ -53,4 +55,24 @@ class Task {
   // String toString() {
   //   return 'Task{id: $id, name: $name}';
   // }
+
+  // static Map<String, dynamic> toMap(Task task) => {
+  //       'id': task.id,
+  //       'name': task.name,
+  //       'content': task.content,
+  //       'visibleTaskScope': task.briefContent,
+  //       'priority': task.priority,
+  //       'taskState': task.taskState,
+  //       'deadline': task.deadline,
+  //       'briefContent': task.briefContent
+  //     };
+
+  // static List<Task> decode(String tasks) =>
+  //     (json.decode(tasks) as List<dynamic>)
+  //         .map<Task>((item) => Task.fromJson(item))
+  //         .toList();
+
+  // static String encode(List<Task> tasks) => json.encode(
+  //       tasks.map<Map<String, dynamic>>((task) => Task.toMap(music)).toList(),
+  //     );
 }

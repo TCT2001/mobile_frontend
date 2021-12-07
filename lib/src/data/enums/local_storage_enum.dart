@@ -4,5 +4,6 @@ enum LocalStorageKey {
   EMAIL,
   USER_ID,
   TOKEN,
-  REFRESH_TOKEN
+  REFRESH_TOKEN,
+  RECENT_TASK
 }
