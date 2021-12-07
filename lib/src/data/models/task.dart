@@ -47,7 +47,7 @@ class Task {
       required this.briefContent,
       required this.role});
 
-  Task.name();
+  Task.name(this.id);
 
   @override
   int get hashCode => id.hashCode;
@@ -76,4 +76,9 @@ class Task {
   // static String encode(List<Task> tasks) => json.encode(
   //       tasks.map<Map<String, dynamic>>((task) => Task.toMap(music)).toList(),
   //     );
+
+  @override
+  String toString() {
+    return 'Task(id: $content)';
+  }
 }

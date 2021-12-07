@@ -67,40 +67,7 @@ class TaskUserPage extends GetView<TaskUserController> {
           Icons.menu, // add custom icons also
         ),
       ),
-      actions: <Widget>[
-        // Container(
-        //     width: 120,
-        //     child: TextField(
-        //       controller: searchController,
-        //       decoration: const InputDecoration(
-        //         icon: Icon(Icons.search, color: Color(0xffffffff),),
-        //       ),
-        //
-        //       onChanged: (String? value) {
-        //         controller.searchByName(value!);
-        //         controller.update();
-        //       },
-        //     )),
-        PopupMenuButton<int>(
-          key: _key,
-          itemBuilder: (context) {
-            return <PopupMenuEntry<int>>[
-              PopupMenuItem(
-                child: TextField(
-                  controller: searchController,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.search),
-                  ),
-                  onChanged: (String? value) {
-                    controller.searchByName(value!);
-                    controller.update();
-                  },
-                ),
-              )
-            ];
-          },
-        ),
-      ],
+      actions: <Widget>[],
       backgroundColor: Color(0xff2d5f79),
     );
   }
@@ -113,16 +80,16 @@ class TaskUserPage extends GetView<TaskUserController> {
         appBar: taskAppBar(),
         body: Column(
           children: <Widget>[
-            // TextField(
-            //   controller: searchController,
-            //   decoration: const InputDecoration(
-            //     icon: Icon(Icons.search),
-            //   ),
-            //   onChanged: (String? value) {
-            //     controller.searchByName(value!);
-            //     controller.update();
-            //   },
-            // ),
+            TextField(
+              controller: searchController,
+              decoration: const InputDecoration(
+                icon: Icon(Icons.search),
+              ),
+              onChanged: (String? value) {
+                controller.searchByName(value!);
+                controller.update();
+              },
+            ),
             Expanded(child: customBody()),
           ],
         ));

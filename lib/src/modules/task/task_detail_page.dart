@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:mobile_app/src/core/constants/colors.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/task.dart';
@@ -384,6 +385,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Bg,
         appBar: taskDetailAppBar(),
         body: Column(
           children: <Widget>[
@@ -393,15 +395,13 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     Task task = snapshot.data!;
-                    int taskId = task.id!;
-                    String taskName = task.name!;
-                    String taskContent = task.content!;
-                    String taskState = task.taskState!;
-                    String taskPriority = task.priority!;
-                    //String taskDeadline = task.deadline!;
-                    return Text(
-                        "Id : $taskId\n\nName: $taskName\n\nContent : $taskContent \n\nState : $taskState\n\nPriority : $taskPriority\n\nDeadline: 123",
-                        style: TextStyle(fontSize: 20));
+                    return Card(
+                      margin: EdgeInsets.only(left: 10, right: 10, top: 8),
+                      child: ListTile(
+                        title: Text(task.content!,
+                            style: TextStyle(fontSize: 16)),
+                      ),
+                    );
                   } else if (snapshot.hasError) {
                     return Text('Loi');
                   }
@@ -410,11 +410,17 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                 },
               ),
             ),
+            Expanded(
+              child: Column(
+                children: [
+                  postComment('2h', 'This is a comment', 'Unknown Name',
+                      'https://lh3.googleusercontent.com/ogw/ADea4I41utR78MVuw5cnbm9nqhCOzg55A4fz6mA0qS1h=s83-c-mo'),
+                  postComment('2h', 'This is a comment', 'Unknown Name',
+                      'https://lh3.googleusercontent.com/ogw/ADea4I41utR78MVuw5cnbm9nqhCOzg55A4fz6mA0qS1h=s83-c-mo'),
+                ],
+              ),
+            )
             //ListView.builder(itemBuilder: itemBuilder)
-            postComment('2h', 'This is a comment', 'Unknown Name',
-                'https://lh3.googleusercontent.com/ogw/ADea4I41utR78MVuw5cnbm9nqhCOzg55A4fz6mA0qS1h=s83-c-mo'),
-            postComment('2h', 'This is a comment', 'Unknown Name',
-                'https://lh3.googleusercontent.com/ogw/ADea4I41utR78MVuw5cnbm9nqhCOzg55A4fz6mA0qS1h=s83-c-mo'),
           ],
         ));
   }
@@ -436,7 +442,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: HexColor('#E9F1FE'),
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(6.0),
                 ),
                 child: Padding(

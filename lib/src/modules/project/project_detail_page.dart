@@ -11,11 +11,11 @@ import 'package:mobile_app/src/data/models/project.dart';
 import 'package:mobile_app/src/data/models/user.dart';
 import 'package:mobile_app/src/data/providers/storage_provider.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
-import 'package:mobile_app/src/modules/project/piechart/piechart_page.dart';
 import 'package:mobile_app/src/modules/task/task_project_controller.dart';
 import 'package:mobile_app/src/modules/task/task_project_page.dart';
 import 'package:select_form_field/select_form_field.dart';
 
+import 'piechart/piechart_page.dart';
 import 'project_controller.dart';
 
 final List<Map<String, dynamic>> _items = [
@@ -70,7 +70,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
     project = controller.find(id);
   }
 
-  AppBar appBar(String role, BuildContext context) {
+  AppBar appBar(String role, BuildContext context, int projectId) {
     return AppBar(
       title: const Text('ProjectDetailPage'),
       automaticallyImplyLeading: false,
@@ -196,7 +196,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
             } else if (value == 4) {
               _keyDraw.currentState!.openDrawer();
             } else if (value == 5) {
-              Get.to(PiechartPage());
+              Get.to(PiechartPage(id: projectId));
             }
           },
           key: _key,
@@ -215,32 +215,20 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
         PopupMenuItem(child: Text('Create Task'), value: 1),
         PopupMenuItem(child: Text('Rename Project'), value: 2),
         PopupMenuItem(child: Text('Delete Project'), value: 3),
-        PopupMenuItem(child: Text('Members'), value: 4),
-        PopupMenuItem(child: Text('Show Piechart'), value: 5),
-        PopupMenuItem(
-          child: TextField(
-            controller: searchController,
-            decoration: const InputDecoration(
-              icon: Icon(Icons.search),
-            ),
-            onChanged: (String? value) {
-              controller.searchByName(value!);
-              controller.update();
-            },
-          ),
-        )
+        PopupMenuItem(child: Text('Info'), value: 4),
+        PopupMenuItem(child: Text('Show Piechart'), value: 5)
       ];
     } else if (role == "ADMINISTRATOR") {
       return <PopupMenuEntry<int>>[
         PopupMenuItem(child: Text('Invite'), value: 0),
         PopupMenuItem(child: Text('Create Task'), value: 1),
         PopupMenuItem(child: Text('Rename Project'), value: 2),
-        PopupMenuItem(child: Text('Members'), value: 4),
-        PopupMenuItem(child: Text('Show Piechart'), value: 5),
+        PopupMenuItem(child: Text('Info'), value: 4),
+        PopupMenuItem(child: Text('Show Piechart'), value: 5)
       ];
     } else {
       return <PopupMenuEntry<int>>[
-        PopupMenuItem(child: Text('Members'), value: 4)
+        PopupMenuItem(child: Text('Info'), value: 4)
       ];
     }
   }
@@ -264,11 +252,11 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
           return Scaffold(
             backgroundColor: Bg,
             key: _keyDraw,
-            drawer: drawer(snapshot.data!.userDTOSet!),
-            appBar: appBar(snapshot.data!.role!, context),
+            drawer: drawer(snapshot.data!.userDTOSet!, snapshot.data!),
+            appBar: appBar(snapshot.data!.role!, context, snapshot.data!.id!),
             body: Column(
               children: <Widget>[
-                Container(child: showDetail(snapshot)),
+                //Container(child: showDetail(snapshot)),
                 TextField(
                   controller: searchController,
                   decoration: const InputDecoration(
@@ -287,19 +275,31 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
         });
   }
 
-  Widget drawer(List members) {
+  Widget drawer(List members, Project project) {
     members = members as List<User>;
     return Drawer(
       child: ListView(
         shrinkWrap: true,
         padding: EdgeInsets.zero,
         children: [
-          const DrawerHeader(
+          DrawerHeader(
             decoration: BoxDecoration(
-              color: Colors.blue,
+              color: Bg,
             ),
-            child: Text("Members in project 👨‍💼"),
+            child: Column(
+              children: [
+                Text("Project: ${project.name}",
+                    style: TextStyle(fontSize: 30)),
+                SizedBox(height: 10),
+              ],
+            ),
           ),
+          Container(
+              margin: EdgeInsets.only(left: 8),
+              child: Text(
+                "Members",
+                style: TextStyle(fontSize: 18),
+              )),
           Container(
               height: double.maxFinite,
               child: ListView.builder(
@@ -308,19 +308,20 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                     final id = members[i].id % 256 + 256;
                     final hexString = id.toRadixString(16);
                     return Card(
+                        color: Bg,
                         child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        ListTile(
-                          leading: CircleAvatar(
-                            child: Image.network(
-                                "https://ui-avatars.com/api/?name=${members[i].email}&color=$hexString"),
-                          ),
-                          title: Text(members[i].toString()),
-                          subtitle: Text('TWICE'),
-                        ),
-                      ],
-                    ));
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            ListTile(
+                              leading: CircleAvatar(
+                                child: Image.network(
+                                    "https://ui-avatars.com/api/?name=${members[i].email}&color=$hexString"),
+                              ),
+                              title: Text(members[i].toString()),
+                              subtitle: Text('TWICE'),
+                            ),
+                          ],
+                        ));
                   })),
           // ListTile(
           //   title: const Text('Close'),

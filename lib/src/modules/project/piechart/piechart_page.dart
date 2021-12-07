@@ -1,31 +1,51 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:mobile_app/src/core/constants/colors.dart';
+import 'package:mobile_app/src/data/models/payload/common_resp.dart';
+import 'package:mobile_app/src/data/models/project.dart';
+import 'package:mobile_app/src/modules/project/project_controller.dart';
 import 'package:pie_chart/pie_chart.dart';
 
-
-
 enum LegendShape { Circle, Rectangle }
+
 class PiechartPage extends StatefulWidget {
+  int id;
+
+  PiechartPage({Key? key, required this.id}) : super(key: key);
   @override
-  _PiechartState createState() => _PiechartState();
+  _PiechartState createState() => _PiechartState(id: id);
 }
 
 class _PiechartState extends State<PiechartPage> {
-  final dataMap = <String, double>{
-    "numDoneState": 0,
-    "numSubmittedState": 2,
-    "numInProcessState": 0,
-    "numInCompleteState": 0,
-    "numToBeDiscussedState": 0,
-    "numDuplicateState": 0,
-    "numObsoleteState": 0
-  };
-  final dataMap1 = <String,double>{
-    "doneTaskInDeadline": 0,
-    "doneTaskAfterDeadline": 0,
-    "notDoneTaskInDeadline": 1,
-    "notTaskAfterDeadline": 1
-  };
+  int id;
+  _PiechartState({required this.id});
+  ProjectController projectController = Get.put(ProjectController());
+
+  late Future<CommonResp?> data;
+  @override
+  void initState() {
+    data = projectController.piechart(id);
+    super.initState();
+  }
+
+  // final dataMap = <String, double>{
+  //   "numDoneState": 0,
+  //   "numSubmittedState": 2,
+  //   "numInProcessState": 0,
+  //   "numInCompleteState": 0,
+  //   "numToBeDiscussedState": 0,
+  //   "numDuplicateState": 0,
+  //   "numObsoleteState": 0
+  // };
+  // final dataMap1 = <String, double>{
+  //   "doneTaskInDeadline": 0,
+  //   "doneTaskAfterDeadline": 0,
+  //   "notDoneTaskInDeadline": 1,
+  //   "notTaskAfterDeadline": 1
+  // };
   final colorList = <Color>[
     Color(0xfffdcb6e),
     Color(0xff0984e3),
@@ -71,9 +91,8 @@ class _PiechartState extends State<PiechartPage> {
 
   int key = 0;
 
-  @override
-  Widget build(BuildContext context) {
-    final chart = PieChart(
+  Widget char(var dataMap) {
+    return PieChart(
       key: ValueKey(key),
       dataMap: dataMap,
       animationDuration: Duration(milliseconds: 800),
@@ -110,7 +129,10 @@ class _PiechartState extends State<PiechartPage> {
         Colors.blue,
       ],
     );
-    final chart1 = PieChart(
+  }
+
+  Widget char1(var dataMap1) {
+    return PieChart(
       key: ValueKey(key),
       dataMap: dataMap1,
       animationDuration: Duration(milliseconds: 800),
@@ -147,6 +169,10 @@ class _PiechartState extends State<PiechartPage> {
         Colors.blue,
       ],
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final settings = SingleChildScrollView(
       child: Card(
         margin: EdgeInsets.all(12),
@@ -165,9 +191,9 @@ class _PiechartState extends State<PiechartPage> {
               title: Text(
                 'Pie Chart Options'.toUpperCase(),
                 style: Theme.of(context).textTheme.overline!.copyWith(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                ),
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
             ),
             ListTile(
@@ -217,10 +243,10 @@ class _PiechartState extends State<PiechartPage> {
                   ],
                   onChanged: (_chartType == ChartType.ring)
                       ? (val) {
-                    setState(() {
-                      _ringStrokeWidth = val;
-                    });
-                  }
+                          setState(() {
+                            _ringStrokeWidth = val;
+                          });
+                        }
                       : null,
                 ),
               ),
@@ -271,9 +297,9 @@ class _PiechartState extends State<PiechartPage> {
               title: Text(
                 'Legend Options'.toUpperCase(),
                 style: Theme.of(context).textTheme.overline!.copyWith(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                ),
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
             ),
             SwitchListTile(
@@ -354,9 +380,9 @@ class _PiechartState extends State<PiechartPage> {
               title: Text(
                 'Chart values Options'.toUpperCase(),
                 style: Theme.of(context).textTheme.overline!.copyWith(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                ),
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
             ),
             SwitchListTile(
@@ -400,8 +426,10 @@ class _PiechartState extends State<PiechartPage> {
       ),
     );
     return Scaffold(
+      backgroundColor: Bg,
       appBar: AppBar(
-        title: Text("Pie Chart"),
+        title: Text("Statistics"),
+        backgroundColor: Color(0xff2d5f79),
         actions: [
           ElevatedButton(
             onPressed: () {
@@ -413,47 +441,74 @@ class _PiechartState extends State<PiechartPage> {
           ),
         ],
       ),
-      body: LayoutBuilder(
-        builder: (_, constraints) {
-          if (constraints.maxWidth >= 600) {
-            return Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Flexible(
-                  flex: 3,
-                  fit: FlexFit.tight,
-                  child: chart,
-                ),
-                Flexible(
-                  flex: 2,
-                  fit: FlexFit.tight,
-                  child: settings,
-                )
-              ],
-            );
-          } else {
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    child: chart1,
-                    margin: EdgeInsets.symmetric(
-                      vertical: 32,
+      body: FutureBuilder<CommonResp?>(
+          future: data,
+          builder: (_, snapshot) {
+            if (snapshot.data == null) {
+              return SizedBox.shrink();
+            }
+            CommonResp rs = snapshot.data!;
+            var t = rs.data as Map;
+            print(t["numDoneState"]);
+            // var temp  = json.decode(rs.data as String);
+            // print(temp);
+            final dataMap = <String, double>{
+              "numDoneState": t["numDoneState"].toDouble(),
+              "numSubmittedState": t["numSubmittedState"].toDouble(),
+              "numInProcessState": t["numInProcessState"].toDouble(),
+              "numInCompleteState": t["numInCompleteState"].toDouble(),
+              "numToBeDiscussedState": t["numToBeDiscussedState"].toDouble(),
+              "numDuplicateState": t["numDuplicateState"].toDouble(),
+              "numObsoleteState": t["numObsoleteState"].toDouble()
+            };
+            final dataMap1 = <String, double>{
+              "doneTaskInDeadline": t["doneTaskInDeadline"].toDouble(),
+              "doneTaskAfterDeadline": t["doneTaskAfterDeadline"].toDouble(),
+              "notDoneTaskInDeadline": t["notDoneTaskInDeadline"].toDouble(),
+              "notTaskAfterDeadline": t["notTaskAfterDeadline"].toDouble()
+            };
+            return LayoutBuilder(
+              builder: (_, constraints) {
+                if (constraints.maxWidth >= 600) {
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Flexible(
+                        flex: 3,
+                        fit: FlexFit.tight,
+                        child: char(dataMap),
+                      ),
+                      Flexible(
+                        flex: 2,
+                        fit: FlexFit.tight,
+                        child: settings,
+                      )
+                    ],
+                  );
+                } else {
+                  return SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Container(
+                          child: char1(dataMap1),
+                          margin: EdgeInsets.symmetric(
+                            vertical: 32,
+                          ),
+                        ),
+                        Container(
+                          child: char(dataMap),
+                          margin: EdgeInsets.symmetric(
+                            vertical: 32,
+                          ),
+                        ),
+                        settings,
+                      ],
                     ),
-                  ),
-                  Container(
-                    child: chart,
-                    margin: EdgeInsets.symmetric(
-                      vertical: 32,
-                    ),
-                  ),
-                  settings,
-                ],
-              ),
+                  );
+                }
+              },
             );
-          }
-        },
-      ),
+          }),
     );
   }
 }
