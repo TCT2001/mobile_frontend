@@ -4,6 +4,7 @@ import 'package:date_format/date_format.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mobile_app/src/core/constants/colors.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/project.dart';
@@ -53,6 +54,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   late TextEditingController invitedEmailController = TextEditingController();
   late TextEditingController newNameController = TextEditingController();
   late TextEditingController newContentController = TextEditingController();
+  TextEditingController searchController = TextEditingController(text: '');
 
   String invitedEmail = '';
   String role = '';
@@ -85,15 +87,15 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
         ),
       ),
       actions: <Widget>[
-        Padding(
-            padding: EdgeInsets.only(right: 20.0),
-            child: GestureDetector(
-              onTap: () {},
-              child: Icon(
-                Icons.search,
-                size: 26.0,
-              ),
-            )),
+        // Padding(
+        //     padding: EdgeInsets.only(right: 20.0),
+        //     child: GestureDetector(
+        //       onTap: () {},
+        //       child: Icon(
+        //         Icons.search,
+        //         size: 26.0,
+        //       ),
+        //     )),
         PopupMenuButton<int>(
           onSelected: (value) {
             if (value == 0) {
@@ -210,7 +212,19 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
         PopupMenuItem(child: Text('Create Task'), value: 1),
         PopupMenuItem(child: Text('Rename Project'), value: 2),
         PopupMenuItem(child: Text('Delete Project'), value: 3),
-        PopupMenuItem(child: Text('Members'), value: 4)
+        PopupMenuItem(child: Text('Members'), value: 4),
+        PopupMenuItem(
+          child: TextField(
+            controller: searchController,
+            decoration: const InputDecoration(
+              icon: Icon(Icons.search),
+            ),
+            onChanged: (String? value) {
+              controller.searchByName(value!);
+              controller.update();
+            },
+          ),
+        )
       ];
     } else if (role == "ADMINISTRATOR") {
       return <PopupMenuEntry<int>>[
@@ -243,6 +257,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
             );
           }
           return Scaffold(
+            backgroundColor: Bg,
             key: _keyDraw,
             drawer: drawer(snapshot.data!.userDTOSet!),
             appBar: appBar(snapshot.data!.role!, context),
@@ -260,9 +275,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                   },
                 ),
                 Expanded(
-                    child: Container(
-                        child:
-                            showTaskList(snapshot.data, taskProjectController)))
+                    child: showTaskList(snapshot.data, taskProjectController))
               ],
             ),
           );
@@ -429,7 +442,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
         Get.put(TaskProjectController(projectId: id));
     Get.bottomSheet(
       Container(
-          height: 250,
+          height: 850,
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
               topRight: Radius.circular(16),
@@ -438,218 +451,222 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
             // color: Colors.white,
             color: Color(0xff88e8f2),
           ),
-          child: Form(
-            key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
             child: ListView(
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Create Task',
-                      textAlign: TextAlign.center,
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    TextFormField(
-                      controller: newNameController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter task name';
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        labelText: 'Name',
-                        hintText: 'Name',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Create Task',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    TextFormField(
-                      controller: newContentController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter task content';
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        labelText: 'Content',
-                        hintText: 'Content',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
+                      const SizedBox(
+                        height: 0,
                       ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text("Select Task State"),
-                    Obx(() => DropdownButton<String>(
-                          // Set the Items of DropDownButton
-                          items: const [
-                            DropdownMenuItem(
-                              value: "SUBMITTED",
-                              child: Text(
-                                "SUBMITTED",
-                              ),
-                            ),
-                            DropdownMenuItem(
-                              value: "IN_PROCESS",
-                              child: Text(
-                                "IN PROCESS",
-                              ),
-                            ),
-                            DropdownMenuItem(
-                              value: "INCOMPLETE",
-                              child: Text(
-                                "INCOMPLETE",
-                              ),
-                            ),
-                            DropdownMenuItem(
-                              value: "TO_BE_DISCUSSED",
-                              child: Text(
-                                "TO BE DISCUSSED",
-                              ),
-                            ),
-                            DropdownMenuItem(
-                              value: "DONE",
-                              child: Text(
-                                "DONE",
-                              ),
-                            ),
-                            DropdownMenuItem(
-                              value: "DUPLICATE",
-                              child: Text(
-                                "DUPLICATE",
-                              ),
-                            ),
-                            DropdownMenuItem(
-                              value: "OBSOLETE",
-                              child: Text(
-                                "OBSOLETE",
-                              ),
-                            ),
-                          ],
-                          value: taskController.selectedState.value.toString(),
-                          hint: const Text('Select Task State'),
-                          isExpanded: true,
-                          onChanged: (selectedValue) {
-                            taskController.selectedState.value = selectedValue!;
-                          },
-                        )),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text("Select Task Priority"),
-                    Obx(() => DropdownButton<String>(
-                          // Set the Items of DropDownButton
-                          items: const [
-                            DropdownMenuItem(
-                              value: "CRITICAL",
-                              child: Text(
-                                "Critcal Priority",
-                              ),
-                            ),
-                            DropdownMenuItem(
-                              value: "MAJOR",
-                              child: Text(
-                                "Major Priority",
-                              ),
-                            ),
-                            DropdownMenuItem(
-                              value: "NORMAL",
-                              child: Text(
-                                "Normal Priority",
-                              ),
-                            ),
-                            DropdownMenuItem(
-                              value: "MINOR",
-                              child: Text(
-                                "Minor Priority",
-                              ),
-                            ),
-                          ],
-                          value:
-                              taskController.selectedPriority.value.toString(),
-                          hint: const Text('Select Task Priority'),
-                          isExpanded: true,
-                          onChanged: (selectedValue) {
-                            taskController.selectedPriority.value =
-                                selectedValue!;
-                          },
-                        )),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Text("Select Task Deadline"),
-                        const SizedBox(
-                          width: 175,
-                        ),
-                        IconButton(
-                            onPressed: () async {
-                              final DateTime? picked = await showDatePicker(
-                                context: context,
-                                initialDate: selectedDate,
-                                firstDate: DateTime.now(),
-                                lastDate: DateTime(2025),
-                                helpText: 'Select task deadline',
-                                errorFormatText: 'Enter valid date',
-                                errorInvalidText: 'Enter date in valid range',
-                              );
-                              if (picked != null) {
-                                selectedDate = picked;
-                              }
-                              deadline = formatDate(
-                                  selectedDate, [yyyy, '-', mm, '-', dd]);
-                            },
-                            icon: const Icon(Icons.calendar_today_outlined)),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    FloatingActionButton.extended(
-                        backgroundColor: Color(0xff2d5f79),
-                        label: const Text('Create'),
-                        icon: const Icon(Icons.send),
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            Get.back();
-                            CommonResp? commonResp =
-                                await taskController.createTask(
-                                    newNameController.text,
-                                    newContentController.text,
-                                    taskController.selectedState.value,
-                                    taskController.selectedPriority.value,
-                                    deadline.toString(),
-                                    id);
-                            if (commonResp!.code == "SUCCESS") {
-                              customSnackBar("Create Task", "Success",
-                                  iconData: Icons.check_outlined,
-                                  iconColor: Colors.green);
-                            } else {
-                              customSnackBar("Create Task", "Fail",
-                                  iconData: Icons.warning_rounded,
-                                  iconColor: Colors.red);
-                            }
-                            newNameController.clear();
-                            newContentController.clear();
-                            taskController.selectedScope = "PUBLIC".obs;
-                            taskController.selectedPriority = "NORMAL".obs;
-                            taskController.selectedState = "SUBMITTED".obs;
-                            selectedDate = DateTime.now();
+                      TextFormField(
+                        controller: newNameController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter task name';
                           }
-                        })
-                  ],
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          labelText: 'Name',
+                          hintText: 'Name',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 6,
+                      ),
+                      TextFormField(
+                        controller: newContentController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter task content';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          labelText: 'Content',
+                          hintText: 'Content',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Text("Select Task State"),
+                      Obx(() => DropdownButton<String>(
+                            items: const [
+                              DropdownMenuItem(
+                                value: "SUBMITTED",
+                                child: Text(
+                                  "SUBMITTED",
+                                ),
+                              ),
+                              DropdownMenuItem(
+                                value: "IN_PROCESS",
+                                child: Text(
+                                  "IN PROCESS",
+                                ),
+                              ),
+                              DropdownMenuItem(
+                                value: "INCOMPLETE",
+                                child: Text(
+                                  "INCOMPLETE",
+                                ),
+                              ),
+                              DropdownMenuItem(
+                                value: "TO_BE_DISCUSSED",
+                                child: Text(
+                                  "TO BE DISCUSSED",
+                                ),
+                              ),
+                              DropdownMenuItem(
+                                value: "DONE",
+                                child: Text(
+                                  "DONE",
+                                ),
+                              ),
+                              DropdownMenuItem(
+                                value: "DUPLICATE",
+                                child: Text(
+                                  "DUPLICATE",
+                                ),
+                              ),
+                              DropdownMenuItem(
+                                value: "OBSOLETE",
+                                child: Text(
+                                  "OBSOLETE",
+                                ),
+                              ),
+                            ],
+                            value:
+                                taskController.selectedState.value.toString(),
+                            hint: const Text('Select Task State'),
+                            isExpanded: true,
+                            onChanged: (selectedValue) {
+                              taskController.selectedState.value =
+                                  selectedValue!;
+                            },
+                          )),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Text("Select Task Priority"),
+                      Obx(() => DropdownButton<String>(
+                            // Set the Items of DropDownButton
+                            items: const [
+                              DropdownMenuItem(
+                                value: "CRITICAL",
+                                child: Text(
+                                  "Critcal Priority",
+                                ),
+                              ),
+                              DropdownMenuItem(
+                                value: "MAJOR",
+                                child: Text(
+                                  "Major Priority",
+                                ),
+                              ),
+                              DropdownMenuItem(
+                                value: "NORMAL",
+                                child: Text(
+                                  "Normal Priority",
+                                ),
+                              ),
+                              DropdownMenuItem(
+                                value: "MINOR",
+                                child: Text(
+                                  "Minor Priority",
+                                ),
+                              ),
+                            ],
+                            value: taskController.selectedPriority.value
+                                .toString(),
+                            hint: const Text('Select Task Priority'),
+                            isExpanded: true,
+                            onChanged: (selectedValue) {
+                              taskController.selectedPriority.value =
+                                  selectedValue!;
+                            },
+                          )),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Text("Select Task Deadline"),
+                          const SizedBox(
+                            height: 1,
+                            width: 175,
+                          ),
+                          IconButton(
+                              onPressed: () async {
+                                final DateTime? picked = await showDatePicker(
+                                  context: context,
+                                  initialDate: selectedDate,
+                                  firstDate: DateTime.now(),
+                                  lastDate: DateTime(2025),
+                                  helpText: 'Select task deadline',
+                                  errorFormatText: 'Enter valid date',
+                                  errorInvalidText: 'Enter date in valid range',
+                                );
+                                if (picked != null) {
+                                  selectedDate = picked;
+                                }
+                                deadline = formatDate(
+                                    selectedDate, [yyyy, '-', mm, '-', dd]);
+                              },
+                              icon: const Icon(Icons.calendar_today_outlined)),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 0,
+                      ),
+                      FloatingActionButton.extended(
+                          backgroundColor: Color(0xff2d5f79),
+                          label: const Text('Create'),
+                          icon: const Icon(Icons.send),
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              CommonResp? commonResp =
+                                  await taskController.createTask(
+                                      newNameController.text,
+                                      newContentController.text,
+                                      taskController.selectedState.value,
+                                      taskController.selectedPriority.value,
+                                      deadline.toString(),
+                                      id);
+                              if (commonResp!.code == "SUCCESS") {
+                                customSnackBar("Create Task", "Success",
+                                    iconData: Icons.check_outlined,
+                                    iconColor: Colors.white);
+                              } else {
+                                customSnackBar("Create Task", "Fail",
+                                    iconData: Icons.warning_rounded,
+                                    iconColor: Colors.red);
+                              }
+                              newNameController.clear();
+                              newContentController.clear();
+                              taskController.selectedScope = "PUBLIC".obs;
+                              taskController.selectedPriority = "NORMAL".obs;
+                              taskController.selectedState = "SUBMITTED".obs;
+                              selectedDate = DateTime.now();
+                            }
+                          })
+                    ],
+                  ),
                 )
               ],
             ),

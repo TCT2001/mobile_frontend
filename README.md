@@ -14,6 +14,10 @@ https://blog.waldo.io/flutter-card/
 
 Ctrl + .
 
+Several Splash: 
+![J59](https://user-images.githubusercontent.com/81580234/144733422-203d405b-c0ed-45b8-aad5-0691d8d50db8.gif)
+![VJl](https://user-images.githubusercontent.com/81580234/144733432-3287a883-5f49-4a40-accb-dc305ecf747a.gif)
+
 - https://stackoverflow.com/questions/60285825/dart-cannot-convert-listdynamic-to-listmapstring-dynamic-despite-cast
 - https://stackoverflow.com/questions/55150329/flutter-searchdelegate-on-search-i-have-to-make-api-after-getting-response-i
 
@@ -22,6 +26,8 @@ Ctrl + .
 - [getx tutorial](https://www.youtube.com/watch?v=wtHBsvj2QKA&list=PLCaS22Sjc8YR32XmudgmVqs49t-eKKr9t)
 - [getx pattern](https://github.com/kauemurakami/getx_pattern)
 
+
+https://www.flutterclutter.dev/flutter/tutorials/how-to-add-a-border-to-a-widget/2020/587/
 # Settings
 
 - Signout

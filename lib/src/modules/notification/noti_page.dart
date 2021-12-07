@@ -46,6 +46,7 @@ class NotiPage extends StatefulWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Bg,
       appBar: projectAppBar(),
       body: Container(
           decoration: const BoxDecoration(
@@ -92,21 +93,21 @@ class _NotificationPageState extends State<NotiPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Bg,
       appBar: AppBar(
           backgroundColor: Color(0xff2d5f79),
           title: Text("Notification")),
+
       body:
       FutureBuilder<List<NotificationCustom>>(
-
           future: notification,
           builder: (context, snapshot) {
             if (snapshot.data == null) {
-              return Center(child: CircularProgressIndicator());
+              return Center(child: Text("No Notification"));
             }
             var data = snapshot.data!;
             return ListView.builder(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(0),
                 itemCount: data.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Card(
@@ -114,7 +115,7 @@ class _NotificationPageState extends State<NotiPage> {
                     margin: const EdgeInsets.all(10),
                     child: ListTile(
                       title: Text(data[index].toString()),
-                      subtitle: Text(data[index].doerUsername),
+                      // subtitle: Text(data[index].doerUsername),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [

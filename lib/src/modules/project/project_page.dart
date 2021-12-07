@@ -1,6 +1,5 @@
 // ignore_for_file: must_be_immutable, prefer_const_constructors
 
-import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/src/core/constants/colors.dart';
@@ -31,15 +30,15 @@ class _ProjectPageState extends State<ProjectPage> {
     return DropdownButton<String>(
       items: const [
         DropdownMenuItem<String>(
-          child: Text('Deadline'),
+          child: Text('⏰ Deadline'),
           value: 'Deadline',
         ),
         DropdownMenuItem<String>(
-          child: Text('ASC'),
+          child: Text('      ASC'),
           value: 'ASC',
         ),
         DropdownMenuItem<String>(
-          child: Text('DESC'),
+          child: Text('      DESC'),
           value: 'DESC',
         ),
       ],
@@ -61,12 +60,27 @@ class _ProjectPageState extends State<ProjectPage> {
       actionsIconTheme:
           IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
       leading: GestureDetector(
-        onTap: () {/* Write listener code here */},
+        onTap: () {
+          /* Write listener code here */
+        },
         child: Icon(
           Icons.menu, // add custom icons also
         ),
       ),
       actions: <Widget>[
+        // Container(
+        //     width: 120,
+        //     child: TextField(
+        //       controller: searchController,
+        //       decoration: const InputDecoration(
+        //         icon: Icon(Icons.search, color: Color(0xffffffff),),
+        //       ),
+        //
+        //       onChanged: (String? value) {
+        //         controller.searchByName(value!);
+        //         controller.update();
+        //       },
+        //     )),
         PopupMenuButton<int>(
           onSelected: (value) {
             if (value == 0) {
@@ -92,7 +106,7 @@ class _ProjectPageState extends State<ProjectPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Bg,
+      backgroundColor: Bg,
         appBar: projectAppBar(context),
         body: Column(
           children: <Widget>[
@@ -110,9 +124,15 @@ class _ProjectPageState extends State<ProjectPage> {
                 controller.update();
               },
             )),
-            Expanded(
-              child: Container(child: body()),
-            )
+            Expanded(child: body()
+                // child: Container(
+                //     decoration: BoxDecoration(
+                //         image: DecorationImage(
+                //             image:
+                //                 Image.asset("assets/images/background.jpg").image,
+                //             fit: BoxFit.cover)),
+                //     child: body()),
+                )
           ],
         ));
   }
@@ -293,7 +313,7 @@ class _ProjectPageState extends State<ProjectPage> {
   }
 
   Widget renameIconWidget(String role, Project project) {
-    if (role == "ADMINSTRATOR" || role == "OWNER") {
+    if (role == "ADMINISTRATOR" || role == "OWNER") {
       return IconButton(
           onPressed: () {
             renameDialog(project);
@@ -356,6 +376,9 @@ class _ProjectPageState extends State<ProjectPage> {
         margin: const EdgeInsets.all(10),
         child: Column(children: [
           ListTile(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
             title: Text(
               "\u{1F4D1}  $heading",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),

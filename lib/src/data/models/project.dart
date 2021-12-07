@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_if_null_operators
+
 import 'package:mobile_app/src/data/models/user.dart';
 
 class Project {

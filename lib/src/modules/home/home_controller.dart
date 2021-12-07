@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/task.dart';
 import 'package:mobile_app/src/data/providers/storage_provider.dart';
+import 'package:mobile_app/src/data/services/task_service.dart';
 
 class HomeController extends GetxController {
   var _recentTasks = <Task>[].obs;
@@ -14,5 +15,23 @@ class HomeController extends GetxController {
     super.onInit();
   }
 
-  void _getRecenTask() async {}
+  void _getRecenTask() async {
+    String? ids =
+        await getStringLocalStorge(LocalStorageKey.RECENT_TASK.toString());
+    // if (ids != null) {
+    ids = "3";
+    var rs = ids.split("|");
+    List<Task> tasks = List.empty(growable: true);
+    for (String s in rs) {
+      Task? task = await TaskService.find(int.parse(s));
+      if (task != null) {
+        tasks.add(task);
+      }
+    }
+    _recentTasks.assignAll(tasks);
+  }
+
+  void updateT () {
+    _getRecenTask();
+  }
 }
