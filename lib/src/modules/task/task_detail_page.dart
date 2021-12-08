@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -11,8 +12,8 @@ import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/task.dart';
 import 'package:mobile_app/src/data/models/user.dart';
 import 'package:mobile_app/src/data/providers/storage_provider.dart';
+import 'package:mobile_app/src/data/services/task_service.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
-import 'package:mobile_app/src/modules/task/comment_controller.dart';
 import 'package:mobile_app/src/modules/task/task_user_controller.dart';
 
 class TaskDetailPage extends StatefulWidget {
@@ -40,6 +41,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
   String newTaskName = '';
   String newContentTask = '';
   String comment = '';
+  late Future<List<Comment>> listComment;
 
   @override
   void initState(){
@@ -47,6 +49,8 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
     // project = controller.find(id);
     task = controller.find(id);
     userId = getIntLocalStorge(LocalStorageKey.USER_ID.toString());
+    listComment = TaskService.listComment(taskClicked.id!);
+
   }
 
   AppBar? taskDetailAppBar() {
@@ -407,9 +411,9 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                     String taskContent = task.content!;
                     String taskState = task.taskState!;
                     String taskPriority = task.priority!;
-                    //String taskDeadline = task.deadline!;
+                    String taskDeadline = task.deadline!;
                     return Text(
-                        "Id : $taskId\n\nName: $taskName\n\nContent : $taskContent \n\nState : $taskState\n\nPriority : $taskPriority\n\nDeadline: 123",
+                        "Id : $taskId\nName: $taskName\nContent : $taskContent \nState : $taskState\nPriority : $taskPriority\nDeadline: $taskDeadline",
                         style: TextStyle(fontSize: 20));
                   } else if (snapshot.hasError) {
                     return Text('Loi');
@@ -419,119 +423,75 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                 },
               ),
             ),
-        Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextFormField(
-                controller : newCommentController,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
+            Expanded(child: FutureBuilder<List<Comment>>(
+                future: listComment,
+                builder: (context, snapshot) {
+                  if (snapshot.data == null) {
+                    return Center(child: Text("No Comment"));
                   }
-                  return null;
-                },
+                  var data = snapshot.data!;
+                  data = data.reversed.toList();
+                  return ListView.builder(
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.only(right : 40),
+                      itemCount: data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return postComment(data[index].createdTime!, data[index].content!, data[index].userDTO!.email,
+                            'https://lh3.googleusercontent.com/ogw/ADea4I41utR78MVuw5cnbm9nqhCOzg55A4fz6mA0qS1h=s83-c-mo');
+                      });
+                })),
+            Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextFormField(
+                    controller : newCommentController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          comment = newCommentController.text;
+                          int uId = await userId;
+                          CommonResp? commonResp =
+                          await controller.postComment(id, uId, comment);
+                          if (commonResp!.code == "SUCCESS") {
+                            customSnackBar("Comment", "Success",
+                                iconData: Icons.check_outlined,
+                                iconColor: Colors.green);
+                          } else {
+                            customSnackBar("Comment", "Fail",
+                                iconData: Icons.warning_rounded,
+                                iconColor: Colors.red);
+                          }
+                          newCommentController.clear();
+                          setState(() {
+                            listComment = TaskService.listComment(id);
+                          });
+                        }
+                      },
+                      child: const Text('Comment'),
+                    ),
+                  ),
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: ElevatedButton(
-                  onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    comment = newCommentController.text;
-                    int uId = await userId;
-                    CommonResp? commonResp =
-                        await controller.postComment(id, uId, comment);
-                    if (commonResp!.code == "SUCCESS") {
-                      customSnackBar("Comment", "Success",
-                          iconData: Icons.check_outlined,
-                          iconColor: Colors.green);
-                    } else {
-                      customSnackBar("Comment", "Fail",
-                          iconData: Icons.warning_rounded,
-                          iconColor: Colors.red);
-                    }
-                    newCommentController.clear();
-                  }
-                  },
-                  child: const Text('Comment'),
-                ),
-              ),
-            ],
-          ),
-        ),
-            // FutureBuilder<Task>(
-            //   builder: (context,snapshot){
-            //     if (snapshot.data == null) {
-            //       return Scaffold(
-            //         body: Center(
-            //           child: CircularProgressIndicator(),
-            //         ),
-            //       );
-            //     }
-            //     return Expanded(child: showCommentList(snapshot.data, controller));
-            //   }
-            // ),
-            //ListView.builder(itemBuilder: itemBuilder)
-            postComment('2h', comment, 'Unknown Name',
-                'https://lh3.googleusercontent.com/ogw/ADea4I41utR78MVuw5cnbm9nqhCOzg55A4fz6mA0qS1h=s83-c-mo'),
-            postComment('2h', 'This is a comment', 'Unknown Name',
-                'https://lh3.googleusercontent.com/ogw/ADea4I41utR78MVuw5cnbm9nqhCOzg55A4fz6mA0qS1h=s83-c-mo'),
+            ),
           ],
         ));
   }
 
-  Widget showCommentList(Task? task, var commentController) {
-    if (task == null) {
-      return Text("NULL");
-    } else {
-      return commentList(task, commentController);
-    }
-  }
-
-  Widget commentList(Task task, var controller) {
-    CommentController controller =
-    Get.put(CommentController(taskId: task.id!));
-
-    return Obx(() {
-      var _items = controller.comments;
-
-      if (controller.comments.isEmpty) {
-        // if (controller.isLastPage) {
-        //   return Center(child: CircularProgressIndicator());
-        // }
-        return Center(child: Text("No task"));
-      }
-      return LazyLoadScrollView(
-          onEndOfPage: controller.nextPage,
-          isLoading: controller.isLastPage,
-          child: ListTileTheme(
-            contentPadding: EdgeInsets.all(15),
-            iconColor: Colors.black45,
-            textColor: Colors.black,
-            tileColor: Colors.white,
-            style: ListTileStyle.list,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            dense: true,
-            child: ListView.builder(
-              itemCount: _items.length,
-              itemBuilder: (_, index) {
-                Comment comment = _items[index];
-                String? content = comment.content;
-                return GestureDetector(
-                    //TODO
-                    child: postComment(DateTime.now().toString(), content!, 'Unknow', 'https://lh3.googleusercontent.com/ogw/ADea4I41utR78MVuw5cnbm9nqhCOzg55A4fz6mA0qS1h=s83-c-mo'));
-              },
-            ),
-          ));
-    });
-  }
-
   Widget postComment(String time, String postComment, String profileName,
       String profileImage) {
-    return Padding(
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
       padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -544,25 +504,29 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: HexColor('#E9F1FE'),
-                  borderRadius: BorderRadius.circular(6.0),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        profileName,
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        postComment,
-                        style: TextStyle(fontSize: 16.0),
-                      )
-                    ],
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.65,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    color: HexColor('#E9F1FE'),
+                    borderRadius: BorderRadius.circular(6.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          profileName,
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                        ),
+                        Text(
+                          postComment,
+                          style: TextStyle(fontSize: 12.5),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -571,7 +535,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
               ),
               Row(
                 children: [
-                  Text(time, style: TextStyle(fontWeight: FontWeight.w600)),
+                  Text(time, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 10)),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.24,
                   ),
