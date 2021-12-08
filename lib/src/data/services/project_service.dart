@@ -62,6 +62,19 @@ class ProjectService {
     }
   }
 
+  static Future<CommonResp?> piechart(int id) async {
+    var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
+    var response = await client.get(Uri.parse('$baseURL/prj/stat?i=$id'),
+        headers: authHeader(token!));
+    if (response.statusCode == 200) {
+      var temp = CommonResp.fromJson(json.decode(response.body));
+      Map<String, dynamic> jso1 = temp.data as Map<String, dynamic>;
+      return temp;
+    } else {
+      throw Exception('Failed');
+    }
+  }
+
   static Future<CommonResp?> rename(Project project, String newName) async {
     int? id = project.id;
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());

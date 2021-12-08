@@ -6,7 +6,6 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:mobile_app/src/core/constants/colors.dart';
 import 'package:mobile_app/src/core/utils/lazy_load_scroll_view.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';

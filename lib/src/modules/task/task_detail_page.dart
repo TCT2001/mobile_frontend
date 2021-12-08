@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:mobile_app/src/core/constants/colors.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/comment.dart';
@@ -28,7 +27,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
   late Future<Task> task;
   late var userId;
   late Future<List<Comment>> listComment;
-   final GlobalKey<PopupMenuButtonState<int>> _key = GlobalKey();
+  final GlobalKey<PopupMenuButtonState<int>> _key = GlobalKey();
   final _formKey = GlobalKey<FormState>();
   late TextEditingController invitedEmailController = TextEditingController();
   late TextEditingController newNameController = TextEditingController();
@@ -47,7 +46,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
     listComment = TaskService.listComment(taskClicked.id!);
   }
 
-  AppBar? taskDetailAppBar() {
+  AppBar? taskDetailAppBar(String role) {
     return AppBar(
       backgroundColor: Color(0xff2d5f79),
       title: Text('Task detail'),
@@ -376,114 +375,147 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
           },
           key: _key,
           itemBuilder: (context) {
-            return <PopupMenuEntry<int>>[
-              PopupMenuItem(child: Text('Rename Task'), value: 0),
-              PopupMenuItem(child: Text('Update State'), value: 1),
-              PopupMenuItem(child: Text('Update Priority'), value: 2),
-              PopupMenuItem(child: Text('Update Content'), value: 3),
-            ];
+            return listAppbar(role);
           },
         ),
       ],
     );
   }
 
+  List<PopupMenuEntry<int>> listAppbar(String role) {
+    if (role == "OWNER") {
+      return <PopupMenuEntry<int>>[
+        PopupMenuItem(child: Text('Rename Task'), value: 0),
+        PopupMenuItem(child: Text('Update State'), value: 1),
+        PopupMenuItem(child: Text('Update Priority'), value: 2),
+        PopupMenuItem(child: Text('Update Content'), value: 3),
+      ];
+    } else if (role == "ADMINISTRATOR") {
+      return <PopupMenuEntry<int>>[
+        PopupMenuItem(child: Text('Rename Task'), value: 0),
+        PopupMenuItem(child: Text('Update State'), value: 1),
+        PopupMenuItem(child: Text('Update Priority'), value: 2),
+        PopupMenuItem(child: Text('Update Content'), value: 3),
+      ];
+    } else if (role == "MEMBER") {
+      return <PopupMenuEntry<int>>[
+        PopupMenuItem(child: Text('Update State'), value: 1),
+      ];
+    } else {
+      return List.empty();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Bg,
-        appBar: taskDetailAppBar(),
-        body: Column(
-          children: <Widget>[
-            Container(
-              child: FutureBuilder<Task>(
-                future: task,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    Task task = snapshot.data!;
-                    return Card(
-                      margin: EdgeInsets.only(left: 10, right: 10, top: 8),
-                      child: ListTile(
-                        title:
-                            Text(task.content!, style: TextStyle(fontSize: 16)),
-                      ),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Text('Loi');
-                  }
-                  // By default, show a loading spinner.
-                  return const CircularProgressIndicator();
-                },
-              ),
-            ),
-            Expanded(
-                child: FutureBuilder<List<Comment>>(
-                    future: listComment,
-                    builder: (context, snapshot) {
-                      if (snapshot.data == null) {
-                        return Center(child: Text("No Comment"));
-                      }
-                      var data = snapshot.data!;
-                      data = data.reversed.toList();
-                      return ListView.builder(
-                          shrinkWrap: true,
-                          padding: const EdgeInsets.only(right: 40),
-                          itemCount: data.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return postComment(
-                                data[index].createdTime!,
-                                data[index].content!,
-                                data[index].userDTO!.email,
-                                'https://lh3.googleusercontent.com/ogw/ADea4I41utR78MVuw5cnbm9nqhCOzg55A4fz6mA0qS1h=s83-c-mo');
-                          });
-                    })),
-            Container(
-              margin: EdgeInsets.only(left: 18, right: 18),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextFormField(
-                      controller: newCommentController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
-                        }
-                        return null;
-                      },
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            comment = newCommentController.text;
-                            int uId = await userId;
-                            CommonResp? commonResp =
-                                await controller.postComment(id, uId, comment);
-                            if (commonResp!.code == "SUCCESS") {
-                              customSnackBar("Comment", "Success",
-                                  iconData: Icons.check_outlined,
-                                  iconColor: Colors.green);
-                            } else {
-                              customSnackBar("Comment", "Fail",
-                                  iconData: Icons.warning_rounded,
-                                  iconColor: Colors.red);
+    return FutureBuilder<Task>(
+        future: task,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(child: Text("Error"));
+          }
+          if (snapshot.data == null) {
+            return Center(child: CircularProgressIndicator());
+          }
+          Task task = snapshot.data!;
+          String role = task.project!.role!;
+          return Scaffold(
+              backgroundColor: Bg,
+              appBar: taskDetailAppBar(role),
+              body: Column(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(bottom: 10),
+                    child: mainCard(task),
+                  ),
+                  Text(
+                    "Comment",
+                    style: TextStyle(fontSize: 18, color: Colors.blue),
+                  ),
+                  Expanded(
+                      child: FutureBuilder<List<Comment>>(
+                          future: listComment,
+                          builder: (context, snapshot) {
+                            if (snapshot.data == null) {
+                              return Center(child: Text("No Comment"));
                             }
-                            newCommentController.clear();
-                            setState(() {
-                              listComment = TaskService.listComment(id);
-                            });
-                          }
-                        },
-                        child: const Text('Comment'),
+                            var data = snapshot.data!;
+                            data = data.reversed.toList();
+                            return ListView.builder(
+                                shrinkWrap: true,
+                                padding: const EdgeInsets.only(right: 40),
+                                itemCount: data.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return postComment(
+                                      data[index].createdTime!,
+                                      data[index].content!,
+                                      data[index].userDTO!.email,
+                                      'https://lh3.googleusercontent.com/ogw/ADea4I41utR78MVuw5cnbm9nqhCOzg55A4fz6mA0qS1h=s83-c-mo');
+                                });
+                          })),
+                  Container(
+                    margin: EdgeInsets.only(left: 18, right: 18),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextFormField(
+                            controller: newCommentController,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter some text';
+                              }
+                              return null;
+                            },
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  comment = newCommentController.text;
+                                  int uId = await userId;
+                                  CommonResp? commonResp = await controller
+                                      .postComment(id, uId, comment);
+                                  if (commonResp!.code == "SUCCESS") {
+                                    customSnackBar("Comment", "Success",
+                                        iconData: Icons.check_outlined,
+                                        iconColor: Colors.green);
+                                  } else {
+                                    customSnackBar("Comment", "Fail",
+                                        iconData: Icons.warning_rounded,
+                                        iconColor: Colors.red);
+                                  }
+                                  newCommentController.clear();
+                                  setState(() {
+                                    listComment = TaskService.listComment(id);
+                                  });
+                                }
+                              },
+                              child: const Text('Comment'),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
+                  ),
+                  //ListView.builder(itemBuilder: itemBuilder)
+                ],
+              ));
+        });
+  }
+
+  Widget mainCard(Task task) {
+    return Card(
+        margin: EdgeInsets.only(left: 10, right: 10, top: 8),
+        child: Column(
+          children: [
+            ListTile(
+                title: Text("Tu show ra createdTime, Deadline, State, Priority va format lai ngay gio",
+                    style: TextStyle(fontSize: 16))),
+            ListTile(
+                title: Text(task.content!, style: TextStyle(fontSize: 16))),
           ],
         ));
   }
