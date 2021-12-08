@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'project.dart';
 
 class Task {
@@ -43,7 +41,8 @@ class Task {
       required this.priority,
       required this.taskState,
       required this.deadline,
-      required this.userIdIfVisibleIsPrivate, userDTOSet,
+      required this.userIdIfVisibleIsPrivate,
+      userDTOSet,
       required this.briefContent,
       required this.role});
 
