@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:mobile_app/src/core/constants/colors.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
@@ -41,7 +41,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
     userId = getIntLocalStorge(LocalStorageKey.USER_ID.toString());
   }
 
-  AppBar? taskDetailAppBar() {
+  AppBar? taskDetailAppBar(String role) {
     return AppBar(
       backgroundColor: Color(0xff2d5f79),
       title: Text('Task detail'),
@@ -370,59 +370,79 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
           },
           key: _key,
           itemBuilder: (context) {
-            return <PopupMenuEntry<int>>[
-              PopupMenuItem(child: Text('Rename Task'), value: 0),
-              PopupMenuItem(child: Text('Update State'), value: 1),
-              PopupMenuItem(child: Text('Update Priority'), value: 2),
-              PopupMenuItem(child: Text('Update Content'), value: 3),
-            ];
+            return listAppbar(role);
           },
         ),
       ],
     );
   }
 
+  List<PopupMenuEntry<int>> listAppbar(String role) {
+    if (role == "OWNER") {
+      return <PopupMenuEntry<int>>[
+        PopupMenuItem(child: Text('Rename Task'), value: 0),
+        PopupMenuItem(child: Text('Update State'), value: 1),
+        PopupMenuItem(child: Text('Update Priority'), value: 2),
+        PopupMenuItem(child: Text('Update Content'), value: 3),
+      ];
+    } else if (role == "ADMINISTRATOR") {
+      return <PopupMenuEntry<int>>[
+        PopupMenuItem(child: Text('Rename Task'), value: 0),
+        PopupMenuItem(child: Text('Update State'), value: 1),
+        PopupMenuItem(child: Text('Update Priority'), value: 2),
+        PopupMenuItem(child: Text('Update Content'), value: 3),
+      ];
+    } else if (role == "MEMBER") {
+      return <PopupMenuEntry<int>>[
+        PopupMenuItem(child: Text('Update State'), value: 1),
+      ];
+    } else {
+      return List.empty();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Bg,
-        appBar: taskDetailAppBar(),
-        body: Column(
-          children: <Widget>[
-            Container(
-              child: FutureBuilder<Task>(
-                future: task,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    Task task = snapshot.data!;
-                    return Card(
-                      margin: EdgeInsets.only(left: 10, right: 10, top: 8),
-                      child: ListTile(
-                        title: Text(task.content!,
-                            style: TextStyle(fontSize: 16)),
-                      ),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Text('Loi');
-                  }
-                  // By default, show a loading spinner.
-                  return const CircularProgressIndicator();
-                },
-              ),
-            ),
-            Expanded(
-              child: Column(
-                children: [
-                  postComment('2h', 'This is a comment', 'Unknown Name',
-                      'https://lh3.googleusercontent.com/ogw/ADea4I41utR78MVuw5cnbm9nqhCOzg55A4fz6mA0qS1h=s83-c-mo'),
-                  postComment('2h', 'This is a comment', 'Unknown Name',
-                      'https://lh3.googleusercontent.com/ogw/ADea4I41utR78MVuw5cnbm9nqhCOzg55A4fz6mA0qS1h=s83-c-mo'),
+    return FutureBuilder<Task>(
+        future: task,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(child: Text("Error"));
+          }
+          Task task = snapshot.data!;
+          String role = task.project!.role!;
+          return Scaffold(
+              backgroundColor: Bg,
+              appBar: taskDetailAppBar(role),
+              body: Column(
+                children: <Widget>[
+                  Container(
+                    child: mainCard(task),
+                  ),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        postComment('2h', 'This is a comment', 'Unknown Name',
+                            'https://lh3.googleusercontent.com/ogw/ADea4I41utR78MVuw5cnbm9nqhCOzg55A4fz6mA0qS1h=s83-c-mo'),
+                        postComment('2h', 'This is a comment', 'Unknown Name',
+                            'https://lh3.googleusercontent.com/ogw/ADea4I41utR78MVuw5cnbm9nqhCOzg55A4fz6mA0qS1h=s83-c-mo'),
+                      ],
+                    ),
+                  )
+                  //ListView.builder(itemBuilder: itemBuilder)
                 ],
-              ),
-            )
-            //ListView.builder(itemBuilder: itemBuilder)
-          ],
-        ));
+              ));
+        });
+  }
+
+  Widget mainCard(Task task) {
+    return Card(
+      margin: EdgeInsets.only(left: 10, right: 10, top: 8),
+      child: Column(children: [
+        ListTile(title: Text("Tu show ra createdTime, Deadline, State, Priority", style: TextStyle(fontSize: 16))),
+        ListTile(title: Text(task.content!, style: TextStyle(fontSize: 16))),
+      ],)
+    );
   }
 
   Widget postComment(String time, String postComment, String profileName,
