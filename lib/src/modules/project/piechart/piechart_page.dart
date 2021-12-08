@@ -1,11 +1,10 @@
-import 'dart:convert';
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, must_be_immutable, constant_identifier_names, no_logic_in_create_state
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/src/core/constants/colors.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
-import 'package:mobile_app/src/data/models/project.dart';
 import 'package:mobile_app/src/modules/project/project_controller.dart';
 import 'package:pie_chart/pie_chart.dart';
 

@@ -1,13 +1,14 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/src/core/constants/colors.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
+import 'package:mobile_app/src/data/models/comment.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/task.dart';
 import 'package:mobile_app/src/data/providers/storage_provider.dart';
+import 'package:mobile_app/src/data/services/task_service.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
 import 'package:mobile_app/src/modules/task/task_user_controller.dart';
 
@@ -25,20 +26,24 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
   Task taskClicked = Get.arguments['task'];
   late Future<Task> task;
   late var userId;
+  late Future<List<Comment>> listComment;
   final GlobalKey<PopupMenuButtonState<int>> _key = GlobalKey();
+  final _formKey = GlobalKey<FormState>();
   late TextEditingController invitedEmailController = TextEditingController();
   late TextEditingController newNameController = TextEditingController();
   late TextEditingController newContentController = TextEditingController();
+  late TextEditingController newCommentController = TextEditingController();
 
   String newTaskName = '';
   String newContentTask = '';
-
+  String comment = '';
   @override
   void initState() {
     super.initState();
     // project = controller.find(id);
     task = controller.find(id);
     userId = getIntLocalStorge(LocalStorageKey.USER_ID.toString());
+    listComment = TaskService.listComment(taskClicked.id!);
   }
 
   AppBar? taskDetailAppBar(String role) {
@@ -409,6 +414,9 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
           if (snapshot.hasError) {
             return Center(child: Text("Error"));
           }
+          if (snapshot.data == null) {
+            return Center(child: CircularProgressIndicator());
+          }
           Task task = snapshot.data!;
           String role = task.project!.role!;
           return Scaffold(
@@ -417,18 +425,81 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
               body: Column(
                 children: <Widget>[
                   Container(
+                    margin: EdgeInsets.only(bottom: 10),
                     child: mainCard(task),
                   ),
+                  Text(
+                    "Comment",
+                    style: TextStyle(fontSize: 18, color: Colors.blue),
+                  ),
                   Expanded(
-                    child: Column(
-                      children: [
-                        postComment('2h', 'This is a comment', 'Unknown Name',
-                            'https://lh3.googleusercontent.com/ogw/ADea4I41utR78MVuw5cnbm9nqhCOzg55A4fz6mA0qS1h=s83-c-mo'),
-                        postComment('2h', 'This is a comment', 'Unknown Name',
-                            'https://lh3.googleusercontent.com/ogw/ADea4I41utR78MVuw5cnbm9nqhCOzg55A4fz6mA0qS1h=s83-c-mo'),
-                      ],
+                      child: FutureBuilder<List<Comment>>(
+                          future: listComment,
+                          builder: (context, snapshot) {
+                            if (snapshot.data == null) {
+                              return Center(child: Text("No Comment"));
+                            }
+                            var data = snapshot.data!;
+                            data = data.reversed.toList();
+                            return ListView.builder(
+                                shrinkWrap: true,
+                                padding: const EdgeInsets.only(right: 40),
+                                itemCount: data.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return postComment(
+                                      data[index].createdTime!,
+                                      data[index].content!,
+                                      data[index].userDTO!.email,
+                                      'https://lh3.googleusercontent.com/ogw/ADea4I41utR78MVuw5cnbm9nqhCOzg55A4fz6mA0qS1h=s83-c-mo');
+                                });
+                          })),
+                  Container(
+                    margin: EdgeInsets.only(left: 18, right: 18),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextFormField(
+                            controller: newCommentController,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter some text';
+                              }
+                              return null;
+                            },
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  comment = newCommentController.text;
+                                  int uId = await userId;
+                                  CommonResp? commonResp = await controller
+                                      .postComment(id, uId, comment);
+                                  if (commonResp!.code == "SUCCESS") {
+                                    customSnackBar("Comment", "Success",
+                                        iconData: Icons.check_outlined,
+                                        iconColor: Colors.green);
+                                  } else {
+                                    customSnackBar("Comment", "Fail",
+                                        iconData: Icons.warning_rounded,
+                                        iconColor: Colors.red);
+                                  }
+                                  newCommentController.clear();
+                                  setState(() {
+                                    listComment = TaskService.listComment(id);
+                                  });
+                                }
+                              },
+                              child: const Text('Comment'),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  )
+                  ),
                   //ListView.builder(itemBuilder: itemBuilder)
                 ],
               ));
@@ -437,26 +508,28 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
 
   Widget mainCard(Task task) {
     return Card(
-      margin: EdgeInsets.only(left: 10, right: 10, top: 8),
-      child: Column(children: [
-        ListTile(title: Text("Tu show ra createdTime, Deadline, State, Priority", style: TextStyle(fontSize: 16))),
-        ListTile(title: Text(task.content!, style: TextStyle(fontSize: 16))),
-      ],)
-    );
+        margin: EdgeInsets.only(left: 10, right: 10, top: 8),
+        child: Column(
+          children: [
+            ListTile(
+                title: Text("Tu show ra createdTime, Deadline, State, Priority va format lai ngay gio",
+                    style: TextStyle(fontSize: 16))),
+            ListTile(
+                title: Text(task.content!, style: TextStyle(fontSize: 16))),
+          ],
+        ));
   }
 
   Widget postComment(String time, String postComment, String profileName,
       String profileImage) {
     return Padding(
-      padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
+      padding: EdgeInsets.only(left: 16.0, top: 16.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           CircleAvatar(
               maxRadius: 16, backgroundImage: NetworkImage(profileImage)),
-          SizedBox(
-            width: 16.0,
-          ),
+          SizedBox(width: 5),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -483,7 +556,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                 ),
               ),
               SizedBox(
-                height: 12.0,
+                height: 5.0,
               ),
               Row(
                 children: [
