@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, unnecessary_string_interpolations
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
