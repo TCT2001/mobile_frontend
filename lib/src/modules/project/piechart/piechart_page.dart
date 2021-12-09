@@ -448,7 +448,6 @@ class _PiechartState extends State<PiechartPage> {
             }
             CommonResp rs = snapshot.data!;
             var t = rs.data as Map;
-            print(t["numDoneState"]);
             // var temp  = json.decode(rs.data as String);
             // print(temp);
             final dataMap = <String, double>{

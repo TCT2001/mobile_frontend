@@ -91,11 +91,12 @@ class _NotificationPageState extends State<NotiPage> {
       body: Column(
         children: <Widget>[
           Container(
+            margin: EdgeInsets.only(top: 10),
             child: FutureBuilder<List<Invitation>>(
                 future: invitation,
                 builder: (context, snapshot) {
                   if (snapshot.data == null || snapshot.data!.length == 0) {
-                    return Center(child: Text("No notification"));
+                    return SizedBox.shrink();
                   }
                   var data = snapshot.data!;
                   return ListView.builder(
