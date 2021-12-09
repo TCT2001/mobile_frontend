@@ -107,10 +107,9 @@ Widget taskProjectList(Project project, var controller) {
                         LocalStorageKey.RECENT_TASK.toString());
                     if (ids != null) {
                       var rs = ids.split("|");
-                      if (rs.length >= 5) {
-                        if (rs.contains(_items[index].id.toString())) {
-                          rs.remove(_items[index].id.toString());
-                        } else {
+                      if (rs.contains(_items[index].id.toString())) {
+                        rs.remove(_items[index].id.toString());
+                        if (rs.length >= 5) {
                           rs.removeAt(0);
                         }
                       }

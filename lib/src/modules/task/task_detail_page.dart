@@ -446,11 +446,14 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                                 padding: const EdgeInsets.only(right: 40),
                                 itemCount: data.length,
                                 itemBuilder: (BuildContext context, int index) {
+                                  // print(data[index].id);
+                                  final id = 48693 - data[index].id! * 45 % 300;
+                                  final hexString = id.toRadixString(16);
                                   return postComment(
                                       data[index].createdTime!,
                                       data[index].content!,
                                       data[index].userDTO!.email,
-                                      'https://lh3.googleusercontent.com/ogw/ADea4I41utR78MVuw5cnbm9nqhCOzg55A4fz6mA0qS1h=s83-c-mo');
+                                      "https://ui-avatars.com/api/?name=${data[index].userDTO!.email}&background=$hexString");
                                 });
                           })),
                   Container(
@@ -512,7 +515,8 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
         child: Column(
           children: [
             ListTile(
-                title: Text("Tu show ra createdTime, Deadline, State, Priority va format lai ngay gio",
+                title: Text(
+                    "Tu show ra createdTime, Deadline, State, Priority va format lai ngay gio",
                     style: TextStyle(fontSize: 16))),
             ListTile(
                 title: Text(task.content!, style: TextStyle(fontSize: 16))),
@@ -523,53 +527,57 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
   Widget postComment(String time, String postComment, String profileName,
       String profileImage) {
     return Padding(
-      padding: EdgeInsets.only(left: 16.0, top: 16.0),
+      padding: EdgeInsets.only(left: 16.0, top: 20.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           CircleAvatar(
               maxRadius: 16, backgroundImage: NetworkImage(profileImage)),
           SizedBox(width: 5),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(6.0),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        profileName,
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        postComment,
-                        style: TextStyle(fontSize: 16.0),
-                      )
-                    ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(6.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          profileName,
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          postComment,
+                          style: TextStyle(fontSize: 16.0),
+                          maxLines: 5,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 5.0,
-              ),
-              Row(
-                children: [
-                  Text(time, style: TextStyle(fontWeight: FontWeight.w600)),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.24,
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.02,
-                  ),
-                ],
-              )
-            ],
+                SizedBox(
+                  height: 5.0,
+                ),
+                Row(
+                  children: [
+                    Text(time, style: TextStyle(fontWeight: FontWeight.w600)),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.24,
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.02,
+                    ),
+                  ],
+                )
+              ],
+            ),
           )
         ],
       ),

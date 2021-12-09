@@ -305,7 +305,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
               child: ListView.builder(
                   itemCount: members.length,
                   itemBuilder: (BuildContext context, i) {
-                    final id = members[i].id % 256 + 256;
+                    final id = 48693 - members[i].id * 45 % 300 as int;
                     final hexString = id.toRadixString(16);
                     return Card(
                         color: Bg,
@@ -315,7 +315,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                             ListTile(
                               leading: CircleAvatar(
                                 child: Image.network(
-                                    "https://ui-avatars.com/api/?name=${members[i].email}&color=$hexString"),
+                                    "https://ui-avatars.com/api/?name=${members[i].email}&background=$hexString"),
                               ),
                               title: Text(members[i].toString()),
                               subtitle: Text('TWICE'),
@@ -401,7 +401,9 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                       onChanged: (val) {
                         role = val;
                       },
-                      onSaved: (val) => print(val),
+                      onSaved: (val) {
+                        //TODO
+                      },
                     ),
                     const SizedBox(
                       height: 10,
