@@ -277,7 +277,7 @@ class _ProjectPageState extends State<ProjectPage> {
                 Project project = _items[index];
                 int id = project.id!;
                 String name = project.name!;
-                String role = project.role!;
+                //String role = project.role!;
                 List<User> users = project.userDTOSet! as List<User>;
                 var rs = users.where((e) => e.role == 'OWNER');
                 var boss = rs.first;
@@ -385,10 +385,10 @@ class _ProjectPageState extends State<ProjectPage> {
                 scrollDirection: Axis.horizontal,
                 itemCount: list.length > 5 ? 5 : list.length,
                 itemBuilder: (_, index) {
-                  final id = list[index].id % 256 + 256;
+                  final id = 48693 -  list[index].id * 45 % 300;
                   final hexString = id.toRadixString(16);
                   return Image.network(
-                      "https://ui-avatars.com/api/?name=${list[index].email}&color=$hexString");
+                      "https://ui-avatars.com/api/?name=${list[index].email}&background=$hexString");
                 }),
           ),
         ]));

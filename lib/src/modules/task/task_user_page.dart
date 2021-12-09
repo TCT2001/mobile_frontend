@@ -129,12 +129,11 @@ class TaskUserPage extends GetView<TaskUserController> {
                         LocalStorageKey.RECENT_TASK.toString());
                     if (ids != null) {
                       var rs = ids.split("|");
+                      if (rs.contains(_items[index].id.toString())) {
+                        rs.remove(_items[index].id.toString());
+                      }
                       if (rs.length >= 5) {
-                        if (rs.contains(_items[index].id.toString())) {
-                          rs.remove(_items[index].id.toString());
-                        } else {
-                          rs.removeAt(0);
-                        }
+                        rs.removeAt(0);
                       }
                       rs.add(_items[index].id.toString());
                       ids = rs.join("|");

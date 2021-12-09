@@ -14,7 +14,7 @@ import 'package:mobile_app/src/routes/app_routes.dart';
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
-  Duration get loginTime => const Duration(milliseconds: 2250);
+  Duration get loginTime => const Duration(milliseconds: 1000);
 
   Future<String?> _authUser(LoginData data) {
     return Future.delayed(loginTime).then((_) async {
