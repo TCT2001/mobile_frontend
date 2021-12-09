@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'package:mobile_app/src/core/utils/http.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
+import 'package:mobile_app/src/data/models/invitation.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/payload/error_resp.dart';
 import 'package:mobile_app/src/data/models/payload/login_resp.dart';
@@ -21,7 +22,7 @@ class AuthService {
   //TODO
   static Future<List> refreshToken({required String token}) async {
     var response =
-    await client.post(REFRESH_TOKEN_URI, headers: <String, String>{
+        await client.post(REFRESH_TOKEN_URI, headers: <String, String>{
       'Authorization': 'Bearer $token',
     });
     if (response.statusCode == 200) {
@@ -79,24 +80,37 @@ class AuthService {
   }
 
   static Future<List<NotificationCustom>> listNoti() async {
+    var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
     var response = await client.post(
       Uri.parse("$baseURL/notification/list"),
-      headers: nonAuthHeader,
+      headers: authHeader(token!),
     );
     List? temp = json.decode(response.body) as List;
     List<NotificationCustom> rs =
-    temp.map((e) => NotificationCustom.fromJson(e)).toList();
+        temp.map((e) => NotificationCustom.fromJson(e)).toList();
     return rs;
   }
 
-  static Future<CommonResp> acceptInvitation(String arg) async {
+  static Future<List<Invitation>> listInvi() async {
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
     var response = await client.post(
-      Uri.parse("$baseURL/auth/responseInvitation/$arg"),
+      Uri.parse("$baseURL/auth/getInvitation"),
       headers: authHeader(token!),
     );
+    List? temp = json.decode(response.body) as List;
+    List<Invitation> rs = temp.map((e) => Invitation.fromJson(e)).toList();
+    return rs;
+  }
+
+  static Future<CommonResp> acceptInvitation(String arg, int id) async {
+    var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
+    var response = await client.post(
+        Uri.parse("$baseURL/auth/responseInvitation/$arg"),
+        headers: authHeader(token!),
+        body: jsonEncode(<String, String>{"id": id.toString()}));
     if (response.statusCode == 200) {
       var temp = CommonResp.fromJson(json.decode(response.body));
+      //print(temp);
       return temp;
     } else {
       throw Exception('Failed');

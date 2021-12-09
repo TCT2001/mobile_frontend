@@ -2,6 +2,15 @@
 
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:mobile_app/src/data/models/comment.dart';
+import 'package:mobile_app/src/data/models/paginate_param.dart';
+import 'package:mobile_app/src/data/models/payload/common_resp.dart';
+import 'package:mobile_app/src/data/models/task.dart';
+import 'package:mobile_app/src/data/services/task_service.dart';
+
+import 'package:get/get.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:mobile_app/src/data/models/comment.dart';
 import 'package:mobile_app/src/data/models/paginate_param.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/task.dart';
@@ -9,6 +18,7 @@ import 'package:mobile_app/src/data/services/task_service.dart';
 
 class TaskUserController extends GetxController {
   var _tasks = <Task>[].obs;
+  var _comments = <Comment>[].obs;
   var _paginateParam = PaginateParam(page: 0).obs;
   var _isLastPage = false.obs;
 
@@ -73,7 +83,6 @@ class TaskUserController extends GetxController {
   Future<CommonResp?> renameTask(Task task, String newName) async {
     var temp = await TaskService.rename(task, newName);
     if (temp!.code == "SUCCESS") {
-
       _tasks.firstWhere((element) => element.id == task.id).name =
           _tasks.firstWhere((element) => element.id == task.id).name = newName;
       _tasks.refresh();
@@ -99,7 +108,6 @@ class TaskUserController extends GetxController {
   Future<CommonResp?> updateState(Task task, String newState) async {
     var temp = await TaskService.updateState(task, newState);
     if (temp!.code == "SUCCESS") {
-
       _tasks.firstWhere((element) => element.id == task.id).taskState =
           newState;
       _tasks.refresh();
@@ -110,7 +118,6 @@ class TaskUserController extends GetxController {
   Future<CommonResp?> updatePriority(Task task, String newPriority) async {
     var temp = await TaskService.updatePriority(task, newPriority);
     if (temp!.code == "SUCCESS") {
-
       _tasks.firstWhere((element) => element.id == task.id).priority =
           newPriority;
       _tasks.refresh();
@@ -121,10 +128,21 @@ class TaskUserController extends GetxController {
   Future<CommonResp?> updateContent(Task task, String newContent) async {
     var temp = await TaskService.updateContent(task, newContent);
     if (temp!.code == "SUCCESS") {
-
       _tasks.firstWhere((element) => element.id == task.id).content =
           newContent;
       _tasks.refresh();
+    }
+    return temp;
+  }
+
+  Future<CommonResp?> postComment(
+      int taskId, int userId, String content) async {
+    var temp = await TaskService.postComment(taskId, userId, content);
+    if (temp!.code == "SUCCESS") {
+      Comment comment = Comment.fromJson(temp.data! as Map<String, dynamic>);
+      _comments.insert(0, comment);
+      // _projects.value = List.empty();
+      _comments.refresh();
     }
     return temp;
   }

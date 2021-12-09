@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:mobile_app/src/core/utils/http.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
+import 'package:mobile_app/src/data/models/comment.dart';
 import 'package:mobile_app/src/data/models/paginate_param.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/task.dart';
@@ -104,8 +105,8 @@ class TaskService {
     }
   }
 
-  static Future<CommonResp?> create(
-      String newName, String newContent, String newState, String newPriority, String deadline, int id) async {
+  static Future<CommonResp?> create(String newName, String newContent,
+      String newState, String newPriority, String deadline, int id) async {
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
     var response = await client.post(Uri.parse('$baseURL/task/create'),
         headers: authHeader(token!),
@@ -131,8 +132,12 @@ class TaskService {
         headers: authHeader(token!));
     if (response.statusCode == 200) {
       var temp = CommonResp.fromJson(json.decode(response.body));
-      Map<String, dynamic> jso1 = temp.data as Map<String, dynamic>;
-      return Task.fromJson(jso1);
+      if (temp.code == "SUCCESS") {
+        Map<String, dynamic> jso1 = temp.data as Map<String, dynamic>;
+        return Task.fromJson(jso1);
+      } else {
+        return Task.name(-1);
+      }
     } else {
       throw Exception('Failed');
     }
@@ -180,5 +185,35 @@ class TaskService {
     } else {
       throw Exception('Failed');
     }
+  }
+
+  static Future<CommonResp?> postComment(int taskId, int userId,
+      String content) async {
+    var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
+    var response = await client.post(Uri.parse('$baseURL/task/comment/post'),
+        headers: authHeader(token!),
+        body: jsonEncode(<String, String>{
+          "taskId": taskId.toString(),
+          "doerId": userId.toString(),
+          "content": content
+        }));
+    if (response.statusCode == 200) {
+      var temp = CommonResp.fromJson(json.decode(response.body));
+      return temp;
+    } else {
+      throw Exception('Failed');
+    }
+  }
+
+  static Future<List<Comment>> listComment(int taskId) async {
+    var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
+    var response = await client.get(
+        Uri.parse('$baseURL/task/comment/list?t=$taskId'),
+        headers: authHeader(token!));
+    var comments = List<Comment>.empty();
+    var temp = CommonResp.fromJson(json.decode(response.body));
+    var temp2 = temp.data! as List;
+    comments = (temp2.map((model) => Comment.fromJson(model)).toList());
+    return comments;
   }
 }

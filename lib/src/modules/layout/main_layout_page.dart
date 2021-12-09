@@ -46,42 +46,42 @@ class MainLayoutPage extends GetView<MainLayoutController> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
             child: Obx(() => GNav(
-              rippleColor: Colors.grey[300]!,
-              hoverColor: Colors.grey[100]!,
-              gap: 8,
-              activeColor: Colors.black,
-              iconSize: 15,
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              duration: Duration(milliseconds: 400),
-              tabBackgroundColor: Colors.grey[100]!,
-              color: Colors.black,
-              tabs: const [
-                GButton(
-                  icon: LineIcons.home, // cog
-                  text: 'Home',
-                ),
-                GButton(
-                  icon: LineIcons.folder,
-                  text: 'Project',
-                ),
-                GButton(
-                  icon: LineIcons.tasks,
-                  text: 'Tasks',
-                ),
-                GButton(
-                  icon: LineIcons.bell,
-                  text: 'Notifications',
-                ),
-                GButton(
-                  icon: LineIcons.cog,
-                  text: 'Settings',
-                ),
-              ],
-              selectedIndex: controller.index,
-              onTabChange: (index) {
-                controller.changeIndex(index);
-              },
-            )),
+                  rippleColor: Colors.grey[300]!,
+                  hoverColor: Colors.grey[100]!,
+                  gap: 8,
+                  activeColor: Colors.black,
+                  iconSize: 15,
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  duration: Duration(milliseconds: 400),
+                  tabBackgroundColor: Colors.grey[100]!,
+                  color: Colors.black,
+                  tabs: const [
+                    GButton(
+                      icon: LineIcons.home, // cog
+                      text: 'Home',
+                    ),
+                    GButton(
+                      icon: LineIcons.folder,
+                      text: 'Project',
+                    ),
+                    GButton(
+                      icon: LineIcons.tasks,
+                      text: 'Tasks',
+                    ),
+                    GButton(
+                      icon: LineIcons.bell,
+                      text: 'Notifications',
+                    ),
+                    GButton(
+                      icon: LineIcons.cog,
+                      text: 'Settings',
+                    ),
+                  ],
+                  selectedIndex: controller.index,
+                  onTabChange: (index) {
+                    controller.changeIndex(index);
+                  },
+                )),
           ),
         ),
       ),

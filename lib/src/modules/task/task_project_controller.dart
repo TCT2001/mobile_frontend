@@ -74,7 +74,6 @@ class TaskProjectController extends GetxController {
   Future<CommonResp?> renameTask(Task task, String newName) async {
     var temp = await TaskService.rename(task, newName);
     if (temp!.code == "SUCCESS") {
-
       _tasks.firstWhere((element) => element.id == task.id).name =
           _tasks.firstWhere((element) => element.id == task.id).name = newName;
       _tasks.refresh();
@@ -112,7 +111,6 @@ class TaskProjectController extends GetxController {
   Future<CommonResp?> updateState(Task task, String newState) async {
     var temp = await TaskService.updateState(task, newState);
     if (temp!.code == "SUCCESS") {
-
       _tasks.firstWhere((element) => element.id == task.id).taskState =
           newState;
       _tasks.refresh();

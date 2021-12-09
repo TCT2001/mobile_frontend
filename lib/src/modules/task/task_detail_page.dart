@@ -2,11 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hexcolor/hexcolor.dart';
+import 'package:mobile_app/src/core/constants/colors.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
+import 'package:mobile_app/src/data/models/comment.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/task.dart';
 import 'package:mobile_app/src/data/providers/storage_provider.dart';
+import 'package:mobile_app/src/data/services/task_service.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
 import 'package:mobile_app/src/modules/task/task_user_controller.dart';
 
@@ -24,23 +26,27 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
   Task taskClicked = Get.arguments['task'];
   late Future<Task> task;
   late var userId;
+  late Future<List<Comment>> listComment;
   final GlobalKey<PopupMenuButtonState<int>> _key = GlobalKey();
+  final _formKey = GlobalKey<FormState>();
   late TextEditingController invitedEmailController = TextEditingController();
   late TextEditingController newNameController = TextEditingController();
   late TextEditingController newContentController = TextEditingController();
+  late TextEditingController newCommentController = TextEditingController();
 
   String newTaskName = '';
   String newContentTask = '';
-
+  String comment = '';
   @override
   void initState() {
     super.initState();
     // project = controller.find(id);
     task = controller.find(id);
     userId = getIntLocalStorge(LocalStorageKey.USER_ID.toString());
+    listComment = TaskService.listComment(taskClicked.id!);
   }
 
-  AppBar? taskDetailAppBar() {
+  AppBar? taskDetailAppBar(String role) {
     return AppBar(
       backgroundColor: Color(0xff2d5f79),
       title: Text('Task detail'),
@@ -54,7 +60,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
         ),
       ),
       actionsIconTheme:
-      IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
+          IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
       actions: <Widget>[
         Padding(
             padding: EdgeInsets.only(right: 20.0),
@@ -134,58 +140,58 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Obx(() => DropdownButton<String>(
-                        // Set the Items of DropDownButton
-                        items: [
-                          DropdownMenuItem(
-                            value: "SUBMITTED",
-                            child: Text(
-                              "SUBMITTED",
-                            ),
-                          ),
-                          DropdownMenuItem(
-                            value: "IN_PROCESS",
-                            child: Text(
-                              "IN PROCESS",
-                            ),
-                          ),
-                          DropdownMenuItem(
-                            value: "INCOMPLETE",
-                            child: Text(
-                              "INCOMPLETE",
-                            ),
-                          ),
-                          DropdownMenuItem(
-                            value: "TO_BE_DISCUSSED",
-                            child: Text(
-                              "TO BE DISCUSSED",
-                            ),
-                          ),
-                          DropdownMenuItem(
-                            value: "DONE",
-                            child: Text(
-                              "DONE",
-                            ),
-                          ),
-                          DropdownMenuItem(
-                            value: "DUPLICATE",
-                            child: Text(
-                              "DUPLICATE",
-                            ),
-                          ),
-                          DropdownMenuItem(
-                            value: "OBSOLETE",
-                            child: Text(
-                              "OBSOLETE",
-                            ),
-                          ),
-                        ],
-                        value: controller.selectedState.value.toString(),
-                        hint: const Text('Select Task Priority'),
-                        isExpanded: true,
-                        onChanged: (selectedValue) {
-                          controller.selectedState.value = selectedValue!;
-                        },
-                      )),
+                            // Set the Items of DropDownButton
+                            items: [
+                              DropdownMenuItem(
+                                value: "SUBMITTED",
+                                child: Text(
+                                  "SUBMITTED",
+                                ),
+                              ),
+                              DropdownMenuItem(
+                                value: "IN_PROCESS",
+                                child: Text(
+                                  "IN PROCESS",
+                                ),
+                              ),
+                              DropdownMenuItem(
+                                value: "INCOMPLETE",
+                                child: Text(
+                                  "INCOMPLETE",
+                                ),
+                              ),
+                              DropdownMenuItem(
+                                value: "TO_BE_DISCUSSED",
+                                child: Text(
+                                  "TO BE DISCUSSED",
+                                ),
+                              ),
+                              DropdownMenuItem(
+                                value: "DONE",
+                                child: Text(
+                                  "DONE",
+                                ),
+                              ),
+                              DropdownMenuItem(
+                                value: "DUPLICATE",
+                                child: Text(
+                                  "DUPLICATE",
+                                ),
+                              ),
+                              DropdownMenuItem(
+                                value: "OBSOLETE",
+                                child: Text(
+                                  "OBSOLETE",
+                                ),
+                              ),
+                            ],
+                            value: controller.selectedState.value.toString(),
+                            hint: const Text('Select Task Priority'),
+                            isExpanded: true,
+                            onChanged: (selectedValue) {
+                              controller.selectedState.value = selectedValue!;
+                            },
+                          )),
                       ElevatedButton(
                         onPressed: () async {
                           Get.back();
@@ -232,47 +238,47 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Obx(() => DropdownButton<String>(
-                        // Set the Items of DropDownButton
-                        items: [
-                          DropdownMenuItem(
-                            value: "CRITICAL",
-                            child: Text(
-                              "Critcal Priority",
-                            ),
-                          ),
-                          DropdownMenuItem(
-                            value: "MAJOR",
-                            child: Text(
-                              "Major Priority",
-                            ),
-                          ),
-                          DropdownMenuItem(
-                            value: "NORMAL",
-                            child: Text(
-                              "Normal Priority",
-                            ),
-                          ),
-                          DropdownMenuItem(
-                            value: "MINOR",
-                            child: Text(
-                              "Minor Priority",
-                            ),
-                          ),
-                        ],
-                        value: controller.selectedPriority.value.toString(),
-                        hint: const Text('Select Task Priority'),
-                        isExpanded: true,
-                        onChanged: (selectedValue) {
-                          controller.selectedPriority.value =
-                          selectedValue!;
-                        },
-                      )),
+                            // Set the Items of DropDownButton
+                            items: [
+                              DropdownMenuItem(
+                                value: "CRITICAL",
+                                child: Text(
+                                  "Critcal Priority",
+                                ),
+                              ),
+                              DropdownMenuItem(
+                                value: "MAJOR",
+                                child: Text(
+                                  "Major Priority",
+                                ),
+                              ),
+                              DropdownMenuItem(
+                                value: "NORMAL",
+                                child: Text(
+                                  "Normal Priority",
+                                ),
+                              ),
+                              DropdownMenuItem(
+                                value: "MINOR",
+                                child: Text(
+                                  "Minor Priority",
+                                ),
+                              ),
+                            ],
+                            value: controller.selectedPriority.value.toString(),
+                            hint: const Text('Select Task Priority'),
+                            isExpanded: true,
+                            onChanged: (selectedValue) {
+                              controller.selectedPriority.value =
+                                  selectedValue!;
+                            },
+                          )),
                       ElevatedButton(
                         onPressed: () async {
                           Get.back();
                           CommonResp? commonResp =
-                          await controller.updatePriority(taskClicked,
-                              controller.selectedPriority.value.toString());
+                              await controller.updatePriority(taskClicked,
+                                  controller.selectedPriority.value.toString());
                           if (commonResp == null) {
                             customSnackBar("Update Priority",
                                 "Some expected error happened",
@@ -331,8 +337,8 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                         onPressed: () async {
                           Get.back();
                           CommonResp? commonResp =
-                          await controller.updateContent(
-                              taskClicked, newContentController.text);
+                              await controller.updateContent(
+                                  taskClicked, newContentController.text);
                           if (commonResp == null) {
                             customSnackBar("UpdateContent",
                                 "Some unexpected error happened",
@@ -369,52 +375,147 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
           },
           key: _key,
           itemBuilder: (context) {
-            return <PopupMenuEntry<int>>[
-              PopupMenuItem(child: Text('Rename Task'), value: 0),
-              PopupMenuItem(child: Text('Update State'), value: 1),
-              PopupMenuItem(child: Text('Update Priority'), value: 2),
-              PopupMenuItem(child: Text('Update Content'), value: 3),
-            ];
+            return listAppbar(role);
           },
         ),
       ],
     );
   }
 
+  List<PopupMenuEntry<int>> listAppbar(String role) {
+    if (role == "OWNER") {
+      return <PopupMenuEntry<int>>[
+        PopupMenuItem(child: Text('Rename Task'), value: 0),
+        PopupMenuItem(child: Text('Update State'), value: 1),
+        PopupMenuItem(child: Text('Update Priority'), value: 2),
+        PopupMenuItem(child: Text('Update Content'), value: 3),
+      ];
+    } else if (role == "ADMINISTRATOR") {
+      return <PopupMenuEntry<int>>[
+        PopupMenuItem(child: Text('Rename Task'), value: 0),
+        PopupMenuItem(child: Text('Update State'), value: 1),
+        PopupMenuItem(child: Text('Update Priority'), value: 2),
+        PopupMenuItem(child: Text('Update Content'), value: 3),
+      ];
+    } else if (role == "MEMBER") {
+      return <PopupMenuEntry<int>>[
+        PopupMenuItem(child: Text('Update State'), value: 1),
+      ];
+    } else {
+      return List.empty();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: taskDetailAppBar(),
-        body: Column(
-          children: <Widget>[
-            Container(
-              child: FutureBuilder<Task>(
-                future: task,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    Task task = snapshot.data!;
-                    int taskId = task.id!;
-                    String taskName = task.name!;
-                    String taskContent = task.content!;
-                    String taskState = task.taskState!;
-                    String taskPriority = task.priority!;
-                    //String taskDeadline = task.deadline!;
-                    return Text(
-                        "Id : $taskId\n\nName: $taskName\n\nContent : $taskContent \n\nState : $taskState\n\nPriority : $taskPriority\n\nDeadline: 123",
-                        style: TextStyle(fontSize: 20));
-                  } else if (snapshot.hasError) {
-                    return Text('Loi');
-                  }
-                  // By default, show a loading spinner.
-                  return const CircularProgressIndicator();
-                },
-              ),
-            ),
-            //ListView.builder(itemBuilder: itemBuilder)
-            postComment('2h', 'This is a comment', 'Unknown Name',
-                'https://lh3.googleusercontent.com/ogw/ADea4I41utR78MVuw5cnbm9nqhCOzg55A4fz6mA0qS1h=s83-c-mo'),
-            postComment('2h', 'This is a comment', 'Unknown Name',
-                'https://lh3.googleusercontent.com/ogw/ADea4I41utR78MVuw5cnbm9nqhCOzg55A4fz6mA0qS1h=s83-c-mo'),
+    return FutureBuilder<Task>(
+        future: task,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(child: Text("Error"));
+          }
+          if (snapshot.data == null) {
+            return Center(child: CircularProgressIndicator());
+          }
+          Task task = snapshot.data!;
+          String role = task.project!.role!;
+          return Scaffold(
+              backgroundColor: Bg,
+              appBar: taskDetailAppBar(role),
+              body: Column(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(bottom: 10),
+                    child: mainCard(task),
+                  ),
+                  Text(
+                    "Comment",
+                    style: TextStyle(fontSize: 18, color: Colors.blue),
+                  ),
+                  Expanded(
+                      child: FutureBuilder<List<Comment>>(
+                          future: listComment,
+                          builder: (context, snapshot) {
+                            if (snapshot.data == null) {
+                              return Center(child: Text("No Comment"));
+                            }
+                            var data = snapshot.data!;
+                            data = data.reversed.toList();
+                            return ListView.builder(
+                                shrinkWrap: true,
+                                padding: const EdgeInsets.only(right: 40),
+                                itemCount: data.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return postComment(
+                                      data[index].createdTime!,
+                                      data[index].content!,
+                                      data[index].userDTO!.email,
+                                      'https://lh3.googleusercontent.com/ogw/ADea4I41utR78MVuw5cnbm9nqhCOzg55A4fz6mA0qS1h=s83-c-mo');
+                                });
+                          })),
+                  Container(
+                    margin: EdgeInsets.only(left: 18, right: 18),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextFormField(
+                            controller: newCommentController,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter some text';
+                              }
+                              return null;
+                            },
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  comment = newCommentController.text;
+                                  int uId = await userId;
+                                  CommonResp? commonResp = await controller
+                                      .postComment(id, uId, comment);
+                                  if (commonResp!.code == "SUCCESS") {
+                                    customSnackBar("Comment", "Success",
+                                        iconData: Icons.check_outlined,
+                                        iconColor: Colors.green);
+                                  } else {
+                                    customSnackBar("Comment", "Fail",
+                                        iconData: Icons.warning_rounded,
+                                        iconColor: Colors.red);
+                                  }
+                                  newCommentController.clear();
+                                  setState(() {
+                                    listComment = TaskService.listComment(id);
+                                  });
+                                }
+                              },
+                              child: const Text('Comment'),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  //ListView.builder(itemBuilder: itemBuilder)
+                ],
+              ));
+        });
+  }
+
+  Widget mainCard(Task task) {
+    return Card(
+        margin: EdgeInsets.only(left: 10, right: 10, top: 8),
+        child: Column(
+          children: [
+            ListTile(
+                title: Text("Tu show ra createdTime, Deadline, State, Priority va format lai ngay gio",
+                    style: TextStyle(fontSize: 16))),
+            ListTile(
+                title: Text(task.content!, style: TextStyle(fontSize: 16))),
           ],
         ));
   }
@@ -422,21 +523,19 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
   Widget postComment(String time, String postComment, String profileName,
       String profileImage) {
     return Padding(
-      padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
+      padding: EdgeInsets.only(left: 16.0, top: 16.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           CircleAvatar(
               maxRadius: 16, backgroundImage: NetworkImage(profileImage)),
-          SizedBox(
-            width: 16.0,
-          ),
+          SizedBox(width: 5),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: HexColor('#E9F1FE'),
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(6.0),
                 ),
                 child: Padding(
@@ -457,7 +556,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                 ),
               ),
               SizedBox(
-                height: 12.0,
+                height: 5.0,
               ),
               Row(
                 children: [

@@ -1,12 +1,14 @@
-// ignore_for_file: must_be_immutable, prefer_const_constructors
+// ignore_for_file: must_be_immutable, prefer_const_constructors, unused_local_variable
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/src/core/constants/colors.dart';
 import 'package:mobile_app/src/core/utils/lazy_load_scroll_view.dart';
+import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/project.dart';
 import 'package:mobile_app/src/data/models/user.dart';
+import 'package:mobile_app/src/data/providers/storage_provider.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
 import 'package:mobile_app/src/routes/app_routes.dart';
 
@@ -58,7 +60,7 @@ class _ProjectPageState extends State<ProjectPage> {
       title: const Text('ProjectPage'),
       automaticallyImplyLeading: false,
       actionsIconTheme:
-      IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
+          IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
       leading: GestureDetector(
         onTap: () {
           /* Write listener code here */
@@ -115,24 +117,24 @@ class _ProjectPageState extends State<ProjectPage> {
             ),
             Container(
                 child: TextField(
-                  controller: searchController,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.search),
-                  ),
-                  onChanged: (String? value) {
-                    controller.searchByName(value!);
-                    controller.update();
-                  },
-                )),
+              controller: searchController,
+              decoration: const InputDecoration(
+                icon: Icon(Icons.search),
+              ),
+              onChanged: (String? value) {
+                controller.searchByName(value!);
+                controller.update();
+              },
+            )),
             Expanded(child: body()
-              // child: Container(
-              //     decoration: BoxDecoration(
-              //         image: DecorationImage(
-              //             image:
-              //                 Image.asset("assets/images/background.jpg").image,
-              //             fit: BoxFit.cover)),
-              //     child: body()),
-            )
+                // child: Container(
+                //     decoration: BoxDecoration(
+                //         image: DecorationImage(
+                //             image:
+                //                 Image.asset("assets/images/background.jpg").image,
+                //             fit: BoxFit.cover)),
+                //     child: body()),
+                )
           ],
         ));
   }
@@ -240,7 +242,7 @@ class _ProjectPageState extends State<ProjectPage> {
               ),
               style: ButtonStyle(
                   backgroundColor:
-                  MaterialStateProperty.all<Color>(Color(0xff2d5f79))),
+                      MaterialStateProperty.all<Color>(Color(0xff2d5f79))),
             )
           ],
         ),
@@ -289,22 +291,6 @@ class _ProjectPageState extends State<ProjectPage> {
                     });
                   },
                   child: buildCard(project, boss, users),
-                  // child: Card(
-                  //   color: BathWater,
-                  //   margin: const EdgeInsets.all(10),
-                  //   child: ListTile(
-                  //     title: Text("☕ Project: $name"),
-                  //     subtitle: Text(
-                  //         "\n📜 Role: $role\n      Owner: ${boss.email} \n      Team's number: $number"),
-                  //     trailing: Row(
-                  //       mainAxisSize: MainAxisSize.min,
-                  //       children: [
-                  //         renameIconWidget(_items[index].role!, _items[index]),
-                  //         deleteIconWidget(_items[index].role!, _items[index])
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
                 );
               },
             ),

@@ -12,13 +12,13 @@ class Project {
 
   Project(
       {required this.id,
-        required this.name,
-        required this.role,
-        required this.userDTOSet});
+      required this.name,
+      required this.role,
+      required this.userDTOSet});
   Project.name();
   Project.id({required this.id});
 
-  factory Project.fromJson(Map<String, dynamic> json) {
+factory Project.fromJson(Map<String, dynamic> json) {
     return Project(
         id: json['id'],
         name: json['name'],
