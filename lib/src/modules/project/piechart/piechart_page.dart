@@ -190,9 +190,9 @@ class _PiechartState extends State<PiechartPage> {
               title: Text(
                 'Pie Chart Options'.toUpperCase(),
                 style: Theme.of(context).textTheme.overline!.copyWith(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             ListTile(
@@ -242,10 +242,10 @@ class _PiechartState extends State<PiechartPage> {
                   ],
                   onChanged: (_chartType == ChartType.ring)
                       ? (val) {
-                          setState(() {
-                            _ringStrokeWidth = val;
-                          });
-                        }
+                    setState(() {
+                      _ringStrokeWidth = val;
+                    });
+                  }
                       : null,
                 ),
               ),
@@ -296,9 +296,9 @@ class _PiechartState extends State<PiechartPage> {
               title: Text(
                 'Legend Options'.toUpperCase(),
                 style: Theme.of(context).textTheme.overline!.copyWith(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             SwitchListTile(
@@ -379,9 +379,9 @@ class _PiechartState extends State<PiechartPage> {
               title: Text(
                 'Chart values Options'.toUpperCase(),
                 style: Theme.of(context).textTheme.overline!.copyWith(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             SwitchListTile(
