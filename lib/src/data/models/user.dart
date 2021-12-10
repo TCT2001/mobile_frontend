@@ -22,4 +22,8 @@ class User {
 
   @override
   String toString() => 'User(id: $id, email: $email, role: $role)';
+
+  String getEmail() => 'Email: $email';
+
+  String getRole() => 'Role: $role';
 }

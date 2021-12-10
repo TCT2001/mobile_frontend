@@ -49,7 +49,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               return Form(
                   key: _formKey,
                   child: Center(
-                    child: Container(
+                    child: SizedBox(
                       height: MediaQuery.of(context).size.height,
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -77,7 +77,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                               controller: _oldPasswordTextController,
                               decoration: InputDecoration(
                                   icon: const Icon(Icons.lock),
-                                  labelText: "OldPassword",
+                                    labelText: "Current",
                                   suffixIcon: IconButton(
                                     icon: Icon(
                                       _oldPasswordVisible
@@ -103,7 +103,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                               controller: _newPasswordTextController,
                               decoration: InputDecoration(
                                   icon: const Icon(Icons.lock),
-                                  labelText: "NewPassword",
+                                  labelText: "New",
                                   suffixIcon: IconButton(
                                     icon: Icon(
                                       _newPasswordVisible
@@ -129,7 +129,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                               controller: _reNewPasswordTextController,
                               decoration: InputDecoration(
                                   icon: const Icon(Icons.lock),
-                                  labelText: "ReNewpassword",
+                                  labelText: "Re-type new",
                                   suffixIcon: IconButton(
                                     icon: Icon(
                                       _reNewPasswordVisible
@@ -146,7 +146,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                               obscureText: !_reNewPasswordVisible,
                               validator: (String? value) =>
                               value!.trim().isEmpty || value != _newPasswordTextController.text
-                                  ? "ReNewpassword is required and must be similar to ..."
+                                  ? "New password is required and must be similar to ..."
                                   : null,
                             ),
                             const SizedBox(height: 32),
@@ -174,7 +174,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                   }
                                 },
                                 child: const Text(
-                                  "Change Password",
+                                  "Save changes",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: Colors.white,

@@ -59,14 +59,6 @@ class TaskUserPage extends GetView<TaskUserController> {
       automaticallyImplyLeading: false,
       actionsIconTheme:
           IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
-      leading: GestureDetector(
-        onTap: () {
-          /* Write listener code here */
-        },
-        child: Icon(
-          Icons.menu, // add custom icons also
-        ),
-      ),
       actions: <Widget>[],
       backgroundColor: Color(0xff2d5f79),
     );

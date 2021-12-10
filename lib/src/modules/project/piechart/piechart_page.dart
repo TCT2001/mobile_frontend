@@ -196,7 +196,7 @@ class _PiechartState extends State<PiechartPage> {
               ),
             ),
             ListTile(
-              title: Text("chartType"),
+              title: Text("Chart Type"),
               trailing: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: DropdownButton<ChartType>(
@@ -220,12 +220,12 @@ class _PiechartState extends State<PiechartPage> {
               ),
             ),
             ListTile(
-              title: Text("ringStrokeWidth"),
+              title: Text("Ring Stroke Width"),
               trailing: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: DropdownButton<double>(
                   value: _ringStrokeWidth,
-                  disabledHint: Text("select chartType.ring"),
+                  disabledHint: Text("Select chart type.ring"),
                   items: [
                     DropdownMenuItem(
                       child: Text("16"),
@@ -252,7 +252,7 @@ class _PiechartState extends State<PiechartPage> {
             ),
             SwitchListTile(
               value: _showCenterText,
-              title: Text("showCenterText"),
+              title: Text("Show Center Text"),
               onChanged: (val) {
                 setState(() {
                   _showCenterText = val;
@@ -260,12 +260,12 @@ class _PiechartState extends State<PiechartPage> {
               },
             ),
             ListTile(
-              title: Text("chartLegendSpacing"),
+              title: Text("Chart Legend Spacing"),
               trailing: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: DropdownButton<double>(
                   value: _chartLegendSpacing,
-                  disabledHint: Text("select chartType.ring"),
+                  disabledHint: Text("Select chart type.ring"),
                   items: [
                     DropdownMenuItem(
                       child: Text("16"),
@@ -303,7 +303,7 @@ class _PiechartState extends State<PiechartPage> {
             ),
             SwitchListTile(
               value: _showLegendsInRow,
-              title: Text("showLegendsInRow"),
+              title: Text("Show Legends In Row"),
               onChanged: (val) {
                 setState(() {
                   _showLegendsInRow = val;
@@ -312,7 +312,7 @@ class _PiechartState extends State<PiechartPage> {
             ),
             SwitchListTile(
               value: _showLegends,
-              title: Text("showLegends"),
+              title: Text("Show Legends"),
               onChanged: (val) {
                 setState(() {
                   _showLegends = val;
@@ -320,18 +320,18 @@ class _PiechartState extends State<PiechartPage> {
               },
             ),
             ListTile(
-              title: Text("legendShape"),
+              title: Text("Legend Shape"),
               trailing: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: DropdownButton<LegendShape>(
                   value: _legendShape,
                   items: [
                     DropdownMenuItem(
-                      child: Text("BoxShape.circle"),
+                      child: Text("Circle"),
                       value: LegendShape.Circle,
                     ),
                     DropdownMenuItem(
-                      child: Text("BoxShape.rectangle"),
+                      child: Text("Rectangle"),
                       value: LegendShape.Rectangle,
                     ),
                   ],
@@ -344,7 +344,7 @@ class _PiechartState extends State<PiechartPage> {
               ),
             ),
             ListTile(
-              title: Text("legendPosition"),
+              title: Text("Legend Position"),
               trailing: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: DropdownButton<LegendPosition>(
@@ -377,7 +377,7 @@ class _PiechartState extends State<PiechartPage> {
             ),
             ListTile(
               title: Text(
-                'Chart values Options'.toUpperCase(),
+                'Chart values options'.toUpperCase(),
                 style: Theme.of(context).textTheme.overline!.copyWith(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
@@ -386,7 +386,7 @@ class _PiechartState extends State<PiechartPage> {
             ),
             SwitchListTile(
               value: _showChartValueBackground,
-              title: Text("showChartValueBackground"),
+              title: Text("Show Chart Value Background"),
               onChanged: (val) {
                 setState(() {
                   _showChartValueBackground = val;
@@ -395,7 +395,7 @@ class _PiechartState extends State<PiechartPage> {
             ),
             SwitchListTile(
               value: _showChartValues,
-              title: Text("showChartValues"),
+              title: Text("Show Chart Values"),
               onChanged: (val) {
                 setState(() {
                   _showChartValues = val;
@@ -404,7 +404,7 @@ class _PiechartState extends State<PiechartPage> {
             ),
             SwitchListTile(
               value: _showChartValuesInPercentage,
-              title: Text("showChartValuesInPercentage"),
+              title: Text("Show Chart Values In Percentage"),
               onChanged: (val) {
                 setState(() {
                   _showChartValuesInPercentage = val;
@@ -413,7 +413,7 @@ class _PiechartState extends State<PiechartPage> {
             ),
             SwitchListTile(
               value: _showChartValuesOutside,
-              title: Text("showChartValuesOutside"),
+              title: Text("Show Chart Values Outside"),
               onChanged: (val) {
                 setState(() {
                   _showChartValuesOutside = val;
@@ -451,19 +451,19 @@ class _PiechartState extends State<PiechartPage> {
             // var temp  = json.decode(rs.data as String);
             // print(temp);
             final dataMap = <String, double>{
-              "numDoneState": t["numDoneState"].toDouble(),
-              "numSubmittedState": t["numSubmittedState"].toDouble(),
-              "numInProcessState": t["numInProcessState"].toDouble(),
-              "numInCompleteState": t["numInCompleteState"].toDouble(),
-              "numToBeDiscussedState": t["numToBeDiscussedState"].toDouble(),
-              "numDuplicateState": t["numDuplicateState"].toDouble(),
-              "numObsoleteState": t["numObsoleteState"].toDouble()
+              "State": t["numDoneState"].toDouble(),
+              "Submitted State": t["numSubmittedState"].toDouble(),
+              "Process State": t["numInProcessState"].toDouble(),
+              "Incomplete State": t["numInCompleteState"].toDouble(),
+              "To be Discussed State": t["numToBeDiscussedState"].toDouble(),
+              "Duplicate State": t["numDuplicateState"].toDouble(),
+              "Obsolete State": t["numObsoleteState"].toDouble()
             };
             final dataMap1 = <String, double>{
-              "doneTaskInDeadline": t["doneTaskInDeadline"].toDouble(),
-              "doneTaskAfterDeadline": t["doneTaskAfterDeadline"].toDouble(),
-              "notDoneTaskInDeadline": t["notDoneTaskInDeadline"].toDouble(),
-              "notTaskAfterDeadline": t["notTaskAfterDeadline"].toDouble()
+              "Done Task In Deadline": t["doneTaskInDeadline"].toDouble(),
+              "Done Task After Deadline": t["doneTaskAfterDeadline"].toDouble(),
+              "Not Done Task In Deadline": t["notDoneTaskInDeadline"].toDouble(),
+              "Not Task After Deadline": t["notTaskAfterDeadline"].toDouble()
             };
             return LayoutBuilder(
               builder: (_, constraints) {
