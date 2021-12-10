@@ -458,6 +458,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                           })),
                   Container(
                     margin: EdgeInsets.only(left: 18, right: 18),
+
                     child: Form(
                       key: _formKey,
                       child: Column(
@@ -496,8 +497,12 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                                   });
                                 }
                               },
+                              style: ElevatedButton.styleFrom(
+                                primary: Color(0xff2d5f79),
+                              ),
                               child: const Text('Comment'),
                             ),
+
                           ),
                         ],
                       ),

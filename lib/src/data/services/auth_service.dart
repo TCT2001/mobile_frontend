@@ -129,6 +129,7 @@ class AuthService {
         }));
     if (response.statusCode == 200) {
       var temp = CommonResp.fromJson(json.decode(response.body));
+      //print(temp);
       return temp;
     } else {
       throw Exception('Failed');

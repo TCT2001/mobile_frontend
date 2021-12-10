@@ -20,5 +20,5 @@ class NotificationCustom {
   }
 
   @override
-  String toString() => 'NotificationCustom(projectId: $projectId, message: $message)';
+  String toString() => '🔔 $message';
 }

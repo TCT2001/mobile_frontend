@@ -57,18 +57,11 @@ class _ProjectPageState extends State<ProjectPage> {
 
   AppBar? projectAppBar(BuildContext context) {
     return AppBar(
-      title: const Text('ProjectPage'),
+      title: const Text('Project Page'),
       automaticallyImplyLeading: false,
       actionsIconTheme:
           IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
-      leading: GestureDetector(
-        onTap: () {
-          /* Write listener code here */
-        },
-        child: Icon(
-          Icons.menu, // add custom icons also
-        ),
-      ),
+
       actions: <Widget>[
         // Container(
         //     width: 120,

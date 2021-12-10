@@ -22,18 +22,17 @@ final List<Map<String, dynamic>> _items = [
   {
     'value': 'ADMINISTRATOR',
     'label': 'Admin',
-    'icon': Icon(Icons.stop),
+    'icon': Icon(Icons.admin_panel_settings),
   },
   {
     'value': 'MEMBER',
     'label': 'Member',
-    'icon': Icon(Icons.fiber_manual_record),
-    'textStyle': TextStyle(color: Colors.red),
+    'icon': Icon(Icons.remember_me),
   },
   {
     'value': 'OBSERVER',
-    'label': 'observer',
-    'icon': Icon(Icons.grade),
+    'label': ' Observer',
+    'icon': Icon(Icons.remove_red_eye),
   },
 ];
 
@@ -72,7 +71,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
 
   AppBar appBar(String role, BuildContext context, int projectId) {
     return AppBar(
-      title: const Text('ProjectDetailPage'),
+      title:  Text(clickedProject.name!),
       automaticallyImplyLeading: false,
       actionsIconTheme:
           IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
@@ -216,7 +215,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
         PopupMenuItem(child: Text('Rename Project'), value: 2),
         PopupMenuItem(child: Text('Delete Project'), value: 3),
         PopupMenuItem(child: Text('Info'), value: 4),
-        PopupMenuItem(child: Text('Show Piechart'), value: 5)
+        PopupMenuItem(child: Text('Statistics'), value: 5)
       ];
     } else if (role == "ADMINISTRATOR") {
       return <PopupMenuEntry<int>>[
@@ -224,7 +223,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
         PopupMenuItem(child: Text('Create Task'), value: 1),
         PopupMenuItem(child: Text('Rename Project'), value: 2),
         PopupMenuItem(child: Text('Info'), value: 4),
-        PopupMenuItem(child: Text('Show Piechart'), value: 5)
+        PopupMenuItem(child: Text('Statistics'), value: 5)
       ];
     } else {
       return <PopupMenuEntry<int>>[
@@ -300,7 +299,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                 "Members",
                 style: TextStyle(fontSize: 18),
               )),
-          Container(
+          SizedBox(
               height: double.maxFinite,
               child: ListView.builder(
                   itemCount: members.length,
@@ -317,8 +316,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                                 child: Image.network(
                                     "https://ui-avatars.com/api/?name=${members[i].email}&background=$hexString"),
                               ),
-                              title: Text(members[i].toString()),
-                              subtitle: Text('TWICE'),
+                              title: Text(members[i].getEmail()),
+                               subtitle: Text(members[i].getRole()),
                             ),
                           ],
                         ));
@@ -395,7 +394,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                     SelectFormField(
                       type: SelectFormFieldType.dropdown, // or can be dialog
                       initialValue: 'circle',
-                      icon: Icon(Icons.format_shapes),
+                      icon: Icon(Icons.flutter_dash_rounded),
                       labelText: 'Role',
                       items: _items,
                       onChanged: (val) {
