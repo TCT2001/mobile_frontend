@@ -8,7 +8,6 @@ import 'package:mobile_app/src/modules/home/home_page.dart';
 import 'package:mobile_app/src/modules/layout/main_layout_binding.dart';
 import 'package:mobile_app/src/modules/layout/main_layout_page.dart';
 import 'package:mobile_app/src/modules/login/login_signup_page.dart';
-import 'package:mobile_app/src/modules/notification/noti_binding.dart';
 import 'package:mobile_app/src/modules/notification/noti_page.dart';
 import 'package:mobile_app/src/modules/project/project_binding.dart';
 import 'package:mobile_app/src/modules/project/project_detail_page.dart';
@@ -28,9 +27,9 @@ abstract class AppPages {
         page: () => const ExamplePage(),
         binding: ExampleBinding()),
     GetPage(
-        name: Routes.NOTIFICATION,
-        page: () => NotiPage(),
-        binding: NotiBinding()),
+      name: Routes.NOTIFICATION,
+      page: () => NotiPage(),
+    ),
     GetPage(
         name: Routes.MAIN,
         page: () => MainLayoutPage(),

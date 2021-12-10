@@ -1,16 +1,12 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:mobile_app/src/core/constants/colors.dart';
-import 'package:mobile_app/src/core/utils/lazy_load_scroll_view.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/comment.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/task.dart';
-import 'package:mobile_app/src/data/models/user.dart';
 import 'package:mobile_app/src/data/providers/storage_provider.dart';
 import 'package:mobile_app/src/data/services/task_service.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
@@ -28,9 +24,9 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
 
   int id = Get.arguments['id'];
   Task taskClicked = Get.arguments['task'];
-
   late Future<Task> task;
   late var userId;
+  late Future<List<Comment>> listComment;
   final GlobalKey<PopupMenuButtonState<int>> _key = GlobalKey();
   final _formKey = GlobalKey<FormState>();
   late TextEditingController invitedEmailController = TextEditingController();
@@ -41,19 +37,16 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
   String newTaskName = '';
   String newContentTask = '';
   String comment = '';
-  late Future<List<Comment>> listComment;
-
   @override
-  void initState(){
+  void initState() {
     super.initState();
     // project = controller.find(id);
     task = controller.find(id);
     userId = getIntLocalStorge(LocalStorageKey.USER_ID.toString());
     listComment = TaskService.listComment(taskClicked.id!);
-
   }
 
-  AppBar? taskDetailAppBar() {
+  AppBar? taskDetailAppBar(String role) {
     return AppBar(
       backgroundColor: Color(0xff2d5f79),
       title: Text('Task detail'),
@@ -382,134 +375,177 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
           },
           key: _key,
           itemBuilder: (context) {
-            return <PopupMenuEntry<int>>[
-              PopupMenuItem(child: Text('Rename Task'), value: 0),
-              PopupMenuItem(child: Text('Update State'), value: 1),
-              PopupMenuItem(child: Text('Update Priority'), value: 2),
-              PopupMenuItem(child: Text('Update Content'), value: 3),
-            ];
+            return listAppbar(role);
           },
         ),
       ],
     );
   }
 
+  List<PopupMenuEntry<int>> listAppbar(String role) {
+    if (role == "OWNER") {
+      return <PopupMenuEntry<int>>[
+        PopupMenuItem(child: Text('Rename Task'), value: 0),
+        PopupMenuItem(child: Text('Update State'), value: 1),
+        PopupMenuItem(child: Text('Update Priority'), value: 2),
+        PopupMenuItem(child: Text('Update Content'), value: 3),
+      ];
+    } else if (role == "ADMINISTRATOR") {
+      return <PopupMenuEntry<int>>[
+        PopupMenuItem(child: Text('Rename Task'), value: 0),
+        PopupMenuItem(child: Text('Update State'), value: 1),
+        PopupMenuItem(child: Text('Update Priority'), value: 2),
+        PopupMenuItem(child: Text('Update Content'), value: 3),
+      ];
+    } else if (role == "MEMBER") {
+      return <PopupMenuEntry<int>>[
+        PopupMenuItem(child: Text('Update State'), value: 1),
+      ];
+    } else {
+      return List.empty();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: taskDetailAppBar(),
-        body: Column(
-          children: <Widget>[
-            Container(
-              child: FutureBuilder<Task>(
-                future: task,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    Task task = snapshot.data!;
-                    int taskId = task.id!;
-                    String taskName = task.name!;
-                    String taskContent = task.content!;
-                    String taskState = task.taskState!;
-                    String taskPriority = task.priority!;
-                    String taskDeadline = task.deadline!;
-                    return Text(
-                        "Id : $taskId\nName: $taskName\nContent : $taskContent \nState : $taskState\nPriority : $taskPriority\nDeadline: $taskDeadline",
-                        style: TextStyle(fontSize: 20));
-                  } else if (snapshot.hasError) {
-                    return Text('Loi');
-                  }
-                  // By default, show a loading spinner.
-                  return const CircularProgressIndicator();
-                },
-              ),
-            ),
-            Expanded(child: FutureBuilder<List<Comment>>(
-                future: listComment,
-                builder: (context, snapshot) {
-                  if (snapshot.data == null) {
-                    return Center(child: Text("No Comment"));
-                  }
-                  var data = snapshot.data!;
-                  data = data.reversed.toList();
-                  return ListView.builder(
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.only(right : 40),
-                      itemCount: data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return postComment(data[index].createdTime!, data[index].content!, data[index].userDTO!.email,
-                            'https://lh3.googleusercontent.com/ogw/ADea4I41utR78MVuw5cnbm9nqhCOzg55A4fz6mA0qS1h=s83-c-mo');
-                      });
-                })),
-            Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TextFormField(
-                    controller : newCommentController,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
+    return FutureBuilder<Task>(
+        future: task,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(child: Text("Error"));
+          }
+          if (snapshot.data == null) {
+            return Center(child: CircularProgressIndicator());
+          }
+          Task task = snapshot.data!;
+          String role = task.project!.role!;
+          return Scaffold(
+              backgroundColor: Bg,
+              appBar: taskDetailAppBar(role),
+              body: Column(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(bottom: 10),
+                    child: mainCard(task),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          comment = newCommentController.text;
-                          int uId = await userId;
-                          CommonResp? commonResp =
-                          await controller.postComment(id, uId, comment);
-                          if (commonResp!.code == "SUCCESS") {
-                            customSnackBar("Comment", "Success",
-                                iconData: Icons.check_outlined,
-                                iconColor: Colors.green);
-                          } else {
-                            customSnackBar("Comment", "Fail",
-                                iconData: Icons.warning_rounded,
-                                iconColor: Colors.red);
-                          }
-                          newCommentController.clear();
-                          setState(() {
-                            listComment = TaskService.listComment(id);
-                          });
-                        }
-                      },
-                      child: const Text('Comment'),
+                  Text(
+                    "Comment",
+                    style: TextStyle(fontSize: 18, color: Colors.blue),
+                  ),
+                  Expanded(
+                      child: FutureBuilder<List<Comment>>(
+                          future: listComment,
+                          builder: (context, snapshot) {
+                            if (snapshot.data == null) {
+                              return Center(child: Text("No Comment"));
+                            }
+                            var data = snapshot.data!;
+                            data = data.reversed.toList();
+                            return ListView.builder(
+                                shrinkWrap: true,
+                                padding: const EdgeInsets.only(right: 40),
+                                itemCount: data.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  // print(data[index].id);
+                                  final id = 48693 - data[index].id! * 45 % 300;
+                                  final hexString = id.toRadixString(16);
+                                  return postComment(
+                                      data[index].createdTime!,
+                                      data[index].content!,
+                                      data[index].userDTO!.email,
+                                      "https://ui-avatars.com/api/?name=${data[index].userDTO!.email}&background=$hexString");
+                                });
+                          })),
+                  Container(
+                    margin: EdgeInsets.only(left: 18, right: 18),
+
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextFormField(
+                            controller: newCommentController,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter some text';
+                              }
+                              return null;
+                            },
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  comment = newCommentController.text;
+                                  int uId = await userId;
+                                  CommonResp? commonResp = await controller
+                                      .postComment(id, uId, comment);
+                                  if (commonResp!.code == "SUCCESS") {
+                                    customSnackBar("Comment", "Success",
+                                        iconData: Icons.check_outlined,
+                                        iconColor: Colors.green);
+                                  } else {
+                                    customSnackBar("Comment", "Fail",
+                                        iconData: Icons.warning_rounded,
+                                        iconColor: Colors.red);
+                                  }
+                                  newCommentController.clear();
+                                  setState(() {
+                                    listComment = TaskService.listComment(id);
+                                  });
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Color(0xff2d5f79),
+                              ),
+                              child: const Text('Comment'),
+                            ),
+
+                          ),
+                        ],
+                      ),
                     ),
                   ),
+                  //ListView.builder(itemBuilder: itemBuilder)
                 ],
-              ),
-            ),
+              ));
+        });
+  }
+
+  Widget mainCard(Task task) {
+    return Card(
+        margin: EdgeInsets.only(left: 10, right: 10, top: 8),
+        child: Column(
+          children: [
+            ListTile(
+                title: Text(
+                    "Tu show ra createdTime, Deadline, State, Priority va format lai ngay gio",
+                    style: TextStyle(fontSize: 16))),
+            ListTile(
+                title: Text(task.content!, style: TextStyle(fontSize: 16))),
           ],
         ));
   }
 
   Widget postComment(String time, String postComment, String profileName,
       String profileImage) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
+    return Padding(
+      padding: EdgeInsets.only(left: 16.0, top: 20.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           CircleAvatar(
               maxRadius: 16, backgroundImage: NetworkImage(profileImage)),
-          SizedBox(
-            width: 16.0,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.65,
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
+          SizedBox(width: 5),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
                   decoration: BoxDecoration(
-                    color: HexColor('#E9F1FE'),
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(6.0),
                   ),
                   child: Padding(
@@ -519,32 +555,34 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                       children: [
                         Text(
                           profileName,
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                          style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Text(
                           postComment,
-                          style: TextStyle(fontSize: 12.5),
-                        )
+                          style: TextStyle(fontSize: 16.0),
+                          maxLines: 5,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ],
                     ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 12.0,
-              ),
-              Row(
-                children: [
-                  Text(time, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 10)),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.24,
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.02,
-                  ),
-                ],
-              )
-            ],
+                SizedBox(
+                  height: 5.0,
+                ),
+                Row(
+                  children: [
+                    Text(time, style: TextStyle(fontWeight: FontWeight.w600)),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.24,
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.02,
+                    ),
+                  ],
+                )
+              ],
+            ),
           )
         ],
       ),

@@ -23,7 +23,8 @@ class ProjectController extends GetxController {
 
   var project = Project.nonRole(id: -1, name: "##", userDTOSet: []).obs;
 
-  var _clickedProjectCard = Project.nonRole(id: -1, name: "-1", userDTOSet: null).obs;
+  var _clickedProjectCard =
+      Project.nonRole(id: -1, name: "-1", userDTOSet: null).obs;
 
   Project get clickedProjectCard => _clickedProjectCard.value;
 
@@ -32,6 +33,11 @@ class ProjectController extends GetxController {
     ever(_paginateParam, (_) => _listProject());
     _changeParam(PaginateParam(page: 0));
     super.onInit();
+  }
+
+  Future<CommonResp?> piechart(int id) async {
+    var temp = await ProjectService.piechart(id);
+    return temp;
   }
 
   void _listProject() async {
@@ -129,7 +135,6 @@ class ProjectController extends GetxController {
     }
     return temp;
   }
-
 
   @override
   void onClose() {

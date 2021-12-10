@@ -2,7 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:get/get.dart';
+import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
+import 'package:mobile_app/src/data/providers/storage_provider.dart';
 import 'package:settings_ui/settings_ui.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -13,6 +14,19 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+
+  var userEmail;
+  var Id;
+  @override
+  void initState() {
+    super.initState();
+    userEmail = getIntLocalStorge(LocalStorageKey.EMAIL.toString());
+    Id = getIntLocalStorge(LocalStorageKey.USER_ID.toString());
+
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +41,7 @@ class _ProfilePageState extends State<ProfilePage> {
             tiles: const [
               SettingsTile(
                 title: 'Email',
-                subtitle: '0976999999',
+                // subtitle: const Text('$userEmail'),
                 //leading: const Icon(Icons.info),
               ),
               SettingsTile(
@@ -36,25 +50,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 //leading: const Icon(Icons.lightbulb),
               ),
 
-              SettingsTile(
-                title: 'Name',
-                subtitle: 'Vu Minh Tuyen',
-                //leading: const Icon(Icons.lightbulb),
 
-              ),
-              // SettingsTile(
-              //   title: 'Developer',
-              //   subtitle: 'Cyberteam',
-              //   //leading: const Icon(Icons.lightbulb),
-              //
-              // ),
-              //
-              // SettingsTile(
-              //   title: 'Properties',
-              //   subtitle: '100Mb',
-              //   //leading: const Icon(Icons.lightbulb),
-              //
-              // ),
+
             ])],
       ),
     );

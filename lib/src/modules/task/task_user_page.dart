@@ -10,8 +10,10 @@ import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:mobile_app/src/core/constants/colors.dart';
 import 'package:mobile_app/src/core/utils/lazy_load_scroll_view.dart';
+import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/task.dart';
+import 'package:mobile_app/src/data/providers/storage_provider.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
 import 'package:mobile_app/src/routes/app_routes.dart';
 
@@ -57,48 +59,7 @@ class TaskUserPage extends GetView<TaskUserController> {
       automaticallyImplyLeading: false,
       actionsIconTheme:
           IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
-      leading: GestureDetector(
-        onTap: () {
-          /* Write listener code here */
-        },
-        child: Icon(
-          Icons.menu, // add custom icons also
-        ),
-      ),
-      actions: <Widget>[
-        // Container(
-        //     width: 120,
-        //     child: TextField(
-        //       controller: searchController,
-        //       decoration: const InputDecoration(
-        //         icon: Icon(Icons.search, color: Color(0xffffffff),),
-        //       ),
-        //
-        //       onChanged: (String? value) {
-        //         controller.searchByName(value!);
-        //         controller.update();
-        //       },
-        //     )),
-        PopupMenuButton<int>(
-          key: _key,
-          itemBuilder: (context) {
-            return <PopupMenuEntry<int>>[
-              PopupMenuItem(
-                child: TextField(
-                  controller: searchController,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.search),
-                  ),
-                  onChanged: (String? value) {
-                    controller.searchByName(value!);
-                    controller.update();
-                  },
-                ),
-              )
-            ];
-          },
-        ),
-      ],
+      actions: <Widget>[],
       backgroundColor: Color(0xff2d5f79),
     );
   }
@@ -111,16 +72,16 @@ class TaskUserPage extends GetView<TaskUserController> {
         appBar: taskAppBar(),
         body: Column(
           children: <Widget>[
-            // TextField(
-            //   controller: searchController,
-            //   decoration: const InputDecoration(
-            //     icon: Icon(Icons.search),
-            //   ),
-            //   onChanged: (String? value) {
-            //     controller.searchByName(value!);
-            //     controller.update();
-            //   },
-            // ),
+            TextField(
+              controller: searchController,
+              decoration: const InputDecoration(
+                icon: Icon(Icons.search),
+              ),
+              onChanged: (String? value) {
+                controller.searchByName(value!);
+                controller.update();
+              },
+            ),
             Expanded(child: customBody()),
           ],
         ));
@@ -155,7 +116,24 @@ class TaskUserPage extends GetView<TaskUserController> {
               itemBuilder: (_, index) {
                 Task task = _items[index];
                 return GestureDetector(
-                  onTap: () {
+                  onTap: () async {
+                    String? ids = await getStringLocalStorge(
+                        LocalStorageKey.RECENT_TASK.toString());
+                    if (ids != null) {
+                      var rs = ids.split("|");
+                      if (rs.contains(_items[index].id.toString())) {
+                        rs.remove(_items[index].id.toString());
+                      }
+                      if (rs.length >= 5) {
+                        rs.removeAt(0);
+                      }
+                      rs.add(_items[index].id.toString());
+                      ids = rs.join("|");
+                    } else {
+                      ids = "${_items[index].id}";
+                    }
+                    setStringLocalStorge(
+                        LocalStorageKey.RECENT_TASK.toString(), ids);
                     Get.toNamed(Routes.TASK_DETAIL_PAGE, arguments: {
                       "id": _items[index].id,
                       "task": _items[index]
@@ -516,7 +494,8 @@ class TaskUserPage extends GetView<TaskUserController> {
             renameDialog(task);
             nameController.text = "";
           },
-          icon: const Icon(Icons.edit), color: Colors.blue);
+          icon: const Icon(Icons.edit),
+          color: Colors.blue);
     }
     return const SizedBox.shrink();
   }

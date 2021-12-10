@@ -1,12 +1,14 @@
-// ignore_for_file: must_be_immutable, prefer_const_constructors
+// ignore_for_file: must_be_immutable, prefer_const_constructors, unused_local_variable
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/src/core/constants/colors.dart';
 import 'package:mobile_app/src/core/utils/lazy_load_scroll_view.dart';
+import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/project.dart';
 import 'package:mobile_app/src/data/models/user.dart';
+import 'package:mobile_app/src/data/providers/storage_provider.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
 import 'package:mobile_app/src/routes/app_routes.dart';
 
@@ -55,18 +57,11 @@ class _ProjectPageState extends State<ProjectPage> {
 
   AppBar? projectAppBar(BuildContext context) {
     return AppBar(
-      title: const Text('ProjectPage'),
+      title: const Text('Project Page'),
       automaticallyImplyLeading: false,
       actionsIconTheme:
           IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
-      leading: GestureDetector(
-        onTap: () {
-          /* Write listener code here */
-        },
-        child: Icon(
-          Icons.menu, // add custom icons also
-        ),
-      ),
+
       actions: <Widget>[
         // Container(
         //     width: 120,
@@ -106,7 +101,7 @@ class _ProjectPageState extends State<ProjectPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Bg,
+        backgroundColor: Bg,
         appBar: projectAppBar(context),
         body: Column(
           children: <Widget>[
@@ -276,7 +271,7 @@ class _ProjectPageState extends State<ProjectPage> {
                 Project project = _items[index];
                 int id = project.id!;
                 String name = project.name!;
-                String role = project.role!;
+                //String role = project.role!;
                 List<User> users = project.userDTOSet! as List<User>;
                 var rs = users.where((e) => e.role == 'OWNER');
                 var boss = rs.first;
@@ -289,22 +284,6 @@ class _ProjectPageState extends State<ProjectPage> {
                     });
                   },
                   child: buildCard(project, boss, users),
-                  // child: Card(
-                  //   color: BathWater,
-                  //   margin: const EdgeInsets.all(10),
-                  //   child: ListTile(
-                  //     title: Text("☕ Project: $name"),
-                  //     subtitle: Text(
-                  //         "\n📜 Role: $role\n      Owner: ${boss.email} \n      Team's number: $number"),
-                  //     trailing: Row(
-                  //       mainAxisSize: MainAxisSize.min,
-                  //       children: [
-                  //         renameIconWidget(_items[index].role!, _items[index]),
-                  //         deleteIconWidget(_items[index].role!, _items[index])
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
                 );
               },
             ),
@@ -400,10 +379,10 @@ class _ProjectPageState extends State<ProjectPage> {
                 scrollDirection: Axis.horizontal,
                 itemCount: list.length > 5 ? 5 : list.length,
                 itemBuilder: (_, index) {
-                  final id = list[index].id % 256 + 256;
+                  final id = 48693 -  list[index].id * 45 % 300;
                   final hexString = id.toRadixString(16);
                   return Image.network(
-                      "https://ui-avatars.com/api/?name=${list[index].email}&color=$hexString");
+                      "https://ui-avatars.com/api/?name=${list[index].email}&background=$hexString");
                 }),
           ),
         ]));

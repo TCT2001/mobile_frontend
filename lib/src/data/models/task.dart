@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'project.dart';
 
 class Task {
@@ -13,6 +11,7 @@ class Task {
   late int? userIdIfVisibleIsPrivate;
   late String? briefContent;
   late String? role;
+  late Project? project;
 
   factory Task.fromJson(Map<String, dynamic> json) {
     return Task(
@@ -25,7 +24,9 @@ class Task {
         deadline: json['deadline'],
         briefContent: json['briefContent'],
         role: json['role'],
-        userIdIfVisibleIsPrivate: json['userIdIfVisibleIsPrivate']);
+        userIdIfVisibleIsPrivate: json['userIdIfVisibleIsPrivate'],
+        project:
+            json["project"] == null ? null : Project.fromJson(json["project"]));
   }
   @override
   bool operator ==(Object other) =>
@@ -43,11 +44,13 @@ class Task {
       required this.priority,
       required this.taskState,
       required this.deadline,
-      required this.userIdIfVisibleIsPrivate, userDTOSet,
+      required this.userIdIfVisibleIsPrivate,
+      userDTOSet,
       required this.briefContent,
-      required this.role});
+      required this.role,
+      required this.project});
 
-  Task.name();
+  Task.name(this.id);
 
   @override
   int get hashCode => id.hashCode;
@@ -76,4 +79,9 @@ class Task {
   // static String encode(List<Task> tasks) => json.encode(
   //       tasks.map<Map<String, dynamic>>((task) => Task.toMap(music)).toList(),
   //     );
+
+  @override
+  String toString() {
+    return 'Task(id: $content)';
+  }
 }

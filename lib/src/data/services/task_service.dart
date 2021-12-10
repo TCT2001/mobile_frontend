@@ -57,8 +57,8 @@ class TaskService {
     }
   }
 
-  static Future<List<Task>?> listByProject(PaginateParam paginateParam,
-      int projectId) async {
+  static Future<List<Task>?> listByProject(
+      PaginateParam paginateParam, int projectId) async {
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
     var response = await client.post(
         Uri.parse('$baseURL/task/listByProject/$projectId'),
@@ -132,8 +132,12 @@ class TaskService {
         headers: authHeader(token!));
     if (response.statusCode == 200) {
       var temp = CommonResp.fromJson(json.decode(response.body));
-      Map<String, dynamic> jso1 = temp.data as Map<String, dynamic>;
-      return Task.fromJson(jso1);
+      if (temp.code == "SUCCESS") {
+        Map<String, dynamic> jso1 = temp.data as Map<String, dynamic>;
+        return Task.fromJson(jso1);
+      } else {
+        return Task.name(-1);
+      }
     } else {
       throw Exception('Failed');
     }
@@ -152,8 +156,8 @@ class TaskService {
     }
   }
 
-  static Future<CommonResp?> updatePriority(Task task,
-      String newPriority) async {
+  static Future<CommonResp?> updatePriority(
+      Task task, String newPriority) async {
     int? id = task.id;
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
     var response = await client.put(
@@ -208,11 +212,8 @@ class TaskService {
         headers: authHeader(token!));
     var comments = List<Comment>.empty();
     var temp = CommonResp.fromJson(json.decode(response.body));
-    print("dmm: \n $temp");
     var temp2 = temp.data! as List;
-    print("temp2 : $temp2");
     comments = (temp2.map((model) => Comment.fromJson(model)).toList());
-    print("comments : $comments");
     return comments;
   }
 }

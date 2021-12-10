@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:mobile_app/src/core/constants/colors.dart';
 import 'package:mobile_app/src/data/models/task.dart';
 import 'package:mobile_app/src/data/services/app_config_service.dart';
 import 'package:mobile_app/src/modules/home/home_controller.dart';
@@ -23,46 +24,46 @@ class _MyHomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    //   RemoteNotification? notification = message.notification;
-    //   AndroidNotification? android = message.notification?.android;
-    //   if (notification != null && android != null) {
-    //     AppConfigService.flutterLocalNotificationsPlugin.show(
-    //         notification.hashCode,
-    //         notification.title,
-    //         notification.body,
-    //         NotificationDetails(
-    //           android: AndroidNotificationDetails(
-    //             AppConfigService.channel.id,
-    //             AppConfigService.channel.name,
-    //             AppConfigService.channel.description,
-    //             color: Colors.blue,
-    //             playSound: true,
-    //             icon: '@mipmap/ic_launcher',
-    //           ),
-    //         ));
-    //   }
-    // });
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null) {
+        AppConfigService.flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                AppConfigService.channel.id,
+                AppConfigService.channel.name,
+                AppConfigService.channel.description,
+                color: Colors.blue,
+                playSound: true,
+                icon: '@mipmap/ic_launcher',
+              ),
+            ));
+      }
+    });
 
-    // FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-    //   RemoteNotification? notification = message.notification;
-    //   AndroidNotification? android = message.notification?.android;
-    //   if (notification != null && android != null) {
-    //     showDialog(
-    //         context: context,
-    //         builder: (_) {
-    //           return AlertDialog(
-    //             title: Text(notification.title!),
-    //             content: SingleChildScrollView(
-    //               child: Column(
-    //                 crossAxisAlignment: CrossAxisAlignment.start,
-    //                 children: [Text(notification.body!)],
-    //               ),
-    //             ),
-    //           );
-    //         });
-    //   }
-    // });
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null) {
+        showDialog(
+            context: context,
+            builder: (_) {
+              return AlertDialog(
+                title: Text(notification.title!),
+                content: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [Text(notification.body!)],
+                  ),
+                ),
+              );
+            });
+      }
+    });
   }
 
   void _incrementCounter() {
@@ -73,20 +74,28 @@ class _MyHomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    homeController.updateT();
     List<Task> tasks = homeController.recentTask;
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color(0xff2d5f79),
-          title: Text('Home'),
-        ),
-        body: ListView.builder(
-            itemCount: tasks.length,
+      backgroundColor: Bg,
+      appBar: AppBar(
+        backgroundColor: Color(0xff2d5f79),
+        title: Text('Home'),
+      ),
+      body: GetBuilder<HomeController>(
+        builder: (_dx) => ListView.builder(
+            itemCount: _dx.recentTask.length,
             itemBuilder: (context, index) {
-              return buildCard(tasks[index]);
-            }));
+              return buildCard(_dx.recentTask[index]);
+            }),
+      ),
+    );
   }
 
-  Card buildCard(Task task) {
+  Widget buildCard(Task task) {
+    if (task.id == -1) {
+      return SizedBox.shrink();
+    }
     String deadline = task.deadline ?? "no set";
     var subheading = task.name;
     return Card(
