@@ -12,6 +12,7 @@ class Task {
   late String? briefContent;
   late String? role;
   late Project? project;
+  late String? createTime;
 
   factory Task.fromJson(Map<String, dynamic> json) {
     return Task(
@@ -25,6 +26,7 @@ class Task {
         briefContent: json['briefContent'],
         role: json['role'],
         userIdIfVisibleIsPrivate: json['userIdIfVisibleIsPrivate'],
+        createTime : json['createTime'],
         project:
             json["project"] == null ? null : Project.fromJson(json["project"]));
   }
@@ -48,9 +50,11 @@ class Task {
       userDTOSet,
       required this.briefContent,
       required this.role,
-      required this.project});
+      required this.project,
+      required this.createTime});
 
   Task.name(this.id);
+  Task.id({required this.id});
 
   @override
   int get hashCode => id.hashCode;

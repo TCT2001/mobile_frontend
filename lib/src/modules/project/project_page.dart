@@ -295,7 +295,7 @@ class _ProjectPageState extends State<ProjectPage> {
       return IconButton(
           onPressed: () {
             renameDialog(project);
-            textController.text = "";
+            textController.text = project.name!;
           },
           icon: const Icon(
             Icons.edit,

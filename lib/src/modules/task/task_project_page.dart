@@ -22,7 +22,7 @@ Widget renameIconWidget(
     return IconButton(
         onPressed: () {
           renameDialog(task, nameController, controller);
-          nameController.text = "";
+          nameController.text = task.name!;
         },
         icon: const Icon(Icons.edit, color: Colors.blue));
   }
@@ -207,7 +207,7 @@ Card buildCard(Task task, String role, var nameController, var controller) {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: [Text("Deadline: $deadline")]))
+                children: [Text("Deadline: ${deadline.substring(0, 10)}")]))
       ]));
 }
 

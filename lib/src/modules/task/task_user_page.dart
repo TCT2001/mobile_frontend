@@ -221,7 +221,7 @@ class TaskUserPage extends GetView<TaskUserController> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [Text("Deadline: $deadline")]))
+                  children: [Text("Deadline: ${deadline.substring(0, 10)}")]))
         ]));
   }
 

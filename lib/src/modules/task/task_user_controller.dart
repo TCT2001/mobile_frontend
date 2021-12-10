@@ -83,8 +83,8 @@ class TaskUserController extends GetxController {
   Future<CommonResp?> renameTask(Task task, String newName) async {
     var temp = await TaskService.rename(task, newName);
     if (temp!.code == "SUCCESS") {
-      _tasks.firstWhere((element) => element.id == task.id).name =
-          _tasks.firstWhere((element) => element.id == task.id).name = newName;
+      //TODO
+      _tasks.firstWhere((element) => element.id == task.id).name = newName;
       _tasks.refresh();
     }
     return temp;

@@ -43,13 +43,13 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
     // project = controller.find(id);
     task = controller.find(id);
     userId = getIntLocalStorge(LocalStorageKey.USER_ID.toString());
-    listComment = TaskService.listComment(taskClicked.id!);
+    listComment = TaskService.listComment(Task.id(id: id).id!);
   }
 
   AppBar? taskDetailAppBar(String role) {
     return AppBar(
       backgroundColor: Color(0xff2d5f79),
-      title: Text('Task detail'),
+      title: Text(taskClicked.name!),
       automaticallyImplyLeading: false,
       leading: GestureDetector(
         onTap: () {
@@ -73,66 +73,8 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
             )),
         PopupMenuButton<int>(
           onSelected: (value) {
-            if (value == 0) {
-              newNameController.text = "";
-              Get.defaultDialog(
-                  titleStyle: TextStyle(fontSize: 0),
-                  title: 'Rename',
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TextField(
-                        controller: newNameController,
-                        keyboardType: TextInputType.text,
-                        maxLines: 1,
-                        decoration: InputDecoration(
-                            labelText: 'New Name',
-                            hintMaxLines: 1,
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.green, width: 4.0))),
-                      ),
-                      SizedBox(
-                        height: 30.0,
-                      ),
-                      ElevatedButton(
-                        onPressed: () async {
-                          Get.back();
-                          CommonResp? commonResp = await controller.renameTask(
-                              taskClicked, newNameController.text);
-                          if (commonResp == null) {
-                            customSnackBar(
-                                "Rename", "Some unexpected error happened",
-                                iconData: Icons.warning_rounded,
-                                iconColor: Colors.red);
-                            return;
-                          }
-                          if (commonResp.code == "SUCCESS") {
-                            setState(() {
-                              task = controller.find(id);
-                            });
-                            customSnackBar("Rename", "Success",
-                                iconData: Icons.check_outlined,
-                                iconColor: Colors.green);
-                          } else {
-                            customSnackBar(
-                                "Rename", "Some unexpected error happened",
-                                iconData: Icons.warning_rounded,
-                                iconColor: Colors.red);
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Color(0xff2d5f79),
-                        ),
-                        child: Text(
-                          'Rename',
-                          style: TextStyle(color: Colors.white, fontSize: 16.0),
-                        ),
-                      )
-                    ],
-                  ),
-                  radius: 10.0);
-            } else if (value == 1) {
+            if (value == 1) {
+              controller.selectedState.value = taskClicked.taskState!;
               Get.defaultDialog(
                   titleStyle: TextStyle(fontSize: 10),
                   title: 'Select Task State',
@@ -196,7 +138,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                         onPressed: () async {
                           Get.back();
                           CommonResp? commonResp = await controller.updateState(
-                              taskClicked,
+                              Task.id(id: id),
                               controller.selectedState.value.toString());
                           if (commonResp == null) {
                             customSnackBar(
@@ -231,6 +173,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                   ),
                   radius: 10.0);
             } else if (value == 2) {
+              controller.selectedPriority.value = taskClicked.priority!;
               Get.defaultDialog(
                   titleStyle: TextStyle(fontSize: 10),
                   title: 'Select Task Priority',
@@ -277,7 +220,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                         onPressed: () async {
                           Get.back();
                           CommonResp? commonResp =
-                              await controller.updatePriority(taskClicked,
+                              await controller.updatePriority(Task.id(id: id),
                                   controller.selectedPriority.value.toString());
                           if (commonResp == null) {
                             customSnackBar("Update Priority",
@@ -312,7 +255,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                   ),
                   radius: 10.0);
             } else if (value == 3) {
-              newContentController.text = "";
+              newContentController.text = taskClicked.content!;
               Get.defaultDialog(
                   titleStyle: TextStyle(fontSize: 0),
                   title: 'Update Content',
@@ -385,14 +328,12 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
   List<PopupMenuEntry<int>> listAppbar(String role) {
     if (role == "OWNER") {
       return <PopupMenuEntry<int>>[
-        PopupMenuItem(child: Text('Rename Task'), value: 0),
         PopupMenuItem(child: Text('Update State'), value: 1),
         PopupMenuItem(child: Text('Update Priority'), value: 2),
         PopupMenuItem(child: Text('Update Content'), value: 3),
       ];
     } else if (role == "ADMINISTRATOR") {
       return <PopupMenuEntry<int>>[
-        PopupMenuItem(child: Text('Rename Task'), value: 0),
         PopupMenuItem(child: Text('Update State'), value: 1),
         PopupMenuItem(child: Text('Update Priority'), value: 2),
         PopupMenuItem(child: Text('Update Content'), value: 3),
@@ -450,7 +391,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                                   final id = 48693 - data[index].id! * 45 % 300;
                                   final hexString = id.toRadixString(16);
                                   return postComment(
-                                      data[index].createdTime!,
+                                      data[index].createdTime!.substring(0, 10),
                                       data[index].content!,
                                       data[index].userDTO!.email,
                                       "https://ui-avatars.com/api/?name=${data[index].userDTO!.email}&background=$hexString");
@@ -521,10 +462,8 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
           children: [
             ListTile(
                 title: Text(
-                    "Tu show ra createdTime, Deadline, State, Priority va format lai ngay gio",
+                    "CreatedTime: ${task.createTime!.substring(0, 10)}\nDeadline: ${task.deadline!.substring(0, 10)}\nState: ${task.taskState!}\nPriority: ${task.priority!}\nContent: ${task.content!}",
                     style: TextStyle(fontSize: 16))),
-            ListTile(
-                title: Text(task.content!, style: TextStyle(fontSize: 16))),
           ],
         ));
   }
