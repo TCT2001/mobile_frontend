@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/providers/storage_provider.dart';
 import 'package:settings_ui/settings_ui.dart';
@@ -14,19 +15,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-
-  var userEmail;
-  var Id;
-  @override
-  void initState() {
-    super.initState();
-    userEmail = getIntLocalStorge(LocalStorageKey.EMAIL.toString());
-    Id = getIntLocalStorge(LocalStorageKey.USER_ID.toString());
-
-  }
-
-
-
+  String email = Get.arguments['email'];
+  int id = Get.arguments['id'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,20 +28,17 @@ class _ProfilePageState extends State<ProfilePage> {
       body: SettingsList(sections: [
         SettingsSection(
             title: 'Account',
-            tiles: const [
+            tiles: [
               SettingsTile(
                 title: 'Email',
-                // subtitle: const Text('$userEmail'),
+                subtitle: email,
                 //leading: const Icon(Icons.info),
               ),
               SettingsTile(
                 title: 'Id',
-                subtitle: '10',
+                subtitle: id.toString(),
                 //leading: const Icon(Icons.lightbulb),
               ),
-
-
-
             ])],
       ),
     );

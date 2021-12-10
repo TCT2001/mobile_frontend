@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/src/core/constants/colors.dart';
+import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/providers/storage_provider.dart';
 import 'package:mobile_app/src/modules/setting/changepassword/changepassword_page.dart';
 import 'package:mobile_app/src/modules/login/login_signup_page.dart';
@@ -23,6 +24,15 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage> {
   bool _a = true;
 
+  var userEmail;
+  var userId;
+  @override
+  void initState() {
+    super.initState();
+    userEmail = getStringLocalStorge(LocalStorageKey.EMAIL.toString());
+    userId = getIntLocalStorge(LocalStorageKey.USER_ID.toString());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,11 +49,17 @@ class _SettingPageState extends State<SettingPage> {
               SettingsTile(
                 title: 'User',
                 leading: const Icon(Icons.manage_accounts),
-                onPressed: (BuildContext context) {
+                onPressed: (BuildContext context) async {
+                  String email = await userEmail;
+                  int id = await userId;
                   Get.to(ProfilePage(),
                       fullscreenDialog: true,
                       transition: Transition.cupertino,
-                      duration: const Duration(seconds: 1));
+                      duration: const Duration(seconds: 1),
+                      arguments: {
+                        "email" : email,
+                        "id" : id
+                      });
                 },
               ),
             ],

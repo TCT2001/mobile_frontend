@@ -105,7 +105,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
             } else if (value == 1) {
               showCreateTaskForm();
             } else if (value == 2) {
-              newNameController.text = "";
+              newNameController.text = clickedProject.name!;
               Get.defaultDialog(
                   titleStyle: TextStyle(fontSize: 0),
                   title: 'Rename',
@@ -447,6 +447,12 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   void showCreateTaskForm() {
     TaskProjectController taskController =
         Get.put(TaskProjectController(projectId: id));
+    newNameController.clear();
+    newContentController.clear();
+    taskController.selectedScope = "PUBLIC".obs;
+    taskController.selectedPriority = "NORMAL".obs;
+    taskController.selectedState = "SUBMITTED".obs;
+    selectedDate = DateTime.now();
     Get.bottomSheet(
       Container(
           height: 850,
@@ -616,7 +622,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                           Text("Select Task Deadline"),
                           const SizedBox(
                             height: 1,
-                            width: 175,
+                            width: 150,
                           ),
                           IconButton(
                               onPressed: () async {
@@ -665,12 +671,6 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                                     iconData: Icons.warning_rounded,
                                     iconColor: Colors.red);
                               }
-                              newNameController.clear();
-                              newContentController.clear();
-                              taskController.selectedScope = "PUBLIC".obs;
-                              taskController.selectedPriority = "NORMAL".obs;
-                              taskController.selectedState = "SUBMITTED".obs;
-                              selectedDate = DateTime.now();
                             }
                           })
                     ],
