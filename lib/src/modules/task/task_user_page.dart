@@ -148,7 +148,6 @@ class TaskUserPage extends GetView<TaskUserController> {
   }
 
   Card buildCard(Task task) {
-    String deadline = task.deadline ?? "no set";
     var subheading = task.name;
     return Card(
         shape: RoundedRectangleBorder(
@@ -221,7 +220,8 @@ class TaskUserPage extends GetView<TaskUserController> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [Text("Deadline: ${deadline.substring(0, 10)}")]))
+                  children: [if(task.deadline != null ) Text("Deadline: ${task.deadline!.substring(0, 10)}")
+                             else Text("Deadline: No set")]))
         ]));
   }
 
