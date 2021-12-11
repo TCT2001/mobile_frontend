@@ -62,15 +62,6 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
       actionsIconTheme:
           IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
       actions: <Widget>[
-        Padding(
-            padding: EdgeInsets.only(right: 20.0),
-            child: GestureDetector(
-              onTap: () {},
-              child: Icon(
-                Icons.search,
-                size: 26.0,
-              ),
-            )),
         PopupMenuButton<int>(
           onSelected: (value) {
             if (value == 1) {
