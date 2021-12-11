@@ -26,56 +26,22 @@ class _ProjectPageState extends State<ProjectPage> {
   TextEditingController textController = TextEditingController(text: '');
   final GlobalKey<PopupMenuButtonState<int>> _key = GlobalKey();
   ProjectController controller = Get.put(ProjectController());
-  late String? sortValue = "Deadline";
-
-  Widget sort() {
-    return DropdownButton<String>(
-      items: const [
-        DropdownMenuItem<String>(
-          child: Text('⏰ Deadline'),
-          value: 'Deadline',
-        ),
-        DropdownMenuItem<String>(
-          child: Text('      ASC'),
-          value: 'ASC',
-        ),
-        DropdownMenuItem<String>(
-          child: Text('      DESC'),
-          value: 'DESC',
-        ),
-      ],
-      onChanged: (String? value) {
-        var a = value == "ASC";
-        controller.sort("deadline", a);
-        setState(() {
-          sortValue = value;
-        });
-      },
-      value: sortValue,
-    );
-  }
 
   AppBar? projectAppBar(BuildContext context) {
     return AppBar(
-      title: const Text('Project Page'),
+      title: const Text('ProjectPage'),
       automaticallyImplyLeading: false,
       actionsIconTheme:
           IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
-
+      leading: GestureDetector(
+        onTap: () {
+          /* Write listener code here */
+        },
+        child: Icon(
+          Icons.menu, // add custom icons also
+        ),
+      ),
       actions: <Widget>[
-        // Container(
-        //     width: 120,
-        //     child: TextField(
-        //       controller: searchController,
-        //       decoration: const InputDecoration(
-        //         icon: Icon(Icons.search, color: Color(0xffffffff),),
-        //       ),
-        //
-        //       onChanged: (String? value) {
-        //         controller.searchByName(value!);
-        //         controller.update();
-        //       },
-        //     )),
         PopupMenuButton<int>(
           onSelected: (value) {
             if (value == 0) {
@@ -106,18 +72,16 @@ class _ProjectPageState extends State<ProjectPage> {
         body: Column(
           children: <Widget>[
             Container(
-              child: sort(),
-            ),
-            TextField(
+                child: TextField(
               controller: searchController,
               decoration: const InputDecoration(
-            icon: Icon(Icons.search),
+                icon: Icon(Icons.search),
               ),
               onChanged: (String? value) {
-            controller.searchByName(value!);
-            controller.update();
+                controller.searchByName(value!);
+                controller.update();
               },
-            ),
+            )),
             Expanded(child: body()
                 // child: Container(
                 //     decoration: BoxDecoration(

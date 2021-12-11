@@ -18,6 +18,13 @@ class HomeController extends GetxController {
   void _getRecenTask() async {
     String? ids =
         await getStringLocalStorge(LocalStorageKey.RECENT_TASK.toString());
+    if (ids == null || ids.isEmpty) {
+      _recentTasks.assignAll([]);
+      return;
+    }
+    if (ids.startsWith("|")) {
+      ids = ids.substring(1);
+    }
     if (ids != null) {
       var rs = ids.split("|");
       List<Task> tasks = List.empty(growable: true);
@@ -28,6 +35,7 @@ class HomeController extends GetxController {
         }
       }
       _recentTasks.assignAll(tasks);
+      _recentTasks.refresh();
     }
   }
 
