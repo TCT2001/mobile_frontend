@@ -6,6 +6,7 @@ import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/invitation.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/payload/error_resp.dart';
+import 'package:mobile_app/src/data/models/payload/forgotpassword_resp.dart';
 import 'package:mobile_app/src/data/models/payload/login_resp.dart';
 import 'package:mobile_app/src/data/models/payload/noti_resp.dart';
 import 'package:mobile_app/src/data/models/payload/signup_resp.dart';
@@ -18,6 +19,7 @@ class AuthService {
   static Uri LOGIN_URI = Uri.parse('$baseURL/auth/signin');
   static Uri LOGOUT_URI = Uri.parse('$baseURL/auth/logout');
   static Uri RE_PASS_WORD_URI = Uri.parse('$baseURL/auth/changePassword');
+  static Uri FORGOT_PASS_URI = Uri.parse('$baseURL/auth/forgotPassword');
 
 
   //TODO
@@ -48,6 +50,19 @@ class AuthService {
         body: jsonEncode(
             <String, String>{"username": email, "password": password}));
     return signupRespFromJson(response.body);
+  }
+
+  static Future<ForgotpassResp> forgotpass(
+      {required String email}) async {
+    var response = await client.get(Uri.parse('$baseURL/auth/forgotPassword?u=$email'),
+        headers: nonAuthHeader);
+        if (response.statusCode == 200) {
+      var temp = ForgotpassResp.fromJson(json.decode(response.body));
+      //Map<String, dynamic> jso1 = temp.data as Map<String, dynamic>;
+      return temp;
+    } else {
+    throw Exception('Failed');
+    }
   }
 
   static Future<LoginResp> login(

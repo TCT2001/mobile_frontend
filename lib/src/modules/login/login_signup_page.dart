@@ -5,6 +5,7 @@ import 'package:get/get_core/get_core.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:mobile_app/src/core/utils/validator_utils.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
+import 'package:mobile_app/src/data/models/payload/forgotpassword_resp.dart';
 import 'package:mobile_app/src/data/models/payload/login_resp.dart';
 import 'package:mobile_app/src/data/models/payload/signup_resp.dart';
 import 'package:mobile_app/src/data/providers/storage_provider.dart';
@@ -49,9 +50,15 @@ class LoginScreen extends StatelessWidget {
     });
   }
 
-  Future<String> _recoverPassword(String name) {
-    return Future.delayed(loginTime).then((_) {
-      return "";
+  Future<String?> _recoverPassword(String name) {
+    return Future.delayed(loginTime).then((_) async {
+      ForgotpassResp forgotpassResp =
+          await AuthService.forgotpass(email: name);
+      if (forgotpassResp.code == "SUCCESS") {
+        return null;
+      } else {
+        return "Email is incorrect";
+      }
     });
   }
 

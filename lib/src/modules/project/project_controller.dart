@@ -114,11 +114,6 @@ class ProjectController extends GetxController {
     return temp;
   }
 
-  Future<CommonResp?> piechart(int id) async {
-    var temp = await ProjectService.piechart(id);
-    return temp;
-  }
-
   Future<CommonResp?> renameProject(Project project, String newName) async {
     var temp = await ProjectService.rename(project, newName);
     if (temp!.code == "SUCCESS") {
