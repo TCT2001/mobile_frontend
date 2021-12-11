@@ -60,7 +60,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   String role = '';
   String newTaskName = '';
   String newContentTask = '';
-  DateTime selectedDate = DateTime.now();
+  DateTime selectedDate = DateTime.now().add(Duration(days: 1));
   var deadline;
 
   @override
@@ -452,7 +452,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
     taskController.selectedScope = "PUBLIC".obs;
     taskController.selectedPriority = "NORMAL".obs;
     taskController.selectedState = "SUBMITTED".obs;
-    selectedDate = DateTime.now();
+    selectedDate = DateTime.now().add(Duration(days: 1));
     Get.bottomSheet(
       Container(
           height: 850,

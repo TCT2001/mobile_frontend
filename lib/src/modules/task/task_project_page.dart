@@ -134,7 +134,6 @@ Widget taskProjectList(Project project, var controller) {
 }
 
 Card buildCard(Task task, String role, var nameController, var controller) {
-  String deadline = task.deadline ?? "no set";
   var subheading = task.name;
   return Card(
       shape: RoundedRectangleBorder(
@@ -207,7 +206,8 @@ Card buildCard(Task task, String role, var nameController, var controller) {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: [Text("Deadline: ${deadline.substring(0, 10)}")]))
+                children: [ if (task.deadline != null) Text("Deadline: ${task.deadline!.substring(0, 10)}")
+                            else Text ("Deadline: No set")]))
       ]));
 }
 

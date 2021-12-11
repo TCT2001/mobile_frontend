@@ -447,13 +447,23 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
   }
 
   Widget mainCard(Task task) {
-    return Card(
+    if(task.deadline != null)  return Card(
         margin: EdgeInsets.only(left: 10, right: 10, top: 8),
         child: Column(
           children: [
             ListTile(
                 title: Text(
-                    "CreatedTime: ${task.createTime!.substring(0, 10)}\nDeadline: ${task.deadline!.substring(0, 10)}\nState: ${task.taskState!}\nPriority: ${task.priority!}\nContent: ${task.content!}",
+                    "Created Date: ${task.createTime!.substring(0, 10)}\nDeadline: ${task.deadline!.substring(0, 10)}\nState: ${task.taskState!}\nPriority: ${task.priority!}\nContent: ${task.content!}",
+                    style: TextStyle(fontSize: 16))),
+          ],
+        ));
+    else return Card(
+        margin: EdgeInsets.only(left: 10, right: 10, top: 8),
+        child: Column(
+          children: [
+            ListTile(
+                title: Text(
+                    "Created Date: ${task.createTime!.substring(0, 10)}\nDeadline: No set\nState: ${task.taskState!}\nPriority: ${task.priority!}\nContent: ${task.content!}",
                     style: TextStyle(fontSize: 16))),
           ],
         ));
