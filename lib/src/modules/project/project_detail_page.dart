@@ -56,7 +56,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   late TextEditingController newNameController = TextEditingController();
   late TextEditingController newContentController = TextEditingController();
   TextEditingController searchController = TextEditingController(text: '');
-
+  late String? sortValue = "Deadline";
   String invitedEmail = '';
   String role = '';
   String newTaskName = '';
@@ -68,6 +68,33 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   void initState() {
     super.initState();
     project = controller.find(id);
+  }
+
+  Widget sort(var taskProjectController) {
+    return DropdownButton<String>(
+      items: const [
+        DropdownMenuItem<String>(
+          child: Text('⏰ Deadline'),
+          value: 'Deadline',
+        ),
+        DropdownMenuItem<String>(
+          child: Text('      ASC'),
+          value: 'ASC',
+        ),
+        DropdownMenuItem<String>(
+          child: Text('      DESC'),
+          value: 'DESC',
+        ),
+      ],
+      onChanged: (String? value) {
+        var a = value == "ASC";
+        taskProjectController.sort("deadline", a);
+        setState(() {
+          sortValue = value;
+        });
+      },
+      value: sortValue,
+    );
   }
 
   AppBar appBar(String role, BuildContext context, int projectId) {
@@ -256,7 +283,9 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
             appBar: appBar(snapshot.data!.role!, context, snapshot.data!.id!),
             body: Column(
               children: <Widget>[
-                //Container(child: showDetail(snapshot)),
+                Container(
+                  child: sort(taskProjectController),
+                ),
                 TextField(
                   controller: searchController,
                   decoration: const InputDecoration(

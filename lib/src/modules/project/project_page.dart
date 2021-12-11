@@ -26,34 +26,6 @@ class _ProjectPageState extends State<ProjectPage> {
   TextEditingController textController = TextEditingController(text: '');
   final GlobalKey<PopupMenuButtonState<int>> _key = GlobalKey();
   ProjectController controller = Get.put(ProjectController());
-  late String? sortValue = "Deadline";
-
-  Widget sort() {
-    return DropdownButton<String>(
-      items: const [
-        DropdownMenuItem<String>(
-          child: Text('⏰ Deadline'),
-          value: 'Deadline',
-        ),
-        DropdownMenuItem<String>(
-          child: Text('      ASC'),
-          value: 'ASC',
-        ),
-        DropdownMenuItem<String>(
-          child: Text('      DESC'),
-          value: 'DESC',
-        ),
-      ],
-      onChanged: (String? value) {
-        var a = value == "ASC";
-        controller.sort("deadline", a);
-        setState(() {
-          sortValue = value;
-        });
-      },
-      value: sortValue,
-    );
-  }
 
   AppBar? projectAppBar(BuildContext context) {
     return AppBar(
@@ -70,19 +42,6 @@ class _ProjectPageState extends State<ProjectPage> {
         ),
       ),
       actions: <Widget>[
-        // Container(
-        //     width: 120,
-        //     child: TextField(
-        //       controller: searchController,
-        //       decoration: const InputDecoration(
-        //         icon: Icon(Icons.search, color: Color(0xffffffff),),
-        //       ),
-        //
-        //       onChanged: (String? value) {
-        //         controller.searchByName(value!);
-        //         controller.update();
-        //       },
-        //     )),
         PopupMenuButton<int>(
           onSelected: (value) {
             if (value == 0) {
@@ -112,9 +71,6 @@ class _ProjectPageState extends State<ProjectPage> {
         appBar: projectAppBar(context),
         body: Column(
           children: <Widget>[
-            Container(
-              child: sort(),
-            ),
             Container(
                 child: TextField(
               controller: searchController,

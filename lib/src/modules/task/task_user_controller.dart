@@ -69,7 +69,8 @@ class TaskUserController extends GetxController {
   void searchByName(String name) async {
     _tasks.assignAll([]);
     _paginateParam = PaginateParam(page: 0).obs;
-    _paginateParam.value.filter = "name~$name";
+    //TODO TODO
+    _paginateParam.value.filter = "briefContent~$name";
     final data = await TaskService.listByUsers(_paginateParam.value);
     if (data!.isEmpty) {
       _isLastPage.value = true;
@@ -98,6 +99,19 @@ class TaskUserController extends GetxController {
       return true;
     }
     return false;
+  }
+
+  void sort(String sortField, bool sortAsc) async {
+    _tasks.assignAll([]);
+    _paginateParam = PaginateParam(page: 0).obs;
+    _paginateParam.value.sortField = sortField;
+    _paginateParam.value.sortAscending = sortAsc;
+    final data = await TaskService.listByUsers(_paginateParam.value);
+    if (data!.isEmpty) {
+      _isLastPage.value = true;
+      return;
+    }
+    _tasks.assignAll(data);
   }
 
   Future<Task> find(int id) async {

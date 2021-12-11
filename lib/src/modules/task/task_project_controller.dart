@@ -44,6 +44,19 @@ class TaskProjectController extends GetxController {
     //_tasks.refresh();
   }
 
+  void sort(String sortField, bool sortAsc) async {
+    _tasks.assignAll([]);
+    _paginateParam = PaginateParam(page: 0).obs;
+    _paginateParam.value.sortField = sortField;
+    _paginateParam.value.sortAscending = sortAsc;
+    final data = await TaskService.listByProject(_paginateParam.value, projectId);
+    if (data!.isEmpty) {
+      _isLastPage.value = true;
+      return;
+    }
+    _tasks.assignAll(data);
+  }
+
   void _changeParam(PaginateParam paginateParam) {
     _paginateParam.update((val) {
       val!.page = paginateParam.page;
