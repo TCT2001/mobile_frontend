@@ -89,7 +89,7 @@ class AuthService {
           "password": password,
           "deviceId": "123",
           "isAndroid": "1",
-          "fcmToken": fcmToken
+          "fcmToken": "123"
           //TODO
         }));
     return loginRespFromJson(response.body);
