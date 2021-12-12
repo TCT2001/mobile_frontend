@@ -38,19 +38,54 @@ final List<Map<String, dynamic>> _items = [
   },
 ];
 
-class TaskUserPage extends GetView<TaskUserController> {
+class TaskUserPage extends StatefulWidget {
+  const TaskUserPage({Key? key}) : super(key: key);
+
+  @override
+  _TaskUserPageState createState() => _TaskUserPageState();
+}
+
+class _TaskUserPageState extends State<TaskUserPage> {
   TextEditingController nameController = TextEditingController(text: '');
   TextEditingController contentController = TextEditingController(text: '');
   TextEditingController searchController = TextEditingController(text: '');
   TextEditingController invitedEmailController =
       TextEditingController(text: '');
 
+  TaskUserController controller = Get.put(TaskUserController());
+
   late Task task;
   String invitedEmail = '';
   String role = '';
   final GlobalKey<PopupMenuButtonState<int>> _key = GlobalKey();
+  late String? sortValue = "Deadline";
 
-  TaskUserPage({Key? key}) : super(key: key);
+  Widget sort() {
+    return DropdownButton<String>(
+      items: const [
+        DropdownMenuItem<String>(
+          child: Text('⏰ Deadline'),
+          value: 'Deadline',
+        ),
+        DropdownMenuItem<String>(
+          child: Text('      ASC'),
+          value: 'ASC',
+        ),
+        DropdownMenuItem<String>(
+          child: Text('      DESC'),
+          value: 'DESC',
+        ),
+      ],
+      onChanged: (String? value) {
+        var a = value == "ASC";
+        controller.sort("deadline", a);
+        setState(() {
+          sortValue = value;
+        });
+      },
+      value: sortValue,
+    );
+  }
 
 //TODO
   AppBar? taskAppBar() {
@@ -72,6 +107,9 @@ class TaskUserPage extends GetView<TaskUserController> {
         appBar: taskAppBar(),
         body: Column(
           children: <Widget>[
+            Container(
+              child: sort(),
+            ),
             TextField(
               controller: searchController,
               decoration: const InputDecoration(
@@ -538,3 +576,7 @@ class TaskUserPage extends GetView<TaskUserController> {
     return const SizedBox.shrink();
   }
 }
+
+// class TaskUserPage extends GetView<TaskUserController> {
+  
+// }
