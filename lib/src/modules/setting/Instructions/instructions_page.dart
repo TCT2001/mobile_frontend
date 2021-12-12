@@ -15,7 +15,7 @@ class InstructionsPage extends StatefulWidget {
 
 class _InstructionsPageState extends State<InstructionsPage> {
 
-  var toDoList = ['Step 1','Step 2','Step 3','Step 4','Step 5'];
+  var toDoList = ['Home Page','Project Page','Project Detail Page','Task of User','Task Detail Page'];
 
   @override
   Widget build(BuildContext context) {
@@ -41,15 +41,15 @@ class _InstructionsPageState extends State<InstructionsPage> {
                           Image.asset(i),
                           SizedBox( height:  10,),
                           if(i == 'assets/images/1.PNG')
-                            Text("${toDoList[0]}", style:  TextStyle( fontSize: 25, fontWeight: FontWeight.w800),),
+                            Text("${toDoList[0]}", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),),
                           if(i == 'assets/images/2.PNG')
-                            Text("${toDoList[1]}", style:  TextStyle( fontSize: 25, fontWeight: FontWeight.w800),),
+                            Text("${toDoList[1]}", style:  TextStyle( fontSize: 20, fontWeight: FontWeight.w800),),
                           if(i == 'assets/images/3.PNG')
-                            Text("${toDoList[2]}", style:  TextStyle( fontSize: 25, fontWeight: FontWeight.w800),),
+                            Text("${toDoList[2]}", style:  TextStyle( fontSize: 20, fontWeight: FontWeight.w800),),
                           if(i == 'assets/images/4.PNG')
-                            Text("${toDoList[3]}", style:  TextStyle( fontSize: 25, fontWeight: FontWeight.w800),),
+                            Text("${toDoList[3]}", style:  TextStyle( fontSize: 20, fontWeight: FontWeight.w800),),
                           if(i == 'assets/images/5.PNG')
-                            Text("${toDoList[4]}", style:  TextStyle( fontSize: 25, fontWeight: FontWeight.w800),),
+                            Text("${toDoList[4]}", style:  TextStyle( fontSize: 20, fontWeight: FontWeight.w800),),
                         ],
                       ),
 
@@ -57,7 +57,6 @@ class _InstructionsPageState extends State<InstructionsPage> {
                   }
               );
             }).toList(),
-
           ),
         ),
       ),

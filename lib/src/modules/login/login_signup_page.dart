@@ -68,10 +68,10 @@ class LoginScreen extends StatelessWidget {
       logo: const AssetImage('assets/images/Logo.png'),
       userValidator: (value) {
         if (value == null || value.isEmpty) {
-          return "Khong duoc de trong";
+          return "Enter your email or phone number";
         }
         if (!EmailValidator.validate(value) && !phoneRegExp.hasMatch(value)) {
-          return "Phai la email hoac sdt";
+          return "Please enter your email or phone number";
         }
         return null;
       },

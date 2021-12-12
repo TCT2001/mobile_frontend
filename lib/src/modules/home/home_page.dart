@@ -74,21 +74,32 @@ class _MyHomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    homeController.updateT();
-    List<Task> tasks = homeController.recentTask;
     return Scaffold(
       backgroundColor: Bg,
       appBar: AppBar(
         backgroundColor: Color(0xff2d5f79),
         title: Text('Home'),
       ),
-      body: GetBuilder<HomeController>(
-        builder: (_dx) => ListView.builder(
-            itemCount: _dx.recentTask.length,
-            itemBuilder: (context, index) {
-              return buildCard(_dx.recentTask[index]);
+      body: Column(
+        children: [
+          Center(child: Text("Recent Tasks", style: TextStyle(fontSize: 16),)),
+          Expanded(
+            child: Obx(() {
+              HomeController controller = Get.put(HomeController());
+              return ListView.builder(
+                  itemCount: controller.recentTask.length,
+                  itemBuilder: (context, index) {
+                    return buildCard(controller.recentTask[index]);
+                  });
             }),
+          ),
+        ],
       ),
+      // body:  ListView.builder(
+      //         itemCount: _dx.recentTask.length,
+      //         itemBuilder: (context, index) {
+      //           return buildCard(_dx.recentTask[index]);
+      //         });
     );
   }
 
@@ -96,8 +107,8 @@ class _MyHomePageState extends State<HomePage> {
     if (task.id == -1) {
       return SizedBox.shrink();
     }
-    String deadline = task.deadline ?? "no set";
     var subheading = task.name;
+    var c = task.content!.length <  100 ? task.content! : task.content!.substring(0, 99);
     return Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
@@ -105,7 +116,6 @@ class _MyHomePageState extends State<HomePage> {
         elevation: 4.0,
         margin: const EdgeInsets.all(10),
         child: Column(children: [
-          Center(child: Text("Recent Tasks")),
           Container(
               margin: EdgeInsets.only(right: 20, top: 5, bottom: 0),
               child: Row(
@@ -144,8 +154,7 @@ class _MyHomePageState extends State<HomePage> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
             ),
-            title: Text(
-              "${task.content}",
+            title: Text(c,
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             subtitle: Text("\u{1F511}    $subheading"),
@@ -156,7 +165,8 @@ class _MyHomePageState extends State<HomePage> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [Text("Deadline: $deadline")]))
+                  children: [if (task.deadline != null )Text("Deadline: ${task.deadline!.substring(0,10)}")
+                            else Text("Deadline: No set")]))
         ]));
   }
 
