@@ -98,17 +98,17 @@ class _SettingPageState extends State<SettingPage> {
               //   leading: const Icon(Icons.language),
               //   onPressed: (BuildContext context) {},
               // ),
-              SettingsTile.switchTile(
-                switchActiveColor: Color(0xff2d5f79),
-                title: 'Allow Notifications',
-                leading: const Icon(Icons.notifications),
-                switchValue: _a,
-                onToggle: (bool value) {
-                  setState(() {
-                    _a = value;
-                  });
-                },
-              ),
+              // SettingsTile.switchTile(
+              //   switchActiveColor: Color(0xff2d5f79),
+              //   title: 'Allow Notifications',
+              //   leading: const Icon(Icons.notifications),
+              //   switchValue: _a,
+              //   onToggle: (bool value) {
+              //     setState(() {
+              //       _a = value;
+              //     });
+              //   },
+              // ),
               // SettingsTile(
               //   title: 'App Info',
               //   leading: const Icon(Icons.info),

@@ -107,7 +107,6 @@ class _MyHomePageState extends State<HomePage> {
     if (task.id == -1) {
       return SizedBox.shrink();
     }
-    String deadline = task.deadline ?? "no set";
     var subheading = task.name;
     var c = task.content!.length <  100 ? task.content! : task.content!.substring(0, 99);
     return Card(
@@ -166,7 +165,8 @@ class _MyHomePageState extends State<HomePage> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [Text("Deadline: $deadline")]))
+                  children: [if (task.deadline != null )Text("Deadline: ${task.deadline!.substring(0,10)}")
+                            else Text("Deadline: No set")]))
         ]));
   }
 
