@@ -57,6 +57,6 @@ class Invitation {
 
   @override
   String toString() {
-    return 'You have an invitation to join $projectName from $srcEmail';
+    return '🔔 You have an invitation to join $projectName from $srcEmail';
   }
 }

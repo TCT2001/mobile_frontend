@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:mobile_app/src/core/constants/colors.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/comment.dart';
@@ -390,7 +391,6 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                           })),
                   Container(
                     margin: EdgeInsets.only(left: 18, right: 18),
-
                     child: Form(
                       key: _formKey,
                       child: Column(
@@ -434,7 +434,6 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                               ),
                               child: const Text('Comment'),
                             ),
-
                           ),
                         ],
                       ),
@@ -447,23 +446,50 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
   }
 
   Widget mainCard(Task task) {
-    if(task.deadline != null)  return Card(
+    String deadline =
+        task.deadline == null ? "Not set" : task.deadline!.substring(0, 10);
+    return Card(
         margin: EdgeInsets.only(left: 10, right: 10, top: 8),
         child: Column(
           children: [
+            Container(
+              margin: EdgeInsets.only(top: 10, bottom: 10),
+              child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text("Deadline: $deadline", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                    Container(
+                      padding: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                          color: HexColor("#4fddd6"),
+                          border: Border.all(
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(30)),
+                      child: Text(task.taskState!,
+                          style: TextStyle(
+                              color: HexColor("#352b2e"),
+                              fontWeight: FontWeight.bold)),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                          color: HexColor("#e8688e"),
+                          border: Border.all(
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(30)),
+                      child: Text(task.priority!,
+                          style: TextStyle(
+                              color: HexColor("#352b2e"),
+                              fontWeight: FontWeight.bold)),
+                    ),
+                  ]),
+            ),
             ListTile(
                 title: Text(
-                    "Created Date: ${task.createTime!.substring(0, 10)}\nDeadline: ${task.deadline!.substring(0, 10)}\nState: ${task.taskState!}\nPriority: ${task.priority!}\nContent: ${task.content!}",
-                    style: TextStyle(fontSize: 16))),
-          ],
-        ));
-    else return Card(
-        margin: EdgeInsets.only(left: 10, right: 10, top: 8),
-        child: Column(
-          children: [
-            ListTile(
-                title: Text(
-                    "Created Date: ${task.createTime!.substring(0, 10)}\nDeadline: No set\nState: ${task.taskState!}\nPriority: ${task.priority!}\nContent: ${task.content!}",
+                    "${task.content!}",
                     style: TextStyle(fontSize: 16))),
           ],
         ));

@@ -57,7 +57,6 @@ class _InstructionsPageState extends State<InstructionsPage> {
                   }
               );
             }).toList(),
-
           ),
         ),
       ),
