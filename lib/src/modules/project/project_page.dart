@@ -57,11 +57,10 @@ class _ProjectPageState extends State<ProjectPage> {
 
   AppBar? projectAppBar(BuildContext context) {
     return AppBar(
-      title: const Text('Project Page'),
+      title: const Text('Project List'),
       automaticallyImplyLeading: false,
       actionsIconTheme:
           IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
-
       actions: <Widget>[
         // Container(
         //     width: 120,
@@ -108,15 +107,17 @@ class _ProjectPageState extends State<ProjectPage> {
             Container(
               child: sort(),
             ),
-            TextField(
-              controller: searchController,
-              decoration: const InputDecoration(
-            icon: Icon(Icons.search),
+            Container(
+              margin: EdgeInsets.only(left: 10, right: 10),
+              child: TextField(
+                controller: searchController,
+                decoration: const InputDecoration(
+                    icon: Icon(Icons.search), hintText: "Enter for search"),
+                onChanged: (String? value) {
+                  controller.searchByName(value!);
+                  controller.update();
+                },
               ),
-              onChanged: (String? value) {
-            controller.searchByName(value!);
-            controller.update();
-              },
             ),
             Expanded(child: body()
                 // child: Container(
@@ -378,7 +379,7 @@ class _ProjectPageState extends State<ProjectPage> {
                 scrollDirection: Axis.horizontal,
                 itemCount: list.length > 5 ? 5 : list.length,
                 itemBuilder: (_, index) {
-                  final id = 48693 -  list[index].id * 45 % 300;
+                  final id = 48693 - list[index].id * 45 % 300;
                   final hexString = id.toRadixString(16);
                   return Image.network(
                       "https://ui-avatars.com/api/?name=${list[index].email}&background=$hexString");

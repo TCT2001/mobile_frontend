@@ -9,6 +9,7 @@ import 'package:mobile_app/src/core/constants/colors.dart';
 import 'package:mobile_app/src/data/models/task.dart';
 import 'package:mobile_app/src/data/services/app_config_service.dart';
 import 'package:mobile_app/src/modules/home/home_controller.dart';
+import 'package:mobile_app/src/routes/app_routes.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -82,7 +83,11 @@ class _MyHomePageState extends State<HomePage> {
       ),
       body: Column(
         children: [
-          Center(child: Text("Recent Tasks", style: TextStyle(fontSize: 16),)),
+          Center(
+              child: Text(
+            "Recent Tasks",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          )),
           Expanded(
             child: Obx(() {
               HomeController controller = Get.put(HomeController());
@@ -108,66 +113,81 @@ class _MyHomePageState extends State<HomePage> {
       return SizedBox.shrink();
     }
     var subheading = task.name;
-    var c = task.content!.length <  100 ? task.content! : task.content!.substring(0, 99);
-    return Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        elevation: 4.0,
-        margin: const EdgeInsets.all(10),
-        child: Column(children: [
-          Container(
-              margin: EdgeInsets.only(right: 20, top: 5, bottom: 0),
-              child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                          color: HexColor("#4fddd6"),
-                          border: Border.all(
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(30)),
-                      child: Text(task.taskState!,
-                          style: TextStyle(
-                              color: HexColor("#352b2e"),
-                              fontWeight: FontWeight.bold)),
-                    ),
-                    SizedBox(width: 20),
-                    Container(
-                      padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                          color: HexColor("#e8688e"),
-                          border: Border.all(
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(30)),
-                      child: Text(task.priority!,
-                          style: TextStyle(
-                              color: HexColor("#352b2e"),
-                              fontWeight: FontWeight.bold)),
-                    ),
-                  ])),
-          ListTile(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            title: Text(c,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            subtitle: Text("\u{1F511}    $subheading"),
+    var c = task.content!.length < 100
+        ? task.content!
+        : task.content!.substring(0, 99);
+    return GestureDetector(
+      onTap: () {
+        Get.toNamed(Routes.TASK_DETAIL_PAGE, arguments: {
+                      "id": task.id,
+                      "task": task
+                    });
+      },
+      child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
           ),
-          Container(
-              height: 15,
-              margin: EdgeInsets.only(right: 20, bottom: 2),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [if (task.deadline != null )Text("Deadline: ${task.deadline!.substring(0,10)}")
-                            else Text("Deadline: No set")]))
-        ]));
+          elevation: 4.0,
+          margin: const EdgeInsets.all(10),
+          child: Column(children: [
+            Container(
+                margin: EdgeInsets.only(right: 20, top: 5, bottom: 0),
+                child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                            color: HexColor("#4fddd6"),
+                            border: Border.all(
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(30)),
+                        child: Text(task.taskState!,
+                            style: TextStyle(
+                                color: HexColor("#352b2e"),
+                                fontWeight: FontWeight.bold)),
+                      ),
+                      SizedBox(width: 20),
+                      Container(
+                        padding: EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                            color: HexColor("#e8688e"),
+                            border: Border.all(
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(30)),
+                        child: Text(task.priority!,
+                            style: TextStyle(
+                                color: HexColor("#352b2e"),
+                                fontWeight: FontWeight.bold)),
+                      ),
+                    ])),
+            ListTile(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              title: Text(
+                c,
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              subtitle: Text("\u{1F511}    $subheading"),
+            ),
+            Container(
+                height: 15,
+                margin: EdgeInsets.only(right: 20, bottom: 2),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      if (task.deadline != null)
+                        Text("Deadline: ${task.deadline!.substring(0, 10)}")
+                      else
+                        Text("Deadline: No set")
+                    ]))
+          ])),
+    );
   }
 
   void showNotification() {

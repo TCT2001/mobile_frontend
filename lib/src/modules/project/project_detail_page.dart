@@ -264,7 +264,6 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
     TextEditingController searchController = TextEditingController();
     TaskProjectController taskProjectController =
         Get.put(TaskProjectController(projectId: id));
-
     return FutureBuilder<Project>(
         future: project,
         builder: (context, snapshot) {
@@ -285,15 +284,19 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                 Container(
                   child: sort(taskProjectController),
                 ),
-                TextField(
-                  controller: searchController,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.search),
+                Container(
+                  margin: EdgeInsets.only(left: 10, right: 10),
+                  child: TextField(
+                    controller: searchController,
+                    decoration: InputDecoration(
+                      icon: Icon(Icons.search),
+                      hintText: "Enter for search"
+                    ),
+                    onChanged: (String? value) {
+                      taskProjectController.searchByName(value!);
+                      controller.update();
+                    },
                   ),
-                  onChanged: (String? value) {
-                    taskProjectController.searchByName(value!);
-                    controller.update();
-                  },
                 ),
                 Expanded(
                     child: showTaskList(snapshot.data, taskProjectController))

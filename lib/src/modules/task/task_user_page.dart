@@ -87,10 +87,9 @@ class _TaskUserPageState extends State<TaskUserPage> {
     );
   }
 
-//TODO
   AppBar? taskAppBar() {
     return AppBar(
-      title: const Text('Task of User'),
+      title: const Text('Task List'),
       automaticallyImplyLeading: false,
       actionsIconTheme:
           IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
@@ -110,15 +109,19 @@ class _TaskUserPageState extends State<TaskUserPage> {
             Container(
               child: sort(),
             ),
-            TextField(
-              controller: searchController,
-              decoration: const InputDecoration(
-                icon: Icon(Icons.search),
+            Container(
+              margin: EdgeInsets.only(left: 10, right: 10),
+              child: TextField(
+                controller: searchController,
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.search),
+                  hintText: "Enter for search"
+                ),
+                onChanged: (String? value) {
+                  controller.searchByName(value!);
+                  controller.update();
+                },
               ),
-              onChanged: (String? value) {
-                controller.searchByName(value!);
-                controller.update();
-              },
             ),
             Expanded(child: customBody()),
           ],
