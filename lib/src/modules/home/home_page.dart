@@ -20,7 +20,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<HomePage> {
-  int _counter = 0;
   HomeController homeController = Get.put(HomeController());
   @override
   void initState() {
@@ -67,12 +66,6 @@ class _MyHomePageState extends State<HomePage> {
     });
   }
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,6 +84,9 @@ class _MyHomePageState extends State<HomePage> {
           Expanded(
             child: Obx(() {
               HomeController controller = Get.put(HomeController());
+              if (controller.recentTask.isEmpty) {
+                return Center(child: Text("No recent tasks"));
+              }
               return ListView.builder(
                   itemCount: controller.recentTask.length,
                   itemBuilder: (context, index) {
@@ -118,10 +114,8 @@ class _MyHomePageState extends State<HomePage> {
         : task.content!.substring(0, 99);
     return GestureDetector(
       onTap: () {
-        Get.toNamed(Routes.TASK_DETAIL_PAGE, arguments: {
-                      "id": task.id,
-                      "task": task
-                    });
+        Get.toNamed(Routes.TASK_DETAIL_PAGE,
+            arguments: {"id": task.id, "task": task});
       },
       child: Card(
           shape: RoundedRectangleBorder(
@@ -191,9 +185,6 @@ class _MyHomePageState extends State<HomePage> {
   }
 
   void showNotification() {
-    setState(() {
-      _counter++;
-    });
     // AppConfigService.flutterLocalNotificationsPlugin.show(
     //     0,
     //     "Testing $_counter",

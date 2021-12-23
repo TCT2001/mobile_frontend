@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_final_fields
+// ignore_for_file: prefer_final_fields, unnecessary_overrides, unused_element
 
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';

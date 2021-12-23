@@ -3,8 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
-import 'package:mobile_app/src/data/providers/storage_provider.dart';
 import 'package:settings_ui/settings_ui.dart';
 
 class ProfilePage extends StatefulWidget {

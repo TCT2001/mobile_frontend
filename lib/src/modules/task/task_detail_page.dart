@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,7 +14,7 @@ import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
 import 'package:mobile_app/src/modules/task/task_user_controller.dart';
 
 class TaskDetailPage extends StatefulWidget {
-  TaskDetailPage({Key? key}) : super(key: key);
+  const TaskDetailPage({Key? key}) : super(key: key);
 
   @override
   _TaskDetailPageState createState() => _TaskDetailPageState();
@@ -489,7 +489,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
             ),
             ListTile(
                 title: Text(
-                    "${task.content!}",
+                    task.content!,
                     style: TextStyle(fontSize: 16))),
           ],
         ));

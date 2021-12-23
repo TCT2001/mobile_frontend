@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_const_constructors_in_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_const_constructors_in_immutables, prefer_typing_uninitialized_variables
 
 import 'package:date_format/date_format.dart';
 import 'package:email_validator/email_validator.dart';
@@ -98,15 +98,13 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
 
   AppBar appBar(String role, BuildContext context, int projectId) {
     return AppBar(
-      title:  Text(clickedProject.name!),
+      title: Text(clickedProject.name!),
       automaticallyImplyLeading: false,
       actionsIconTheme:
           IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
       backgroundColor: Color(0xff2d5f79),
       leading: GestureDetector(
         onTap: () {
-          //TODO
-          /* Write listener code here */
           Get.back();
         },
         child: Icon(
@@ -289,9 +287,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                   child: TextField(
                     controller: searchController,
                     decoration: InputDecoration(
-                      icon: Icon(Icons.search),
-                      hintText: "Enter for search"
-                    ),
+                        icon: Icon(Icons.search), hintText: "Enter for search"),
                     onChanged: (String? value) {
                       taskProjectController.searchByName(value!);
                       controller.update();
@@ -349,7 +345,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                                     "https://ui-avatars.com/api/?name=${members[i].email}&background=$hexString"),
                               ),
                               title: Text(members[i].getEmail()),
-                               subtitle: Text(members[i].getRole()),
+                              subtitle: Text(members[i].getRole()),
                             ),
                           ],
                         ));
@@ -424,7 +420,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                       height: 10,
                     ),
                     SelectFormField(
-                      type: SelectFormFieldType.dropdown, // or can be dialog
+                      type: SelectFormFieldType.dropdown,
                       initialValue: 'circle',
                       icon: Icon(Icons.flutter_dash_rounded),
                       labelText: 'Role',
@@ -433,7 +429,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                         role = val;
                       },
                       onSaved: (val) {
-                        //TODO
+                        //Save
                       },
                     ),
                     const SizedBox(
@@ -445,7 +441,6 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                         icon: const Icon(Icons.send),
                         onPressed: () async {
                           invitedEmail = invitedEmailController.text;
-                          //TODO
                           if (!EmailValidator.validate(invitedEmail)) {
                             customSnackBar("Email", "error",
                                 iconData: Icons.warning_rounded,

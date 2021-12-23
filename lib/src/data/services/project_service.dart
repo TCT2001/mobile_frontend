@@ -69,7 +69,6 @@ class ProjectService {
         headers: authHeader(token!));
     if (response.statusCode == 200) {
       var temp = CommonResp.fromJson(json.decode(response.body));
-      Map<String, dynamic> jso1 = temp.data as Map<String, dynamic>;
       return temp;
     } else {
       throw Exception('Failed');

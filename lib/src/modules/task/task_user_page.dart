@@ -6,7 +6,6 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:mobile_app/src/core/constants/colors.dart';
 import 'package:mobile_app/src/core/utils/lazy_load_scroll_view.dart';
@@ -16,27 +15,7 @@ import 'package:mobile_app/src/data/models/task.dart';
 import 'package:mobile_app/src/data/providers/storage_provider.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
 import 'package:mobile_app/src/routes/app_routes.dart';
-
 import 'task_user_controller.dart';
-
-final List<Map<String, dynamic>> _items = [
-  {
-    'value': 'ADMINISTRATOR',
-    'label': 'Admin',
-    'icon': Icon(Icons.stop),
-  },
-  {
-    'value': 'MEMBER',
-    'label': 'Member',
-    'icon': Icon(Icons.fiber_manual_record),
-    'textStyle': TextStyle(color: Colors.red),
-  },
-  {
-    'value': 'OBSERVER',
-    'label': 'observer',
-    'icon': Icon(Icons.grade),
-  },
-];
 
 class TaskUserPage extends StatefulWidget {
   const TaskUserPage({Key? key}) : super(key: key);
@@ -57,7 +36,6 @@ class _TaskUserPageState extends State<TaskUserPage> {
   late Task task;
   String invitedEmail = '';
   String role = '';
-  final GlobalKey<PopupMenuButtonState<int>> _key = GlobalKey();
   late String? sortValue = "Deadline";
 
   Widget sort() {
@@ -114,9 +92,7 @@ class _TaskUserPageState extends State<TaskUserPage> {
               child: TextField(
                 controller: searchController,
                 decoration: const InputDecoration(
-                  icon: Icon(Icons.search),
-                  hintText: "Enter for search"
-                ),
+                    icon: Icon(Icons.search), hintText: "Enter for search"),
                 onChanged: (String? value) {
                   controller.searchByName(value!);
                   controller.update();
@@ -261,8 +237,12 @@ class _TaskUserPageState extends State<TaskUserPage> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [if(task.deadline != null ) Text("Deadline: ${task.deadline!.substring(0, 10)}")
-                             else Text("Deadline: No set")]))
+                  children: [
+                    if (task.deadline != null)
+                      Text("Deadline: ${task.deadline!.substring(0, 10)}")
+                    else
+                      Text("Deadline: No set")
+                  ]))
         ]));
   }
 

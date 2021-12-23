@@ -40,7 +40,6 @@ class NotiPage extends StatefulWidget {
     );
   }
 
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Bg,
@@ -95,7 +94,7 @@ class _NotificationPageState extends State<NotiPage> {
             child: FutureBuilder<List<Invitation>>(
                 future: invitation,
                 builder: (context, snapshot) {
-                  if (snapshot.data == null || snapshot.data!.length == 0) {
+                  if (snapshot.data == null || snapshot.data!.isEmpty) {
                     return SizedBox.shrink();
                   }
                   var data = snapshot.data!;

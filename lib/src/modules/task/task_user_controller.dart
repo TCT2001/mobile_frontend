@@ -1,12 +1,4 @@
-// ignore_for_file: prefer_final_fields
-
-import 'package:get/get.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:mobile_app/src/data/models/comment.dart';
-import 'package:mobile_app/src/data/models/paginate_param.dart';
-import 'package:mobile_app/src/data/models/payload/common_resp.dart';
-import 'package:mobile_app/src/data/models/task.dart';
-import 'package:mobile_app/src/data/services/task_service.dart';
+// ignore_for_file: prefer_final_fields, unnecessary_overrides, unused_element
 
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
@@ -69,7 +61,6 @@ class TaskUserController extends GetxController {
   void searchByName(String name) async {
     _tasks.assignAll([]);
     _paginateParam = PaginateParam(page: 0).obs;
-    //TODO TODO
     _paginateParam.value.filter = "briefContent~$name";
     final data = await TaskService.listByUsers(_paginateParam.value);
     if (data!.isEmpty) {

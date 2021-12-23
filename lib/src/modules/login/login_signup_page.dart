@@ -20,7 +20,7 @@ class LoginScreen extends StatelessWidget {
   Future<String?> _authUser(LoginData data) {
     return Future.delayed(loginTime).then((_) async {
       LoginResp loginResp =
-      await AuthService.login(email: data.name, password: data.password);
+          await AuthService.login(email: data.name, password: data.password);
 
       if (loginResp.code == "SUCCESS") {
         setStringLocalStorge(
@@ -41,9 +41,11 @@ class LoginScreen extends StatelessWidget {
   Future<String?> _signupUser(SignupData data) {
     return Future.delayed(loginTime).then((_) async {
       SignupResp signupResp =
-      await AuthService.signup(email: data.name!, password: data.password!);
+          await AuthService.signup(email: data.name!, password: data.password!);
       if (signupResp.code == "SUCCESS") {
-        return null;
+        LoginData loginData = LoginData(name: data.name!, password: data.password!);
+        _authUser(loginData);
+        Get.toNamed(Routes.LOGIN);
       } else {
         return "Email already exists";
       }
@@ -52,8 +54,7 @@ class LoginScreen extends StatelessWidget {
 
   Future<String?> _recoverPassword(String name) {
     return Future.delayed(loginTime).then((_) async {
-      ForgotpassResp forgotpassResp =
-          await AuthService.forgotpass(email: name);
+      ForgotpassResp forgotpassResp = await AuthService.forgotpass(email: name);
       if (forgotpassResp.code == "SUCCESS") {
         return null;
       } else {

@@ -68,9 +68,6 @@ Widget deleteIconWidget(String role, Task task, var controller) {
 
 Widget taskProjectList(Project project, var controller) {
   TextEditingController nameController = TextEditingController(text: '');
-  TextEditingController contentController = TextEditingController(text: '');
-  TextEditingController invitedEmailController =
-      TextEditingController(text: '');
   TaskProjectController controller =
       Get.put(TaskProjectController(projectId: project.id!));
 

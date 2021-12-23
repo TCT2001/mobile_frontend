@@ -3,9 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:mobile_app/src/data/providers/storage_provider.dart';
 import 'package:mobile_app/src/modules/login/login_signup_page.dart';
-import 'package:settings_ui/settings_ui.dart';
 
 import 'changepassword_controller.dart';
 

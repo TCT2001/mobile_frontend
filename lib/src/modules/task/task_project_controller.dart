@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_final_fields
+// ignore_for_file: prefer_final_fields, unused_element
 
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
@@ -144,8 +144,6 @@ class TaskProjectController extends GetxController {
   Future<CommonResp?> updateContent(Task task, String newContent) async {
     var temp = await TaskService.updateContent(task, newContent);
     if (temp!.code == "SUCCESS") {
-      //TODO
-      //_listProject();
       _tasks.firstWhere((element) => element.id == task.id).content =
           newContent;
       _tasks.refresh();

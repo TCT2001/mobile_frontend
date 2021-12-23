@@ -1,6 +1,7 @@
+// ignore_for_file: avoid_unnecessary_containers
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:get/get.dart';
 import 'package:settings_ui/settings_ui.dart';
 
 class AppInfoPage extends StatefulWidget {
@@ -22,7 +23,7 @@ class _AppInfoPageState extends State<AppInfoPage> {
       body: Container(
           child: SettingsList(sections: [
             SettingsSection(
-                title: 'App Info',
+                // title: 'App Info',
                 tiles: const [
                   SettingsTile(
                     title: 'Name',
@@ -31,7 +32,7 @@ class _AppInfoPageState extends State<AppInfoPage> {
                   ),
                   SettingsTile(
                     title: 'Detail',
-                    subtitle: 'toDoList App',
+                    subtitle: 'Project Managament App',
                     //leading: const Icon(Icons.lightbulb),
                   ),
 

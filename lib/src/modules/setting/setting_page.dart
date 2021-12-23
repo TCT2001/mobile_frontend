@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_typing_uninitialized_variables, avoid_unnecessary_containers
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -22,8 +22,6 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
-  bool _a = true;
-
   var userEmail;
   var userId;
   @override

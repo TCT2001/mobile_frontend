@@ -18,12 +18,9 @@ class SplashPage extends GetView<SplashController> {
             child: SizedBox(
           height: 100.0.hp,
           width: 100.0.wp,
-          child: Container(
+          child: SizedBox(
             height: 50.0.hp,
             width: 100.0.hp,
-            // decoration: const BoxDecoration(
-            //     image: DecorationImage(
-            //         image: AssetImage('assets/images/Best.gif'))),
           ),
         )));
   }
