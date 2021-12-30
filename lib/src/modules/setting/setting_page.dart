@@ -50,14 +50,11 @@ class _SettingPageState extends State<SettingPage> {
                 onPressed: (BuildContext context) async {
                   String email = await userEmail;
                   int id = await userId;
-                  Get.to(ProfilePage(),
+                  Get.to(() => ProfilePage(),
                       fullscreenDialog: true,
                       transition: Transition.cupertino,
                       duration: const Duration(seconds: 1),
-                      arguments: {
-                        "email" : email,
-                        "id" : id
-                      });
+                      arguments: {"email": email, "id": id});
                 },
               ),
             ],
@@ -69,7 +66,7 @@ class _SettingPageState extends State<SettingPage> {
                 title: 'App Info',
                 leading: const Icon(Icons.info),
                 onPressed: (BuildContext context) {
-                  Get.to(AppInfoPage(),
+                  Get.to(() => AppInfoPage(),
                       fullscreenDialog: true,
                       transition: Transition.cupertino,
                       duration: const Duration(seconds: 1));
@@ -79,7 +76,7 @@ class _SettingPageState extends State<SettingPage> {
                 title: 'Instructions',
                 leading: const Icon(Icons.lightbulb),
                 onPressed: (BuildContext context) {
-                  Get.to(InstructionsPage(),
+                  Get.to(() => InstructionsPage(),
                       fullscreenDialog: true,
                       transition: Transition.cupertino,
                       duration: const Duration(seconds: 1));
@@ -121,7 +118,7 @@ class _SettingPageState extends State<SettingPage> {
                 title: 'Change Password',
                 leading: const Icon(Icons.lock),
                 onPressed: (BuildContext context) {
-                  Get.to(ChangePasswordPage(),
+                  Get.to(() => ChangePasswordPage(),
                       fullscreenDialog: true,
                       transition: Transition.cupertino,
                       duration: const Duration(seconds: 1));
@@ -132,7 +129,7 @@ class _SettingPageState extends State<SettingPage> {
                 leading: const Icon(Icons.logout),
                 onPressed: (BuildContext context) {
                   cleanLocalStorage();
-                  Get.offAll(const LoginScreen(),
+                  Get.offAll(() => const LoginScreen(),
                       fullscreenDialog: true,
                       transition: Transition.cupertino,
                       duration: const Duration(seconds: 1));

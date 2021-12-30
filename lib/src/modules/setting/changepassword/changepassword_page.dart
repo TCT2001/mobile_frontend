@@ -15,7 +15,8 @@ class ChangePasswordPage extends StatefulWidget {
 }
 
 class _ChangePasswordPageState extends State<ChangePasswordPage> {
-  final ChangePasswordController controller = Get.put(ChangePasswordController());
+  final ChangePasswordController controller =
+      Get.put(ChangePasswordController());
 
   final _oldPasswordTextController = TextEditingController(text: "");
   final _newPasswordTextController = TextEditingController(text: "");
@@ -75,7 +76,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                               controller: _oldPasswordTextController,
                               decoration: InputDecoration(
                                   icon: const Icon(Icons.lock),
-                                    labelText: "Current",
+                                  labelText: "Current",
                                   suffixIcon: IconButton(
                                     icon: Icon(
                                       _oldPasswordVisible
@@ -85,15 +86,16 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                     ),
                                     onPressed: () {
                                       setState(() {
-                                        _oldPasswordVisible = !_oldPasswordVisible;
+                                        _oldPasswordVisible =
+                                            !_oldPasswordVisible;
                                       });
                                     },
                                   )),
                               obscureText: !_oldPasswordVisible,
                               validator: (String? value) =>
-                              value!.trim().isEmpty
-                                  ? "Old password is required"
-                                  : null,
+                                  value!.trim().isEmpty
+                                      ? "Old password is required"
+                                      : null,
                             ),
                             const SizedBox(height: 8),
                             TextFormField(
@@ -111,15 +113,16 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                     ),
                                     onPressed: () {
                                       setState(() {
-                                        _newPasswordVisible = !_newPasswordVisible;
+                                        _newPasswordVisible =
+                                            !_newPasswordVisible;
                                       });
                                     },
                                   )),
                               obscureText: !_newPasswordVisible,
                               validator: (String? value) =>
-                              value!.trim().isEmpty
-                                  ? "New password is required"
-                                  : null,
+                                  value!.trim().isEmpty
+                                      ? "New password is required"
+                                      : null,
                             ),
                             const SizedBox(height: 8),
                             TextFormField(
@@ -137,13 +140,16 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                     ),
                                     onPressed: () {
                                       setState(() {
-                                        _reNewPasswordVisible = !_reNewPasswordVisible;
+                                        _reNewPasswordVisible =
+                                            !_reNewPasswordVisible;
                                       });
                                     },
                                   )),
                               obscureText: !_reNewPasswordVisible,
-                              validator: (String? value) =>
-                              value!.trim().isEmpty || value != _newPasswordTextController.text
+                              validator: (String? value) => value!
+                                          .trim()
+                                          .isEmpty ||
+                                      value != _newPasswordTextController.text
                                   ? "New password is required and must be similar to ..."
                                   : null,
                             ),
@@ -157,17 +163,21 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                               child: MaterialButton(
                                 minWidth: MediaQuery.of(context).size.width,
                                 padding:
-                                const EdgeInsets.fromLTRB(20, 15, 20, 15),
+                                    const EdgeInsets.fromLTRB(20, 15, 20, 15),
                                 onPressed: () async {
                                   if (_formKey.currentState!.validate()) {
-                                    String error = await controller.changepassword(
-                                        oldPassword: _oldPasswordTextController.text,
-                                        newPassword: _newPasswordTextController.text);
+                                    String error =
+                                        await controller.changepassword(
+                                            oldPassword:
+                                                _oldPasswordTextController.text,
+                                            newPassword:
+                                                _newPasswordTextController
+                                                    .text);
                                     if (error != "") {
                                       Get.defaultDialog(
                                           title: "Oop!", middleText: error);
                                     } else {
-                                      Get.offAll(const LoginScreen());
+                                      Get.offAll(() => const LoginScreen());
                                     }
                                   }
                                 },

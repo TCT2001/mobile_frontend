@@ -220,7 +220,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
             } else if (value == 4) {
               _keyDraw.currentState!.openDrawer();
             } else if (value == 5) {
-              Get.to(PiechartPage(id: projectId));
+              Get.to(() => PiechartPage(id: projectId));
             }
           },
           key: _key,
