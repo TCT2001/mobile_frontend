@@ -6,6 +6,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:mobile_app/src/core/constants/colors.dart';
+import 'package:mobile_app/src/core/utils/url_link_utils.dart';
 import 'package:mobile_app/src/data/models/task.dart';
 import 'package:mobile_app/src/data/services/app_config_service.dart';
 import 'package:mobile_app/src/modules/home/home_controller.dart';
@@ -21,6 +22,9 @@ class HomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<HomePage> {
   HomeController homeController = Get.put(HomeController());
+  Future<void>? _launched;
+  String toLaunch = 'https://www.cylog.org/headers/';
+
   @override
   void initState() {
     super.initState();
@@ -76,6 +80,13 @@ class _MyHomePageState extends State<HomePage> {
       ),
       body: Column(
         children: [
+          Text("https://www.cylog.org/headers/"),
+          ElevatedButton(
+                onPressed: () => setState(() {
+                  _launched = makeEmail("minhtuyen300920011@gmail.com", "ABC", "DEF");
+                }),
+                child: const Text('Launch in browser'),
+              ),
           Center(
               child: Text(
             "Recent Tasks",

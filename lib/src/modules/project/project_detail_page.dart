@@ -5,6 +5,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_app/src/core/constants/colors.dart';
+import 'package:mobile_app/src/core/utils/url_link_utils.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/payload/common_resp.dart';
 import 'package:mobile_app/src/data/models/project.dart';
@@ -62,11 +63,14 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   String newContentTask = '';
   DateTime selectedDate = DateTime.now().add(Duration(days: 1));
   var deadline;
+  var userEmail;
+  String? userEmailString;
 
   @override
   void initState() {
     super.initState();
     project = controller.find(id);
+    userEmail = getStringLocalStorge(LocalStorageKey.EMAIL.toString());
   }
 
   Widget sort(var taskProjectController) {
@@ -122,7 +126,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
         //       ),
         //     )),
         PopupMenuButton<int>(
-          onSelected: (value) {
+          onSelected: (value) async {
+            userEmailString = await userEmail;
             if (value == 0) {
               newNameController.text = "";
               newContentController.text = "";
@@ -304,6 +309,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
 
   Widget drawer(List members, Project project) {
     members = members as List<User>;
+    Future<void>? _launched;
     return Drawer(
       child: ListView(
         shrinkWrap: true,
@@ -331,24 +337,28 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
               height: double.maxFinite,
               child: ListView.builder(
                   itemCount: members.length,
-                  itemBuilder: (BuildContext context, i) {
+                  itemBuilder:(BuildContext context, i) {
                     final id = 48693 - members[i].id * 45 % 300 as int;
                     final hexString = id.toRadixString(16);
+                    final email = members[i].getEmail().substring(7);
+                    bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email);
+                    bool isMeBool = userEmailString == email;
                     return Card(
-                        color: Bg,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            ListTile(
-                              leading: CircleAvatar(
-                                child: Image.network(
-                                    "https://ui-avatars.com/api/?name=${members[i].email}&background=$hexString"),
+                          color: Bg,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              ListTile(
+                                leading: CircleAvatar(
+                                  child: Image.network(
+                                      "https://ui-avatars.com/api/?name=${members[i].email}&background=$hexString"),
+                                ),
+                                title: Text(email),
+                                subtitle: Text(members[i].getRole()),
                               ),
-                              title: Text(members[i].getEmail()),
-                              subtitle: Text(members[i].getRole()),
-                            ),
-                          ],
-                        ));
+                             contactIcon(emailValid, isMeBool, _launched, email)
+                            ],
+                          ));
                   })),
           // ListTile(
           //   title: const Text('Close'),
@@ -359,6 +369,44 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
         ],
       ),
     );
+  }
+
+  Widget contactIcon(bool isEmail, bool isMeBool, var _launched, var email) {
+    if (isMeBool) {
+      return Text("It's me");
+    }
+    if (isEmail) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          GestureDetector(
+            onTap: () {
+              _launched = makeEmail(email, "subject", "body");
+            },
+            child: Icon(
+              Icons.email,
+              size: 30,
+            ),
+          ),
+        ],
+      );
+    } else {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          GestureDetector(onTap: () {
+            _launched = makePhoneCall(email);
+          },
+          child: Icon(Icons.local_phone,size: 30)),
+          SizedBox(width: 20),
+          GestureDetector(
+            onTap: () {
+              _launched = makePhoneCall(email);
+            },
+          child: Icon(Icons.sms, size: 30))
+        ],
+      );
+    }
   }
 
   Widget showTaskList(Project? project, var taskProjectController) {
