@@ -22,8 +22,6 @@ class HomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<HomePage> {
   HomeController homeController = Get.put(HomeController());
-  Future<void>? _launched;
-  String toLaunch = 'https://www.cylog.org/headers/';
 
   @override
   void initState() {
@@ -80,13 +78,6 @@ class _MyHomePageState extends State<HomePage> {
       ),
       body: Column(
         children: [
-          Text("https://www.cylog.org/headers/"),
-          ElevatedButton(
-                onPressed: () => setState(() {
-                  _launched = makeEmail("minhtuyen300920011@gmail.com", "ABC", "DEF");
-                }),
-                child: const Text('Launch in browser'),
-              ),
           Center(
               child: Text(
             "Recent Tasks",
@@ -95,6 +86,7 @@ class _MyHomePageState extends State<HomePage> {
           Expanded(
             child: Obx(() {
               HomeController controller = Get.put(HomeController());
+              // print(controller.recentTask);
               if (controller.recentTask.isEmpty) {
                 return Center(child: Text("No recent tasks"));
               }

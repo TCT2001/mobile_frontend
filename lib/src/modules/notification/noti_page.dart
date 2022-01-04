@@ -110,8 +110,8 @@ class _NotificationPageState extends State<NotiPage> {
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                acceptIcon(data[index].id!),
-                                denyIcon(data[index].id!)
+                                acceptIcon(data[index].id!, data),
+                                denyIcon(data[index].id!, data)
                               ],
                             ),
                           ),
@@ -146,7 +146,7 @@ class _NotificationPageState extends State<NotiPage> {
     );
   }
 
-  Widget acceptIcon(int id) {
+  Widget acceptIcon(int id, var data) {
     return IconButton(
         color: Colors.green,
         onPressed: () async {
@@ -154,6 +154,9 @@ class _NotificationPageState extends State<NotiPage> {
           if (rs.code == "SUCCESS") {
             customSnackBar('Join', "Success",
                 iconData: Icons.check_outlined, iconColor: Colors.green);
+            setState(() {
+              invitation = AuthService.listInvi();
+            });
           } else {
             customSnackBar('Join', "Error",
                 iconData: Icons.warning_rounded, iconColor: Colors.red);
@@ -162,16 +165,17 @@ class _NotificationPageState extends State<NotiPage> {
         icon: const Icon(Icons.check_rounded));
   }
 
-  Widget denyIcon(int id) {
+  Widget denyIcon(int id, var data) {
     return IconButton(
         color: Colors.red,
         onPressed: () async {
           var rs = await AuthService.acceptInvitation("DENY", id);
           if (rs.code == "SUCCESS") {
-            customSnackBar('Join', "Success",
-                iconData: Icons.check_outlined, iconColor: Colors.green);
+            setState(() {
+              invitation = AuthService.listInvi();
+            });
           } else {
-            customSnackBar('Join', "Error",
+            customSnackBar('Deny', "Error",
                 iconData: Icons.warning_rounded, iconColor: Colors.red);
           }
         },

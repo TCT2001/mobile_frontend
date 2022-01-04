@@ -47,7 +47,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
     listComment = TaskService.listComment(Task.id(id: id).id!);
   }
 
-  AppBar? taskDetailAppBar(String role) {
+  AppBar? taskDetailAppBar(String role, Task task1) {
     return AppBar(
       backgroundColor: Color(0xff2d5f79),
       title: Text(taskClicked.name!),
@@ -66,7 +66,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
         PopupMenuButton<int>(
           onSelected: (value) {
             if (value == 1) {
-              controller.selectedState.value = taskClicked.taskState!;
+              controller.selectedState.value = task1.taskState!;
               Get.defaultDialog(
                   titleStyle: TextStyle(fontSize: 10),
                   title: 'Select Task State',
@@ -165,7 +165,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                   ),
                   radius: 10.0);
             } else if (value == 2) {
-              controller.selectedPriority.value = taskClicked.priority!;
+              controller.selectedPriority.value = task1.priority!;
               Get.defaultDialog(
                   titleStyle: TextStyle(fontSize: 10),
                   title: 'Select Task Priority',
@@ -247,7 +247,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                   ),
                   radius: 10.0);
             } else if (value == 3) {
-              newContentController.text = taskClicked.content!;
+              newContentController.text = task1.content!;
               Get.defaultDialog(
                   titleStyle: TextStyle(fontSize: 0),
                   title: 'Update Content',
@@ -257,7 +257,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                       TextField(
                         controller: newContentController,
                         keyboardType: TextInputType.text,
-                        maxLines: 1,
+                        maxLines: 15,
                         decoration: InputDecoration(
                             labelText: 'New Content',
                             hintMaxLines: 1,
@@ -275,7 +275,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                               await controller.updateContent(
                                   taskClicked, newContentController.text);
                           if (commonResp == null) {
-                            customSnackBar("UpdateContent",
+                            customSnackBar("Update Content",
                                 "Some unexpected error happened",
                                 iconData: Icons.warning_rounded,
                                 iconColor: Colors.red);
@@ -354,7 +354,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
           String role = task.project!.role!;
           return Scaffold(
               backgroundColor: Bg,
-              appBar: taskDetailAppBar(role),
+              appBar: taskDetailAppBar(role, task),
               body: Column(
                 children: <Widget>[
                   Container(
@@ -458,7 +458,6 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text("Deadline: $deadline", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                     Container(
                       padding: EdgeInsets.all(5),
                       decoration: BoxDecoration(
@@ -487,6 +486,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                     ),
                   ]),
             ),
+            Text("Deadline: $deadline", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             ListTile(
                 title: Text(
                     task.content!,

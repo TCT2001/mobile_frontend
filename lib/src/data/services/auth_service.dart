@@ -1,6 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'dart:convert';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:mobile_app/src/core/utils/http.dart';
 import 'package:mobile_app/src/data/enums/local_storage_enum.dart';
 import 'package:mobile_app/src/data/models/invitation.dart';
@@ -20,7 +21,6 @@ class AuthService {
   static Uri LOGOUT_URI = Uri.parse('$baseURL/auth/logout');
   static Uri RE_PASS_WORD_URI = Uri.parse('$baseURL/auth/changePassword');
   static Uri FORGOT_PASS_URI = Uri.parse('$baseURL/auth/forgotPassword');
-
 
   //TODO
   static Future<List> refreshToken({required String token}) async {
@@ -52,16 +52,16 @@ class AuthService {
     return signupRespFromJson(response.body);
   }
 
-  static Future<ForgotpassResp> forgotpass(
-      {required String email}) async {
-    var response = await client.get(Uri.parse('$baseURL/auth/forgotPassword?u=$email'),
+  static Future<ForgotpassResp> forgotpass({required String email}) async {
+    var response = await client.get(
+        Uri.parse('$baseURL/auth/forgotPassword?u=$email'),
         headers: nonAuthHeader);
-        if (response.statusCode == 200) {
+    if (response.statusCode == 200) {
       var temp = ForgotpassResp.fromJson(json.decode(response.body));
       //Map<String, dynamic> jso1 = temp.data as Map<String, dynamic>;
       return temp;
     } else {
-    throw Exception('Failed');
+      throw Exception('Failed');
     }
   }
 
@@ -79,9 +79,9 @@ class AuthService {
     //       await deviceInfo.iosInfo.then((value) => value.identifierForVendor);
     // }
     var fcmToken = "333";
-    // await FirebaseMessaging.instance.getToken().then((token) {
-    //   fcmToken = token!;
-    // });
+    await FirebaseMessaging.instance.getToken().then((token) {
+      fcmToken = token!;
+    });
     var response = await client.post(LOGIN_URI,
         headers: nonAuthHeader,
         body: jsonEncode(<String, String>{
@@ -89,7 +89,7 @@ class AuthService {
           "password": password,
           "deviceId": "123",
           "isAndroid": "1",
-          "fcmToken": "123"
+          "fcmToken": fcmToken
           //TODO
         }));
     return loginRespFromJson(response.body);
@@ -125,6 +125,7 @@ class AuthService {
         headers: authHeader(token!),
         body: jsonEncode(<String, String>{"id": id.toString()}));
     if (response.statusCode == 200) {
+      
       var temp = CommonResp.fromJson(json.decode(response.body));
       //print(temp);
       return temp;
