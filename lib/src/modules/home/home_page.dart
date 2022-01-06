@@ -118,7 +118,7 @@ class _MyHomePageState extends State<HomePage> {
     return GestureDetector(
       onTap: () {
         Get.toNamed(Routes.TASK_DETAIL_PAGE,
-            arguments: {"id": task.id, "task": task});
+            arguments: {"id": task.id});
       },
       child: Card(
           shape: RoundedRectangleBorder(

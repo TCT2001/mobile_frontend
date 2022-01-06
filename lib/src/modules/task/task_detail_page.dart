@@ -24,7 +24,6 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
   TaskUserController controller = Get.put(TaskUserController());
 
   int id = Get.arguments['id'];
-  Task taskClicked = Get.arguments['task'];
   late Future<Task> task;
   late var userId;
   late Future<List<Comment>> listComment;
@@ -50,7 +49,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
   AppBar? taskDetailAppBar(String role, Task task1) {
     return AppBar(
       backgroundColor: Color(0xff2d5f79),
-      title: Text(taskClicked.name!),
+      title: Text(task1.name!),
       automaticallyImplyLeading: false,
       leading: GestureDetector(
         onTap: () {
@@ -273,7 +272,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                           Get.back();
                           CommonResp? commonResp =
                               await controller.updateContent(
-                                  taskClicked, newContentController.text);
+                                  task1, newContentController.text);
                           if (commonResp == null) {
                             customSnackBar("Update Content",
                                 "Some unexpected error happened",
@@ -351,7 +350,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
             return Center(child: CircularProgressIndicator());
           }
           Task task = snapshot.data!;
-          String role = task.project!.role!;
+          String role = task.role!;
           return Scaffold(
               backgroundColor: Bg,
               appBar: taskDetailAppBar(role, task),

@@ -277,8 +277,7 @@ class _ProjectPageState extends State<ProjectPage> {
                 return GestureDetector(
                   onTap: () {
                     Get.toNamed(Routes.PROJECT_DETAIL, arguments: {
-                      "id": _items[index].id,
-                      "clickedProject": _items[index]
+                      "id": _items[index].id
                     });
                   },
                   child: buildCard(project, boss, users),

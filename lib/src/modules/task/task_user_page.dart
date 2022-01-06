@@ -153,7 +153,6 @@ class _TaskUserPageState extends State<TaskUserPage> {
                         LocalStorageKey.RECENT_TASK.toString(), ids);
                     Get.toNamed(Routes.TASK_DETAIL_PAGE, arguments: {
                       "id": _items[index].id,
-                      "task": _items[index]
                     });
                   },
                   child: buildCard(task),

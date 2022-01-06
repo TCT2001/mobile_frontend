@@ -1,11 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mobile_app/src/core/constants/colors.dart';
 import 'package:mobile_app/src/data/models/invitation.dart';
 import 'package:mobile_app/src/data/models/payload/noti_resp.dart';
+import 'package:mobile_app/src/data/models/project.dart';
 import 'package:mobile_app/src/data/services/auth_service.dart';
 import 'package:mobile_app/src/global_widgets/custom_snackbar.dart';
+import 'package:mobile_app/src/routes/app_routes.dart';
 
 class NotiPage extends StatefulWidget {
   const NotiPage({Key? key}) : super(key: key);
@@ -132,10 +135,16 @@ class _NotificationPageState extends State<NotiPage> {
                       padding: const EdgeInsets.all(0),
                       itemCount: data.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return Card(
-                          margin: const EdgeInsets.all(10),
-                          child: ListTile(
-                            title: Text(data[index].toString()),
+                        return GestureDetector(
+                          onTap: () {
+                            Get.toNamed(Routes.PROJECT_DETAIL,
+                                arguments: {"id": data[index].projectId});
+                          },
+                          child: Card(
+                            margin: const EdgeInsets.all(10),
+                            child: ListTile(
+                              title: Text(data[index].toString()),
+                            ),
                           ),
                         );
                       });

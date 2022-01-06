@@ -47,7 +47,6 @@ class ProjectDetailPage extends StatefulWidget {
 class _ProjectDetailPageState extends State<ProjectDetailPage> {
   ProjectController controller = Get.put(ProjectController());
   int id = Get.arguments['id'];
-  Project clickedProject = Get.arguments['clickedProject'];
   late Future<Project> project;
   final GlobalKey<ScaffoldState> _keyDraw = GlobalKey(); // Create a key
   final GlobalKey<PopupMenuButtonState<int>> _key = GlobalKey();
@@ -100,9 +99,9 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
     );
   }
 
-  AppBar appBar(String role, BuildContext context, int projectId) {
+  AppBar appBar(String role, BuildContext context, int projectId, String name, var project) {
     return AppBar(
-      title: Text(clickedProject.name!),
+      title: Text(name),
       automaticallyImplyLeading: false,
       actionsIconTheme:
           IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
@@ -135,7 +134,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
             } else if (value == 1) {
               showCreateTaskForm();
             } else if (value == 2) {
-              newNameController.text = clickedProject.name!;
+              newNameController.text = name;
               Get.defaultDialog(
                   titleStyle: TextStyle(fontSize: 0),
                   title: 'Rename',
@@ -206,7 +205,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                     child: const Text("Yes"),
                     onPressed: () async {
                       Get.back();
-                      bool rs = await controller.deleteProject(clickedProject);
+                      bool rs = await controller.deleteProject(project);
                       if (rs) {
                         customSnackBar("Delete", "Success",
                             iconData: Icons.check_outlined,
@@ -281,7 +280,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
             backgroundColor: Bg,
             key: _keyDraw,
             drawer: drawer(snapshot.data!.userDTOSet!, snapshot.data!),
-            appBar: appBar(snapshot.data!.role!, context, snapshot.data!.id!),
+            appBar: appBar(snapshot.data!.role!, context, snapshot.data!.id!,  snapshot.data!.name!, snapshot.data!),
             body: Column(
               children: <Widget>[
                 Container(

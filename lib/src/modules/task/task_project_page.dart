@@ -119,7 +119,6 @@ Widget taskProjectList(Project project, var controller) {
                         LocalStorageKey.RECENT_TASK.toString(), "");
                     Get.toNamed(Routes.TASK_DETAIL_PAGE, arguments: {
                       "id": _items[index].id,
-                      "task": _items[index]
                     });
                   },
                   child: buildCard(
