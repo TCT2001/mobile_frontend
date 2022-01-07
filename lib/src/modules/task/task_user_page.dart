@@ -38,33 +38,6 @@ class _TaskUserPageState extends State<TaskUserPage> {
   String role = '';
   late String? sortValue = "Deadline";
 
-  Widget sort() {
-    return DropdownButton<String>(
-      items: const [
-        DropdownMenuItem<String>(
-          child: Text('⏰ Deadline'),
-          value: 'Deadline',
-        ),
-        DropdownMenuItem<String>(
-          child: Text('      ASC'),
-          value: 'ASC',
-        ),
-        DropdownMenuItem<String>(
-          child: Text('      DESC'),
-          value: 'DESC',
-        ),
-      ],
-      onChanged: (String? value) {
-        var a = value == "ASC";
-        controller.sort("deadline", a);
-        setState(() {
-          sortValue = value;
-        });
-      },
-      value: sortValue,
-    );
-  }
-
   AppBar? taskAppBar() {
     return AppBar(
       title: const Text('Task List'),
@@ -84,9 +57,6 @@ class _TaskUserPageState extends State<TaskUserPage> {
         appBar: taskAppBar(),
         body: Column(
           children: <Widget>[
-            Container(
-              child: sort(),
-            ),
             Container(
               margin: EdgeInsets.only(left: 10, right: 10),
               child: TextField(

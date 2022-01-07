@@ -26,33 +26,6 @@ class _ProjectPageState extends State<ProjectPage> {
   ProjectController controller = Get.put(ProjectController());
   late String? sortValue = "Deadline";
 
-  Widget sort() {
-    return DropdownButton<String>(
-      items: const [
-        DropdownMenuItem<String>(
-          child: Text('⏰ Deadline'),
-          value: 'Deadline',
-        ),
-        DropdownMenuItem<String>(
-          child: Text('      ASC'),
-          value: 'ASC',
-        ),
-        DropdownMenuItem<String>(
-          child: Text('      DESC'),
-          value: 'DESC',
-        ),
-      ],
-      onChanged: (String? value) {
-        var a = value == "ASC";
-        controller.sort("deadline", a);
-        setState(() {
-          sortValue = value;
-        });
-      },
-      value: sortValue,
-    );
-  }
-
   AppBar? projectAppBar(BuildContext context) {
     return AppBar(
       title: const Text('Project List'),
@@ -60,19 +33,7 @@ class _ProjectPageState extends State<ProjectPage> {
       actionsIconTheme:
           IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
       actions: <Widget>[
-        // Container(
-        //     width: 120,
-        //     child: TextField(
-        //       controller: searchController,
-        //       decoration: const InputDecoration(
-        //         icon: Icon(Icons.search, color: Color(0xffffffff),),
-        //       ),
-        //
-        //       onChanged: (String? value) {
-        //         controller.searchByName(value!);
-        //         controller.update();
-        //       },
-        //     )),
+      
         PopupMenuButton<int>(
           onSelected: (value) {
             if (value == 0) {
@@ -103,9 +64,6 @@ class _ProjectPageState extends State<ProjectPage> {
         body: Column(
           children: <Widget>[
             Container(
-              child: sort(),
-            ),
-            Container(
               margin: EdgeInsets.only(left: 10, right: 10),
               child: TextField(
                 controller: searchController,
@@ -118,13 +76,6 @@ class _ProjectPageState extends State<ProjectPage> {
               ),
             ),
             Expanded(child: body()
-                // child: Container(
-                //     decoration: BoxDecoration(
-                //         image: DecorationImage(
-                //             image:
-                //                 Image.asset("assets/images/background.jpg").image,
-                //             fit: BoxFit.cover)),
-                //     child: body()),
                 )
           ],
         ));

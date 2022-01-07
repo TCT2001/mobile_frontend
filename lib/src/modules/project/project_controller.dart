@@ -98,6 +98,16 @@ class ProjectController extends GetxController {
     return temp!;
   }
 
+  Future<bool> deleteUserFromProject (int userId, int projectId, String email) async {
+      var temp = await ProjectService.deleteUserFromProject(userId, projectId, email);
+      if (temp!.code == "SUCCESS") {
+        _projects.refresh();
+        return true;
+      } else {
+        return false;
+      }
+  }
+
   Future<bool> deleteProject(Project project) async {
     var temp = await ProjectService.delete(project);
     if (temp!.code == "SUCCESS") {

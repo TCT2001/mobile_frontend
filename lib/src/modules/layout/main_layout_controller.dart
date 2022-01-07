@@ -6,7 +6,7 @@ import 'package:mobile_app/src/modules/project/project_controller.dart';
 import 'package:mobile_app/src/modules/task/task_user_controller.dart';
 
 class MainLayoutController extends GetxController {
-  final _index = 0.obs;
+  final _index = 2.obs;
   get index => this._index.value;
   set index(value) => this._index.value = value;
 

@@ -31,17 +31,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xff2d5f79),
-        title: Text('Close'),
+        title: Text('Change Password'),
       ),
-      backgroundColor: const Color(0xff88e8f2),
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [Colors.blueGrey, Colors.lightBlueAccent]),
-        ),
         child: Padding(
             padding: const EdgeInsets.only(left: 32, right: 32),
             child: Obx(() {
@@ -56,20 +48,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                           children: [
                             const Text("Change Password",
                                 style: TextStyle(
-                                    color: Color(0xff88e8f2),
                                     fontWeight: FontWeight.bold,
                                     fontSize: 32)),
-                            // const SizedBox(height: 8),
-                            // TextFormField(
-                            //   enabled: !controller.signupProcess.value,
-                            //   controller: _emailTextController,
-                            //   decoration: const InputDecoration(
-                            //       icon: Icon(Icons.person), labelText: "Email"),
-                            //   validator: (String? value) =>
-                            //   EmailValidator.validate(value!)
-                            //       ? null
-                            //       : "Please enter a valid email",
-                            // ),
                             const SizedBox(height: 8),
                             TextFormField(
                               enabled: !controller.changepasswordProcess.value,

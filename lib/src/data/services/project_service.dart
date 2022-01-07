@@ -37,6 +37,25 @@ class ProjectService {
     }
   }
 
+  static Future<CommonResp?> deleteUserFromProject(
+      var userId, var projectId, var email) async {
+    var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());
+    var response =
+        await client.delete(Uri.parse('$baseURL/auth/deleteUserFromProject'),
+            headers: authHeader(token!),
+            body: jsonEncode(<String, String>{
+              "userId": userId.toString(),
+              "projectId": projectId.toString(),
+              "userEmail": email,
+            }));
+    if (response.statusCode == 200) {
+      var temp = CommonResp.fromJson(json.decode(response.body));
+      return temp;
+    } else {
+      throw Exception('Failed');
+    }
+  }
+
   static Future<CommonResp?> delete(Project project) async {
     int? id = project.id;
     var token = await getStringLocalStorge(LocalStorageKey.TOKEN.toString());

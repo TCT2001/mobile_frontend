@@ -61,6 +61,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   String newTaskName = '';
   String newContentTask = '';
   DateTime selectedDate = DateTime.now().add(Duration(days: 1));
+  String projectName = '';
   var deadline;
   var userEmail;
   String? userEmailString;
@@ -72,36 +73,10 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
     userEmail = getStringLocalStorge(LocalStorageKey.EMAIL.toString());
   }
 
-  Widget sort(var taskProjectController) {
-    return DropdownButton<String>(
-      items: const [
-        DropdownMenuItem<String>(
-          child: Text('⏰ Deadline'),
-          value: 'Deadline',
-        ),
-        DropdownMenuItem<String>(
-          child: Text('      ASC'),
-          value: 'ASC',
-        ),
-        DropdownMenuItem<String>(
-          child: Text('      DESC'),
-          value: 'DESC',
-        ),
-      ],
-      onChanged: (String? value) {
-        var a = value == "ASC";
-        taskProjectController.sort("deadline", a);
-        setState(() {
-          sortValue = value;
-        });
-      },
-      value: sortValue,
-    );
-  }
-
-  AppBar appBar(String role, BuildContext context, int projectId, String name, var project) {
+  AppBar appBar(String role, BuildContext context, int projectId, String name,
+      var project) {
     return AppBar(
-      title: Text(name),
+      title: Text("Detail"),
       automaticallyImplyLeading: false,
       actionsIconTheme:
           IconThemeData(size: 30.0, color: Colors.white, opacity: 10.0),
@@ -207,6 +182,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                       Get.back();
                       bool rs = await controller.deleteProject(project);
                       if (rs) {
+                        Get.back();
                         customSnackBar("Delete", "Success",
                             iconData: Icons.check_outlined,
                             iconColor: Colors.green);
@@ -280,12 +256,11 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
             backgroundColor: Bg,
             key: _keyDraw,
             drawer: drawer(snapshot.data!.userDTOSet!, snapshot.data!),
-            appBar: appBar(snapshot.data!.role!, context, snapshot.data!.id!,  snapshot.data!.name!, snapshot.data!),
+            appBar: appBar(snapshot.data!.role!, context, snapshot.data!.id!,
+                snapshot.data!.name!, snapshot.data!),
             body: Column(
               children: <Widget>[
-                Container(
-                  child: sort(taskProjectController),
-                ),
+                // Center(child: Text(snapshot.data!.name!, style: TextStyle(fontSize: 20),)),
                 Container(
                   margin: EdgeInsets.only(left: 10, right: 10),
                   child: TextField(
@@ -336,28 +311,37 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
               height: double.maxFinite,
               child: ListView.builder(
                   itemCount: members.length,
-                  itemBuilder:(BuildContext context, i) {
+                  itemBuilder: (BuildContext context, i) {
                     final id = 48693 - members[i].id * 45 % 300 as int;
                     final hexString = id.toRadixString(16);
                     final email = members[i].getEmail().substring(7);
-                    bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email);
+                    bool emailValid = RegExp(
+                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                        .hasMatch(email);
                     bool isMeBool = userEmailString == email;
                     return Card(
-                          color: Bg,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              ListTile(
-                                leading: CircleAvatar(
-                                  child: Image.network(
-                                      "https://ui-avatars.com/api/?name=${members[i].email}&background=$hexString"),
-                                ),
-                                title: Text(email),
-                                subtitle: Text(members[i].getRole()),
+                        color: Bg,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            ListTile(
+                              leading: CircleAvatar(
+                                child: Image.network(
+                                    "https://ui-avatars.com/api/?name=${members[i].email}&background=$hexString"),
                               ),
-                             contactIcon(emailValid, isMeBool, _launched, email)
-                            ],
-                          ));
+                              title: Text(email),
+                              subtitle: Text(members[i].getRole()),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  deleteIconWidget(project.role!, project,
+                                      isMeBool, members[i].id, email)
+                                ],
+                              ),
+                            ),
+                            contactIcon(emailValid, isMeBool, _launched, email)
+                          ],
+                        ));
                   })),
           // ListTile(
           //   title: const Text('Close'),
@@ -368,6 +352,49 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
         ],
       ),
     );
+  }
+
+  Widget deleteIconWidget(
+      var role, Project projectIn, var isMeBool, var userId, var email) {
+    if (role == "OWNER" && !isMeBool) {
+      return IconButton(
+        icon: const Icon(Icons.delete, color: Colors.red),
+        onPressed: () {
+          Get.defaultDialog(
+            title: "Confirm",
+            middleText: "Are your sure to delete ?",
+            backgroundColor: Colors.white,
+            titleStyle: const TextStyle(color: Colors.black),
+            middleTextStyle: const TextStyle(color: Colors.black),
+            actions: <Widget>[
+              TextButton(
+                child: const Text("Yes"),
+                onPressed: () async {
+                  Get.back();
+                  bool rs = await controller.deleteUserFromProject(
+                      userId, projectIn.id!, email);
+                  if (rs) {
+                    setState(() {
+                      project = controller.find(projectIn.id!);
+                    });
+                    customSnackBar("Delete", "Success",
+                        iconData: Icons.check_outlined,
+                        iconColor: Colors.green);
+                  }
+                },
+              ),
+              TextButton(
+                child: const Text("No"),
+                onPressed: () {
+                  Get.back();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+    return const SizedBox.shrink();
   }
 
   Widget contactIcon(bool isEmail, bool isMeBool, var _launched, var email) {
@@ -393,16 +420,17 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          GestureDetector(onTap: () {
-            _launched = makePhoneCall(email);
-          },
-          child: Icon(Icons.local_phone,size: 30)),
+          GestureDetector(
+              onTap: () {
+                _launched = makePhoneCall(email);
+              },
+              child: Icon(Icons.local_phone, size: 30)),
           SizedBox(width: 20),
           GestureDetector(
-            onTap: () {
-              _launched = makePhoneCall(email);
-            },
-          child: Icon(Icons.sms, size: 30))
+              onTap: () {
+                _launched = makePhoneCall(email);
+              },
+              child: Icon(Icons.sms, size: 30))
         ],
       );
     }
@@ -489,12 +517,11 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                         onPressed: () async {
                           invitedEmail = invitedEmailController.text;
                           if (!EmailValidator.validate(invitedEmail)) {
-                            customSnackBar("Email", "error",
+                            customSnackBar("Email", "Email is not valid",
                                 iconData: Icons.warning_rounded,
                                 iconColor: Colors.red);
                             return;
                           }
-
                           var srcEmail = await getStringLocalStorge(
                               LocalStorageKey.EMAIL.toString());
 
@@ -506,7 +533,9 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                                 iconColor: Colors.green);
                             Get.back();
                           } else {
-                            customSnackBar("Invite", temp.data as String);
+                            customSnackBar("Error", temp.data as String,
+                                iconData: Icons.warning_rounded,
+                                iconColor: Colors.red);
                           }
                           invitedEmailController.clear();
                         })
@@ -576,6 +605,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                         height: 6,
                       ),
                       TextFormField(
+                        minLines: 5,
+                        maxLines: 10,
                         controller: newContentController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {

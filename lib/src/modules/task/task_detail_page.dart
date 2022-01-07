@@ -350,7 +350,8 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
             return Center(child: CircularProgressIndicator());
           }
           Task task = snapshot.data!;
-          String role = task.role!;
+          // String role = task.role!;
+          String role = "OWNER";
           return Scaffold(
               backgroundColor: Bg,
               appBar: taskDetailAppBar(role, task),
