@@ -5,13 +5,7 @@
 | Function      | Describe      |
 | ------------- | ------------- |
 | Login/ Signup  |  User can register, login. If you forget your password, a new password will be sent to you via email |
-| Task management|  Title (Name)
-                  |  Created (Person and creation date and time)
-                   | Deadline
-                  |  Content: Detailed description of the task and necessary notes
-                  |  Status: In progress or completed or not
-                   | Priority: Priority helps to organize and manage tasks more effectively
-                   |  List Task | 
+| Task management|  Title (Name); Created (Person and creation date and time); Deadline; Content: Detailed description of the task and necessary note; Status: In progress or completed or not; Priority: Priority helps to organize and manage tasks more effectively; List Task | 
 ## Demo
 
 [Demo Video](https://drive.google.com/file/d/1Xj3GPIcf-6ElymwgAcNodG4xhnEUMwlS/view?usp=sharing)
