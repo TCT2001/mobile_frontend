@@ -50,7 +50,7 @@ B. Backend
 * Thanh V.Nguyen
 
 ## Usage
-We are still working on deployment. The app will avaiable someday soon, thanks for your patient.
+We are still working on deployment. The app will avaiable someday soon, thanks for your patience.
 
 ## References
 * Books:
