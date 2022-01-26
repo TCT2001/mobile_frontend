@@ -1,7 +1,8 @@
 # To-Do List App - Makit
 
-##Demo
+## Demo
 1. Home and Setting 
+
 ![Capture](https://user-images.githubusercontent.com/81580234/151094873-4e790a08-e502-4d44-a8ab-ced23f9dc1a5.PNG)
 
 ## Our team
