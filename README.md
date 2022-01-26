@@ -2,7 +2,10 @@
 
 ## Demo
 
-A. Front end
+[Demo Video](https://drive.google.com/file/d/1Xj3GPIcf-6ElymwgAcNodG4xhnEUMwlS/view?usp=sharing)
+
+##Source Code
+A. Frontend
 1. Home and Setting 
 
 ![Capture](https://user-images.githubusercontent.com/81580234/151094873-4e790a08-e502-4d44-a8ab-ced23f9dc1a5.PNG)
@@ -18,6 +21,16 @@ A. Front end
 4. Behind the task
 
 ![Capture](https://user-images.githubusercontent.com/81580234/151095263-dc9b74e8-96a0-4956-aede-097b1c367381.PNG)
+
+
+B. Backend
+1. Framework springboot & DDD
+
+![Capture](https://user-images.githubusercontent.com/81580234/151095567-0bb38bdd-9f62-4e4e-a9f3-73a199a7d739.PNG)
+
+2. Backend flow
+
+![Capture](https://user-images.githubusercontent.com/81580234/151095623-8e044a85-0bbd-4142-bf9a-625847739e72.PNG)
 
 ## Our team
 * Tuyen M.Vu 
