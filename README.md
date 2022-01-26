@@ -4,8 +4,7 @@
   
 | Function      | Describe      |
 | ------------- | ------------- |
-| Login/ Signup  |  User can register, login
-If you forget your password, a new password will be sent to you via email |
+| Login/ Signup  |  User can register, login. If you forget your password, a new password will be sent to you via email |
 | Content Cell  | Content Cell  | 
 ## Demo
 
