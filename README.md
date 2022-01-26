@@ -8,6 +8,9 @@
 | Task management|  Title (Name); Created (Person and creation date and time); Deadline; Content: Detailed description of the task and necessary note; Status: In progress or completed or not; Priority: Priority helps to organize and manage tasks more effectively; List Task | 
 | Project, member management| List Project: Project name, member, list of tasks, exchange of work and other features...; Authorization: Member will have a role for each different permission.|
 |Statistics | For users: Overview of the number of tasks, the number of completed tasks, the number of days involved (can be represented by numbers, tables, diagrams ..) ; For project: Overview of the number of tasks, completed tasks, work progress (can be represented by numbers, tables, diagrams ..)|
+|Notification| Users will receive notifications when the task or project involved changes or is close to the deadline through FCM (Firebase cloud messaging).|
+|Feedback| Users can submit a form about the shortcomings and errors of the app so that it can be improved in the future|
+|Setting|Information about user, app, carousel introduces how to use|
 ## Demo
 
 [Demo Video](https://drive.google.com/file/d/1Xj3GPIcf-6ElymwgAcNodG4xhnEUMwlS/view?usp=sharing)
