@@ -1,7 +1,20 @@
-## To-Do List App - Makit
+# To-Do List App - Makit
+
+## References
+* Books:
+How to create an app. Tom Seymour, Minot State University, USAHOW TO CREATE APP.pdf
+Beginning app development with flutter. Rap Payne, Beginning app development with flutter.pdf
+Teamwork Behavior. Paraskevi A. Tsoutsa 
+Team work.pdf
+
+* Journal Articles: 
+https://github.com/kauemurakami/getx_pattern
+
+* Internet Sources:
+#1 || Flutter GetX Tutorial || Flutter GetX Introduction
+Top 30 Flutter Tips and Tricks
 
 
-# Reference
 
 "username": "tct@2001.com",
 "password": "Tct@2001" or "tuyen331"
