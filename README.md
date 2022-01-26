@@ -1,5 +1,11 @@
 # To-Do List App - Makit
 
+## Our team
+* Tuyen M.Vu 
+* Toan V. Tran
+* Ngoc M.Tran
+* Thanh V.Nguyen
+
 ## References
 * Books:
 How to create an app. Tom Seymour, Minot State University, USAHOW TO CREATE APP.pdf
