@@ -34,7 +34,7 @@ A. Frontend
 ![Capture](https://user-images.githubusercontent.com/81580234/151095263-dc9b74e8-96a0-4956-aede-097b1c367381.PNG)
 
 
-B. Backend
+B. [Backend](https://github.com/TCT2001/mobile_backend?fbclid=IwAR24NadnfO9yVLzTZg-GqTjVjMGVx_jzRhvLl35Gb1K8cTfq0qkLRNBx5UQ)
 1. Framework springboot & DDD
 
 ![Capture](https://user-images.githubusercontent.com/81580234/151095567-0bb38bdd-9f62-4e4e-a9f3-73a199a7d739.PNG)
