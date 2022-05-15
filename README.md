@@ -13,7 +13,7 @@
 |Setting|Information about user, app, carousel introduces how to use|
 ## Demo
 
-[Demo Video](https://drive.google.com/file/d/1Xj3GPIcf-6ElymwgAcNodG4xhnEUMwlS/view?usp=sharing)
+[Demo Video](https://www.linkedin.com/posts/vthanh2001_cyberteam-makit-flutter-activity-6930149524095078400-wzC0?utm_source=linkedin_share&utm_medium=member_desktop_web)
 
 ## Source Code
 A. Frontend
