@@ -49,22 +49,15 @@ B. [Backend](https://github.com/TCT2001/mobile_backend?fbclid=IwAR24NadnfO9yVLzT
 * Ngoc M.Tran
 * Thanh V.Nguyen
 
-## Usage
-We are still working on deployment. The app will avaiable someday soon, thanks for your patience.
-
 ## References
 * Books:
-How to create an app. Tom Seymour, Minot State University, USAHOW TO CREATE APP.pdf
-Beginning app development with flutter. Rap Payne, Beginning app development with flutter.pdf
-Teamwork Behavior. Paraskevi A. Tsoutsa 
-Team work.pdf
+https://fs-prod-cdn.nintendo-europe.com/media/downloads/games_8/emanuals/nintendo_8/Manual_Nintendo64_Bomberman64_EN.pdf
 
-* Journal Articles: 
-https://github.com/kauemurakami/getx_pattern
+* Video: 
+https://youtu.be/CZ9Pu9Usk5o
+https://youtu.be/3smytj9Bu_E
 
-* Internet Sources:
-#1 || Flutter GetX Tutorial || Flutter GetX Introduction
-Top 30 Flutter Tips and Tricks
+
 
 
 
