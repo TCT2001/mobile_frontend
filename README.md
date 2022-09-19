@@ -49,13 +49,6 @@ B. [Backend](https://github.com/TCT2001/mobile_backend?fbclid=IwAR24NadnfO9yVLzT
 * Ngoc M.Tran
 * Thanh V.Nguyen
 
-## References
-* Books:
-https://fs-prod-cdn.nintendo-europe.com/media/downloads/games_8/emanuals/nintendo_8/Manual_Nintendo64_Bomberman64_EN.pdf
-
-* Video: 
-https://youtu.be/CZ9Pu9Usk5o
-https://youtu.be/3smytj9Bu_E
 
 
 
